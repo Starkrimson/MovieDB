@@ -28,6 +28,7 @@
 		0929EDAF286D93CC007C4BFB /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0929EDB5286D93CC007C4BFB /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0929EDB7286D93CC007C4BFB /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		0929EDCB286D945B007C4BFB /* Dependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Dependencies; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +52,7 @@
 		0929ED9F286D93CA007C4BFB = {
 			isa = PBXGroup;
 			children = (
+				0929EDCA286D945B007C4BFB /* Packages */,
 				0929EDA4286D93CA007C4BFB /* Shared */,
 				0929EDB6286D93CC007C4BFB /* macOS */,
 				0929EDB0286D93CC007C4BFB /* Products */,
@@ -84,6 +86,14 @@
 				0929EDB7286D93CC007C4BFB /* macOS.entitlements */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		0929EDCA286D945B007C4BFB /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				0929EDCB286D945B007C4BFB /* Dependencies */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
