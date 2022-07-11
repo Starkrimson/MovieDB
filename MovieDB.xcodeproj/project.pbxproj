@@ -27,6 +27,14 @@
 		09615965286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615963286EA6D20001F593 /* DiscoverSectionTitle.swift */; };
 		09615967286EC3630001F593 /* DiscoverCardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615966286EC3630001F593 /* DiscoverCardRow.swift */; };
 		09615968286EC3630001F593 /* DiscoverCardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615966286EC3630001F593 /* DiscoverCardRow.swift */; };
+		096A1A73287BDAA500C3C412 /* DiscoverState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A72287BDAA500C3C412 /* DiscoverState.swift */; };
+		096A1A74287BDAA500C3C412 /* DiscoverState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A72287BDAA500C3C412 /* DiscoverState.swift */; };
+		096A1A77287BFD7500C3C412 /* MovieTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A76287BFD7500C3C412 /* MovieTV.swift */; };
+		096A1A78287BFD7500C3C412 /* MovieTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A76287BFD7500C3C412 /* MovieTV.swift */; };
+		096A1A7B287BFDEB00C3C412 /* MovieDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7A287BFDEB00C3C412 /* MovieDBClient.swift */; };
+		096A1A7C287BFDEB00C3C412 /* MovieDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7A287BFDEB00C3C412 /* MovieDBClient.swift */; };
+		096A1A7E287BFE7B00C3C412 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7D287BFE7B00C3C412 /* AppError.swift */; };
+		096A1A7F287BFE7B00C3C412 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7D287BFE7B00C3C412 /* AppError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +51,10 @@
 		09615960286EA6410001F593 /* DiscoverHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverHeader.swift; sourceTree = "<group>"; };
 		09615963286EA6D20001F593 /* DiscoverSectionTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSectionTitle.swift; sourceTree = "<group>"; };
 		09615966286EC3630001F593 /* DiscoverCardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCardRow.swift; sourceTree = "<group>"; };
+		096A1A72287BDAA500C3C412 /* DiscoverState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverState.swift; sourceTree = "<group>"; };
+		096A1A76287BFD7500C3C412 /* MovieTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTV.swift; sourceTree = "<group>"; };
+		096A1A7A287BFDEB00C3C412 /* MovieDBClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBClient.swift; sourceTree = "<group>"; };
+		096A1A7D287BFE7B00C3C412 /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +95,8 @@
 				0929EDA7286D93CA007C4BFB /* MovieDBApp.swift */,
 				0929EDA8286D93CA007C4BFB /* ContentView.swift */,
 				0929EDA9286D93CA007C4BFB /* Persistence.swift */,
+				096A1A79287BFDB700C3C412 /* Networking */,
+				096A1A75287BFD5700C3C412 /* Model */,
 				0929EDAA286D93CC007C4BFB /* Assets.xcassets */,
 				0929EDA5286D93CA007C4BFB /* MovieDB.xcdatamodeld */,
 			);
@@ -117,10 +131,8 @@
 		09615957286E89140001F593 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
-				09615958286E89230001F593 /* DiscoverView.swift */,
-				09615960286EA6410001F593 /* DiscoverHeader.swift */,
-				09615963286EA6D20001F593 /* DiscoverSectionTitle.swift */,
-				09615966286EC3630001F593 /* DiscoverCardRow.swift */,
+				096A1A71287BDA8000C3C412 /* State */,
+				096A1A70287BDA2800C3C412 /* View */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -130,6 +142,42 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		096A1A70287BDA2800C3C412 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				09615958286E89230001F593 /* DiscoverView.swift */,
+				09615960286EA6410001F593 /* DiscoverHeader.swift */,
+				09615963286EA6D20001F593 /* DiscoverSectionTitle.swift */,
+				09615966286EC3630001F593 /* DiscoverCardRow.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		096A1A71287BDA8000C3C412 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				096A1A72287BDAA500C3C412 /* DiscoverState.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		096A1A75287BFD5700C3C412 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				096A1A76287BFD7500C3C412 /* MovieTV.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		096A1A79287BFDB700C3C412 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				096A1A7D287BFE7B00C3C412 /* AppError.swift */,
+				096A1A7A287BFDEB00C3C412 /* MovieDBClient.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,7 +231,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					0929EDAE286D93CC007C4BFB = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -236,11 +284,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				096A1A77287BFD7500C3C412 /* MovieTV.swift in Sources */,
 				0929EDBA286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615967286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
+				096A1A73287BDAA500C3C412 /* DiscoverState.swift in Sources */,
 				0929EDBE286D93CC007C4BFB /* Persistence.swift in Sources */,
 				09615959286E89240001F593 /* DiscoverView.swift in Sources */,
 				0929EDB8286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
+				096A1A7B287BFDEB00C3C412 /* MovieDBClient.swift in Sources */,
+				096A1A7E287BFE7B00C3C412 /* AppError.swift in Sources */,
 				0929EDBC286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615964286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
 				09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */,
@@ -251,11 +303,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				096A1A78287BFD7500C3C412 /* MovieTV.swift in Sources */,
 				0929EDBB286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615968286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
+				096A1A74287BDAA500C3C412 /* DiscoverState.swift in Sources */,
 				0929EDBF286D93CC007C4BFB /* Persistence.swift in Sources */,
 				0961595A286E892A0001F593 /* DiscoverView.swift in Sources */,
 				0929EDB9286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
+				096A1A7C287BFDEB00C3C412 /* MovieDBClient.swift in Sources */,
+				096A1A7F287BFE7B00C3C412 /* AppError.swift in Sources */,
 				0929EDBD286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615965286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
 				09615962286EA6410001F593 /* DiscoverHeader.swift in Sources */,
@@ -298,6 +354,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -356,6 +413,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -445,6 +503,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 3S89AQP84V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -474,6 +533,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 3S89AQP84V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
