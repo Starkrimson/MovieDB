@@ -24,7 +24,7 @@ struct PageResponses<Result: Codable>: Codable, DBResponses {
     var statusMessage: String?
 }
 
-struct MovieTV: Codable, Equatable, Identifiable {
+struct Media: Codable, Equatable, Identifiable {
     // movie
     var adult: Bool?
     var title: String?
@@ -38,7 +38,15 @@ struct MovieTV: Codable, Equatable, Identifiable {
     var originalName: String?
     var originCountry: [String]?
     
+    // person
+    var gender: Int?
+    var knownForDepartment: String?
+    var profilePath: String?
+    var knownFor: [Media]?
+    
     // 通用
+    var mediaType: MediaType?
+    
     var backdropPath: String?
     var genreIds: [Int]?
     var id: Int?

@@ -9,7 +9,7 @@ import Foundation
 
 #if DEBUG
 
-let mockMovies: [MovieTV] = [
+let mockMovies: [Media] = [
     .init(
         title: "小黄人大眼萌2：格鲁的崛起",
         originalTitle: "Minions: The Rise of Gru",
@@ -27,7 +27,7 @@ let mockMovies: [MovieTV] = [
     ),
 ]
 
-let mockTVShows: [MovieTV] = [
+let mockTVShows: [Media] = [
     .init(
         name: "Stranger Things",
         originalName: "Stranger Things",
@@ -42,6 +42,29 @@ let mockTVShows: [MovieTV] = [
         name: "终极名单",
         originalName: "The Terminal List",
         id: 120911
+    ),
+]
+
+let mockMedias : [Media] = [
+    .init(
+        title: "雷神4：爱与雷霆",
+        originalTitle: "Thor: Love and Thunder",
+        id: 616037,
+        posterPath: "/i1NAuDW8oOlV5dBbXPPTuPlt8sl.jpg",
+        voteAverage: 7
+    ),
+    .init(
+        name: "Stranger Things",
+        originalName: "Stranger Things",
+        id: 66732,
+        posterPath: "/2mYLTEQd1oHuXA6NICPIKX7OOvo.jpg",
+        voteAverage: 8
+    ),
+    .init(
+        name: "Natalie Portman",
+        profilePath: "/edPU5HxncLWa1YkgRPNkSd68ONG.jpg",
+        mediaType: .person,
+        id: 524
     ),
 ]
 

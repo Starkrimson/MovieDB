@@ -11,7 +11,6 @@ import ComposableArchitecture
 
 struct DiscoverView: View {
     @State var keyword: String = ""
-    @State var popularIndex: Int = 0
     @State var trendingIndex: Int = 0
 
     let store: Store<DiscoverState, DiscoverAction>
@@ -23,18 +22,18 @@ struct DiscoverView: View {
                 if let error = viewStore.error?.localizedDescription {
                     Label(error, systemImage: "exclamationmark.circle")
                 }
-                SectionTitle(title: "热门", selectedIndex: $popularIndex, labels: ["电影", "电视播出"])
-                CardRow(
-                    list: popularIndex == 0
-                    ? viewStore.popularMovies.elements
-                    : viewStore.popularTVShows.elements
+                SectionTitle(
+                    title: "热门",
+                    selectedIndex: viewStore.binding(\.$popularIndex),
+                    labels: ["电影", "电视播出"]
                 )
-                SectionTitle(title: "趋势", selectedIndex: $trendingIndex, labels: ["今日", "本周"])
-                CardRow(
-                    list: trendingIndex == 0
-                    ? viewStore.dailyTrending.elements
-                    : viewStore.weeklyTrending.elements
+                CardRow(list: viewStore.popularList)
+                SectionTitle(
+                    title: "趋势",
+                    selectedIndex: viewStore.binding(\.$trendingIndex),
+                    labels: ["今日", "本周"]
                 )
+                CardRow(list: viewStore.trendingList)
             }
             .onAppear {
                 viewStore.send(.fetchPopular(.movie))

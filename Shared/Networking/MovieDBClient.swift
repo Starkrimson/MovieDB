@@ -11,8 +11,8 @@ import Combine
 
 struct MovieDBClient {
     
-    var popular: (MediaType) -> Effect<[MovieTV], AppError>
-    var trending: (MediaType, TimeWindow) -> Effect<[MovieTV], AppError>
+    var popular: (MediaType) -> Effect<[Media], AppError>
+    var trending: (MediaType, TimeWindow) -> Effect<[Media], AppError>
 }
 
 let defaultDecoder: JSONDecoder = {
@@ -26,14 +26,14 @@ extension MovieDBClient {
         popular: { mediaType in
             URLSession.shared.dataTaskPublisher(for: .popular(mediaType: mediaType))
                 .map { $0.data }
-                .decode(type: PageResponses<MovieTV>.self, decoder: defaultDecoder)
+                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
                 .tryEraseToEffect { $0.results ?? [] }
         },
         trending: { mediaType, timeWindow in
             URLSession.shared
                 .dataTaskPublisher(for: .trending(mediaType: mediaType, timeWindow: timeWindow))
                 .map { $0.data }
-                .decode(type: PageResponses<MovieTV>.self, decoder: defaultDecoder)
+                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
                 .tryEraseToEffect { $0.results ?? [] }
         }
     )

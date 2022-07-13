@@ -9,24 +9,38 @@ import Foundation
 import ComposableArchitecture
 
 struct DiscoverState: Equatable {
-    var popularMovies: IdentifiedArrayOf<MovieTV> = []
-    var popularTVShows: IdentifiedArrayOf<MovieTV> = []
+    @BindableState var popularIndex: Int = 0
+    var popularMovies: IdentifiedArrayOf<Media> = []
+    var popularTVShows: IdentifiedArrayOf<Media> = []
     
-    var dailyTrending: IdentifiedArrayOf<MovieTV> = []
-    var weeklyTrending: IdentifiedArrayOf<MovieTV> = []
+    var popularList: IdentifiedArrayOf<Media> {
+        popularIndex == 0
+        ? popularMovies
+        : popularTVShows
+    }
+    
+    @BindableState var trendingIndex: Int = 0
+    var dailyTrending: IdentifiedArrayOf<Media> = []
+    var weeklyTrending: IdentifiedArrayOf<Media> = []
+    var trendingList: IdentifiedArrayOf<Media> {
+        trendingIndex == 0
+        ? dailyTrending
+        : weeklyTrending
+    }
     
     var error: AppError?
 }
 
-enum DiscoverAction: Equatable {
+enum DiscoverAction: Equatable, BindableAction {
+    case binding(BindingAction<DiscoverState>)
     case fetchPopular(MediaType)
-    case fetchPopularDone(kind: MediaType, result: Result<[MovieTV], AppError>)
+    case fetchPopularDone(kind: MediaType, result: Result<[Media], AppError>)
     
     case fetchTrending(mediaType: MediaType = .all, timeWindow: TimeWindow)
     case fetchTrendingDone(
         mediaType: MediaType,
         timeWindow: TimeWindow,
-        result: Result<[MovieTV], AppError>)
+        result: Result<[Media], AppError>)
 }
 
 struct DiscoverEnvironment {
@@ -38,6 +52,9 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
     state, action, environment in
     
     switch action {
+    case .binding:
+        return .none
+        
     case .fetchPopular(let kind):
         return environment.dbClient
             .popular(kind)
@@ -91,3 +108,4 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
     }
 }
+    .binding()
