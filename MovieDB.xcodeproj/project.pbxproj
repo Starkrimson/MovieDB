@@ -40,6 +40,8 @@
 		0993FBAD287E6121002227E0 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAB287E6121002227E0 /* Mock.swift */; };
 		0993FBAF287E659F002227E0 /* MovieDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAE287E659F002227E0 /* MovieDB.swift */; };
 		0993FBB0287E659F002227E0 /* MovieDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAE287E659F002227E0 /* MovieDB.swift */; };
+		0993FBB2287E6A0E002227E0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBB1287E6A0E002227E0 /* Helpers.swift */; };
+		0993FBB3287E6A0E002227E0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBB1287E6A0E002227E0 /* Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,7 @@
 		09937473287C25BE00253F1D /* MovieDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBTests.swift; sourceTree = "<group>"; };
 		0993FBAB287E6121002227E0 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		0993FBAE287E659F002227E0 /* MovieDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDB.swift; sourceTree = "<group>"; };
+		0993FBB1287E6A0E002227E0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,7 @@
 				096A1A79287BFDB700C3C412 /* Networking */,
 				096A1A75287BFD5700C3C412 /* Model */,
 				0929EDAA286D93CC007C4BFB /* Assets.xcassets */,
+				0993FBB1287E6A0E002227E0 /* Helpers.swift */,
 				0929EDA5286D93CA007C4BFB /* MovieDB.xcdatamodeld */,
 			);
 			path = Shared;
@@ -365,6 +369,7 @@
 				0929EDBC286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615964286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
 				0993FBAC287E6121002227E0 /* Mock.swift in Sources */,
+				0993FBB2287E6A0E002227E0 /* Helpers.swift in Sources */,
 				09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,6 +391,7 @@
 				0929EDBD286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615965286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
 				0993FBAD287E6121002227E0 /* Mock.swift in Sources */,
+				0993FBB3287E6A0E002227E0 /* Helpers.swift in Sources */,
 				09615962286EA6410001F593 /* DiscoverHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

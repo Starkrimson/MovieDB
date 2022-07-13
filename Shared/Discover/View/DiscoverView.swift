@@ -20,6 +20,9 @@ struct DiscoverView: View {
         WithViewStore(store) { viewStore in
             ScrollView {
                 Header(keyword: $keyword)
+                if let error = viewStore.error?.localizedDescription {
+                    Label(error, systemImage: "exclamationmark.circle")
+                }
                 SectionTitle(title: "热门", selectedIndex: $popularIndex, labels: ["电影", "电视播出"])
                 CardRow(
                     list: popularIndex == 0
@@ -27,11 +30,17 @@ struct DiscoverView: View {
                     : viewStore.popularTVShows.elements
                 )
                 SectionTitle(title: "趋势", selectedIndex: $trendingIndex, labels: ["今日", "本周"])
-                CardRow()
+                CardRow(
+                    list: trendingIndex == 0
+                    ? viewStore.dailyTrending.elements
+                    : viewStore.weeklyTrending.elements
+                )
             }
             .onAppear {
                 viewStore.send(.fetchPopular(.movie))
                 viewStore.send(.fetchPopular(.tv))
+                viewStore.send(.fetchTrending(timeWindow: .day))
+                viewStore.send(.fetchTrending(timeWindow: .week))
             }
             .frame(minWidth: 320)
             .navigationTitle("Discover")

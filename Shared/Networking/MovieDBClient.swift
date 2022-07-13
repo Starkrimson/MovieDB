@@ -7,15 +7,14 @@
 
 import Foundation
 import ComposableArchitecture
+import Combine
 
 struct MovieDBClient {
     
     var popular: (MediaType) -> Effect<[MovieTV], AppError>
-    var trending: () -> Effect<[MovieTV], AppError>
+    var trending: (MediaType, TimeWindow) -> Effect<[MovieTV], AppError>
 }
 
-let baseURL = "https://api.themoviedb.org/3"
-let apiKey = ""
 let defaultDecoder: JSONDecoder = {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -25,21 +24,43 @@ let defaultDecoder: JSONDecoder = {
 extension MovieDBClient {
     static let live = Self(
         popular: { mediaType in
-            let url = URL(string: "\(baseURL)/\(mediaType.rawValue)/popular?api_key=\(apiKey)&language=zh&page=1")!
-            return URLSession.shared.dataTaskPublisher(for: url)
+            URLSession.shared.dataTaskPublisher(for: .popular(mediaType: mediaType))
                 .map { $0.data }
-                .decode(type: DBResponse<MovieTV>.self, decoder: defaultDecoder)
-                .map { $0.results ?? [] }
-                .mapError { AppError.networkingFailed($0) }
-                .eraseToEffect()
+                .decode(type: PageResponses<MovieTV>.self, decoder: defaultDecoder)
+                .tryEraseToEffect { $0.results ?? [] }
         },
-        trending: {
-            .failing("")
+        trending: { mediaType, timeWindow in
+            URLSession.shared
+                .dataTaskPublisher(for: .trending(mediaType: mediaType, timeWindow: timeWindow))
+                .map { $0.data }
+                .decode(type: PageResponses<MovieTV>.self, decoder: defaultDecoder)
+                .tryEraseToEffect { $0.results ?? [] }
         }
     )
     
     static let failing = Self(
         popular: { _ in .failing("MovieDBClient.popular") },
-        trending: { .failing("MovieDBClient.trending") }
+        trending: { _, _ in .failing("MovieDBClient.trending") }
     )
+}
+
+extension Publisher {
+    
+    /// tryMap 返回数据，如果 success == false 抛出错误
+    func tryEraseToEffect<T>(_ transform: @escaping (Self.Output) -> T)
+    -> Effect<T, AppError> where Output: DBResponses {
+        tryMap { output in
+            if output.success == false {
+                throw AppError.sample(output.statusMessage)
+            }
+            return transform(output)
+        }
+        .mapError { error in
+            if error is AppError  {
+                return error as! AppError
+            }
+            return AppError.networkingFailed(error)
+        }
+        .eraseToEffect()
+    }
 }

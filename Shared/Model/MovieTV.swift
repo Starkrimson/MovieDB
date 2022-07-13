@@ -7,11 +7,21 @@
 
 import Foundation
 
-struct DBResponse<Result: Codable>: Codable {
+protocol DBResponses {
+    var success: Bool? { get }
+    var statusCode: Int? { get }
+    var statusMessage: String? { get }
+}
+
+struct PageResponses<Result: Codable>: Codable, DBResponses {
     var page: Int?
     var totalResults: Int?
     var totalPages: Int?
     var results: [Result]?
+    
+    var success: Bool?
+    var statusCode: Int?
+    var statusMessage: String?
 }
 
 struct MovieTV: Codable, Equatable, Identifiable {

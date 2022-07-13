@@ -17,11 +17,7 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                Text("Discover")
-            }
-        } detail: {
+        NavigationStack {
             DiscoverView(
                 store: .init(
                     initialState: .init(),
