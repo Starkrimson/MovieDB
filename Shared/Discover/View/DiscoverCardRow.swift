@@ -9,17 +9,20 @@ import SwiftUI
 import Kingfisher
 
 extension DiscoverView {
+    
     struct CardRow: View {
+        var list: [MovieTV] = []
+    
         var body: some View {
             // MARK: - 横向滑动电影/剧集
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
-                    ForEach(0..<3, id: \.self) { _ in
+                    ForEach(list) { item in
                         DiscoverView.CardItem(
-                            posterPath: "https://www.themoviedb.org/t/p/w440_and_h660_face/mC9SZcD4lNqXYZVKrB3DPvDBv3k.jpg",
-                            score: 6.7,
-                            title: "侏罗纪世界3",
-                            date: "2022-06-10"
+                            posterPath: "https://www.themoviedb.org/t/p/w440_and_h660_face/\(item.posterPath ?? "")",
+                            score: item.voteAverage ?? 0,
+                            title: item.title ?? item.name ?? "",
+                            date: item.releaseDate ?? item.firstAirDate ?? ""
                         )
                     }
                 }
@@ -79,6 +82,7 @@ extension DiscoverView {
                 // MARK: - 电影/剧集名
                 Text(title)
                     .font(.headline)
+                    .frame(maxWidth: 150, alignment: .leading)
                     .padding(.leading)
                     .padding(.top, 25)
                 
@@ -94,7 +98,8 @@ extension DiscoverView {
 }
 
 struct DiscoverCardRow_Previews: PreviewProvider {
+
     static var previews: some View {
-        DiscoverView.CardRow()
+        DiscoverView.CardRow(list: mockMovies)
     }
 }

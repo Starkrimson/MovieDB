@@ -36,6 +36,10 @@
 		096A1A7E287BFE7B00C3C412 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7D287BFE7B00C3C412 /* AppError.swift */; };
 		096A1A7F287BFE7B00C3C412 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7D287BFE7B00C3C412 /* AppError.swift */; };
 		09937474287C25BE00253F1D /* MovieDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09937473287C25BE00253F1D /* MovieDBTests.swift */; };
+		0993FBAC287E6121002227E0 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAB287E6121002227E0 /* Mock.swift */; };
+		0993FBAD287E6121002227E0 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAB287E6121002227E0 /* Mock.swift */; };
+		0993FBAF287E659F002227E0 /* MovieDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAE287E659F002227E0 /* MovieDB.swift */; };
+		0993FBB0287E659F002227E0 /* MovieDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAE287E659F002227E0 /* MovieDB.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +72,8 @@
 		096A1A7D287BFE7B00C3C412 /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		09937471287C25BE00253F1D /* MovieDBTests (iOS).xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MovieDBTests (iOS).xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09937473287C25BE00253F1D /* MovieDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBTests.swift; sourceTree = "<group>"; };
+		0993FBAB287E6121002227E0 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
+		0993FBAE287E659F002227E0 /* MovieDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDB.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,7 +194,9 @@
 		096A1A75287BFD5700C3C412 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0993FBAE287E659F002227E0 /* MovieDB.swift */,
 				096A1A76287BFD7500C3C412 /* MovieTV.swift */,
+				0993FBAB287E6121002227E0 /* Mock.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -344,6 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0993FBAF287E659F002227E0 /* MovieDB.swift in Sources */,
 				096A1A77287BFD7500C3C412 /* MovieTV.swift in Sources */,
 				0929EDBA286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615967286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
@@ -355,6 +364,7 @@
 				096A1A7E287BFE7B00C3C412 /* AppError.swift in Sources */,
 				0929EDBC286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615964286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
+				0993FBAC287E6121002227E0 /* Mock.swift in Sources */,
 				09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,6 +373,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0993FBB0287E659F002227E0 /* MovieDB.swift in Sources */,
 				096A1A78287BFD7500C3C412 /* MovieTV.swift in Sources */,
 				0929EDBB286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615968286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
@@ -374,6 +385,7 @@
 				096A1A7F287BFE7B00C3C412 /* AppError.swift in Sources */,
 				0929EDBD286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615965286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
+				0993FBAD287E6121002227E0 /* Mock.swift in Sources */,
 				09615962286EA6410001F593 /* DiscoverHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

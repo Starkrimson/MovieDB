@@ -10,11 +10,8 @@ import ComposableArchitecture
 
 struct MovieDBClient {
     
-    var popular: (Kind) -> Effect<[MovieTV], AppError>
-    
-    enum Kind: String {
-        case movie, tv
-    }
+    var popular: (MediaType) -> Effect<[MovieTV], AppError>
+    var trending: () -> Effect<[MovieTV], AppError>
 }
 
 let baseURL = "https://api.themoviedb.org/3"
@@ -27,18 +24,22 @@ let defaultDecoder: JSONDecoder = {
 
 extension MovieDBClient {
     static let live = Self(
-        popular: { kind in
-            let url = URL(string: "\(baseURL)/\(kind.rawValue)/popular?api_key=\(apiKey)&language=zh&page=1")!
+        popular: { mediaType in
+            let url = URL(string: "\(baseURL)/\(mediaType.rawValue)/popular?api_key=\(apiKey)&language=zh&page=1")!
             return URLSession.shared.dataTaskPublisher(for: url)
                 .map { $0.data }
                 .decode(type: DBResponse<MovieTV>.self, decoder: defaultDecoder)
                 .map { $0.results ?? [] }
                 .mapError { AppError.networkingFailed($0) }
                 .eraseToEffect()
+        },
+        trending: {
+            .failing("")
         }
     )
     
     static let failing = Self(
-        popular: { _ in .failing("MovieDBClient.popular") }
+        popular: { _ in .failing("MovieDBClient.popular") },
+        trending: { .failing("MovieDBClient.trending") }
     )
 }

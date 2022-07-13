@@ -14,8 +14,8 @@ struct DiscoverState: Equatable {
 }
 
 enum DiscoverAction: Equatable {
-    case fetchPopular(MovieDBClient.Kind)
-    case fetchPopularDone(kind: MovieDBClient.Kind, result: Result<[MovieTV], AppError>)
+    case fetchPopular(MediaType)
+    case fetchPopularDone(kind: MediaType, result: Result<[MovieTV], AppError>)
 }
 
 struct DiscoverEnvironment {
@@ -28,14 +28,13 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
     
     switch action {
     case .fetchPopular(let kind):
-        struct FetchID: Hashable { }
         return environment.dbClient
             .popular(kind)
             .receive(on: environment.mainQueue)
             .catchToEffect {
                 DiscoverAction.fetchPopularDone(kind: kind, result: $0)
             }
-            .cancellable(id: FetchID(), cancelInFlight: true)
+            .cancellable(id: kind, cancelInFlight: true)
         
     case let .fetchPopularDone(kind: .movie, result: .success(results)):
         state.popularMovies = .init(uniqueElements: results)
@@ -46,6 +45,9 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .fetchPopularDone(kind: _, result: .failure(let error)):
+        return .none
+
+    case .fetchPopularDone(kind: _, result: _):
         return .none
     }
 }

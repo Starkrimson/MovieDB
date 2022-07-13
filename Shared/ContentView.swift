@@ -22,7 +22,13 @@ struct ContentView: View {
                 Text("Discover")
             }
         } detail: {
-            DiscoverView()
+            DiscoverView(
+                store: .init(
+                    initialState: .init(),
+                    reducer: discoverReducer,
+                    environment: .init(mainQueue: .main, dbClient: .live)
+                )
+            )
         }
     }
 }
