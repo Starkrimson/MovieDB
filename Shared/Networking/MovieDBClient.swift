@@ -48,6 +48,10 @@ extension MovieDBClient {
                 .dataTaskPublisher(for: .details(mediaType: mediaType, id: id))
                 .map { $0.data }
             switch mediaType {
+            case .tv:
+                return data
+                    .decode(type: TVShow.self, decoder: defaultDecoder)
+                    .tryEraseToEffect { .tv($0) }
             default:
                 return data
                     .decode(type: Movie.self, decoder: defaultDecoder)

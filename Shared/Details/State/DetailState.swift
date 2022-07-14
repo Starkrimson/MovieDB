@@ -14,6 +14,7 @@ struct DetailState: Equatable {
     let media: Media
     
     var movie: Movie?
+    var tv: TVShow?
 }
 
 enum DetailAction: Equatable {
@@ -41,6 +42,8 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         switch detail {
         case .movie(let movie):
             state.movie = movie
+        case .tv(let tv):
+            state.tv = tv
         }
         return .none
         
