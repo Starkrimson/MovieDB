@@ -19,12 +19,14 @@ extension DiscoverView {
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
                     ForEach(list) { item in
-                        DiscoverView.CardItem(
-                            posterPath: "https://www.themoviedb.org/t/p/w440_and_h660_face/\(item.posterPath ?? item.profilePath ?? "")",
-                            score: item.voteAverage,
-                            title: item.title ?? item.name ?? "",
-                            date: item.releaseDate ?? item.firstAirDate ?? ""
-                        )
+                        NavigationLink(value: item) {
+                            DiscoverView.CardItem(
+                                posterPath: item.displayPosterPath,
+                                score: item.voteAverage,
+                                title: item.displayName,
+                                date: item.releaseDate ?? item.firstAirDate ?? ""
+                            )
+                        }
                     }
                 }
             }

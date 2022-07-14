@@ -9,6 +9,10 @@ import Foundation
 
 extension String {
     static let baseURL = "https://api.themoviedb.org/3"
+    
+    var imagePath: String {
+        "https://www.themoviedb.org/t/p/w440_and_h660_face/\(self)"
+    }
 }
 
 let defaultQueryItems = [
@@ -50,9 +54,21 @@ extension URL {
         )
     }
     
-    private static func url(paths: [String], queryItems: [String: Any]) -> URL {
+    /// 生成详情请求链接
+    /// - Parameters:
+    ///   - mediaType: 类型
+    ///   - id: id
+    /// - Returns: 请求链接
+    static func details(mediaType: MediaType, id: Int) -> URL {
+        url(
+            paths: [mediaType.rawValue, id],
+            queryItems: [:]
+        )
+    }
+    
+    private static func url(paths: [Any], queryItems: [String: Any]) -> URL {
         var url = URL(string: .baseURL)!
-        paths.forEach { url.append(path: $0) }
+        paths.map { "\($0)" }.forEach { url.append(path: $0) }
         url.append(
             queryItems: defaultQueryItems + queryItems
                 .mapValues { "\($0)" }

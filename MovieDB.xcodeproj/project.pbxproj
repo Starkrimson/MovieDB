@@ -42,6 +42,12 @@
 		0993FBB0287E659F002227E0 /* MovieDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBAE287E659F002227E0 /* MovieDB.swift */; };
 		0993FBB2287E6A0E002227E0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBB1287E6A0E002227E0 /* Helpers.swift */; };
 		0993FBB3287E6A0E002227E0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBB1287E6A0E002227E0 /* Helpers.swift */; };
+		0993FCD1287ECE27002227E0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FCD0287ECE27002227E0 /* Movie.swift */; };
+		0993FCD2287ECE27002227E0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FCD0287ECE27002227E0 /* Movie.swift */; };
+		09A05A9A287FE971003A2225 /* DetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A05A99287FE971003A2225 /* DetailState.swift */; };
+		09A05A9B287FE971003A2225 /* DetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A05A99287FE971003A2225 /* DetailState.swift */; };
+		09A05A9E287FEDF7003A2225 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A05A9D287FEDF7003A2225 /* DetailView.swift */; };
+		09A05A9F287FEDF7003A2225 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A05A9D287FEDF7003A2225 /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +83,9 @@
 		0993FBAB287E6121002227E0 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		0993FBAE287E659F002227E0 /* MovieDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDB.swift; sourceTree = "<group>"; };
 		0993FBB1287E6A0E002227E0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		0993FCD0287ECE27002227E0 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		09A05A99287FE971003A2225 /* DetailState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailState.swift; sourceTree = "<group>"; };
+		09A05A9D287FEDF7003A2225 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				09615957286E89140001F593 /* Discover */,
+				09A05A97287FE94E003A2225 /* Details */,
 				0929EDA7286D93CA007C4BFB /* MovieDBApp.swift */,
 				0929EDA8286D93CA007C4BFB /* ContentView.swift */,
 				0929EDA9286D93CA007C4BFB /* Persistence.swift */,
@@ -200,6 +210,7 @@
 			children = (
 				0993FBAE287E659F002227E0 /* MovieDB.swift */,
 				096A1A76287BFD7500C3C412 /* Media.swift */,
+				0993FCD0287ECE27002227E0 /* Movie.swift */,
 				0993FBAB287E6121002227E0 /* Mock.swift */,
 			);
 			path = Model;
@@ -220,6 +231,31 @@
 				09937473287C25BE00253F1D /* MovieDBTests.swift */,
 			);
 			path = "MovieDBTests (iOS)";
+			sourceTree = "<group>";
+		};
+		09A05A97287FE94E003A2225 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				09A05A98287FE960003A2225 /* State */,
+				09A05A9C287FEDE2003A2225 /* View */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		09A05A98287FE960003A2225 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				09A05A99287FE971003A2225 /* DetailState.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		09A05A9C287FEDE2003A2225 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				09A05A9D287FEDF7003A2225 /* DetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,17 +393,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				0993FBAF287E659F002227E0 /* MovieDB.swift in Sources */,
+				09A05A9E287FEDF7003A2225 /* DetailView.swift in Sources */,
 				096A1A77287BFD7500C3C412 /* Media.swift in Sources */,
 				0929EDBA286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615967286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
 				096A1A73287BDAA500C3C412 /* DiscoverState.swift in Sources */,
 				0929EDBE286D93CC007C4BFB /* Persistence.swift in Sources */,
+				0993FCD1287ECE27002227E0 /* Movie.swift in Sources */,
 				09615959286E89240001F593 /* DiscoverView.swift in Sources */,
 				0929EDB8286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
 				096A1A7B287BFDEB00C3C412 /* MovieDBClient.swift in Sources */,
 				096A1A7E287BFE7B00C3C412 /* AppError.swift in Sources */,
 				0929EDBC286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615964286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
+				09A05A9A287FE971003A2225 /* DetailState.swift in Sources */,
 				0993FBAC287E6121002227E0 /* Mock.swift in Sources */,
 				0993FBB2287E6A0E002227E0 /* Helpers.swift in Sources */,
 				09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */,
@@ -379,17 +418,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				0993FBB0287E659F002227E0 /* MovieDB.swift in Sources */,
+				09A05A9F287FEDF7003A2225 /* DetailView.swift in Sources */,
 				096A1A78287BFD7500C3C412 /* Media.swift in Sources */,
 				0929EDBB286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615968286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
 				096A1A74287BDAA500C3C412 /* DiscoverState.swift in Sources */,
 				0929EDBF286D93CC007C4BFB /* Persistence.swift in Sources */,
+				0993FCD2287ECE27002227E0 /* Movie.swift in Sources */,
 				0961595A286E892A0001F593 /* DiscoverView.swift in Sources */,
 				0929EDB9286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
 				096A1A7C287BFDEB00C3C412 /* MovieDBClient.swift in Sources */,
 				096A1A7F287BFE7B00C3C412 /* AppError.swift in Sources */,
 				0929EDBD286D93CC007C4BFB /* ContentView.swift in Sources */,
 				09615965286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
+				09A05A9B287FE971003A2225 /* DetailState.swift in Sources */,
 				0993FBAD287E6121002227E0 /* Mock.swift in Sources */,
 				0993FBB3287E6A0E002227E0 /* Helpers.swift in Sources */,
 				09615962286EA6410001F593 /* DiscoverHeader.swift in Sources */,

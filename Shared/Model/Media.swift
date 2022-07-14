@@ -24,7 +24,7 @@ struct PageResponses<Result: Codable>: Codable, DBResponses {
     var statusMessage: String?
 }
 
-struct Media: Codable, Equatable, Identifiable {
+struct Media: Codable, Equatable, Identifiable, Hashable {
     // movie
     var adult: Bool?
     var title: String?
@@ -56,4 +56,12 @@ struct Media: Codable, Equatable, Identifiable {
     var posterPath: String?
     var voteAverage: Double?
     var voteCount: Int?
+    
+    var displayName: String {
+        title ?? name ?? ""
+    }
+    
+    var displayPosterPath: String {
+        "\(posterPath ?? profilePath ?? "")".imagePath
+    }
 }

@@ -43,6 +43,15 @@ struct DiscoverView: View {
             }
             .frame(minWidth: 320)
             .navigationTitle("Discover")
+            .navigationDestination(for: Media.self) { media in
+                DetailView(
+                    store: .init(
+                        initialState: .init(media: media),
+                        reducer: detailReducer,
+                        environment: .init(mainQueue: .main, dbClient: .live)
+                    )
+                )
+            }
         }
     }
 }

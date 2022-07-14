@@ -13,6 +13,7 @@ struct MovieDBClient {
     
     var popular: (MediaType) -> Effect<[Media], AppError>
     var trending: (MediaType, TimeWindow) -> Effect<[Media], AppError>
+    var details: (MediaType, Int) -> Effect<DetailModel, AppError>
 }
 
 let defaultDecoder: JSONDecoder = {
@@ -27,7 +28,13 @@ extension MovieDBClient {
             URLSession.shared.dataTaskPublisher(for: .popular(mediaType: mediaType))
                 .map { $0.data }
                 .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0.results ?? [] }
+                .tryEraseToEffect {
+                    $0.results?.map {
+                        var media = $0
+                        media.mediaType = mediaType
+                        return media
+                    } ?? []
+                }
         },
         trending: { mediaType, timeWindow in
             URLSession.shared
@@ -35,12 +42,24 @@ extension MovieDBClient {
                 .map { $0.data }
                 .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
                 .tryEraseToEffect { $0.results ?? [] }
+        },
+        details: { mediaType, id in
+            let data = URLSession.shared
+                .dataTaskPublisher(for: .details(mediaType: mediaType, id: id))
+                .map { $0.data }
+            switch mediaType {
+            default:
+                return data
+                    .decode(type: Movie.self, decoder: defaultDecoder)
+                    .tryEraseToEffect { .movie($0) }
+            }
         }
     )
     
     static let failing = Self(
         popular: { _ in .failing("MovieDBClient.popular") },
-        trending: { _, _ in .failing("MovieDBClient.trending") }
+        trending: { _, _ in .failing("MovieDBClient.trending") },
+        details: { _, _ in .failing("MovieDBClient.details") }
     )
 }
 
