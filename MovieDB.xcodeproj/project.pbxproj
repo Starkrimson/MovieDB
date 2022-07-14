@@ -54,6 +54,10 @@
 		09DB369C28800C2E00EFFC2B /* TVDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB369A28800C2E00EFFC2B /* TVDetailView.swift */; };
 		09DB369E28800D0000EFFC2B /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB369D28800D0000EFFC2B /* MovieDetailView.swift */; };
 		09DB369F28800D0000EFFC2B /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB369D28800D0000EFFC2B /* MovieDetailView.swift */; };
+		09DB36A1288012D100EFFC2B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB36A0288012D100EFFC2B /* Person.swift */; };
+		09DB36A2288012D100EFFC2B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB36A0288012D100EFFC2B /* Person.swift */; };
+		09DB36A4288013E100EFFC2B /* PersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB36A3288013E100EFFC2B /* PersonDetailView.swift */; };
+		09DB36A5288013E100EFFC2B /* PersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB36A3288013E100EFFC2B /* PersonDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +99,8 @@
 		09DB36972880080A00EFFC2B /* TVShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShow.swift; sourceTree = "<group>"; };
 		09DB369A28800C2E00EFFC2B /* TVDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailView.swift; sourceTree = "<group>"; };
 		09DB369D28800D0000EFFC2B /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
+		09DB36A0288012D100EFFC2B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		09DB36A3288013E100EFFC2B /* PersonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +227,7 @@
 				096A1A76287BFD7500C3C412 /* Media.swift */,
 				0993FCD0287ECE27002227E0 /* Movie.swift */,
 				09DB36972880080A00EFFC2B /* TVShow.swift */,
+				09DB36A0288012D100EFFC2B /* Person.swift */,
 				0993FBAB287E6121002227E0 /* Mock.swift */,
 			);
 			path = Model;
@@ -266,6 +273,7 @@
 				09A05A9D287FEDF7003A2225 /* DetailView.swift */,
 				09DB369D28800D0000EFFC2B /* MovieDetailView.swift */,
 				09DB369A28800C2E00EFFC2B /* TVDetailView.swift */,
+				09DB36A3288013E100EFFC2B /* PersonDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -408,12 +416,14 @@
 				0993FBAF287E659F002227E0 /* MovieDB.swift in Sources */,
 				09A05A9E287FEDF7003A2225 /* DetailView.swift in Sources */,
 				096A1A77287BFD7500C3C412 /* Media.swift in Sources */,
+				09DB36A1288012D100EFFC2B /* Person.swift in Sources */,
 				0929EDBA286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615967286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
 				09DB369E28800D0000EFFC2B /* MovieDetailView.swift in Sources */,
 				096A1A73287BDAA500C3C412 /* DiscoverState.swift in Sources */,
 				0929EDBE286D93CC007C4BFB /* Persistence.swift in Sources */,
 				0993FCD1287ECE27002227E0 /* Movie.swift in Sources */,
+				09DB36A4288013E100EFFC2B /* PersonDetailView.swift in Sources */,
 				09DB369B28800C2E00EFFC2B /* TVDetailView.swift in Sources */,
 				09615959286E89240001F593 /* DiscoverView.swift in Sources */,
 				0929EDB8286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
@@ -436,12 +446,14 @@
 				0993FBB0287E659F002227E0 /* MovieDB.swift in Sources */,
 				09A05A9F287FEDF7003A2225 /* DetailView.swift in Sources */,
 				096A1A78287BFD7500C3C412 /* Media.swift in Sources */,
+				09DB36A2288012D100EFFC2B /* Person.swift in Sources */,
 				0929EDBB286D93CC007C4BFB /* MovieDBApp.swift in Sources */,
 				09615968286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
 				09DB369F28800D0000EFFC2B /* MovieDetailView.swift in Sources */,
 				096A1A74287BDAA500C3C412 /* DiscoverState.swift in Sources */,
 				0929EDBF286D93CC007C4BFB /* Persistence.swift in Sources */,
 				0993FCD2287ECE27002227E0 /* Movie.swift in Sources */,
+				09DB36A5288013E100EFFC2B /* PersonDetailView.swift in Sources */,
 				09DB369C28800C2E00EFFC2B /* TVDetailView.swift in Sources */,
 				0961595A286E892A0001F593 /* DiscoverView.swift in Sources */,
 				0929EDB9286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,

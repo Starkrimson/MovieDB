@@ -10,6 +10,7 @@ import Foundation
 enum DetailModel: Equatable {
     case movie(Movie)
     case tv(TVShow)
+    case person(Person)
 }
 
 struct Movie: Codable, Equatable, Identifiable, DBResponses {

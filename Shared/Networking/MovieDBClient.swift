@@ -52,6 +52,10 @@ extension MovieDBClient {
                 return data
                     .decode(type: TVShow.self, decoder: defaultDecoder)
                     .tryEraseToEffect { .tv($0) }
+            case .person:
+                return data
+                    .decode(type: Person.self, decoder: defaultDecoder)
+                    .tryEraseToEffect { .person($0) }
             default:
                 return data
                     .decode(type: Movie.self, decoder: defaultDecoder)

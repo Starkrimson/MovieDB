@@ -31,6 +31,9 @@ struct DetailView: View {
         case .tv:
             TVDetailView(store: store)
             
+        case .person:
+            PersonDetailView(store: store)
+            
         default:
             EmptyView()
         }
