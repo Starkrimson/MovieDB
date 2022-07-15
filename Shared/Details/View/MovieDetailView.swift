@@ -14,14 +14,44 @@ struct MovieDetailView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack {
-                Button(viewStore.movie?.title ?? "none") {
-                    viewStore.send(.fetchDetails(mediaType: .movie))
+            ScrollView {
+                DetailView.Header(
+                    backdropPath: viewStore.media.backdropPath,
+                    posterPath: viewStore.media.posterPath
+                )
+
+                HStack(alignment: .lastTextBaseline) {
+                    Text(viewStore.media.displayName)
+                        .font(.largeTitle)
+                    Text("(\(viewStore.movie?.releaseDate ?? ""))")
+                        .font(.title3)
                 }
-                KFImage(URL(string: viewStore.movie?.posterPath?.imagePath ?? ""))
-                    .resizable()
-                    .frame(width: 150, height: 225)
-                    .cornerRadius(10)
+                
+                HStack {
+                    ScoreView(score: viewStore.movie?.voteAverage ?? 0)
+                    Text("用户评分")
+                        .font(.title3.weight(.medium))
+                }
+                
+                VStack {
+                    Text("\(viewStore.movie?.releaseDate ?? "") · \(viewStore.movie?.runtime ?? 0)")
+                    HStack {
+                        ForEach(viewStore.movie?.genres ?? []) {
+                            Button($0.name ?? "") {
+                                
+                            }
+                        }
+                    }
+                }
+                
+                VStack(alignment: .leading) {
+                    Text(viewStore.movie?.tagline ?? "")
+                    Text("剧情简介")
+                        .font(.title2.weight(.medium))
+                        .padding(.vertical, 5)
+                    Text(viewStore.movie?.overview ?? "")
+                }
+                
             }
             .navigationTitle(viewStore.media.displayName)
             .onAppear {
@@ -37,8 +67,9 @@ struct MovieDetailView_Previews: PreviewProvider {
             store: .init(
                 initialState: .init(media: mockMedias[0]),
                 reducer: detailReducer,
-                environment: .init(mainQueue: .main, dbClient: .failing)
+                environment: .init(mainQueue: .main, dbClient: .previews)
             )
         )
+        .frame(minHeight: 700)
     }
 }

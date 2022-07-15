@@ -7,17 +7,26 @@
 
 import Foundation
 
+enum FileSize: String {
+    case original
+    case w440_and_h660_face
+    case w1000_and_h450_multi_faces
+    case w1920_and_h800_multi_faces
+    case w1920_and_h600_multi_faces_duotone = "w1920_and_h600_multi_faces_filter(duotone,032541,01b4e4)"
+}
+
 extension String {
     static let baseURL = "https://api.themoviedb.org/3"
-    
-    var imagePath: String {
-        "https://www.themoviedb.org/t/p/w440_and_h660_face/\(self)"
+
+    func imagePath(_ fileSize: FileSize = .w440_and_h660_face) -> String {
+        "https://image.tmdb.org/t/p/\(fileSize.rawValue)\(self)"
     }
 }
 
 let defaultQueryItems = [
     URLQueryItem(name: "api_key", value: ""),
     URLQueryItem(name: "language", value: "zh"),
+    URLQueryItem(name: "include_image_language", value: "en,null"),
 ]
 
 extension URL {
@@ -59,10 +68,12 @@ extension URL {
     ///   - mediaType: 类型
     ///   - id: id
     /// - Returns: 请求链接
-    static func details(mediaType: MediaType, id: Int) -> URL {
+    static func details(mediaType: MediaType, id: Int, appendToResponse: AppendToResponse...) -> URL {
         url(
             paths: [mediaType.rawValue, id],
-            queryItems: [:]
+            queryItems: [
+                "append_to_response": appendToResponse.map { $0.rawValue }.joined(separator: ",")
+            ]
         )
     }
     

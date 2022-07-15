@@ -49,6 +49,7 @@ let mockMedias: [Media] = [
     .init(
         title: "雷神4：爱与雷霆",
         originalTitle: "Thor: Love and Thunder",
+        backdropPath: "/p1F51Lvj3sMopG948F5HsBbl43C.jpg",
         id: 616037,
         posterPath: "/i1NAuDW8oOlV5dBbXPPTuPlt8sl.jpg",
         voteAverage: 7
@@ -70,9 +71,19 @@ let mockMedias: [Media] = [
 
 let mockMovies: [Movie] = [
     .init(
+        backdropPath: "/p1F51Lvj3sMopG948F5HsBbl43C.jpg",
+        genres: [
+            .init(id: 28, name: "动作"),
+            .init(id: 12, name: "冒险"),
+            .init(id: 14, name: "奇幻"),
+        ],
         id: 616037,
         originalTitle: "Thor: Love and Thunder",
+        overview: "屠神者格尔几乎不朽，拥有超人的力量，耐力和抗伤能力。还能操纵黑暗并将其塑造成固态物。格尔出生在一个情况恶劣的星球上，由于神祇没有回应那些迫切需要帮助的人的祈祷，格尔认为诸神不值得任何崇拜，反之更应该遭到报应。在痛失挚爱后，格尔觉得神或许根本就不存在，但在证实世上确有神后，格尔便立誓要将他们全部铲除消灭。他也成功地屠杀了众多神祇，雷神也便顺其自然地成为了他的攻击目标。",
         posterPath: "/i1NAuDW8oOlV5dBbXPPTuPlt8sl.jpg",
+        releaseDate: "2022-07-06",
+        runtime: 119,
+        tagline: "The one is not the only.",
         title: "雷神4：爱与雷霆",
         voteAverage: 7
     ),

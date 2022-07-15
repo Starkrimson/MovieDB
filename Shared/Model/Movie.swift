@@ -41,6 +41,10 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses {
     var voteAverage: Double?
     var voteCount: Int?
     
+    // append_to_response
+    var images: Media.Images?
+    var credits: Media.Credits?
+    
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?

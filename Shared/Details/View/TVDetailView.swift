@@ -18,7 +18,7 @@ struct TVDetailView: View {
                 Button(viewStore.tv?.name ?? "none") {
                     viewStore.send(.fetchDetails(mediaType: .tv))
                 }
-                KFImage(URL(string: viewStore.tv?.posterPath?.imagePath ?? ""))
+                KFImage(URL(string: viewStore.tv?.posterPath?.imagePath() ?? ""))
                     .resizable()
                     .frame(width: 150, height: 225)
                     .cornerRadius(10)

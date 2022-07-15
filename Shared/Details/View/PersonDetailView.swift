@@ -18,7 +18,7 @@ struct PersonDetailView: View {
                 Button(viewStore.person?.name ?? "none") {
                     viewStore.send(.fetchDetails(mediaType: .person))
                 }
-                KFImage(URL(string: viewStore.person?.profilePath?.imagePath ?? ""))
+                KFImage(URL(string: viewStore.person?.profilePath?.imagePath() ?? ""))
                     .resizable()
                     .frame(width: 150, height: 225)
                     .cornerRadius(10)

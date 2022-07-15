@@ -45,7 +45,7 @@ extension MovieDBClient {
         },
         details: { mediaType, id in
             let data = URLSession.shared
-                .dataTaskPublisher(for: .details(mediaType: mediaType, id: id))
+                .dataTaskPublisher(for: .details(mediaType: mediaType, id: id, appendToResponse: .credits, .images))
                 .map { $0.data }
             switch mediaType {
             case .tv:
@@ -68,6 +68,27 @@ extension MovieDBClient {
         popular: { _ in .failing("MovieDBClient.popular") },
         trending: { _, _ in .failing("MovieDBClient.trending") },
         details: { _, _ in .failing("MovieDBClient.details") }
+    )
+    
+    static let previews = Self(
+        popular: {
+            Effect(value:  $0 == .movie ? mockMediaMovies : mockMediaTVShows)
+        },
+        trending: { _, _ in
+            Effect(value: mockMedias)
+        },
+        details: { mediaType, _ in
+            switch mediaType {
+            case .all:
+                return Effect(error: .sample("Something Went Wrong"))
+            case .movie:
+                return Effect(value: .movie(mockMovies[0]))
+            case .tv:
+                return Effect(value: .tv(mockTVShows[0]))
+            case .person:
+                return Effect(value: .person(mockPeople[0]))
+            }
+        }
     )
 }
 
