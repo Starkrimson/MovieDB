@@ -57,22 +57,37 @@ final class MovieDBTests: XCTestCase {
             }
         }
         
-        store.send(.fetchDetails(mediaType: .movie))
+        store.send(.fetchDetails(mediaType: .movie)) {
+            $0.loading = true
+        }
         store.receive(.fetchDetailsDone(.success(.movie(mockMovies[0])))) {
+            $0.loading = false
             $0.movie = mockMovies[0]
+            $0.directors = mockMovies[0].credits?.crew?.filter { $0.department == "Directing" } ?? []
+            $0.writers = mockMovies[0].credits?.crew?.filter { $0.department == "Writing" } ?? []
         }
         
-        store.send(.fetchDetails(mediaType: .tv))
+        store.send(.fetchDetails(mediaType: .tv)) {
+            $0.loading = true
+        }
         store.receive(.fetchDetailsDone(.success(.tv(mockTVShows[0])))) {
+            $0.loading = false
             $0.tv = mockTVShows[0]
         }
         
-        store.send(.fetchDetails(mediaType: .person))
+        store.send(.fetchDetails(mediaType: .person)) {
+            $0.loading = true
+        }
         store.receive(.fetchDetailsDone(.success(.person(mockPeople[0])))) {
+            $0.loading = false
             $0.person = mockPeople[0]
         }
         
-        store.send(.fetchDetails(mediaType: .all))
-        store.receive(.fetchDetailsDone(.failure(.sample("Something Went Wrong"))))
+        store.send(.fetchDetails(mediaType: .all)) {
+            $0.loading = true
+        }
+        store.receive(.fetchDetailsDone(.failure(.sample("Something Went Wrong")))) {
+            $0.loading = false
+        }
     }
 }
