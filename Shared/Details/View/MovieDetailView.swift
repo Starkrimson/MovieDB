@@ -25,48 +25,55 @@ struct MovieDetailView: View {
                 DetailView.Overview(
                     displayName: viewStore.media.displayName,
                     date: viewStore.movie?.releaseDate,
-                    score: viewStore.movie?.voteAverage ?? 0,
-                    runtime: viewStore.movie?.runtime ?? 0,
+                    score: viewStore.movie?.voteAverage,
+                    runtime: viewStore.movie?.runtime,
                     genres: viewStore.movie?.genres ?? [],
-                    tagline: viewStore.movie?.tagline ?? "",
-                    overview: viewStore.movie?.overview ?? "",
-                    directors: viewStore.directors
+                    tagline: viewStore.movie?.tagline,
+                    overview: viewStore.movie?.overview,
+                    directors: viewStore.directors,
+                    writers: viewStore.writers
                 )
+                
+                if viewStore.loading {
+                    ProgressView()
+                } else {
+                    
+                    // MARK: - 演员表
+                    DetailView.Cast(cast: viewStore.movie?.credits?.cast ?? [])
+                    
+                    // MARK: - 海报/剧照
+                    if let images = viewStore.movie?.images {
+                        DetailView.Images(
+                            selectedImageType: viewStore.binding(\.$selectedImageType),
+                            images: images
+                        )
+                    }
+                    
+                    // MARK: - 电影系列
+                    if let collection = viewStore.movie?.belongsToCollection {
+                        DetailView.Collection(collection: collection)
+                    }
+                    
+                    // MARK: - 相关推荐
+                    if let recommendations = viewStore.movie?.recommendations?.results {
+                        DetailView.Recommended(recommendations: recommendations)
+                    }
+                    
+                    // MARK: - 电影原产信息
+                    HStack {
+                        DetailView.Original(
+                            originalName: viewStore.movie?.originalTitle ?? "",
+                            status: viewStore.movie?.status,
+                            originalLanguage: viewStore.movie?.originalLanguage ?? "",
+                            budget: viewStore.movie?.budget ?? 0,
+                            revenue: viewStore.movie?.revenue ?? 0
+                        )
+                        .padding()
+                        
+                        Spacer()
+                    }
+                }
 
-                // MARK: - 演员表
-                DetailView.Cast(cast: viewStore.movie?.credits?.cast ?? [])
-                
-                // MARK: - 海报/剧照
-                if let images = viewStore.movie?.images {
-                    DetailView.Images(
-                        selectedImageType: viewStore.binding(\.$selectedImageType),
-                        images: images
-                    )
-                }
-                
-                // MARK: - 电影系列
-                if let collection = viewStore.movie?.belongsToCollection {
-                    DetailView.Collection(collection: collection)
-                }
-                
-                // MARK: - 相关推荐
-                if let recommendations = viewStore.movie?.recommendations?.results {
-                    DetailView.Recommended(recommendations: recommendations)
-                }
-                
-                // MARK: - 电影原产信息
-                HStack {
-                    DetailView.Original(
-                        originalName: viewStore.movie?.originalTitle ?? "",
-                        status: viewStore.movie?.status,
-                        originalLanguage: viewStore.movie?.originalLanguage ?? "",
-                        budget: viewStore.movie?.budget ?? 0,
-                        revenue: viewStore.movie?.revenue ?? 0
-                    )
-                    .padding()
-
-                    Spacer()
-                }
             }
             .navigationTitle(viewStore.media.displayName)
             .onAppear {
@@ -85,6 +92,6 @@ struct MovieDetailView_Previews: PreviewProvider {
                 environment: .init(mainQueue: .main, dbClient: .previews)
             )
         )
-        .frame(minHeight: 1850)
+        .frame(minHeight: 1950)
     }
 }

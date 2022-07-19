@@ -13,6 +13,8 @@ import ComposableArchitecture
 struct DetailState: Equatable {
     let media: Media
     
+    var loading = false
+    
     var movie: Movie?
     var tv: TVShow?
     var person: Person?
@@ -41,6 +43,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
     case .binding: return .none
         
     case .fetchDetails(mediaType: let mediaType):
+        state.loading = true
         return environment.dbClient
             .details(mediaType, state.media.id ?? 0)
             .receive(on: environment.mainQueue)
@@ -48,6 +51,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
             .cancellable(id: state.media.id ?? 0)
         
     case .fetchDetailsDone(.success(let detail)):
+        state.loading = false
         switch detail {
         case .movie(let movie):
             state.movie = movie
@@ -61,6 +65,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         return .none
         
     case .fetchDetailsDone(.failure(let error)):
+        state.loading = false
         customDump(error)
         return .none
     }

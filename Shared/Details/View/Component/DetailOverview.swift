@@ -12,12 +12,13 @@ extension DetailView {
     struct Overview: View {
         let displayName: String
         let date: Date?
-        let score: Double
-        let runtime: Int
+        let score: Double?
+        let runtime: Int?
         let genres: [Genre]
-        let tagline: String
-        let overview: String
+        let tagline: String?
+        let overview: String?
         let directors: [Media.Crew]
+        let writers: [Media.Crew]
         
         var body: some View {
             VStack(alignment: .leading) {
@@ -28,19 +29,30 @@ extension DetailView {
                         HStack(alignment: .lastTextBaseline) {
                             Text(displayName)
                                 .font(.largeTitle)
-                            Text("(\(date?.string("yyyy") ?? ""))")
-                                .font(.title3)
+                            date.map { date in
+                                Text("(\(date.string("yyyy")))")
+                                    .font(.title3)
+                            }
                         }
                         
                         // MARK: - 评分
-                        HStack {
-                            ScoreView(score: score)
-                            Text("用户评分")
-                                .font(.title3.weight(.medium))
+                        score.map { score in
+                            HStack {
+                                ScoreView(score: score)
+                                Text("用户评分")
+                                    .font(.title3.weight(.medium))
+                            }
                         }
                         
                         // MARK: - 发布时间
-                        Text("\(date?.string("yyyy", "MMMM", "dd") ?? "") · \(runtime)分钟")
+                        HStack(spacing: 0) {
+                            Text("\(date?.string("yyyy", "MMMM", "dd") ?? "")")
+                            runtime.map { runtime in
+                                Text(" · \(runtime)分钟")
+                            }
+                        }
+                        
+                        // MARK: - 类型
                         HStack {
                             ForEach(genres) {
                                 Button($0.name ?? "") {
@@ -53,22 +65,28 @@ extension DetailView {
                 }
                 
                 // MARK: - 简介
-                Text(tagline)
-                Text("剧情简介")
-                    .font(.title2.weight(.medium))
-                    .padding(.vertical, 5)
-                Text(overview)
+                Text(tagline ?? "")
+                overview.map { overview in
+                    Group {
+                        Text("剧情简介")
+                            .font(.title2.weight(.medium))
+                            .padding(.vertical, 5)
+                        Text(overview)
+                    }
+                }
 
-                // MARK: - 导演
-                ScrollView(.horizontal) {                
-                    HStack(alignment: .top) {
-                        ForEach(directors) { crew in
-                            ProfileView(
-                                axis: .horizontal,
-                                profilePath: crew.profilePath ?? "",
-                                name: crew.name ?? "",
-                                job: crew.job ?? ""
-                            )
+                // MARK: - 导演/编剧
+                ForEach([directors, writers], id: \.self) { list in
+                    ScrollView(.horizontal) {
+                        HStack(alignment: .top) {
+                            ForEach(list) { crew in
+                                ProfileView(
+                                    axis: .horizontal,
+                                    profilePath: crew.profilePath ?? "",
+                                    name: crew.name ?? "",
+                                    job: crew.job ?? ""
+                                )
+                            }
                         }
                     }
                 }
@@ -83,12 +101,13 @@ struct DetailBasic_Previews: PreviewProvider {
         DetailView.Overview(
             displayName: mockMedias[0].displayName,
             date: mockMovies[0].releaseDate,
-            score: mockMovies[0].voteAverage ?? 0,
-            runtime: mockMovies[0].runtime ?? 0,
+            score: mockMovies[0].voteAverage,
+            runtime: mockMovies[0].runtime,
             genres: mockMovies[0].genres ?? [],
-            tagline: mockMovies[0].tagline ?? "",
-            overview: mockMovies[0].overview ?? "",
-            directors: mockMovies[0].credits?.crew?.filter { $0.department == "Directing" } ?? []
+            tagline: mockMovies[0].tagline,
+            overview: mockMovies[0].overview,
+            directors: mockMovies[0].credits?.crew?.filter { $0.department == "Directing" } ?? [],
+            writers: mockMovies[0].credits?.crew?.filter { $0.department == "Writing" } ?? []
         )
     }
 }

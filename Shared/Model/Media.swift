@@ -129,7 +129,7 @@ extension Media {
         var profilePath: String?
     }
     
-    struct Crew: Codable, Equatable, Identifiable {
+    struct Crew: Codable, Equatable, Identifiable, Hashable {
         var adult: Bool?
         var creditId: String?
         var department: String?
