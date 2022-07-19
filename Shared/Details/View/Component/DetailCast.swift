@@ -29,6 +29,19 @@ extension DetailView {
                             )
                             .padding(.leading)
                         }
+                        
+                        Button {
+                            
+                        } label: {
+                            HStack(spacing: 3) {
+                                Text("查看更多")
+                                Image(systemName: "chevron.right.circle.fill")
+                                    .foregroundColor(.accentColor)
+                            }
+                            .padding()
+                        }
+                        .buttonStyle(.plain)
+                        .frame(height: 175)
                     }
                 }
                 

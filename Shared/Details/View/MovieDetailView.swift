@@ -38,7 +38,10 @@ struct MovieDetailView: View {
                 
                 // MARK: - 海报/剧照
                 if let images = viewStore.movie?.images {
-                    DetailView.Images(images: images)
+                    DetailView.Images(
+                        selectedImageType: viewStore.binding(\.$selectedImageType),
+                        images: images
+                    )
                 }
                 
                 // MARK: - 电影系列

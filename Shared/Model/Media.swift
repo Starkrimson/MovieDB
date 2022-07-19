@@ -70,6 +70,21 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
 
 extension Media {
     
+    enum ImageType: CustomStringConvertible, CaseIterable, Identifiable {
+        case poster, backdrop
+        
+        var id: Self { self }
+        
+        var description: String {
+            switch self {
+            case .poster:
+                return "海报"
+            case .backdrop:
+                return "剧照"
+            }
+        }
+    }
+    
     struct Images: Codable, Equatable {
         /// movie / tv
         var backdrops: [Image]?

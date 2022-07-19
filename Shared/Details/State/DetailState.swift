@@ -19,9 +19,12 @@ struct DetailState: Equatable {
     
     var directors: [Media.Crew] = []
     var writers: [Media.Crew] = []
+    
+    @BindableState var selectedImageType: Media.ImageType = .poster
 }
 
-enum DetailAction: Equatable {
+enum DetailAction: Equatable, BindableAction {
+    case binding(BindingAction<DetailState>)
     case fetchDetails(mediaType: MediaType)
     case fetchDetailsDone(Result<DetailModel, AppError>)
 }
@@ -35,6 +38,8 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
     state, action, environment in
     
     switch action {
+    case .binding: return .none
+        
     case .fetchDetails(mediaType: let mediaType):
         return environment.dbClient
             .details(mediaType, state.media.id ?? 0)
@@ -60,3 +65,4 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         return .none
     }
 }
+    .binding()
