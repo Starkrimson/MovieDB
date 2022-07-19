@@ -15,43 +15,55 @@ struct MovieDetailView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             ScrollView {
+                // MARK: - 背景图和海报
                 DetailView.Header(
                     backdropPath: viewStore.media.backdropPath,
                     posterPath: viewStore.media.posterPath
                 )
+                
+                // MARK: - 电影名称/剧情
+                DetailView.Overview(
+                    displayName: viewStore.media.displayName,
+                    date: viewStore.movie?.releaseDate,
+                    score: viewStore.movie?.voteAverage ?? 0,
+                    runtime: viewStore.movie?.runtime ?? 0,
+                    genres: viewStore.movie?.genres ?? [],
+                    tagline: viewStore.movie?.tagline ?? "",
+                    overview: viewStore.movie?.overview ?? "",
+                    directors: viewStore.directors
+                )
 
-                HStack(alignment: .lastTextBaseline) {
-                    Text(viewStore.media.displayName)
-                        .font(.largeTitle)
-                    Text("(\(viewStore.movie?.releaseDate ?? ""))")
-                        .font(.title3)
+                // MARK: - 演员表
+                DetailView.Cast(cast: viewStore.movie?.credits?.cast ?? [])
+                
+                // MARK: - 海报/剧照
+                if let images = viewStore.movie?.images {
+                    DetailView.Images(images: images)
                 }
                 
+                // MARK: - 电影系列
+                if let collection = viewStore.movie?.belongsToCollection {
+                    DetailView.Collection(collection: collection)
+                }
+                
+                // MARK: - 相关推荐
+                if let recommendations = viewStore.movie?.recommendations?.results {
+                    DetailView.Recommended(recommendations: recommendations)
+                }
+                
+                // MARK: - 电影原产信息
                 HStack {
-                    ScoreView(score: viewStore.movie?.voteAverage ?? 0)
-                    Text("用户评分")
-                        .font(.title3.weight(.medium))
+                    DetailView.Original(
+                        originalName: viewStore.movie?.originalTitle ?? "",
+                        status: viewStore.movie?.status,
+                        originalLanguage: viewStore.movie?.originalLanguage ?? "",
+                        budget: viewStore.movie?.budget ?? 0,
+                        revenue: viewStore.movie?.revenue ?? 0
+                    )
+                    .padding()
+
+                    Spacer()
                 }
-                
-                VStack {
-                    Text("\(viewStore.movie?.releaseDate ?? "") · \(viewStore.movie?.runtime ?? 0)")
-                    HStack {
-                        ForEach(viewStore.movie?.genres ?? []) {
-                            Button($0.name ?? "") {
-                                
-                            }
-                        }
-                    }
-                }
-                
-                VStack(alignment: .leading) {
-                    Text(viewStore.movie?.tagline ?? "")
-                    Text("剧情简介")
-                        .font(.title2.weight(.medium))
-                        .padding(.vertical, 5)
-                    Text(viewStore.movie?.overview ?? "")
-                }
-                
             }
             .navigationTitle(viewStore.media.displayName)
             .onAppear {
@@ -70,6 +82,6 @@ struct MovieDetailView_Previews: PreviewProvider {
                 environment: .init(mainQueue: .main, dbClient: .previews)
             )
         )
-        .frame(minHeight: 700)
+        .frame(minHeight: 1850)
     }
 }

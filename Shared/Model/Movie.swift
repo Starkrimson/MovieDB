@@ -29,7 +29,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses {
     var posterPath: String?
     var productionCompanies: [ProductionCompany]?
     var productionCountries: [ProductionCountry]?
-    var releaseDate: String?
+    var releaseDate: Date?
     var revenue: Int?
     var runtime: Int?
     var spokenLanguages: [SpokenLanguage]?
@@ -44,6 +44,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses {
     // append_to_response
     var images: Media.Images?
     var credits: Media.Credits?
+    var recommendations: PageResponses<Media>?
     
     var success: Bool?
     var statusCode: Int?

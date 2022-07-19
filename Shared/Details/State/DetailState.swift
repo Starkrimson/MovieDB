@@ -16,6 +16,9 @@ struct DetailState: Equatable {
     var movie: Movie?
     var tv: TVShow?
     var person: Person?
+    
+    var directors: [Media.Crew] = []
+    var writers: [Media.Crew] = []
 }
 
 enum DetailAction: Equatable {
@@ -43,6 +46,8 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         switch detail {
         case .movie(let movie):
             state.movie = movie
+            state.directors = movie.credits?.crew?.filter { $0.department == "Directing" } ?? []
+            state.writers = movie.credits?.crew?.filter { $0.department == "Writing" } ?? []
         case .tv(let tv):
             state.tv = tv
         case .person(let person):

@@ -7,18 +7,37 @@
 
 import Foundation
 
-enum FileSize: String {
+enum FileSize {
     case original
-    case w440_and_h660_face
-    case w1000_and_h450_multi_faces
-    case w1920_and_h800_multi_faces
-    case w1920_and_h600_multi_faces_duotone = "w1920_and_h600_multi_faces_filter(duotone,032541,01b4e4)"
+    case face(w: Int, h: Int)
+    case multiFaces(w: Int, h: Int)
+    case best(w: Int, h: Int)
+    case duotone(w: Int, h: Int, filter: String = "032541,01b4e4")
+
+    var rawValue: String {
+        switch self {
+        case .original:
+            return "original"
+            
+        case .face(let w, let h):
+            return "w\(w)_and_h\(h)_face"
+            
+        case .multiFaces(let w, let h):
+            return "w\(w)_and_h\(h)_multi_faces"
+            
+        case .best(w: let w, h: let h):
+            return "w\(w)_and_h\(h)_bestv2"
+            
+        case let .duotone(w, h, filter):
+            return "w\(w)_and_h\(h)_multi_faces_filter(duotone,\(filter))"
+        }
+    }
 }
 
 extension String {
     static let baseURL = "https://api.themoviedb.org/3"
 
-    func imagePath(_ fileSize: FileSize = .w440_and_h660_face) -> String {
+    func imagePath(_ fileSize: FileSize = .face(w: 440, h: 660)) -> String {
         "https://image.tmdb.org/t/p/\(fileSize.rawValue)\(self)"
     }
 }
@@ -86,5 +105,16 @@ extension URL {
                 .map(URLQueryItem.init)
         )
         return url
+    }
+}
+
+extension Date {
+    
+    func string(_ localizedDateFormatFromTemplates: String..., locale identifier: String? = Locale.preferredLanguages.first) -> String {
+        let dateFormatter = DateFormatter()
+        let template = localizedDateFormatFromTemplates.reduce(into: "") { $0 += $1 }
+        dateFormatter.locale = Locale(identifier: identifier ?? "en_US")
+        dateFormatter.setLocalizedDateFormatFromTemplate(template)
+        return dateFormatter.string(from: self)
     }
 }

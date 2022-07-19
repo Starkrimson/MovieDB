@@ -19,6 +19,9 @@ struct MovieDBClient {
 let defaultDecoder: JSONDecoder = {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let formater = DateFormatter()
+    formater.dateFormat = "yyyy-MM-dd"
+    decoder.dateDecodingStrategy = .formatted(formater)
     return decoder
 }()
 
@@ -45,7 +48,10 @@ extension MovieDBClient {
         },
         details: { mediaType, id in
             let data = URLSession.shared
-                .dataTaskPublisher(for: .details(mediaType: mediaType, id: id, appendToResponse: .credits, .images))
+                .dataTaskPublisher(for: .details(
+                    mediaType: mediaType, id: id,
+                    appendToResponse: .credits, .images, .recommendations
+                ))
                 .map { $0.data }
             switch mediaType {
             case .tv:

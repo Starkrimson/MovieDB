@@ -13,7 +13,9 @@ protocol DBResponses {
     var statusMessage: String? { get }
 }
 
-struct PageResponses<Result: Codable>: Codable, DBResponses {
+struct PageResponses<Result>: Codable, Equatable, DBResponses
+where Result: Codable, Result: Equatable {
+    
     var page: Int?
     var totalResults: Int?
     var totalPages: Int?

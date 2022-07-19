@@ -19,7 +19,7 @@ extension DetailView {
                     ZStack(alignment: .leading) {
                         // MARK: - 背景图
                         KFImage(URL(
-                            string: backdropPath?.imagePath(.w1000_and_h450_multi_faces) ?? "")
+                            string: backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)) ?? "")
                         )
                         .resizable()
                         .frame(width: proxy.size.width)
