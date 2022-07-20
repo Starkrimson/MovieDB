@@ -10,15 +10,15 @@ import Foundation
 struct TVShow: Codable, Equatable, Identifiable, DBResponses {
     var adult: Bool?
     var backdropPath: String?
-    var createdBy: [CreatedBy]?
+    var createdBy: [Media.Crew]?
     var episodeRunTime: [Int]?
-    var firstAirDate: String?
+    var firstAirDate: Date?
     var genres: [Genre]?
     var homepage: String?
     var id: Int?
     var inProduction: Bool?
     var languages: [String]?
-    var lastAirDate: String?
+    var lastAirDate: Date?
     var lastEpisodeToAir: EpisodeToAir?
     var name: String?
     var networks: [Network]?
@@ -41,21 +41,19 @@ struct TVShow: Codable, Equatable, Identifiable, DBResponses {
     var voteAverage: Double?
     var voteCount: Int?
     
+    // append_to_response
+    var images: Media.Images?
+    var credits: Media.Credits?
+    var recommendations: PageResponses<Media>?
+    var keywords: PageResponses<Genre>?
+    
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?
 }
 
-struct CreatedBy: Codable, Equatable, Identifiable {
-    var creditId: String?
-    var gender: Int?
-    var id: Int?
-    var name: String?
-    var profilePath: String?
-}
-
 struct Season: Codable, Equatable, Identifiable {
-    var airDate: String?
+    var airDate: Date?
     var episodeCount: Int?
     var id: Int?
     var name: String?

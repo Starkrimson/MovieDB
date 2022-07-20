@@ -23,23 +23,26 @@ extension DetailView {
                 ScrollView(.horizontal) {
                     HStack(alignment: .top, spacing: 0) {
                         ForEach(recommendations.prefix(10)) { recommend in
-                            VStack {
-                                KFImage(URL(string: recommend.backdropPath?.imagePath(.face(w: 500, h: 282)) ?? ""))
-                                    .placeholder {
-                                        Image(systemName: "photo")
-                                            .font(.largeTitle)
+                            NavigationLink(value: recommend) {
+                                VStack {
+                                    KFImage(URL(string: recommend.backdropPath?.imagePath(.face(w: 500, h: 282)) ?? ""))
+                                        .placeholder {
+                                            Image(systemName: "photo")
+                                                .font(.largeTitle)
+                                        }
+                                        .resizable()
+                                        .background(Color.secondary)
+                                        .frame(width: 250, height: 141)
+                                        .cornerRadius(6)
+                                    HStack {
+                                        Text(recommend.displayName)
+                                        Spacer()
+                                        Text(recommend.voteAverage.map { "\($0 * 10, specifier: "%.0f")%" } ?? "")
                                     }
-                                    .resizable()
-                                    .background(Color.secondary)
-                                    .frame(width: 250, height: 141)
-                                    .cornerRadius(6)
-                                HStack {
-                                    Text(recommend.displayName)
-                                    Spacer()
-                                    Text(recommend.voteAverage.map { "\($0 * 10, specifier: "%.0f")%" } ?? "")
                                 }
+                                .padding(.leading)
                             }
-                            .padding(.leading)
+                            .buttonStyle(.plain)
                         }
                     }
                 }

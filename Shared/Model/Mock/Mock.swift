@@ -57,6 +57,7 @@ let mockMedias: [Media] = [
     .init(
         name: "Stranger Things",
         originalName: "Stranger Things",
+        backdropPath: "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg",
         id: 66732,
         posterPath: "/2mYLTEQd1oHuXA6NICPIKX7OOvo.jpg",
         voteAverage: 8
@@ -93,15 +94,12 @@ let mockMovies: [Movie] = {
     ]
 }()
 
-let mockTVShows: [TVShow] = [
-    .init(
-        id: 66732,
-        name: "Stranger Things",
-        originalName: "Stranger Things",
-        posterPath: "/2mYLTEQd1oHuXA6NICPIKX7OOvo.jpg",
-        voteAverage: 8
-    ),
-]
+let mockTVShows: [TVShow] = {
+    let url = Bundle.main.url(forResource: "TV", withExtension: "json")!
+    let data = try! Data(contentsOf: url)
+    let tv = try! defaultDecoder.decode(TVShow.self, from: data)
+    return [tv]
+}()
 
 let mockPeople: [Person] = [
     .init(

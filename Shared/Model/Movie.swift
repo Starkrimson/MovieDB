@@ -45,7 +45,8 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses {
     var images: Media.Images?
     var credits: Media.Credits?
     var recommendations: PageResponses<Media>?
-    
+    var keywords: Keywords?
+
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?
@@ -97,4 +98,8 @@ struct BelongsToCollection: Codable, Equatable, Identifiable {
     var id: Int?
     var name: String?
     var posterPath: String?
+}
+
+struct Keywords: Codable, Equatable {
+    var keywords: [Genre]?
 }

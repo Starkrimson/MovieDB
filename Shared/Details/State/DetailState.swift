@@ -59,6 +59,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
             state.writers = movie.credits?.crew?.filter { $0.department == "Writing" } ?? []
         case .tv(let tv):
             state.tv = tv
+            state.directors = tv.createdBy ?? []
         case .person(let person):
             state.person = person
         }

@@ -39,7 +39,9 @@ struct MovieDetailView: View {
                 } else {
                     
                     // MARK: - 演员表
-                    DetailView.Cast(cast: viewStore.movie?.credits?.cast ?? [])
+                    if let cast = viewStore.movie?.credits?.cast, !cast.isEmpty {
+                        DetailView.Cast(cast: cast)
+                    }
                     
                     // MARK: - 海报/剧照
                     if let images = viewStore.movie?.images {
@@ -60,17 +62,9 @@ struct MovieDetailView: View {
                     }
                     
                     // MARK: - 电影原产信息
-                    HStack {
-                        DetailView.Original(
-                            originalName: viewStore.movie?.originalTitle ?? "",
-                            status: viewStore.movie?.status,
-                            originalLanguage: viewStore.movie?.originalLanguage ?? "",
-                            budget: viewStore.movie?.budget ?? 0,
-                            revenue: viewStore.movie?.revenue ?? 0
-                        )
-                        .padding()
-                        
-                        Spacer()
+                    if let movie = viewStore.movie {
+                        DetailView.Material(detail: .movie(movie))
+                            .padding()
                     }
                 }
 

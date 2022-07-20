@@ -25,6 +25,11 @@ struct ContentView: View {
                     environment: .init(mainQueue: .main, dbClient: .live)
                 )
             )
+            .toolbar {
+                ToolbarItem {
+                    Color.clear
+                }
+            }
         }
     }
 }

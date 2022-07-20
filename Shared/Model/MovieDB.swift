@@ -22,5 +22,5 @@ enum TimeWindow: String {
 
 /// https://developers.themoviedb.org/3/getting-started/append-to-response
 enum AppendToResponse: String {
-    case images, videos, credits, similar, recommendations
+    case images, videos, credits, similar, recommendations, keywords
 }

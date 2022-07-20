@@ -73,6 +73,7 @@ final class MovieDBTests: XCTestCase {
         store.receive(.fetchDetailsDone(.success(.tv(mockTVShows[0])))) {
             $0.loading = false
             $0.tv = mockTVShows[0]
+            $0.directors = mockTVShows[0].createdBy ?? []
         }
         
         store.send(.fetchDetails(mediaType: .person)) {
