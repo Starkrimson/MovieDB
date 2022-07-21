@@ -76,16 +76,19 @@ extension DetailView {
                 }
 
                 // MARK: - 导演/编剧
-                ForEach([directors, writers], id: \.self) { list in
+                ForEach([directors, writers].filter { !$0.isEmpty }, id: \.self) { list in
                     ScrollView(.horizontal) {
                         HStack(alignment: .top) {
                             ForEach(list) { crew in
-                                ProfileView(
-                                    axis: .horizontal,
-                                    profilePath: crew.profilePath ?? "",
-                                    name: crew.name ?? "",
-                                    job: crew.job ?? ""
-                                )
+                                NavigationLink(value: crew) {
+                                    ProfileView(
+                                        axis: .horizontal,
+                                        profilePath: crew.profilePath ?? "",
+                                        name: crew.name ?? "",
+                                        job: crew.job ?? ""
+                                    )
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                     }

@@ -72,7 +72,7 @@ extension DiscoverView {
                     .font(.subheadline)
                     .padding(.leading)
             }
-            .padding(.horizontal)
+            .padding(.leading)
         }
     }
 }

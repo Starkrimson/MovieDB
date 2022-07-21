@@ -81,7 +81,7 @@ final class MovieDBTests: XCTestCase {
         }
         store.receive(.fetchDetailsDone(.success(.person(mockPeople[0])))) {
             $0.loading = false
-            $0.person = mockPeople[0]
+            $0.personState = .init(mockPeople[0])
         }
         
         store.send(.fetchDetails(mediaType: .all)) {

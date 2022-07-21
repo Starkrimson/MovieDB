@@ -17,12 +17,46 @@ struct DetailState: Equatable {
     
     var movie: Movie?
     var tv: TVShow?
-    var person: Person?
+    var personState: PersonState?
     
     var directors: [Media.Crew] = []
     var writers: [Media.Crew] = []
     
     @BindableState var selectedImageType: Media.ImageType = .poster
+}
+
+struct PersonState: Equatable {
+    var person: Person
+    
+    var knownFor: [Media.Cast]
+    var acting: [Media.Cast]
+    
+    var images: [Media.Image] {
+        person.images?.profiles ?? []
+    }
+    
+    var crew: [String: [Media.Crew]]
+        
+    init(_ person: Person) {
+        self.person = person
+        
+        knownFor = Array(person.combinedCredits?.cast?
+            .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
+            .prefix(10) ?? [])
+        
+        acting = person.combinedCredits?.cast?.sorted(by: >) ?? []
+        
+        crew = person.combinedCredits?.crew?
+            .sorted(by: >)
+            .reduce(into: [:], { result, crew in
+                if !result.keys.contains(crew.department ?? "") {
+                    result[crew.department ?? ""] = [crew]
+                } else {
+                    result[crew.department ?? ""]?.append(crew)
+                }
+            })
+        ?? [:]
+    }
 }
 
 enum DetailAction: Equatable, BindableAction {
@@ -61,7 +95,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
             state.tv = tv
             state.directors = tv.createdBy ?? []
         case .person(let person):
-            state.person = person
+            state.personState = .init(person)
         }
         return .none
         

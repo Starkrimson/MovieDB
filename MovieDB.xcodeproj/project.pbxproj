@@ -81,6 +81,8 @@
 		09F0264428867CBE009DAC1F /* MovieDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09937473287C25BE00253F1D /* MovieDBTests.swift */; };
 		09F41B6228814DED002E6F41 /* DetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F41B6128814DED002E6F41 /* DetailHeader.swift */; };
 		09F41B6328814DED002E6F41 /* DetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F41B6128814DED002E6F41 /* DetailHeader.swift */; };
+		589A2B27C98199A20C3171EA /* Person.json in Resources */ = {isa = PBXBuildFile; fileRef = 589A2322CDCFFB69C840BBCB /* Person.json */; };
+		589A2BFDD238AF49E5921E18 /* Person.json in Resources */ = {isa = PBXBuildFile; fileRef = 589A2322CDCFFB69C840BBCB /* Person.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +145,7 @@
 		09F02633288542FE009DAC1F /* DetailMaterial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMaterial.swift; sourceTree = "<group>"; };
 		09F0263A28867B1C009DAC1F /* MovieDBTests (macOS).xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MovieDBTests (macOS).xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09F41B6128814DED002E6F41 /* DetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeader.swift; sourceTree = "<group>"; };
+		589A2322CDCFFB69C840BBCB /* Person.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Person.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +302,7 @@
 				0993FBAB287E6121002227E0 /* Mock.swift */,
 				097CED422884F8C600115FC6 /* Movie.json */,
 				092E211A2887913100DDF596 /* TV.json */,
+				589A2322CDCFFB69C840BBCB /* Person.json */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -489,6 +493,7 @@
 				092E211B2887913100DDF596 /* TV.json in Resources */,
 				097CED432884F8C600115FC6 /* Movie.json in Resources */,
 				0929EDC0286D93CC007C4BFB /* Assets.xcassets in Resources */,
+				589A2B27C98199A20C3171EA /* Person.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +504,7 @@
 				092E211C2887913100DDF596 /* TV.json in Resources */,
 				097CED442884F8C600115FC6 /* Movie.json in Resources */,
 				0929EDC1286D93CC007C4BFB /* Assets.xcassets in Resources */,
+				589A2BFDD238AF49E5921E18 /* Person.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

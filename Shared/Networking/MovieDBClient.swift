@@ -50,7 +50,7 @@ extension MovieDBClient {
             let data = URLSession.shared
                 .dataTaskPublisher(for: .details(
                     mediaType: mediaType, id: id,
-                    appendToResponse: .credits, .images, .recommendations, .keywords
+                    appendToResponse: .images, .recommendations, .keywords, mediaType == .person ? .combined_credits : .credits
                 ))
                 .map { $0.data }
             switch mediaType {

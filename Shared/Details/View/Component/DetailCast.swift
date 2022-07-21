@@ -22,12 +22,15 @@ extension DetailView {
                 ScrollView(.horizontal) {
                     HStack(alignment: .top, spacing: 0) {
                         ForEach(cast.prefix(10)) { cast in
-                            ProfileView(
-                                profilePath: cast.profilePath ?? "",
-                                name: cast.name ?? "",
-                                job: cast.character ?? ""
-                            )
-                            .padding(.leading)
+                            NavigationLink(value: cast) {
+                                ProfileView(
+                                    profilePath: cast.profilePath ?? "",
+                                    name: cast.name ?? "",
+                                    job: cast.character ?? ""
+                                )
+                                .padding(.leading)
+                            }
+                            .buttonStyle(.plain)
                         }
                         
                         Button {

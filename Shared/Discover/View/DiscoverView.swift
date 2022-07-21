@@ -46,6 +46,24 @@ struct DiscoverView: View {
             .navigationDestination(for: Media.self) { media in
                 DetailView(media: media)
             }
+            .navigationDestination(for: Media.Cast.self) { cast in
+                DetailView(media: .init(
+                    name: cast.name,
+                    originalName: cast.originalName,
+                    profilePath: cast.profilePath,
+                    mediaType: .person,
+                    id: cast.id
+                ))
+            }
+            .navigationDestination(for: Media.Crew.self) { cast in
+                DetailView(media: .init(
+                    name: cast.name,
+                    originalName: cast.originalName,
+                    profilePath: cast.profilePath,
+                    mediaType: .person,
+                    id: cast.id
+                ))
+            }
         }
     }
 }

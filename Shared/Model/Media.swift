@@ -114,7 +114,7 @@ extension Media {
         var crew: [Crew]?
     }
     
-    struct Cast: Codable, Equatable, Identifiable {
+    struct Cast: Codable, Equatable, Identifiable, Hashable, Comparable {
         var adult: Bool?
         var castId: Int?
         var character: String?
@@ -127,9 +127,24 @@ extension Media {
         var originalName: String?
         var popularity: Double?
         var profilePath: String?
+        
+        // Combined Credits
+        var mediaType: MediaType?
+
+        var title: String?
+        var originalTitle: String?
+        var posterPath: String?
+        var releaseDate: String?
+                
+        var firstAirDate: String?
+        
+        static func < (lhs: Media.Cast, rhs: Media.Cast) -> Bool {
+            (lhs.releaseDate ?? lhs.firstAirDate ?? "")
+            < (rhs.releaseDate ?? rhs.firstAirDate ?? "")
+        }
     }
     
-    struct Crew: Codable, Equatable, Identifiable, Hashable {
+    struct Crew: Codable, Equatable, Identifiable, Hashable, Comparable {
         var adult: Bool?
         var creditId: String?
         var department: String?
@@ -141,5 +156,20 @@ extension Media {
         var originalName: String?
         var popularity: Double?
         var profilePath: String?
+        
+        // Combined Credits
+        var mediaType: MediaType?
+
+        var title: String?
+        var originalTitle: String?
+        var posterPath: String?
+        var releaseDate: String?
+                
+        var firstAirDate: String?
+        
+        static func < (lhs: Media.Crew, rhs: Media.Crew) -> Bool {
+            (lhs.releaseDate ?? lhs.firstAirDate ?? "")
+            < (rhs.releaseDate ?? rhs.firstAirDate ?? "")
+        }
     }
 }

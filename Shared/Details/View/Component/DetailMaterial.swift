@@ -29,8 +29,13 @@ extension DetailView {
                     ("类型", tv.type),
                     ("原始语言", tv.originalLanguage)
                 ]
-            case .person:
-                return [("", "")]
+            case .person(let person):
+                return [
+                    ("代表作", person.knownForDepartment),
+                    ("性别", person.gender?.description),
+                    ("生日", person.birthday),
+                    ("出生地", person.placeOfBirth),
+                ]
             }
         }
         

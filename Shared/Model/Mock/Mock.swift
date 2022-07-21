@@ -101,12 +101,11 @@ let mockTVShows: [TVShow] = {
     return [tv]
 }()
 
-let mockPeople: [Person] = [
-    .init(
-        id: 524,
-        name: "Natalie Portman",
-        profilePath: "/edPU5HxncLWa1YkgRPNkSd68ONG.jpg"
-    ),
-]
+let mockPeople: [Person] = {
+    let url = Bundle.main.url(forResource: "Person", withExtension: "json")!
+    let data = try! Data(contentsOf: url)
+    let person = try! defaultDecoder.decode(Person.self, from: data)
+    return [person]
+}()
 
 #endif
