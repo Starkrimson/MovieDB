@@ -19,3 +19,8 @@ enum MediaType: String, Codable {
 enum TimeWindow: String {
     case day, week
 }
+
+/// https://developers.themoviedb.org/3/getting-started/append-to-response
+enum AppendToResponse: String {
+    case images, videos, credits, similar, recommendations, keywords, combined_credits
+}

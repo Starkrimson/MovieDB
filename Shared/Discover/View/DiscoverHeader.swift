@@ -16,7 +16,7 @@ extension DiscoverView {
             ZStack {
                 // MARK: - 背景图
                 GeometryReader { proxy in
-                    KFImage(URL(string: "https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,032541,01b4e4)/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg"))
+                    KFImage(URL(string: "/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg".imagePath(.duotone(w: 1920, h: 600))))
                         .resizable()
                         .scaledToFill()
                         .frame(width: proxy.size.width, height: 240)

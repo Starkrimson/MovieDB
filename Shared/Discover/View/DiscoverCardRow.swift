@@ -19,12 +19,15 @@ extension DiscoverView {
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
                     ForEach(list) { item in
-                        DiscoverView.CardItem(
-                            posterPath: "https://www.themoviedb.org/t/p/w440_and_h660_face/\(item.posterPath ?? item.profilePath ?? "")",
-                            score: item.voteAverage,
-                            title: item.title ?? item.name ?? "",
-                            date: item.releaseDate ?? item.firstAirDate ?? ""
-                        )
+                        NavigationLink(value: item) {
+                            DiscoverView.CardItem(
+                                posterPath: item.displayPosterPath,
+                                score: item.voteAverage,
+                                title: item.displayName,
+                                date: item.releaseDate ?? item.firstAirDate ?? ""
+                            )
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -50,35 +53,9 @@ extension DiscoverView {
                     
                     // MARK: - 评分圆环
                     if let score {
-                        ZStack {
-                            Text("\(score * 10, specifier: "%.0f")%")
-                                .font(.caption)
-                                .frame(width: 34, height: 34)
-                                .background(Color.black)
-                                .foregroundColor(.white)
-                                .cornerRadius(17)
-                            
-                            Circle()
-                                .trim(from: 1 - score / 10, to: 1)
-                                .stroke(
-                                    LinearGradient(
-                                        colors: [
-                                            Color(red: 30/255.0, green: 213/255.0, blue: 169/255.0),
-                                            Color(red: 1/255.0, green: 180/255.0, blue: 228/255.0),
-                                        ],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    ),
-                                    style: .init(
-                                        lineWidth: 3, lineCap: .round, lineJoin: .round
-                                    )
-                                )
-                                .rotationEffect(.degrees(90))
-                                .rotation3DEffect(.degrees(180), axis: (1,0,0))
-                                .frame(width: 34, height: 34)
-                        }
-                        .offset(y: 17)
-                        .padding(.leading)
+                        ScoreView(score: score)
+                            .offset(y: 17)
+                            .padding(.leading)
                     }
                 }
                 
@@ -95,7 +72,7 @@ extension DiscoverView {
                     .font(.subheadline)
                     .padding(.leading)
             }
-            .padding(.horizontal)
+            .padding(.leading)
         }
     }
 }

@@ -1,0 +1,56 @@
+//
+//  DetailCollection.swift
+//  MovieDB
+//
+//  Created by allie on 18/7/2022.
+//
+
+import SwiftUI
+import Kingfisher
+
+extension DetailView {
+    
+    struct Collection: View {
+        let collection: BelongsToCollection
+        
+        var body: some View {
+            ZStack(alignment: .leading) {
+                // MARK: - 背景图
+                GeometryReader { proxy in
+                    KFImage(URL(string: collection.backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)) ?? ""))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: proxy.size.width, height: 258)
+                        .clipped()
+                }
+                
+                // MARK: - 渐变
+                LinearGradient(
+                    colors: [
+                        Color(red: 3/255.0, green: 37/255.0, blue: 65/255.0, opacity: 1),
+                        Color(red: 3/255.0, green: 37/255.0, blue: 65/255.0, opacity: 0.6),
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+                
+                // MARK: - 查看系列按钮
+                VStack(alignment: .leading) {
+                    Text("\(collection.name ?? "")之一")
+                        .font(.largeTitle)
+                    Button("查看电影系列") {
+                        
+                    }
+                }
+                .padding(.leading, 20)
+            }
+            .frame(height: 258)
+        }
+    }
+}
+
+struct DetailCollection_Previews: PreviewProvider {
+    static var previews: some View {
+        DetailView.Collection(collection: mockMovies[0].belongsToCollection ?? .init())
+    }
+}
