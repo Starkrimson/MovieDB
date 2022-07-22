@@ -11,37 +11,61 @@ import ComposableArchitecture
 import Kingfisher
 
 struct DetailView: View {
-    let media: Media
     let store: Store<DetailState, DetailAction>
     
-    init(media: Media) {
-        self.media = media
-        store = .init(
-            initialState: .init(media: media),
-            reducer: detailReducer,
-            environment: .init(mainQueue: .main, dbClient: .live)
-        )
-    }
-    
     var body: some View {
-        switch media.mediaType  {
-        case .movie:
-            MovieDetailView(store: store)
+        WithViewStore(store) { viewStore in
+            ScrollView {
+                Header(state: viewStore.state)
+                
+                switch viewStore.status {
+                case .loading: ProgressView()
+                case .error(let error):
+                    HStack {
+                        Text(error.localizedDescription)
+                    }
+                case .normal:
+                    switch viewStore.media.mediaType {
+                    case .movie:
+                        IfLetStore(
+                            store.scope(state: \.movieState),
+                            then: MovieDetailView.init
+                        )
+                        
+                    case .tv:
+                        IfLetStore(
+                            store.scope(state: \.tvState),
+                            then: TVDetailView.init
+                        )
+                        
+                    case .person:
+                        IfLetStore(
+                            store.scope(state: \.personState),
+                            then: PersonDetailView.init
+                        )
 
-        case .tv:
-            TVDetailView(store: store)
-            
-        case .person:
-            PersonDetailView(store: store)
-            
-        default:
-            EmptyView()
+                    default:
+                        EmptyView()
+                    }
+                }
+            }
+            .navigationTitle(viewStore.media.displayName)
+            .onAppear {
+                viewStore.send(.fetchDetails(mediaType: viewStore.media.mediaType ?? .all))
+            }
         }
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(media: mockMedias[0])
+        DetailView(
+            store: .init(
+                initialState: .init(media: mockMedias[2]),
+                reducer: detailReducer,
+                environment: .init(mainQueue: .main, dbClient: .previews)
+            )
+        )
+        .frame(height: 850)
     }
 }

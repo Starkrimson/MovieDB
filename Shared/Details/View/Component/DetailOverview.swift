@@ -10,7 +10,6 @@ import SwiftUI
 extension DetailView {
     
     struct Overview: View {
-        let displayName: String
         let date: Date?
         let score: Double?
         let runtime: Int?
@@ -25,16 +24,6 @@ extension DetailView {
                 HStack {
                     Spacer()
                     VStack {
-                        // MARK: - 电影名
-                        HStack(alignment: .lastTextBaseline) {
-                            Text(displayName)
-                                .font(.largeTitle)
-                            date.map { date in
-                                Text("(\(date.string("yyyy")))")
-                                    .font(.title3)
-                            }
-                        }
-                        
                         // MARK: - 评分
                         score.map { score in
                             HStack {
@@ -102,7 +91,6 @@ extension DetailView {
 struct DetailBasic_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Overview(
-            displayName: mockMedias[0].displayName,
             date: mockMovies[0].releaseDate,
             score: mockMovies[0].voteAverage,
             runtime: mockMovies[0].runtime,

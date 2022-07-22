@@ -66,12 +66,42 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
     var displayPosterPath: String {
         "\(posterPath ?? profilePath ?? "")".imagePath()
     }
+    
+    static func from(_ combinedCredit: Crew) -> Media {
+        .init(
+            name: combinedCredit.title ?? combinedCredit.name,
+            mediaType: combinedCredit.mediaType ?? .person,
+            backdropPath: combinedCredit.backdropPath,
+            id: combinedCredit.id,
+            posterPath: combinedCredit.posterPath ?? combinedCredit.profilePath
+        )
+    }
+    
+    static func from(_ combinedCredit: Cast) -> Media {
+        .init(
+            name: combinedCredit.title ?? combinedCredit.name,
+            mediaType: combinedCredit.mediaType ?? .person,
+            backdropPath: combinedCredit.backdropPath,
+            id: combinedCredit.id,
+            posterPath: combinedCredit.posterPath ?? combinedCredit.profilePath
+        )
+    }
+    
+    static func from(_ combinedCredit: CombinedCredits.Credit) -> Media {
+        .init(
+            name: combinedCredit.title,
+            mediaType: combinedCredit.mediaType ?? .person,
+            backdropPath: combinedCredit.backdropPath,
+            id: combinedCredit.id,
+            posterPath: combinedCredit.posterPath
+        )
+    }
 }
 
 extension Media {
     
     enum ImageType: CustomStringConvertible, CaseIterable, Identifiable {
-        case poster, backdrop
+        case backdrop, poster
         
         var id: Self { self }
         
@@ -134,6 +164,7 @@ extension Media {
         var title: String?
         var originalTitle: String?
         var posterPath: String?
+        var backdropPath: String?
         var releaseDate: String?
                 
         var firstAirDate: String?
@@ -163,6 +194,7 @@ extension Media {
         var title: String?
         var originalTitle: String?
         var posterPath: String?
+        var backdropPath: String?
         var releaseDate: String?
                 
         var firstAirDate: String?
@@ -170,6 +202,24 @@ extension Media {
         static func < (lhs: Media.Crew, rhs: Media.Crew) -> Bool {
             (lhs.releaseDate ?? lhs.firstAirDate ?? "")
             < (rhs.releaseDate ?? rhs.firstAirDate ?? "")
+        }
+    }
+    
+    struct CombinedCredits: Equatable, Hashable, Identifiable {
+        var department: String
+        var credits: [Credit]
+        
+        var id: String { department }
+        
+        struct Credit: Equatable, Hashable, Identifiable {
+            var year: String
+            var title: String
+            var character: String
+            
+            var mediaType: MediaType?
+            var posterPath: String?
+            var backdropPath: String?
+            var id: Int?
         }
     }
 }

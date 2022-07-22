@@ -57,38 +57,49 @@ final class MovieDBTests: XCTestCase {
             }
         }
         
-        store.send(.fetchDetails(mediaType: .movie)) {
-            $0.loading = true
-        }
+        store.send(.fetchDetails(mediaType: .movie))
         store.receive(.fetchDetailsDone(.success(.movie(mockMovies[0])))) {
-            $0.loading = false
-            $0.movie = mockMovies[0]
-            $0.directors = mockMovies[0].credits?.crew?.filter { $0.department == "Directing" } ?? []
-            $0.writers = mockMovies[0].credits?.crew?.filter { $0.department == "Writing" } ?? []
+            $0.status = .normal
+            $0.movieState = .init(mockMovies[0])
         }
         
         store.send(.fetchDetails(mediaType: .tv)) {
-            $0.loading = true
+            $0.status = .loading
         }
         store.receive(.fetchDetailsDone(.success(.tv(mockTVShows[0])))) {
-            $0.loading = false
-            $0.tv = mockTVShows[0]
-            $0.directors = mockTVShows[0].createdBy ?? []
+            $0.status = .normal
+            $0.tvState = .init(mockTVShows[0])
         }
         
         store.send(.fetchDetails(mediaType: .person)) {
-            $0.loading = true
+            $0.status = .loading
         }
         store.receive(.fetchDetailsDone(.success(.person(mockPeople[0])))) {
-            $0.loading = false
+            $0.status = .normal
             $0.personState = .init(mockPeople[0])
         }
         
         store.send(.fetchDetails(mediaType: .all)) {
-            $0.loading = true
+            $0.status = .loading
         }
         store.receive(.fetchDetailsDone(.failure(.sample("Something Went Wrong")))) {
-            $0.loading = false
+            $0.status = .error(.sample("Something Went Wrong"))
+        }
+    }
+    
+    func testSelectImageType() {
+        let store = TestStore(
+            initialState: .init(media: mockMedias[0], movieState: .init(mockMovies[0])),
+            reducer: detailReducer,
+            environment: .init(mainQueue: .immediate, dbClient: .previews)
+        )
+        
+        store.send(.selectImageType(mediaType: .movie, imageType: .poster)) {
+            $0.movieState?.selectedImageType = .poster
+        }
+        
+        store.send(.selectImageType(mediaType: .movie, imageType: .backdrop)) {
+            $0.movieState?.selectedImageType = .backdrop
         }
     }
 }

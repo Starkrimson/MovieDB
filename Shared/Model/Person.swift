@@ -34,7 +34,7 @@ struct Person: Codable, Equatable, Identifiable, DBResponses {
 
 enum Gender: Int, Codable, CustomStringConvertible {
     case unknown = -1
-    case male = 0, female = 1
+    case female = 1, male = 2
     
     
     init(from decoder: Decoder) throws {

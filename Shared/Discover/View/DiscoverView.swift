@@ -44,24 +44,31 @@ struct DiscoverView: View {
             .frame(minWidth: 320)
             .navigationTitle("Discover")
             .navigationDestination(for: Media.self) { media in
-                DetailView(media: media)
+                DetailView(store: .init(
+                    initialState: .init(media: media),
+                    reducer: detailReducer,
+                    environment: .init(mainQueue: .main, dbClient: .live)
+                ))
             }
             .navigationDestination(for: Media.Cast.self) { cast in
-                DetailView(media: .init(
-                    name: cast.name,
-                    originalName: cast.originalName,
-                    profilePath: cast.profilePath,
-                    mediaType: .person,
-                    id: cast.id
+                DetailView(store: .init(
+                    initialState: .init(media: .from(cast)),
+                    reducer: detailReducer,
+                    environment: .init(mainQueue: .main, dbClient: .live)
                 ))
             }
             .navigationDestination(for: Media.Crew.self) { cast in
-                DetailView(media: .init(
-                    name: cast.name,
-                    originalName: cast.originalName,
-                    profilePath: cast.profilePath,
-                    mediaType: .person,
-                    id: cast.id
+                DetailView(store: .init(
+                    initialState: .init(media: .from(cast)),
+                    reducer: detailReducer,
+                    environment: .init(mainQueue: .main, dbClient: .live)
+                ))
+            }
+            .navigationDestination(for: Media.CombinedCredits.Credit.self) {
+                DetailView(store: .init(
+                    initialState: .init(media: .from($0)),
+                    reducer: detailReducer,
+                    environment: .init(mainQueue: .main, dbClient: .live)
                 ))
             }
         }

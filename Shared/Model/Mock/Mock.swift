@@ -49,6 +49,7 @@ let mockMedias: [Media] = [
     .init(
         title: "雷神4：爱与雷霆",
         originalTitle: "Thor: Love and Thunder",
+        mediaType: .movie,
         backdropPath: "/p1F51Lvj3sMopG948F5HsBbl43C.jpg",
         id: 616037,
         posterPath: "/i1NAuDW8oOlV5dBbXPPTuPlt8sl.jpg",
@@ -57,6 +58,7 @@ let mockMedias: [Media] = [
     .init(
         name: "Stranger Things",
         originalName: "Stranger Things",
+        mediaType: .tv,
         backdropPath: "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg",
         id: 66732,
         posterPath: "/2mYLTEQd1oHuXA6NICPIKX7OOvo.jpg",
