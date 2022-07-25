@@ -10,7 +10,11 @@ import SwiftUI
 extension DetailView {
     
     struct Cast: View {
-        var cast: [Media.Cast]
+        var credits: Media.Credits
+        
+        var cast: [Media.Cast] {
+            credits.cast ?? []
+        }
         
         var body: some View {
             VStack(alignment: .leading) {
@@ -33,25 +37,21 @@ extension DetailView {
                             .buttonStyle(.plain)
                         }
                         
-                        Button {
-                            
-                        } label: {
+                        NavigationLink(value: credits) {
                             HStack(spacing: 3) {
                                 Text("查看更多")
                                 Image(systemName: "chevron.right.circle.fill")
                                     .foregroundColor(.accentColor)
                             }
                             .padding()
+                            .frame(height: 175)
                         }
                         .buttonStyle(.plain)
-                        .frame(height: 175)
                     }
                 }
                 
                 // MARK: - 完整演职员表
-                Button {
-                    
-                } label: {
+                NavigationLink(value: credits) {
                     Text("完整演职员表")
                         .font(.title3.weight(.medium))
                 }
@@ -64,6 +64,6 @@ extension DetailView {
 }
 struct DetailCast_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView.Cast(cast: mockMovies[0].credits?.cast ?? [])
+        DetailView.Cast(credits: mockMovies[0].credits ?? .init())
     }
 }

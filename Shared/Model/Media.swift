@@ -139,7 +139,7 @@ extension Media {
 }
 
 extension Media { 
-    struct Credits: Codable, Equatable {
+    struct Credits: Codable, Equatable, Hashable {
         var cast: [Cast]?
         var crew: [Crew]?
     }

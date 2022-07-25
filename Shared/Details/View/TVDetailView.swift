@@ -29,8 +29,8 @@ struct TVDetailView: View {
                 
                 
                 // MARK: - 演员表
-                if let cast = viewStore.tv.credits?.cast, !cast.isEmpty {
-                    DetailView.Cast(cast: cast)
+                if let credits = viewStore.tv.credits, credits.cast?.isEmpty == false {
+                    DetailView.Cast(credits: credits)
                 }
                 
                 // MARK: - 当前季

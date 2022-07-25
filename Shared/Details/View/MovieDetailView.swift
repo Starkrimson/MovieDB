@@ -28,8 +28,8 @@ struct MovieDetailView: View {
                 )
                 
                 // MARK: - 演员表
-                if let cast = viewStore.movie.credits?.cast, !cast.isEmpty {
-                    DetailView.Cast(cast: cast)
+                if let credits = viewStore.movie.credits, credits.cast?.isEmpty == false {
+                    DetailView.Cast(credits: credits)
                 }
                 
                 // MARK: - 海报/剧照

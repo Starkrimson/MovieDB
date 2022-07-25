@@ -71,6 +71,9 @@ struct DiscoverView: View {
                     environment: .init(mainQueue: .main, dbClient: .live)
                 ))
             }
+            .navigationDestination(for: Media.Credits.self) { element in
+                CreditView(credit: element)
+            }
         }
     }
 }
