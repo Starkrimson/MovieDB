@@ -102,4 +102,18 @@ final class MovieDBTests: XCTestCase {
             $0.movieState?.selectedImageType = .backdrop
         }
     }
+    
+    func testFetchMovieCollection() {
+        let store = TestStore(
+            initialState: .init(),
+            reducer: movieCollectionReducer,
+            environment: .init(mainQueue: .immediate, dbClient: .previews)
+        )
+        
+        store.send(.fetchCollection(id: 1))
+        store.receive(.fetchCollectionDone(.success(mockCollection))) {
+            $0.status = .normal
+            $0.collection = mockCollection
+        }
+    }
 }

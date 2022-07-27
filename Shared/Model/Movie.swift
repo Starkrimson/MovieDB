@@ -103,3 +103,19 @@ struct BelongsToCollection: Codable, Equatable, Identifiable {
 struct Keywords: Codable, Equatable {
     var keywords: [Genre]?
 }
+
+extension Movie {
+    
+    struct Collection: Codable, Equatable, Identifiable, DBResponses {
+        var backdropPath: String?
+        var id: Int?
+        var name: String?
+        var overview: String?
+        var parts: [Media]?
+        var posterPath: String?
+        
+        var success: Bool?
+        var statusCode: Int?
+        var statusMessage: String?
+    }
+}

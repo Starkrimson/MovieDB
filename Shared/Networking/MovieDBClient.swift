@@ -14,6 +14,7 @@ struct MovieDBClient {
     var popular: (MediaType) -> Effect<[Media], AppError>
     var trending: (MediaType, TimeWindow) -> Effect<[Media], AppError>
     var details: (MediaType, Int) -> Effect<DetailModel, AppError>
+    var collection: (Int) -> Effect<Movie.Collection, AppError>
 }
 
 let defaultDecoder: JSONDecoder = {
@@ -67,13 +68,21 @@ extension MovieDBClient {
                     .decode(type: Movie.self, decoder: defaultDecoder)
                     .tryEraseToEffect { .movie($0) }
             }
+        },
+        collection: { id in
+            URLSession.shared
+                .dataTaskPublisher(for: .collection(id: id))
+                .map { $0.data }
+                .decode(type: Movie.Collection.self, decoder: defaultDecoder)
+                .tryEraseToEffect { $0 }
         }
     )
     
     static let failing = Self(
         popular: { _ in .failing("MovieDBClient.popular") },
         trending: { _, _ in .failing("MovieDBClient.trending") },
-        details: { _, _ in .failing("MovieDBClient.details") }
+        details: { _, _ in .failing("MovieDBClient.details") },
+        collection: { _ in .failing("MovieDBClient.collection") }
     )
     
     static let previews = Self(
@@ -94,6 +103,9 @@ extension MovieDBClient {
             case .person:
                 return Effect(value: .person(mockPeople[0]))
             }
+        },
+        collection: { id in
+            Effect(value: mockCollection)
         }
     )
 }
