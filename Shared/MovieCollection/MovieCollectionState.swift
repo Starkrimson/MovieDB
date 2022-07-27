@@ -11,13 +11,14 @@ import Foundation
 import ComposableArchitecture
 
 struct MovieCollectionState: Equatable {
+    let belongsTo: BelongsToCollection
     var status: DetailState.Status = .loading
 
     var collection: Movie.Collection?
 }
 
 enum MovieCollectionAction: Equatable {
-    case fetchCollection(id: Int)
+    case fetchCollection
     case fetchCollectionDone(Result<Movie.Collection, AppError>)
 }
 
@@ -30,13 +31,13 @@ let movieCollectionReducer = Reducer<MovieCollectionState, MovieCollectionAction
     state, action, environment in
     
     switch action {
-    case .fetchCollection(id: let id):
+    case .fetchCollection:
         state.status = .loading
         return environment.dbClient
-            .collection(id)
+            .collection(state.belongsTo.id ?? 0)
             .receive(on: environment.mainQueue)
             .catchToEffect(MovieCollectionAction.fetchCollectionDone)
-            .cancellable(id: id)
+            .cancellable(id: state.belongsTo)
         
     case .fetchCollectionDone(.success(let value)):
         state.status = .normal

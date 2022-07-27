@@ -93,7 +93,7 @@ struct Genre: Codable, Equatable, Identifiable {
     var name: String?
 }
 
-struct BelongsToCollection: Codable, Equatable, Identifiable {
+struct BelongsToCollection: Codable, Equatable, Identifiable, Hashable {
     var backdropPath: String?
     var id: Int?
     var name: String?

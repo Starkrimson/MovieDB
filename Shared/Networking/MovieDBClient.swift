@@ -74,7 +74,15 @@ extension MovieDBClient {
                 .dataTaskPublisher(for: .collection(id: id))
                 .map { $0.data }
                 .decode(type: Movie.Collection.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0 }
+                .tryEraseToEffect {
+                    var collection = $0
+                    collection.parts = collection.parts?.map {
+                        var media = $0
+                        media.mediaType = .movie
+                        return media
+                    }
+                    return collection
+                }
         }
     )
     

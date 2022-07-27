@@ -7,6 +7,47 @@
 
 import SwiftUI
 
+struct MediaHeader: View {
+    let backdropPath: String?
+    let posterPath: String?
+    let name: String
+    
+    var body: some View {
+        VStack {
+            GeometryReader { proxy in
+                    ZStack(alignment: .leading) {
+                        // MARK: - 背景图
+                        URLImage(backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)))
+                        .frame(width: proxy.size.width)
+                        
+                        // MARK: - 渐变
+                        LinearGradient(
+                            colors: [
+                                Color(red: 3/255.0, green: 37/255.0, blue: 68/255.0, opacity: 0.8),
+                                Color(red: 3/255.0, green: 37/255.0, blue: 68/255.0, opacity: 0),
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+
+                        // MARK: - 海报
+                        URLImage(posterPath?.imagePath())
+                            .cornerRadius(6)
+                            .aspectRatio(440/660, contentMode: .fit)
+                            .padding(.vertical, 20)
+                            .padding(.leading, 20)
+                    }
+                }
+            .aspectRatio(1000/450, contentMode: .fill)
+            
+            // MARK: - 电影名
+            Text(name)
+                .font(.largeTitle)
+                .padding()
+        }
+    }
+}
+
 extension DetailView {
     
     struct Header: View {
@@ -15,38 +56,11 @@ extension DetailView {
         var body: some View {
             switch state.media.mediaType {
             case .movie, .tv:
-                VStack {
-                    GeometryReader { proxy in
-                            ZStack(alignment: .leading) {
-                                // MARK: - 背景图
-                                URLImage(state.media.backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)))
-                                .frame(width: proxy.size.width)
-                                
-                                // MARK: - 渐变
-                                LinearGradient(
-                                    colors: [
-                                        Color(red: 3/255.0, green: 37/255.0, blue: 68/255.0, opacity: 0.8),
-                                        Color(red: 3/255.0, green: 37/255.0, blue: 68/255.0, opacity: 0),
-                                    ],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-
-                                // MARK: - 海报
-                                URLImage(state.media.posterPath?.imagePath())
-                                    .cornerRadius(6)
-                                    .aspectRatio(440/660, contentMode: .fit)
-                                    .padding(.vertical, 20)
-                                    .padding(.leading, 20)
-                            }
-                        }
-                    .aspectRatio(1000/450, contentMode: .fill)
-                    
-                    // MARK: - 电影名
-                    Text(state.media.displayName)
-                        .font(.largeTitle)
-                        .padding()
-                }
+                MediaHeader(
+                    backdropPath: state.media.backdropPath,
+                    posterPath: state.media.posterPath,
+                    name: state.media.displayName
+                )
                 
             default :
                 HStack(alignment: .top, spacing: 0) {

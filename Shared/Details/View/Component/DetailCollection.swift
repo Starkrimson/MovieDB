@@ -36,8 +36,9 @@ extension DetailView {
                 VStack(alignment: .leading) {
                     Text("\(collection.name ?? "")之一")
                         .font(.largeTitle)
-                    Button("查看电影系列") {
-                        
+                    
+                    NavigationLink(value: collection) {
+                        Text("查看电影系列")
                     }
                 }
                 .padding(.leading, 20)
