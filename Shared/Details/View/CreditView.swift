@@ -13,10 +13,6 @@ struct CreditView: View {
     
     private let crew: [(String, [Media.Crew])]
     
-    #if !os(macOS)
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    #endif
-    
     init(credit: Media.Credits) {
         self.credit = credit
             
@@ -73,41 +69,19 @@ struct CreditView: View {
             }
         }
     }
-    
-    var regularBody: some View {
-        HStack(alignment: .top) {
-            acting
-                .frame(width: 240)
-
-            member
-                .frame(width: 240)
-
-            Spacer()
-        }
-        .padding()
-    }
-    
+        
     var body: some View {
         ScrollView {
-            #if !os(macOS)
-            if horizontalSizeClass == .compact {
-                Group {
-                    HStack {
-                        acting
-                        Spacer()
-                    }
-                    HStack {
-                        member
-                        Spacer()
-                    }
+            HStack {
+                FlowLayout()() {
+                    acting
+                        .frame(width: 240)
+                    member
+                        .frame(width: 240)
                 }
-                .padding()
-            } else {
-                regularBody
+                
+                Spacer(minLength: 0)
             }
-            #else
-            regularBody
-            #endif
         }
         .navigationTitle("完整演职员表")
     }
@@ -116,5 +90,6 @@ struct CreditView: View {
 struct CreditView_Previews: PreviewProvider {
     static var previews: some View {
         CreditView(credit: mockMovies[0].credits ?? .init())
+            .frame(width: 400)
     }
 }
