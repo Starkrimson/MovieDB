@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ComposableArchitecture
-import Kingfisher
 
 struct TVDetailView: View {
     let store: Store<TVState, DetailAction>

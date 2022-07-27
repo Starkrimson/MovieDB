@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct ProfileView: View {
     var axis: Axis = .vertical
@@ -18,13 +17,7 @@ struct ProfileView: View {
         if axis == .vertical {
             // MARK: - 图片名称垂直排列
             VStack(alignment: .leading) {
-                KFImage(URL(string: profilePath.imagePath(.face(w: 276, h: 350))))
-                    .placeholder {
-                        Image(systemName: "photo")
-                            .font(.largeTitle)
-                    }
-                    .resizable()
-                    .background(Color.secondary)
+                URLImage(profilePath.imagePath(.face(w: 276, h: 350)))
                     .frame(width: 138, height: 175)
                     .cornerRadius(4)
                 Text(name)
@@ -38,12 +31,7 @@ struct ProfileView: View {
         } else {
             // MARK: - 图片名称水平排列
             HStack {
-                KFImage(URL(string: profilePath.imagePath(.face(w: 132, h: 132))))
-                    .placeholder {
-                        Image(systemName: "photo")
-                    }
-                    .resizable()
-                    .background(Color.secondary)
+                URLImage(profilePath.imagePath(.face(w: 132, h: 132)))
                     .frame(width: 66, height: 66)
                     .cornerRadius(4)
                 VStack(alignment: .leading) {

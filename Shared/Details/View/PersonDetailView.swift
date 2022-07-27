@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ComposableArchitecture
-import Kingfisher
 
 struct PersonDetailView: View {
     let store: Store<PersonState, DetailAction>

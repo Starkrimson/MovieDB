@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 extension DetailView {
     
@@ -20,10 +19,7 @@ extension DetailView {
                     GeometryReader { proxy in
                             ZStack(alignment: .leading) {
                                 // MARK: - 背景图
-                                KFImage(URL(
-                                    string: state.media.backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)) ?? "")
-                                )
-                                .resizable()
+                                URLImage(state.media.backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)))
                                 .frame(width: proxy.size.width)
                                 
                                 // MARK: - 渐变
@@ -37,8 +33,7 @@ extension DetailView {
                                 )
 
                                 // MARK: - 海报
-                                KFImage(URL(string: state.media.posterPath?.imagePath() ?? ""))
-                                    .resizable()
+                                URLImage(state.media.posterPath?.imagePath())
                                     .cornerRadius(6)
                                     .aspectRatio(440/660, contentMode: .fit)
                                     .padding(.vertical, 20)
@@ -56,13 +51,7 @@ extension DetailView {
             default :
                 HStack(alignment: .top, spacing: 0) {
                     // MARK: - 人像
-                    KFImage(URL(string: state.media.profilePath?.imagePath(.face(w: 276, h: 350)) ?? ""))
-                        .placeholder {
-                            Image(systemName: "photo")
-                                .font(.largeTitle)
-                        }
-                        .resizable()
-                        .background(Color.secondary)
+                    URLImage(state.media.profilePath?.imagePath(.face(w: 276, h: 350)))
                         .frame(width: 157, height: 200)
                         .cornerRadius(4)
                     

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 extension DetailView {
 
@@ -25,13 +24,7 @@ extension DetailView {
                         ForEach(recommendations.prefix(10)) { recommend in
                             NavigationLink(value: recommend) {
                                 VStack {
-                                    KFImage(URL(string: recommend.backdropPath?.imagePath(.face(w: 500, h: 282)) ?? ""))
-                                        .placeholder {
-                                            Image(systemName: "photo")
-                                                .font(.largeTitle)
-                                        }
-                                        .resizable()
-                                        .background(Color.secondary)
+                                    URLImage(recommend.backdropPath?.imagePath(.face(w: 500, h: 282)))
                                         .frame(width: 250, height: 141)
                                         .cornerRadius(6)
                                     HStack {

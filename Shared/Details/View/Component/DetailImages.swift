@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 extension DetailView {
     
@@ -38,22 +37,16 @@ extension DetailView {
                             ? images.posters?.prefix(10) ?? []
                             : images.backdrops?.prefix(10) ?? []
                         ) { poster in
-                            KFImage(URL(string: poster.filePath?.imagePath(
+                            URLImage(poster.filePath?.imagePath(
                                 selectedImageType == .poster
                                 ? .best(w: 188, h: 282)
                                 : .face(w: 500, h: 282)
-                            ) ?? ""))
-                            .placeholder {
-                                    Image(systemName: "photo")
-                                        .font(.title)
-                                }
-                                .resizable()
-                                .background(Color.secondary)
-                                .frame(
-                                    width: selectedImageType == .poster ? 94 : 250,
-                                    height: 141
-                                )
-                                .padding(.leading)
+                            ))
+                            .frame(
+                                width: selectedImageType == .poster ? 94 : 250,
+                                height: 141
+                            )
+                            .padding(.leading)
                         }
                         NavigationLink(value: images) {
                             HStack(spacing: 3) {

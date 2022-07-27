@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 import ComposableArchitecture
 
 extension DiscoverView {
@@ -46,8 +45,7 @@ extension DiscoverView {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .bottomLeading) {
                     // MARK: - 海报
-                    KFImage(URL(string: posterPath))
-                        .resizable()
+                    URLImage(posterPath)
                         .frame(width: 150, height: 225)
                         .cornerRadius(10)
                     

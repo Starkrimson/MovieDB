@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct ImageGridView: View {
     let images: Media.Images
@@ -33,12 +32,11 @@ struct ImageGridView: View {
                         : images.backdrops ?? []
                     ) { backdrop in
                         VStack {
-                            KFImage(URL(string: backdrop.filePath?.imagePath(
+                            URLImage(backdrop.filePath?.imagePath(
                                 selectedImageType == .poster
                                 ? .best(w: 188, h: 282)
                                 : .face(w: 500, h: 282)
-                            ) ?? ""))
-                            .resizable()
+                            ))
                             .aspectRatio(selectedImageType == .poster ? 188/282 : 500/282, contentMode: .fill)
                             Text("\(backdrop.width ?? 0) x \(backdrop.height ?? 0)")
                         }

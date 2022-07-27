@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 extension DiscoverView {
     struct Header: View {
@@ -16,8 +15,7 @@ extension DiscoverView {
             ZStack {
                 // MARK: - 背景图
                 GeometryReader { proxy in
-                    KFImage(URL(string: "/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg".imagePath(.duotone(w: 1920, h: 600))))
-                        .resizable()
+                    URLImage("/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg".imagePath(.duotone(w: 1920, h: 600)))
                         .scaledToFill()
                         .frame(width: proxy.size.width, height: 240)
                         .clipped()

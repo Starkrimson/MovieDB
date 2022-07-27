@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 extension DetailView {
     
@@ -17,8 +16,7 @@ extension DetailView {
             ZStack(alignment: .leading) {
                 // MARK: - 背景图
                 GeometryReader { proxy in
-                    KFImage(URL(string: collection.backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)) ?? ""))
-                        .resizable()
+                    URLImage(collection.backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)))
                         .scaledToFill()
                         .frame(width: proxy.size.width, height: 258)
                         .clipped()

@@ -59,7 +59,6 @@ struct GridLayout: Layout {
     }
 }
 
-import Kingfisher
 struct GridLayout_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
@@ -67,8 +66,7 @@ struct GridLayout_Previews: PreviewProvider {
             GridLayout(estimatedItemWidth: 320, verticalSpacing: 5, horizontalSpacing: 5).callAsFunction {
                 ForEach(mockMovies[0].images?.backdrops ?? []) { image in
                     VStack {
-                        KFImage(URL(string: image.filePath?.imagePath(.face(w: 500, h: 282)) ?? ""))
-                            .resizable()
+                        URLImage(image.filePath?.imagePath(.face(w: 500, h: 282)))
                             .aspectRatio(500/282, contentMode: .fill)
                         Text(image.filePath ?? "")
                         Text("\(image.width ?? 0) * \(image.height ?? 0)")

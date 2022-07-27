@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import ComposableArchitecture
-import Kingfisher
 
 struct DetailView: View {
     let store: Store<DetailState, DetailAction>

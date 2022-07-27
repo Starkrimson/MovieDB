@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 extension PersonDetailView {
     
@@ -16,13 +15,7 @@ extension PersonDetailView {
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
                     ForEach(profiles) { image in
-                        KFImage(URL(string: image.filePath?.imagePath(.face(w: 276, h: 350)) ?? ""))
-                            .placeholder {
-                                Image(systemName: "photo")
-                                    .font(.largeTitle)
-                            }
-                            .resizable()
-                            .background(Color.secondary)
+                        URLImage(image.filePath?.imagePath(.face(w: 276, h: 350)))
                             .frame(width: 138, height: 175)
                             .cornerRadius(4)
                             .padding(.leading)
