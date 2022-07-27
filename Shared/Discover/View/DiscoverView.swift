@@ -74,6 +74,9 @@ struct DiscoverView: View {
             .navigationDestination(for: Media.Credits.self) { element in
                 CreditView(credit: element)
             }
+            .navigationDestination(for: Media.Images.self) { element in
+                ImageGridView(images: element)
+            }
         }
     }
 }

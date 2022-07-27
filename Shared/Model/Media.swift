@@ -115,7 +115,7 @@ extension Media {
         }
     }
     
-    struct Images: Codable, Equatable {
+    struct Images: Codable, Equatable, Hashable {
         /// movie / tv
         var backdrops: [Image]?
         var logos: [Image]?
@@ -125,7 +125,7 @@ extension Media {
         var profiles: [Image]?
     }
     
-    struct Image: Codable, Equatable, Identifiable {
+    struct Image: Codable, Equatable, Identifiable, Hashable {
         var aspectRatio: Double?
         var filePath: String?
         var height: Int?

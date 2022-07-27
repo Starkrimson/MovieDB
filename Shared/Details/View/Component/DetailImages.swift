@@ -55,10 +55,7 @@ extension DetailView {
                                 )
                                 .padding(.leading)
                         }
-                        
-                        Button {
-                            
-                        } label: {
+                        NavigationLink(value: images) {
                             HStack(spacing: 3) {
                                 Text("查看更多")
                                 Image(systemName: "chevron.right.circle.fill")
@@ -70,15 +67,13 @@ extension DetailView {
                     }
                 }
                 
-                // MARK: - 完整演职员表
-                Button {
-                    
-                } label: {
+                // MARK: - 查看全部
+                NavigationLink(value: images) {
                     Text("查看全部\(selectedImageType.description)")
                         .font(.title3.weight(.medium))
+                        .padding(.horizontal)
                 }
                 .buttonStyle(.plain)
-                .padding(.horizontal)
             }
         }
     }
