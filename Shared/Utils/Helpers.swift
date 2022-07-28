@@ -96,6 +96,23 @@ extension URL {
         )
     }
     
+    /// 生成电影系列请求链接
+    /// - Parameter id: collection ID
+    /// - Returns: URL
+    static func collection(id: Int) -> URL {
+        url(
+            paths: ["collection", id],
+            queryItems: [:]
+        )
+    }
+    
+    static func season(tvID: Int, seasonNumber: Int) -> URL {
+        url(
+            paths: ["tv", tvID, "season", seasonNumber],
+            queryItems: [:]
+        )
+    }
+    
     private static func url(paths: [Any], queryItems: [String: Any]) -> URL {
         var url = URL(string: .baseURL)!
         paths.map { "\($0)" }.forEach { url.append(path: $0) }

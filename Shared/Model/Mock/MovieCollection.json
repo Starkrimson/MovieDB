@@ -1,0 +1,90 @@
+{
+    "id": 131296,
+    "name": "雷神（系列）",
+    "overview": "超级英雄电影系列，基于漫威漫画公司出版的同名漫画人物，以及漫威电影宇宙（MCU）电影系列的一部分。该系列以阿斯加德的王储托尔为核心。",
+    "poster_path": "/yw7gr7DhHHVTLlO8Se8uH17TDMA.jpg",
+    "backdrop_path": "/3KL8UNKFWgIKXzLHjwY0uwgjzYl.jpg",
+    "parts": [
+        {
+            "adult": false,
+            "backdrop_path": "/n5zyJxk4q2dh4ep95MnvKC1y0VC.jpg",
+            "genre_ids": [
+                12,
+                14,
+                28
+            ],
+            "id": 10195,
+            "original_language": "en",
+            "original_title": "Thor",
+            "overview": "勇敢善战雷神托尔，作为永恒境界阿斯加德的王位继承人，受人敬仰。然而由于一次鲁莽的行动，险此挑起一场古老的战争，因此被父亲天神奥丁流放到人间。托尔在人间认识了美丽的女科学家珍·福斯特和她的工作伙伴，在他们的帮助下，托尔找到了和自己一起被贬的雷神之锤，但此时的雷神之锤并不属于他。此间，托尔的弟弟洛基为了成为阿斯加德的王，居然联合寒冰巨人，企图在永恒境界掀起一场腥风血雨。为了维持永恒之界的法度，托尔的四位朋友也来到人间，他们决定带托尔返回永恒之境。此时，为了阻止雷神重归永恒境界，洛基派出巨人杀死托尔。丧失能力和法战的托尔为了保护无辜的人类与自己的朋友，献出了自己的生命。托尔的死打破了天神的的咒语，托尔复活并重获雷神之力战胜巨人。此时，天神生命危在旦夕，托尔必须与自己的朋友们重返永恒之界，维护那里的法度。",
+            "popularity": 514.644,
+            "poster_path": "/lrlePosrYqpkz51XKWNNXVkqR4n.jpg",
+            "release_date": "2011-04-21",
+            "title": "雷神",
+            "video": false,
+            "vote_average": 6.769,
+            "vote_count": 18502
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/uhYoytlNaq46dG81wLmHqaSuzWu.jpg",
+            "genre_ids": [
+                28,
+                12,
+                14
+            ],
+            "id": 76338,
+            "original_language": "en",
+            "original_title": "Thor: The Dark World",
+            "overview": "剧情承接《复仇者联盟》，纽约大战结束一年后，带着弟弟洛基回到仙宫的雷神索尔将面对一股远古黑暗势力的挑战——复仇心切的黑暗精灵首领马勒凯斯率领神秘而强大的种族卷土重来，意欲将全宇宙笼罩在黑暗中。面对这样一个连奥丁在内整个仙宫都束手无策的劲敌，了解他们的人只有一个——洛基。不得不向洛基寻求帮助，并与之结盟，踏上有生以来最危险的征程——这次旅途固然会令他与地球恋人简·福斯特久别重逢，但也将迫使他牺牲一切，唯此才能拯救整个宇宙。",
+            "popularity": 329.155,
+            "poster_path": "/AaP81zR8H3O3Q0VxivgVTmQFVd0.jpg",
+            "release_date": "2013-10-30",
+            "title": "雷神2：黑暗世界",
+            "video": false,
+            "vote_average": 6.574,
+            "vote_count": 15102
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg",
+            "genre_ids": [
+                28,
+                12,
+                14,
+                878
+            ],
+            "id": 284053,
+            "original_language": "en",
+            "original_title": "Thor: Ragnarok",
+            "overview": "在“索科维亚战役”两年后，索尔得知诸神黄昏的预言并希望全力阻止火焰巨人苏尔特尔毁灭阿斯加德。索尔与洛基在奇异博士的指引下找到了奥丁。奥丁向他们兄弟二人道出他们还有一位姐姐——“死亡女神”海拉。在一场战斗里雷神之锤被海拉所毁，索尔跌下彩虹桥而来到了萨卡星，成为阶下囚。失去了锤子的索尔被逼展开角斗士对决，而对手居然是自己的老战友绿巨人。索尔必须与绿巨人、洛基等人并肩战斗，才能阻止海拉和即将到来的诸神黄昏。",
+            "popularity": 334.134,
+            "poster_path": "/4jCkydi3XXL2RNbLvBavnlIb35F.jpg",
+            "release_date": "2017-10-24",
+            "title": "雷神3：诸神黄昏",
+            "video": false,
+            "vote_average": 7.604,
+            "vote_count": 17974
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/p1F51Lvj3sMopG948F5HsBbl43C.jpg",
+            "genre_ids": [
+                28,
+                12,
+                14
+            ],
+            "id": 616037,
+            "original_language": "en",
+            "original_title": "Thor: Love and Thunder",
+            "overview": "屠神者格尔几乎不朽，拥有超人的力量，耐力和抗伤能力。还能操纵黑暗并将其塑造成固态物。格尔出生在一个情况恶劣的星球上，由于神祇没有回应那些迫切需要帮助的人的祈祷，格尔认为诸神不值得任何崇拜，反之更应该遭到报应。在痛失挚爱后，格尔觉得神或许根本就不存在，但在证实世上确有神后，格尔便立誓要将他们全部铲除消灭。他也成功地屠杀了众多神祇，雷神也便顺其自然地成为了他的攻击目标。",
+            "popularity": 12281.011,
+            "poster_path": "/i1NAuDW8oOlV5dBbXPPTuPlt8sl.jpg",
+            "release_date": "2022-07-06",
+            "title": "雷神4：爱与雷霆",
+            "video": false,
+            "vote_average": 6.686,
+            "vote_count": 1356
+        }
+    ]
+}

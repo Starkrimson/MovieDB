@@ -104,7 +104,37 @@
       "name": "第 1 季",
       "overview": "印第安纳州的霍金斯正在发生一些怪事，一名男孩突然失踪，拥有超自然能力的女孩意外出现。",
       "poster_path": "/wW4p9vdo1traBlUUPomaVObX5sN.jpg",
-      "season_number": 1
+      "season_number": 1,
+      "episodes": [
+        {
+          "air_date": "2016-07-15",
+          "episode_number": 1,
+          "id": 1198665,
+          "name": "威尔·拜尔斯失踪",
+          "overview": "小男孩威尔在从朋友家回家的路上，看到了可怕的事情。附近的一座政府实验室隐藏着阴暗的秘密。",
+          "production_code": "tt6020684",
+          "runtime": 49,
+          "season_number": 1,
+          "show_id": 66732,
+          "still_path": "/AdwF2jXvhdODr6gUZ61bHKRkz09.jpg",
+          "vote_average": 8.312,
+          "vote_count": 545
+        },
+        {
+          "air_date": "2016-07-15",
+          "episode_number": 2,
+          "id": 1203677,
+          "name": "梅普尔街上的怪人",
+          "overview": "卢卡斯、迈克和达斯汀试着和他们在森林里发现的女孩交流。乔伊斯忧心忡忡，霍珀问她那个让人不安的电话是怎么回事。",
+          "production_code": "",
+          "runtime": 56,
+          "season_number": 1,
+          "show_id": 66732,
+          "still_path": "/8iA56ugQyHZmX81wSsNqwXjCE6F.jpg",
+          "vote_average": 8.241,
+          "vote_count": 203
+      }
+      ]
     },
     {
       "air_date": "2017-10-27",

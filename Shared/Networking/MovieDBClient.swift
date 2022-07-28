@@ -14,6 +14,9 @@ struct MovieDBClient {
     var popular: (MediaType) -> Effect<[Media], AppError>
     var trending: (MediaType, TimeWindow) -> Effect<[Media], AppError>
     var details: (MediaType, Int) -> Effect<DetailModel, AppError>
+    var collection: (Int) -> Effect<Movie.Collection, AppError>
+    /// (tvID, seasonNumber)
+    var season: (Int, Int) -> Effect<Season, AppError>
 }
 
 let defaultDecoder: JSONDecoder = {
@@ -67,13 +70,37 @@ extension MovieDBClient {
                     .decode(type: Movie.self, decoder: defaultDecoder)
                     .tryEraseToEffect { .movie($0) }
             }
+        },
+        collection: { id in
+            URLSession.shared
+                .dataTaskPublisher(for: .collection(id: id))
+                .map { $0.data }
+                .decode(type: Movie.Collection.self, decoder: defaultDecoder)
+                .tryEraseToEffect {
+                    var collection = $0
+                    collection.parts = collection.parts?.map {
+                        var media = $0
+                        media.mediaType = .movie
+                        return media
+                    }
+                    return collection
+                }
+        },
+        season: { tvID, seasonNumber in
+            URLSession.shared
+                .dataTaskPublisher(for: .season(tvID: tvID, seasonNumber: seasonNumber))
+                .map { $0.data }
+                .decode(type: Season.self, decoder: defaultDecoder)
+                .tryEraseToEffect { $0 }
         }
     )
     
     static let failing = Self(
         popular: { _ in .failing("MovieDBClient.popular") },
         trending: { _, _ in .failing("MovieDBClient.trending") },
-        details: { _, _ in .failing("MovieDBClient.details") }
+        details: { _, _ in .failing("MovieDBClient.details") },
+        collection: { _ in .failing("MovieDBClient.collection") },
+        season: { _, _ in .failing("MovieDBClient.season") }
     )
     
     static let previews = Self(
@@ -94,7 +121,11 @@ extension MovieDBClient {
             case .person:
                 return Effect(value: .person(mockPeople[0]))
             }
-        }
+        },
+        collection: { id in
+            Effect(value: mockCollection)
+        },
+        season: { _, _ in Effect(value: mockTVShows[0].seasons![0]) }
     )
 }
 

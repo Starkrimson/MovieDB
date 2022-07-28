@@ -18,8 +18,8 @@ struct DiscoverView: View {
         WithViewStore(store) { viewStore in
             ScrollView {
                 Header(keyword: $keyword)
-                if let error = viewStore.error?.localizedDescription {
-                    Label(error, systemImage: "exclamationmark.circle")
+                if let error = viewStore.error {
+                    ErrorTips(error: error)
                 }
                 SectionTitle(
                     title: "热门",
@@ -75,6 +75,25 @@ struct DiscoverView: View {
             }
             .navigationDestination(for: Media.Images.self) { element in
                 ImageGridView(images: element)
+            }
+            .navigationDestination(for: BelongsToCollection.self) { element in
+                MovieCollectionView(store: .init(
+                    initialState: .init(belongsTo: element),
+                    reducer: movieCollectionReducer,
+                    environment: .init(mainQueue: .main, dbClient: .live)
+                ))
+            }
+            .navigation { destination in
+                switch destination {
+                case .seasonList(let showName, let tvID, let seasons):
+                    SeasonList(showName: showName, tvID: tvID, seasons: seasons)
+                case .episodeList(showName: let showName, tvID: let tvID, seasonNumber: let seasonNumber):
+                    EpisodeList(store: .init(
+                        initialState: .init(tvID: tvID, seasonNumber: seasonNumber, showName: showName),
+                        reducer: seasonReducer,
+                        environment: .init(mainQueue: .main, dbClient: .live)
+                    ))
+                }
             }
         }
     }

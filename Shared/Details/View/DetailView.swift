@@ -20,9 +20,7 @@ struct DetailView: View {
                 switch viewStore.status {
                 case .loading: ProgressView()
                 case .error(let error):
-                    HStack {
-                        Text(error.localizedDescription)
-                    }
+                    ErrorTips(error: error)
                 case .normal:
                     switch viewStore.media.mediaType {
                     case .movie:

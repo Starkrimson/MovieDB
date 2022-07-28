@@ -96,6 +96,12 @@ let mockMovies: [Movie] = {
     ]
 }()
 
+let mockCollection: Movie.Collection = {
+    let url = Bundle.main.url(forResource: "MovieCollection", withExtension: "json")!
+    let data = try! Data(contentsOf: url)
+    return try! defaultDecoder.decode(Movie.Collection.self, from: data)
+}()
+
 let mockTVShows: [TVShow] = {
     let url = Bundle.main.url(forResource: "TV", withExtension: "json")!
     let data = try! Data(contentsOf: url)
