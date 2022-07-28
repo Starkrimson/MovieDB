@@ -83,6 +83,12 @@ struct DiscoverView: View {
                     environment: .init(mainQueue: .main, dbClient: .live)
                 ))
             }
+            .navigation { destination in
+                switch destination {
+                case .seasonList(let showName, let seasons):
+                    SeasonList(showName: showName, seasons: seasons)
+                }
+            }
         }
     }
 }

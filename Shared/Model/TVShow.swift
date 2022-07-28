@@ -52,7 +52,7 @@ struct TVShow: Codable, Equatable, Identifiable, DBResponses {
     var statusMessage: String?
 }
 
-struct Season: Codable, Equatable, Identifiable {
+struct Season: Codable, Equatable, Identifiable, Hashable {
     var airDate: Date?
     var episodeCount: Int?
     var id: Int?

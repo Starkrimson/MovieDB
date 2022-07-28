@@ -26,29 +26,17 @@ struct TVDetailView: View {
                     writers: []
                 )
                 
-                
                 // MARK: - 演员表
                 if let credits = viewStore.tv.credits, credits.cast?.isEmpty == false {
                     DetailView.Cast(credits: credits)
                 }
                 
                 // MARK: - 当前季
-                if let lastSeason = viewStore.tv.seasons?.last {
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack {
-                            Text("当前季")
-                                .font(.title2.weight(.medium))
-                            Text("\(lastSeason.name ?? "")")
-                            Spacer()
-                        }
-                        Text("\(lastSeason.airDate?.string("yyyy") ?? "") | \(lastSeason.episodeCount ?? 0)集")
-                            .padding(.top, 3)
-                        lastSeason.overview.map { overview in
-                            Text(overview)
-                                .padding(.top, 6)
-                        }
-                    }
-                    .padding()
+                if let seasons = viewStore.tv.seasons, !seasons.isEmpty {
+                    DetailView.Seasons(
+                        showName: viewStore.tv.name ?? "",
+                        seasons: seasons
+                    )
                 }
                 
                 // MARK: - 海报/剧照
