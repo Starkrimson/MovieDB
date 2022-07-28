@@ -85,8 +85,14 @@ struct DiscoverView: View {
             }
             .navigation { destination in
                 switch destination {
-                case .seasonList(let showName, let seasons):
-                    SeasonList(showName: showName, seasons: seasons)
+                case .seasonList(let showName, let tvID, let seasons):
+                    SeasonList(showName: showName, tvID: tvID, seasons: seasons)
+                case .episodeList(showName: let showName, tvID: let tvID, seasonNumber: let seasonNumber):
+                    EpisodeList(store: .init(
+                        initialState: .init(tvID: tvID, seasonNumber: seasonNumber, showName: showName),
+                        reducer: seasonReducer,
+                        environment: .init(mainQueue: .main, dbClient: .live)
+                    ))
                 }
             }
         }

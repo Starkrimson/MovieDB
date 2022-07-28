@@ -35,6 +35,7 @@ struct TVDetailView: View {
                 if let seasons = viewStore.tv.seasons, !seasons.isEmpty {
                     DetailView.Seasons(
                         showName: viewStore.tv.name ?? "",
+                        tvID: viewStore.tv.id ?? 0,
                         seasons: seasons
                     )
                 }

@@ -9,19 +9,27 @@ import SwiftUI
 
 struct SeasonList: View {
     let showName: String
+    let tvID: Int
     let seasons: [Season]
     
     var body: some View {
         ScrollView {
             ForEach(seasons) { season in
-                SeasonRow(
+                NavigationLink(destination: .episodeList(
                     showName: showName,
-                    seasonName: season.name ?? "",
-                    profilePath: season.posterPath ?? "",
-                    airDate: season.airDate ?? .init(),
-                    episodeCount: season.episodeCount ?? 0,
-                    overview: season.overview ?? ""
-                )
+                    tvID: tvID,
+                    seasonNumber: season.seasonNumber ?? 0
+                )) {
+                    SeasonRow(
+                        showName: showName,
+                        seasonName: season.name ?? "",
+                        profilePath: season.posterPath ?? "",
+                        airDate: season.airDate ?? .init(),
+                        episodeCount: season.episodeCount ?? 0,
+                        overview: season.overview ?? ""
+                    )
+                }
+                .buttonStyle(.plain)
             }
         }
         .navigationTitle(showName)
@@ -68,7 +76,11 @@ struct SeasonRow: View {
 
 struct SeasonList_Previews: PreviewProvider {
     static var previews: some View {
-        SeasonList(showName: "Stranger Things", seasons: mockTVShows[0].seasons ?? [])
+        SeasonList(
+            showName: "Stranger Things",
+            tvID: 10,
+            seasons: mockTVShows[0].seasons ?? []
+        )
 
         SeasonRow(
             showName: "Stranger Things",

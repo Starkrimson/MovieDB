@@ -106,6 +106,13 @@ extension URL {
         )
     }
     
+    static func season(tvID: Int, seasonNumber: Int) -> URL {
+        url(
+            paths: ["tv", tvID, "season", seasonNumber],
+            queryItems: [:]
+        )
+    }
+    
     private static func url(paths: [Any], queryItems: [String: Any]) -> URL {
         var url = URL(string: .baseURL)!
         paths.map { "\($0)" }.forEach { url.append(path: $0) }

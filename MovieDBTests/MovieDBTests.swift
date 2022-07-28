@@ -105,15 +105,29 @@ final class MovieDBTests: XCTestCase {
     
     func testFetchMovieCollection() {
         let store = TestStore(
-            initialState: .init(),
+            initialState: .init(belongsTo: .init(id: 1)),
             reducer: movieCollectionReducer,
             environment: .init(mainQueue: .immediate, dbClient: .previews)
         )
         
-        store.send(.fetchCollection(id: 1))
+        store.send(.fetchCollection)
         store.receive(.fetchCollectionDone(.success(mockCollection))) {
             $0.status = .normal
             $0.collection = mockCollection
+        }
+    }
+    
+    func testFetchTVSeason() {
+        let store = TestStore(
+            initialState: .init(tvID: 1, seasonNumber: 2),
+            reducer: seasonReducer,
+            environment: .init(mainQueue: .immediate, dbClient: .previews)
+        )
+        
+        store.send(.fetchSeason)
+        store.receive(.fetchSeasonDone(.success(mockTVShows[0].seasons![0]))) {
+            $0.status = .normal
+            $0.season = mockTVShows[0].seasons![0]
         }
     }
 }

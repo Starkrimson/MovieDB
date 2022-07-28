@@ -52,7 +52,7 @@ struct TVShow: Codable, Equatable, Identifiable, DBResponses {
     var statusMessage: String?
 }
 
-struct Season: Codable, Equatable, Identifiable, Hashable {
+struct Season: Codable, Equatable, Identifiable, Hashable, DBResponses {
     var airDate: Date?
     var episodeCount: Int?
     var id: Int?
@@ -60,6 +60,27 @@ struct Season: Codable, Equatable, Identifiable, Hashable {
     var overview: String?
     var posterPath: String?
     var seasonNumber: Int?
+    
+    var episodes: [Episode]?
+    
+    var success: Bool?
+    var statusCode: Int?
+    var statusMessage: String?
+}
+
+struct Episode: Codable, Equatable, Identifiable, Hashable {
+    var airDate: String?
+    var episodeNumber: Int?
+    var id: Int?
+    var name: String?
+    var overview: String?
+    var productionCode: String?
+    var runtime: Int?
+    var seasonNumber: Int?
+    var showId: Int?
+    var stillPath: String?
+    var voteAverage: Double?
+    var voteCount: Int?
 }
 
 struct EpisodeToAir: Codable, Equatable, Identifiable {
