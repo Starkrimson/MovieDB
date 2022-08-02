@@ -10,6 +10,16 @@ import SwiftUI
 struct ScoreView: View {
     let score: Double
     
+    var color: Color {
+        if score >= 7 {
+            return .green
+        } else if score >= 4 {
+            return .yellow
+        } else {
+            return .pink
+        }
+    }
+    
     var body: some View {
         ZStack {
             // MARK: - 评分百分比
@@ -24,14 +34,7 @@ struct ScoreView: View {
             Circle()
                 .trim(from: 1 - score / 10, to: 1)
                 .stroke(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 30/255.0, green: 213/255.0, blue: 169/255.0),
-                            Color(red: 1/255.0, green: 180/255.0, blue: 228/255.0),
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ),
+                    color,
                     style: .init(
                         lineWidth: 3, lineCap: .round, lineJoin: .round
                     )
@@ -45,6 +48,10 @@ struct ScoreView: View {
 
 struct ScoreView_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreView(score: 6.6)
+        HStack {
+            ScoreView(score: 7.6)
+            ScoreView(score: 6.6)
+            ScoreView(score: 3.6)
+        }
     }
 }
