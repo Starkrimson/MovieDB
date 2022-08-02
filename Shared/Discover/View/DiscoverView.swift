@@ -43,43 +43,7 @@ struct DiscoverView: View {
             }
             .frame(minWidth: 320)
             .navigationTitle("Discover")
-            .navigationDestination(for: Media.Credits.self) { element in
-                CreditView(credit: element)
-            }
-            .navigationDestination(for: Media.Images.self) { element in
-                ImageGridView(images: element)
-            }
-            .navigationDestination(for: BelongsToCollection.self) { element in
-                MovieCollectionView(store: .init(
-                    initialState: .init(belongsTo: element),
-                    reducer: movieCollectionReducer,
-                    environment: .init(mainQueue: .main, dbClient: .live)
-                ))
-            }
-            .navigation { destination in
-                switch destination {
-                case let .mediaDetail(media, mediaType):
-                    DetailView(store: .init(
-                        initialState: .init(media: media, mediaType: mediaType ?? media.mediaType ?? .movie),
-                        reducer: detailReducer,
-                        environment: .init(mainQueue: .main, dbClient: .live)
-                    ))
-                case .seasonList(let showName, let tvID, let seasons):
-                    SeasonList(showName: showName, tvID: tvID, seasons: seasons)
-                case .episodeList(showName: let showName, tvID: let tvID, seasonNumber: let seasonNumber):
-                    EpisodeList(store: .init(
-                        initialState: .init(tvID: tvID, seasonNumber: seasonNumber, showName: showName),
-                        reducer: seasonReducer,
-                        environment: .init(mainQueue: .main, dbClient: .live)
-                    ))
-                case let .discoverMedia(mediaType, name, keywords, genres):
-                    DiscoverMediaView(store: .init(
-                        initialState: .init(mediaType: mediaType, name: name, withKeywords: keywords, withGenres: genres),
-                        reducer: discoverMediaReducer,
-                        environment: .init(mainQueue: .main, dbClient: .live)
-                    ))
-                }
-            }
+            .appDestination()
         }
     }
 }

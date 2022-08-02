@@ -17,7 +17,12 @@ extension DetailView {
         var body: some View {
             if let lastSeason = seasons.last {
                 VStack(alignment: .leading, spacing: 0) {
-                    NavigationLink(value: lastSeason) {
+                    NavigationLink(
+                        destination: .episodeList(
+                            showName: showName, tvID: tvID,
+                            seasonNumber: lastSeason.seasonNumber ?? 0
+                        )
+                    ) {
                         HStack {
                             Text("当前季")
                                 .font(.title2.weight(.medium))

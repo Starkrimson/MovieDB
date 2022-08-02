@@ -33,7 +33,7 @@ struct CreditView: View {
             Text("演员")
                 .font(.headline)
             ForEach(credit.cast ?? []) { item in
-                NavigationLink(value: item) {
+                NavigationLink(destination: .mediaDetail(media: .from(item), mediaType: .person)) {
                     ProfileView(
                         axis: .horizontal,
                         profilePath: item.profilePath ?? "",
@@ -56,7 +56,7 @@ struct CreditView: View {
                 Text(crew.0)
                     .font(.headline)
                 ForEach(crew.1) { item in
-                    NavigationLink(value: item) {
+                    NavigationLink(destination: .mediaDetail(media: .from(item), mediaType: .person)) {
                         ProfileView(
                             axis: .horizontal,
                             profilePath: item.profilePath ?? "",

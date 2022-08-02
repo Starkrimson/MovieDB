@@ -37,7 +37,7 @@ extension DetailView {
                             .buttonStyle(.plain)
                         }
                         
-                        NavigationLink(value: credits) {
+                        NavigationLink(destination: .credit(credits)) {
                             HStack(spacing: 3) {
                                 Text("查看更多")
                                 Image(systemName: "chevron.right.circle.fill")
@@ -51,7 +51,7 @@ extension DetailView {
                 }
                 
                 // MARK: - 完整演职员表
-                NavigationLink(value: credits) {
+                NavigationLink(destination: .credit(credits)) {
                     Text("完整演职员表")
                         .font(.title3.weight(.medium))
                 }

@@ -37,7 +37,7 @@ extension DetailView {
                     Text("\(collection.name ?? "")之一")
                         .font(.largeTitle)
                     
-                    NavigationLink(value: collection) {
+                    NavigationLink(destination: .movieCollection(collection)) {
                         Text("查看电影系列")
                     }
                 }

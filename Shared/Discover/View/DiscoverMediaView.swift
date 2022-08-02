@@ -16,7 +16,7 @@ struct DiscoverMediaView: View {
             ScrollView {
                 FlowLayout {
                     ForEach(viewStore.list) { item in
-                        NavigationLink(value: item) {
+                        NavigationLink(destination: .mediaDetail(media: item, mediaType: viewStore.mediaType)) {
                             DiscoverView.CardItem(
                                 posterPath: item.displayPosterPath,
                                 score: item.voteAverage,
