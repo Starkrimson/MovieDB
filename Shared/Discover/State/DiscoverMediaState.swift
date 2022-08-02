@@ -18,6 +18,8 @@ struct DiscoverMediaState: Equatable {
     var totalPages: Int = 1
     var list: [Media] = []
     
+    var status: DetailState.Status = .loading
+    
     var isLastPage: Bool { page == totalPages }
 }
 
@@ -37,6 +39,7 @@ let discoverMediaReducer = Reducer<
     state, action, environment in
     switch action {
     case .fetchMedia(let loadMore):
+        state.status = .loading
         return environment.dbClient
             .discover(state.mediaType, [
                 .page(loadMore ? state.page + 1 : 1),
@@ -50,6 +53,7 @@ let discoverMediaReducer = Reducer<
             .cancellable(id: state.page)
         
     case .fetchMediaDone(let loadMore, result: .success(let value)):
+        state.status = .normal
         state.page = value.page ?? 1
         state.totalPages = value.totalPages ?? 1
         let list = value.results ?? []
@@ -57,6 +61,7 @@ let discoverMediaReducer = Reducer<
         return .none
         
     case .fetchMediaDone(_, result: .failure(let error)):
+        state.status = .error(error)
         return .none
     }
 }

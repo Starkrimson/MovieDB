@@ -16,6 +16,7 @@ struct MovieDetailView: View {
             VStack {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
+                    mediaType: .movie,
                     date: viewStore.movie.releaseDate,
                     score: viewStore.movie.voteAverage,
                     runtime: viewStore.movie.runtime,

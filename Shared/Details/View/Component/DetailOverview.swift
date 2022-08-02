@@ -10,6 +10,7 @@ import SwiftUI
 extension DetailView {
     
     struct Overview: View {
+        let mediaType: MediaType
         let date: Date?
         let score: Double?
         let runtime: Int?
@@ -45,7 +46,7 @@ extension DetailView {
                         HStack {
                             ForEach(genres) { item in
                                 NavigationLink(destination:
-                                        .discoverMedia(mediaType: .movie, name: item.name ?? "", genres: [item.id ?? 0])
+                                        .discoverMedia(mediaType: mediaType, name: item.name ?? "", genres: [item.id ?? 0])
                                 ) {
                                     Text(item.name ?? "")
                                 }
@@ -93,6 +94,7 @@ extension DetailView {
 struct DetailBasic_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Overview(
+            mediaType: .movie,
             date: mockMovies[0].releaseDate,
             score: mockMovies[0].voteAverage,
             runtime: mockMovies[0].runtime,

@@ -16,6 +16,7 @@ struct TVDetailView: View {
             VStack {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
+                    mediaType: .tv,
                     date: viewStore.tv.firstAirDate,
                     score: viewStore.tv.voteAverage,
                     runtime: viewStore.tv.episodeRunTime?.first,

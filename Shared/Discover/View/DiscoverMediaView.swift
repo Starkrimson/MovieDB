@@ -28,7 +28,15 @@ struct DiscoverMediaView: View {
                     }
                 }
                 
-                if !viewStore.isLastPage {
+                if viewStore.status == .loading {
+                    ProgressView()
+                }
+                
+                if case let .error(error) = viewStore.status {
+                    ErrorTips(error: error)
+                }
+                
+                if !viewStore.isLastPage && viewStore.status != .loading {
                     Button("载入更多") {
                         viewStore.send(.fetchMedia(loadMore: true))
                     }
