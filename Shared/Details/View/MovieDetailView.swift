@@ -37,7 +37,7 @@ struct MovieDetailView: View {
                         selectedImageType: viewStore.binding(
                             get: \.selectedImageType,
                             send: {
-                                .selectImageType(mediaType: .movie, imageType: $0)
+                                .selectImageType(imageType: $0)
                             }
                         ),
                         images: images
@@ -68,6 +68,7 @@ struct MovieDetailView_Previews: PreviewProvider {
             Store<DetailState, DetailAction>(
                 initialState: .init(
                     media: mockMedias[0],
+                    mediaType: .movie,
                     movieState: .init(mockMovies[0])
                 ),
                 reducer: detailReducer,

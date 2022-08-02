@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-import Foundation
 import ComposableArchitecture
 
 struct MovieCollectionState: Equatable {

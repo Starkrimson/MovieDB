@@ -35,13 +35,7 @@ extension MovieDBClient {
             URLSession.shared.dataTaskPublisher(for: .popular(mediaType: mediaType))
                 .map { $0.data }
                 .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect {
-                    $0.results?.map {
-                        var media = $0
-                        media.mediaType = mediaType
-                        return media
-                    } ?? []
-                }
+                .tryEraseToEffect { $0.results ?? [] }
         },
         trending: { mediaType, timeWindow in
             URLSession.shared
@@ -77,15 +71,7 @@ extension MovieDBClient {
                 .dataTaskPublisher(for: .collection(id: id))
                 .map { $0.data }
                 .decode(type: Movie.Collection.self, decoder: defaultDecoder)
-                .tryEraseToEffect {
-                    var collection = $0
-                    collection.parts = collection.parts?.map {
-                        var media = $0
-                        media.mediaType = .movie
-                        return media
-                    }
-                    return collection
-                }
+                .tryEraseToEffect()
         },
         season: { tvID, seasonNumber in
             URLSession.shared

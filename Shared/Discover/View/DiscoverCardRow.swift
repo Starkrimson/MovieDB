@@ -11,6 +11,7 @@ import ComposableArchitecture
 extension DiscoverView {
     
     struct CardRow: View {
+        var mediaType: MediaType?
         var list: IdentifiedArrayOf<Media> = []
     
         var body: some View {
@@ -18,7 +19,7 @@ extension DiscoverView {
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
                     ForEach(list) { item in
-                        NavigationLink(value: item) {
+                        NavigationLink(destination: .mediaDetail(media: item, mediaType: mediaType)) {
                             DiscoverView.CardItem(
                                 posterPath: item.displayPosterPath,
                                 score: item.voteAverage,

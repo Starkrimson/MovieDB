@@ -26,7 +26,8 @@ struct DiscoverView: View {
                     selectedIndex: viewStore.binding(\.$popularIndex),
                     labels: ["电影", "电视播出"]
                 )
-                CardRow(list: viewStore.popularList)
+                CardRow(mediaType: viewStore.popularIndex == 0 ? .movie : .tv,
+                        list: viewStore.popularList)
                 SectionTitle(
                     title: "趋势",
                     selectedIndex: viewStore.binding(\.$trendingIndex),
@@ -42,34 +43,6 @@ struct DiscoverView: View {
             }
             .frame(minWidth: 320)
             .navigationTitle("Discover")
-            .navigationDestination(for: Media.self) { media in
-                DetailView(store: .init(
-                    initialState: .init(media: media),
-                    reducer: detailReducer,
-                    environment: .init(mainQueue: .main, dbClient: .live)
-                ))
-            }
-            .navigationDestination(for: Media.Cast.self) { cast in
-                DetailView(store: .init(
-                    initialState: .init(media: .from(cast)),
-                    reducer: detailReducer,
-                    environment: .init(mainQueue: .main, dbClient: .live)
-                ))
-            }
-            .navigationDestination(for: Media.Crew.self) { cast in
-                DetailView(store: .init(
-                    initialState: .init(media: .from(cast)),
-                    reducer: detailReducer,
-                    environment: .init(mainQueue: .main, dbClient: .live)
-                ))
-            }
-            .navigationDestination(for: Media.CombinedCredits.Credit.self) {
-                DetailView(store: .init(
-                    initialState: .init(media: .from($0)),
-                    reducer: detailReducer,
-                    environment: .init(mainQueue: .main, dbClient: .live)
-                ))
-            }
             .navigationDestination(for: Media.Credits.self) { element in
                 CreditView(credit: element)
             }
@@ -85,6 +58,12 @@ struct DiscoverView: View {
             }
             .navigation { destination in
                 switch destination {
+                case let .mediaDetail(media, mediaType):
+                    DetailView(store: .init(
+                        initialState: .init(media: media, mediaType: mediaType ?? media.mediaType ?? .movie),
+                        reducer: detailReducer,
+                        environment: .init(mainQueue: .main, dbClient: .live)
+                    ))
                 case .seasonList(let showName, let tvID, let seasons):
                     SeasonList(showName: showName, tvID: tvID, seasons: seasons)
                 case .episodeList(showName: let showName, tvID: let tvID, seasonNumber: let seasonNumber):

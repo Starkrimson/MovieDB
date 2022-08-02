@@ -92,6 +92,6 @@ extension DetailView {
 
 struct DetailHeader_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView.Header(state: .init(media: mockMedias[1]))
+        DetailView.Header(state: .init(media: mockMedias[1], mediaType: .tv))
     }
 }

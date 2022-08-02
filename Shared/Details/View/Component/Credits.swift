@@ -22,7 +22,7 @@ extension PersonDetailView {
                         ForEach(credit.credits) { item in
                             HStack {
                                 Text(item.year)
-                                NavigationLink(value: item) {
+                                NavigationLink(destination: .mediaDetail(media: .from(item), mediaType: item.mediaType)) {
                                     Text(item.title)
                                 }
                                 .buttonStyle(.plain)

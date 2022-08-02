@@ -71,7 +71,7 @@ extension DetailView {
                     ScrollView(.horizontal) {
                         HStack(alignment: .top) {
                             ForEach(list) { crew in
-                                NavigationLink(value: crew) {
+                                NavigationLink(destination: .mediaDetail(media: .from(crew), mediaType: .person)) {
                                     ProfileView(
                                         axis: .horizontal,
                                         profilePath: crew.profilePath ?? "",

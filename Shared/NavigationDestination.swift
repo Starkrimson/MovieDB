@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 enum NavigationDestination: Hashable {
+    case mediaDetail(media: Media, mediaType: MediaType?)
     case seasonList(showName: String, tvID: Int, seasons: [Season])
     case episodeList(showName: String, tvID: Int, seasonNumber: Int)
     case discoverMedia(mediaType: MediaType, name: String, keywords: [Int] = [], genres: [Int] = [])

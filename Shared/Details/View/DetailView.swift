@@ -22,7 +22,7 @@ struct DetailView: View {
                 case .error(let error):
                     ErrorTips(error: error)
                 case .normal:
-                    switch viewStore.media.mediaType {
+                    switch viewStore.mediaType {
                     case .movie:
                         IfLetStore(
                             store.scope(state: \.movieState),
@@ -48,7 +48,7 @@ struct DetailView: View {
             }
             .navigationTitle(viewStore.media.displayName)
             .onAppear {
-                viewStore.send(.fetchDetails(mediaType: viewStore.media.mediaType ?? .all))
+                viewStore.send(.fetchDetails(mediaType: viewStore.mediaType))
             }
         }
     }
@@ -58,7 +58,7 @@ struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(
             store: .init(
-                initialState: .init(media: mockMedias[2]),
+                initialState: .init(media: mockMedias[2], mediaType: .person),
                 reducer: detailReducer,
                 environment: .init(mainQueue: .main, dbClient: .previews)
             )

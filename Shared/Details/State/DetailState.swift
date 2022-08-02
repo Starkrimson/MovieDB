@@ -12,6 +12,7 @@ import ComposableArchitecture
 
 struct DetailState: Equatable {
     let media: Media
+    let mediaType: MediaType
     
     var tvState: TVState?
     var movieState: MovieState?
@@ -118,7 +119,7 @@ struct PersonState: Equatable {
 enum DetailAction: Equatable {
     case fetchDetails(mediaType: MediaType)
     case fetchDetailsDone(Result<DetailModel, AppError>)
-    case selectImageType(mediaType: MediaType, imageType: Media.ImageType)
+    case selectImageType(imageType: Media.ImageType)
 }
 
 struct DetailEnvironment {
@@ -155,10 +156,10 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         customDump(error)
         return .none
         
-    case let .selectImageType(mediaType, imageType):
-        if mediaType == .movie {
+    case let .selectImageType(imageType):
+        if state.mediaType == .movie {
             state.movieState?.selectedImageType = imageType
-        } else if mediaType == .tv {
+        } else if state.mediaType == .tv {
             state.tvState?.selectedImageType = imageType
         }
         return .none

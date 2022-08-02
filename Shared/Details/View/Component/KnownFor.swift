@@ -22,7 +22,7 @@ extension PersonDetailView {
                     ScrollView(.horizontal) {
                         HStack(spacing: 0) {
                             ForEach(knownFor) { item in
-                                NavigationLink(value: item) {
+                                NavigationLink(destination: .mediaDetail(media: .from(item), mediaType: item.mediaType)) {
                                     DiscoverView.CardItem(
                                         posterPath: item.posterPath?.imagePath() ?? "",
                                         score: nil,

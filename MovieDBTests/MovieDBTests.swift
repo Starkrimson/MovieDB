@@ -39,7 +39,7 @@ final class MovieDBTests: XCTestCase {
     
     func testFetchDetails() {
         let store = TestStore(
-            initialState: .init(media: mockMedias[0]),
+            initialState: .init(media: mockMedias[0], mediaType: .movie),
             reducer: detailReducer,
             environment: .init(mainQueue: .immediate, dbClient: .failing)
         )
@@ -89,16 +89,16 @@ final class MovieDBTests: XCTestCase {
     
     func testSelectImageType() {
         let store = TestStore(
-            initialState: .init(media: mockMedias[0], movieState: .init(mockMovies[0])),
+            initialState: .init(media: mockMedias[0], mediaType: .movie, movieState: .init(mockMovies[0])),
             reducer: detailReducer,
             environment: .init(mainQueue: .immediate, dbClient: .previews)
         )
         
-        store.send(.selectImageType(mediaType: .movie, imageType: .poster)) {
+        store.send(.selectImageType(imageType: .poster)) {
             $0.movieState?.selectedImageType = .poster
         }
         
-        store.send(.selectImageType(mediaType: .movie, imageType: .backdrop)) {
+        store.send(.selectImageType(imageType: .backdrop)) {
             $0.movieState?.selectedImageType = .backdrop
         }
     }
@@ -119,7 +119,7 @@ final class MovieDBTests: XCTestCase {
     
     func testFetchTVSeason() {
         let store = TestStore(
-            initialState: .init(tvID: 1, seasonNumber: 2),
+            initialState: .init(tvID: 1, seasonNumber: 2, showName: ""),
             reducer: seasonReducer,
             environment: .init(mainQueue: .immediate, dbClient: .previews)
         )

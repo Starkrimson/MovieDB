@@ -26,7 +26,7 @@ extension DetailView {
                 ScrollView(.horizontal) {
                     HStack(alignment: .top, spacing: 0) {
                         ForEach(cast.prefix(10)) { cast in
-                            NavigationLink(value: cast) {
+                            NavigationLink(destination: .mediaDetail(media: .from(cast), mediaType: .person)) {
                                 ProfileView(
                                     profilePath: cast.profilePath ?? "",
                                     name: cast.name ?? "",
