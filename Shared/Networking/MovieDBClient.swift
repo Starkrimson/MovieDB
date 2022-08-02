@@ -17,6 +17,7 @@ struct MovieDBClient {
     var collection: (Int) -> Effect<Movie.Collection, AppError>
     /// (tvID, seasonNumber)
     var season: (Int, Int) -> Effect<Season, AppError>
+    var discover: (MediaType, [URL.DiscoverQueryItem]) -> Effect<PageResponses<Media>, AppError>
 }
 
 let defaultDecoder: JSONDecoder = {
@@ -92,6 +93,13 @@ extension MovieDBClient {
                 .map { $0.data }
                 .decode(type: Season.self, decoder: defaultDecoder)
                 .tryEraseToEffect { $0 }
+        },
+        discover: { mediaType, queryItems in
+            URLSession.shared
+                .dataTaskPublisher(for: .discover(mediaType: mediaType, queryItems: queryItems))
+                .map(\.data)
+                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
+                .tryEraseToEffect()
         }
     )
     
@@ -100,7 +108,8 @@ extension MovieDBClient {
         trending: { _, _ in .failing("MovieDBClient.trending") },
         details: { _, _ in .failing("MovieDBClient.details") },
         collection: { _ in .failing("MovieDBClient.collection") },
-        season: { _, _ in .failing("MovieDBClient.season") }
+        season: { _, _ in .failing("MovieDBClient.season") },
+        discover: { _, _ in .failing("MovieDBClient.discover") }
     )
     
     static let previews = Self(
@@ -125,7 +134,8 @@ extension MovieDBClient {
         collection: { id in
             Effect(value: mockCollection)
         },
-        season: { _, _ in Effect(value: mockTVShows[0].seasons![0]) }
+        season: { _, _ in Effect(value: mockTVShows[0].seasons![0]) },
+        discover: { _, _ in Effect(value: .init(results: mockMedias)) }
     )
 }
 
@@ -147,5 +157,9 @@ extension Publisher {
             return AppError.networkingFailed(error)
         }
         .eraseToEffect()
+    }
+    
+    func tryEraseToEffect<T>() -> Effect<T, AppError> where Output: DBResponses {
+        tryEraseToEffect { $0 as! T }
     }
 }

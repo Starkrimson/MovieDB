@@ -11,6 +11,17 @@ enum DetailModel: Equatable {
     case movie(Movie)
     case tv(TVShow)
     case person(Person)
+    
+    var mediaType: MediaType {
+        switch self {
+        case .movie:
+            return .movie
+        case .tv:
+            return .tv
+        case .person:
+            return .person
+        }
+    }
 }
 
 struct Movie: Codable, Equatable, Identifiable, DBResponses {

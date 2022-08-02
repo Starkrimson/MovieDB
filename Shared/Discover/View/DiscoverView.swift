@@ -93,6 +93,12 @@ struct DiscoverView: View {
                         reducer: seasonReducer,
                         environment: .init(mainQueue: .main, dbClient: .live)
                     ))
+                case let .discoverMedia(mediaType, name, keywords, genres):
+                    DiscoverMediaView(store: .init(
+                        initialState: .init(mediaType: mediaType, name: name, withKeywords: keywords, withGenres: genres),
+                        reducer: discoverMediaReducer,
+                        environment: .init(mainQueue: .main, dbClient: .live)
+                    ))
                 }
             }
         }

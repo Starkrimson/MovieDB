@@ -105,11 +105,61 @@ extension URL {
             queryItems: [:]
         )
     }
-    
+
+    /// 生成剧集季 URL
+    /// - Parameters:
+    ///   - tvID: 剧集 ID
+    ///   - seasonNumber: seasonNumber
+    /// - Returns: URL
     static func season(tvID: Int, seasonNumber: Int) -> URL {
         url(
             paths: ["tv", tvID, "season", seasonNumber],
             queryItems: [:]
+        )
+    }
+    
+    enum DiscoverQueryItem: Equatable {
+        case page(Int)
+        case sortBy(String)
+        case genres([Int])
+        case keywords([Int])
+        
+        var key: String {
+            switch self {
+            case .page:
+                return "page"
+            case .sortBy:
+                return "sort_by"
+            case .genres:
+                return "with_genres"
+            case .keywords:
+                return "with_keywords"
+            }
+        }
+        
+        var value: String {
+            switch self {
+            case .page(let page):
+                return "\(page)"
+            case .sortBy(let sort):
+                return sort
+            case .genres(let ids), .keywords(let ids):
+                return ids.map(String.init).joined(separator: ",")
+            }
+        }
+    }
+    
+    /// 生成 Discover URL
+    /// - Parameters:
+    ///   - mediaType: 类型
+    ///   - queryItems: query 参数
+    /// - Returns: URL
+    static func discover(mediaType: MediaType, queryItems: [DiscoverQueryItem]) -> URL {
+        url(
+            paths: ["discover", mediaType.rawValue],
+            queryItems: queryItems.reduce(into: [:]) { result, item in
+                result[item.key] = item.value
+            }
         )
     }
     

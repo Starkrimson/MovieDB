@@ -43,9 +43,11 @@ extension DetailView {
                         
                         // MARK: - 类型
                         HStack {
-                            ForEach(genres) {
-                                Button($0.name ?? "") {
-                                    
+                            ForEach(genres) { item in
+                                NavigationLink(destination:
+                                        .discoverMedia(mediaType: .movie, name: item.name ?? "", genres: [item.id ?? 0])
+                                ) {
+                                    Text(item.name ?? "")
                                 }
                             }
                         }

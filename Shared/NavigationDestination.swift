@@ -11,6 +11,7 @@ import SwiftUI
 enum NavigationDestination: Hashable {
     case seasonList(showName: String, tvID: Int, seasons: [Season])
     case episodeList(showName: String, tvID: Int, seasonNumber: Int)
+    case discoverMedia(mediaType: MediaType, name: String, keywords: [Int] = [], genres: [Int] = [])
 }
 
 extension View {
