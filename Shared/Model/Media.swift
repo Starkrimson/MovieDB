@@ -70,20 +70,22 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
     static func from(_ combinedCredit: Crew) -> Media {
         .init(
             name: combinedCredit.title ?? combinedCredit.name,
+            profilePath: combinedCredit.profilePath,
             mediaType: combinedCredit.mediaType ?? .person,
             backdropPath: combinedCredit.backdropPath,
             id: combinedCredit.id,
-            posterPath: combinedCredit.posterPath ?? combinedCredit.profilePath
+            posterPath: combinedCredit.posterPath
         )
     }
     
     static func from(_ combinedCredit: Cast) -> Media {
         .init(
             name: combinedCredit.title ?? combinedCredit.name,
+            profilePath: combinedCredit.profilePath,
             mediaType: combinedCredit.mediaType ?? .person,
             backdropPath: combinedCredit.backdropPath,
             id: combinedCredit.id,
-            posterPath: combinedCredit.posterPath ?? combinedCredit.profilePath
+            posterPath: combinedCredit.posterPath
         )
     }
     

@@ -13,19 +13,10 @@ struct DiscoverMediaView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            ScrollView {
-                FlowLayout {
-                    ForEach(viewStore.list) { item in
-                        NavigationLink(destination: .mediaDetail(media: item, mediaType: viewStore.mediaType)) {
-                            DiscoverView.CardItem(
-                                posterPath: item.displayPosterPath,
-                                score: item.voteAverage,
-                                title: item.displayName,
-                                date: ""
-                            )
-                        }
-                        .buttonStyle(.plain)
-                    }
+            ScrollView {                
+                MediaGrid(list: viewStore.list,
+                           canLoadMore: !viewStore.isLastPage && viewStore.status != .loading) {
+                    viewStore.send(.fetchMedia(loadMore: true))
                 }
                 
                 if viewStore.status == .loading {
@@ -34,12 +25,6 @@ struct DiscoverMediaView: View {
                 
                 if case let .error(error) = viewStore.status {
                     ErrorTips(error: error)
-                }
-                
-                if !viewStore.isLastPage && viewStore.status != .loading {
-                    Button("载入更多") {
-                        viewStore.send(.fetchMedia(loadMore: true))
-                    }
                 }
             }
             .navigationTitle(viewStore.name)

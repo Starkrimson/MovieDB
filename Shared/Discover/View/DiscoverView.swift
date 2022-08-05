@@ -17,7 +17,7 @@ struct DiscoverView: View {
         WithViewStore(store) { viewStore in
             ScrollView {
                 if !viewStore.isSearchResultListHidden {
-                    ResultList(
+                    MediaGrid(
                         list: viewStore.search.list,
                         canLoadMore: !viewStore.search.isLastPage
                     ) {
@@ -65,36 +65,6 @@ struct DiscoverView: View {
     }
 }
 
-struct ResultList: View {
-    var list: IdentifiedArrayOf<Media> = []
-    var canLoadMore = false
-    var onLoadMore: ()->()
-    
-    var body: some View {
-        VStack {
-            GridLayout(estimatedItemWidth: 200) {
-                ForEach(list) { item in
-                    NavigationLink(destination: .mediaDetail(media: item)) {
-                        VStack {
-                            URLImage(item.displayPosterPath)
-                                .aspectRatio(150/225, contentMode: .fill)
-                                .cornerRadius(6)
-                            Text(item.displayName)
-                                .lineLimit(2)
-                        }
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-            if canLoadMore {
-                Button("载入更多") {
-                    onLoadMore()
-                }
-            }
-        }
-    }
-}
-
 private extension SearchFieldPlacement {
     
     static var discoverSearchPlacement: SearchFieldPlacement {
@@ -109,9 +79,7 @@ private extension SearchFieldPlacement {
 }
 
 struct DiscoverView_Previews: PreviewProvider {
-    static var previews: some View {
-        ResultList(list: .init(uniqueElements: mockMedias)) {  }
-        
+    static var previews: some View {        
         DiscoverView(
             store: .init(
                 initialState: .init(),
