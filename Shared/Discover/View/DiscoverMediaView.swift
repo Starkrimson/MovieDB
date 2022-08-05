@@ -42,7 +42,7 @@ struct DiscoverMediaView: View {
                     }
                 }
             }
-            .navigationBarTitle(viewStore.name)
+            .navigationTitle(viewStore.name)
             .onAppear {
                 viewStore.send(.fetchMedia())
             }

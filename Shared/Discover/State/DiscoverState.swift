@@ -29,6 +29,21 @@ struct DiscoverState: Equatable {
     }
     
     var error: AppError?
+    
+    var search = SearchState()
+    var isSearchResultListHidden: Bool {
+        search.query.isEmpty || search.list.isEmpty
+    }
+}
+
+struct SearchState: Equatable {
+    @BindableState var query: String = ""
+    
+    var page: Int = 1
+    var totalPages: Int = 1
+    var list: IdentifiedArrayOf<Media> = []
+    
+    var isLastPage: Bool { page >= totalPages }
 }
 
 enum DiscoverAction: Equatable, BindableAction {
@@ -41,6 +56,9 @@ enum DiscoverAction: Equatable, BindableAction {
         mediaType: MediaType,
         timeWindow: TimeWindow,
         result: Result<[Media], AppError>)
+    
+    case search(page: Int = 1)
+    case searchDone(result: Result<PageResponses<Media>, AppError>)
 }
 
 struct DiscoverEnvironment {
@@ -52,7 +70,10 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
     state, action, environment in
     
     switch action {
-    case .binding:
+    case .binding(let action):
+        if action.keyPath == \.search.$query, state.search.query.isEmpty {
+            state.search = .init()
+        }
         return .none
         
     case .fetchPopular(let kind):
@@ -105,6 +126,28 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .fetchTrendingDone:
+        return .none
+        
+    case .search(let page):
+        if state.search.query.isEmpty {
+            return .none
+        }
+        return environment.dbClient
+            .search(state.search.query, page)
+            .receive(on: environment.mainQueue)
+            .catchToEffect(DiscoverAction.searchDone(result:))
+            .cancellable(id: state.search.query)
+        
+    case .searchDone(result: .success(let value)):
+        state.search.page = value.page ?? 1
+        state.search.totalPages = value.totalPages ?? 1
+        if value.page == 1 {
+            state.search.list.removeAll()
+        }
+        state.search.list.append(contentsOf: value.results ?? [])
+        return .none
+        
+    case .searchDone(result: .failure(let error)):
         return .none
     }
 }

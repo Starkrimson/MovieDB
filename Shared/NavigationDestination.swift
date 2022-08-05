@@ -10,7 +10,7 @@ import SwiftUI
 
 enum NavigationDestination: Hashable {
     /// 详情
-    case mediaDetail(media: Media, mediaType: MediaType?)
+    case mediaDetail(media: Media, mediaType: MediaType? = nil)
     /// 电影系列
     case movieCollection(BelongsToCollection)
     /// 电视分季列表

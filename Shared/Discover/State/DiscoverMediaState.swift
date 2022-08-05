@@ -20,7 +20,7 @@ struct DiscoverMediaState: Equatable {
     
     var status: DetailState.Status = .loading
     
-    var isLastPage: Bool { page == totalPages }
+    var isLastPage: Bool { page >= totalPages }
 }
 
 enum DiscoverMediaAction: Equatable {
