@@ -23,6 +23,7 @@ struct DiscoverView: View {
                     ) {
                         viewStore.send(.search(page: viewStore.search.page + 1))
                     }
+                    .padding()
                 } else {
                     Header()
                     if let error = viewStore.error {
