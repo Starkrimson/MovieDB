@@ -85,7 +85,7 @@ struct DiscoverView_Previews: PreviewProvider {
             store: .init(
                 initialState: .init(),
                 reducer: discoverReducer,
-                environment: .init(mainQueue: .main, dbClient: .failing)
+                environment: .init(mainQueue: .main, dbClient: .previews)
             )
         )
     }

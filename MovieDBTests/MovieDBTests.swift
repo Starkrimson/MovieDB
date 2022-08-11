@@ -15,7 +15,7 @@ final class MovieDBTests: XCTestCase {
         let store = TestStore(
             initialState: .init(),
             reducer: discoverReducer,
-            environment: .init(mainQueue: .immediate, dbClient: .failing)
+            environment: .init(mainQueue: .immediate, dbClient: .previews)
         )
         
         store.environment.dbClient.popular = {
@@ -41,7 +41,7 @@ final class MovieDBTests: XCTestCase {
         let store = TestStore(
             initialState: .init(media: mockMedias[0], mediaType: .movie),
             reducer: detailReducer,
-            environment: .init(mainQueue: .immediate, dbClient: .failing)
+            environment: .init(mainQueue: .immediate, dbClient: .previews)
         )
         
         store.environment.dbClient.details = { mediaType, _ in

@@ -58,7 +58,7 @@ enum DiscoverAction: Equatable, BindableAction {
         result: Result<[Media], AppError>)
     
     case search(page: Int = 1)
-    case searchDone(result: Result<PageResponses<Media>, AppError>)
+    case searchResponse(TaskResult<PageResponses<Media>>)
 }
 
 struct DiscoverEnvironment {
@@ -129,16 +129,20 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .search(let page):
+        enum SearchID: Hashable { }
+        
         if state.search.query.isEmpty {
             return .none
         }
-        return environment.dbClient
-            .search(state.search.query, page)
-            .receive(on: environment.mainQueue)
-            .catchToEffect(DiscoverAction.searchDone(result:))
-            .cancellable(id: state.search.query)
-        
-    case .searchDone(result: .success(let value)):
+        return .task { [query = state.search.query] in
+            await .searchResponse(TaskResult<PageResponses<Media>> {
+                try await environment.dbClient.search(query, page)
+            })
+        }
+        .animation()
+        .cancellable(id: SearchID.self)
+            
+    case .searchResponse(.success(let value)):
         state.search.page = value.page ?? 1
         state.search.totalPages = value.totalPages ?? 1
         if value.page == 1 {
@@ -147,7 +151,8 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         state.search.list.append(contentsOf: value.results ?? [])
         return .none
         
-    case .searchDone(result: .failure(let error)):
+    case .searchResponse(.failure(let error)):
+        customDump(error)
         return .none
     }
 }
