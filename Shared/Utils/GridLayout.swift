@@ -17,7 +17,7 @@ struct GridLayout: Layout {
     var horizontalSpacing: CGFloat = 10
     
     private func getRects(subviews: Subviews, totalWidth: CGFloat?) -> [CGRect] {
-        guard let totalWidth else { return [] }
+        guard let totalWidth, !totalWidth.isZero, !totalWidth.isInfinite else { return [] }
 
         let columns = (totalWidth / estimatedItemWidth).rounded(.up)
         let itemWidth = ((totalWidth - (horizontalSpacing * (columns - 1))) / columns).rounded(.down)
@@ -52,7 +52,7 @@ struct GridLayout: Layout {
             let rect = rects[index]
             let view = subviews[index]
             view.place(
-                at: .init(x: rect.minX, y: rect.minY + bounds.minY),
+                at: .init(x: rect.minX + bounds.minX, y: rect.minY + bounds.minY),
                 proposal: .init(rect.size)
             )
         }

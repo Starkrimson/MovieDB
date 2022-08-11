@@ -18,6 +18,8 @@ struct MovieDBClient {
     /// (tvID, seasonNumber)
     var season: (Int, Int) -> Effect<Season, AppError>
     var discover: (MediaType, [URL.DiscoverQueryItem]) -> Effect<PageResponses<Media>, AppError>
+    /// (query, page)
+    var search: (String, Int) -> Effect<PageResponses<Media>, AppError>
 }
 
 let defaultDecoder: JSONDecoder = {
@@ -86,6 +88,13 @@ extension MovieDBClient {
                 .map(\.data)
                 .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
                 .tryEraseToEffect()
+        },
+        search: { query, page in
+            URLSession.shared
+                .dataTaskPublisher(for: .search(query: query, page: page))
+                .map(\.data)
+                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
+                .tryEraseToEffect()
         }
     )
     
@@ -95,7 +104,8 @@ extension MovieDBClient {
         details: { _, _ in .failing("MovieDBClient.details") },
         collection: { _ in .failing("MovieDBClient.collection") },
         season: { _, _ in .failing("MovieDBClient.season") },
-        discover: { _, _ in .failing("MovieDBClient.discover") }
+        discover: { _, _ in .failing("MovieDBClient.discover") },
+        search: { _, _ in .failing("MovieDBClient.search") }
     )
     
     static let previews = Self(
@@ -121,7 +131,8 @@ extension MovieDBClient {
             Effect(value: mockCollection)
         },
         season: { _, _ in Effect(value: mockTVShows[0].seasons![0]) },
-        discover: { _, _ in Effect(value: .init(results: mockMedias)) }
+        discover: { _, _ in Effect(value: .init(results: mockMedias)) },
+        search: { _, _ in Effect(value: .init(results: mockMedias)) }
     )
 }
 

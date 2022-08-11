@@ -86,6 +86,7 @@ extension URL {
     /// - Parameters:
     ///   - mediaType: 类型
     ///   - id: id
+    ///   - appendToResponse: 详情附加参数
     /// - Returns: 请求链接
     static func details(mediaType: MediaType, id: Int, appendToResponse: AppendToResponse...) -> URL {
         url(
@@ -160,6 +161,17 @@ extension URL {
             queryItems: queryItems.reduce(into: [:]) { result, item in
                 result[item.key] = item.value
             }
+        )
+    }
+    
+    /// 生成 Search URL
+    /// - Parameter query: 关键字
+    /// - Parameter page: 页数
+    /// - Returns: URL
+    static func search(query: String, page: Int) -> URL {
+        url(
+            paths: ["search", "multi"],
+            queryItems: ["query": query, "page": page]
         )
     }
     

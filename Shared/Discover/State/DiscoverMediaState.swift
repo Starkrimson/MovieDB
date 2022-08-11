@@ -16,11 +16,11 @@ struct DiscoverMediaState: Equatable {
 
     var page: Int = 1
     var totalPages: Int = 1
-    var list: [Media] = []
+    var list: IdentifiedArrayOf<Media> = []
     
     var status: DetailState.Status = .loading
     
-    var isLastPage: Bool { page == totalPages }
+    var isLastPage: Bool { page >= totalPages }
 }
 
 enum DiscoverMediaAction: Equatable {
@@ -57,7 +57,10 @@ let discoverMediaReducer = Reducer<
         state.page = value.page ?? 1
         state.totalPages = value.totalPages ?? 1
         let list = value.results ?? []
-        state.list = loadMore ? state.list + list : list
+        if !loadMore {
+            state.list.removeAll()
+        }
+        state.list.append(contentsOf: list)
         return .none
         
     case .fetchMediaDone(_, result: .failure(let error)):
