@@ -87,7 +87,6 @@
 		0929EDAF286D93CC007C4BFB /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0929EDB7286D93CC007C4BFB /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		0929EDCB286D945B007C4BFB /* Dependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Dependencies; sourceTree = "<group>"; };
-		092BDFA528A4F08E00324D7A /* MovieDB (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MovieDB (iOS).entitlements"; sourceTree = "<group>"; };
 		092E211A2887913100DDF596 /* TV.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TV.json; sourceTree = "<group>"; };
 		093936D5288A3678008C869C /* KnownFor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnownFor.swift; sourceTree = "<group>"; };
 		0948CF8F289D1A0C00EC69C3 /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
@@ -106,7 +105,7 @@
 		098C543B288530430063341E /* DetailCast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCast.swift; sourceTree = "<group>"; };
 		098C543E288531450063341E /* DetailImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImages.swift; sourceTree = "<group>"; };
 		098C5441288532C20063341E /* DetailCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollection.swift; sourceTree = "<group>"; };
-		09937471287C25BE00253F1D /* MovieDBTests (iOS).xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MovieDBTests (iOS).xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09937471287C25BE00253F1D /* MovieDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		09937473287C25BE00253F1D /* MovieDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBTests.swift; sourceTree = "<group>"; };
 		0993FBAB287E6121002227E0 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		0993FBAE287E659F002227E0 /* MovieDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDB.swift; sourceTree = "<group>"; };
@@ -164,7 +163,6 @@
 		0929ED9F286D93CA007C4BFB = {
 			isa = PBXGroup;
 			children = (
-				092BDFA528A4F08E00324D7A /* MovieDB (iOS).entitlements */,
 				0929EDCA286D945B007C4BFB /* Packages */,
 				0929EDA4286D93CA007C4BFB /* Shared */,
 				0929EDB6286D93CC007C4BFB /* macOS */,
@@ -198,7 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				0929EDAF286D93CC007C4BFB /* MovieDB.app */,
-				09937471287C25BE00253F1D /* MovieDBTests (iOS).xctest */,
+				09937471287C25BE00253F1D /* MovieDBTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -384,9 +382,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0929EDAE286D93CC007C4BFB /* MovieDB (iOS) */ = {
+		0929EDAE286D93CC007C4BFB /* MovieDB */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0929EDC4286D93CC007C4BFB /* Build configuration list for PBXNativeTarget "MovieDB (iOS)" */;
+			buildConfigurationList = 0929EDC4286D93CC007C4BFB /* Build configuration list for PBXNativeTarget "MovieDB" */;
 			buildPhases = (
 				0929EDAB286D93CC007C4BFB /* Sources */,
 				0929EDAC286D93CC007C4BFB /* Frameworks */,
@@ -396,7 +394,7 @@
 			);
 			dependencies = (
 			);
-			name = "MovieDB (iOS)";
+			name = MovieDB;
 			packageProductDependencies = (
 				0961595C286E8A080001F593 /* Dependencies */,
 			);
@@ -404,9 +402,9 @@
 			productReference = 0929EDAF286D93CC007C4BFB /* MovieDB.app */;
 			productType = "com.apple.product-type.application";
 		};
-		09937470287C25BE00253F1D /* MovieDBTests (iOS) */ = {
+		09937470287C25BE00253F1D /* MovieDBTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 09937477287C25BF00253F1D /* Build configuration list for PBXNativeTarget "MovieDBTests (iOS)" */;
+			buildConfigurationList = 09937477287C25BF00253F1D /* Build configuration list for PBXNativeTarget "MovieDBTests" */;
 			buildPhases = (
 				0993746D287C25BE00253F1D /* Sources */,
 				0993746E287C25BE00253F1D /* Frameworks */,
@@ -417,9 +415,9 @@
 			dependencies = (
 				09937476287C25BE00253F1D /* PBXTargetDependency */,
 			);
-			name = "MovieDBTests (iOS)";
+			name = MovieDBTests;
 			productName = "MovieDBTests (iOS)";
-			productReference = 09937471287C25BE00253F1D /* MovieDBTests (iOS).xctest */;
+			productReference = 09937471287C25BE00253F1D /* MovieDBTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -454,8 +452,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0929EDAE286D93CC007C4BFB /* MovieDB (iOS) */,
-				09937470287C25BE00253F1D /* MovieDBTests (iOS) */,
+				0929EDAE286D93CC007C4BFB /* MovieDB */,
+				09937470287C25BE00253F1D /* MovieDBTests */,
 			);
 		};
 /* End PBXProject section */
@@ -554,7 +552,7 @@
 /* Begin PBXTargetDependency section */
 		09937476287C25BE00253F1D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0929EDAE286D93CC007C4BFB /* MovieDB (iOS) */;
+			target = 0929EDAE286D93CC007C4BFB /* MovieDB */;
 			targetProxy = 09937475287C25BE00253F1D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -676,7 +674,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "MovieDB (iOS).entitlements";
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3S89AQP84V;
@@ -712,7 +710,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "MovieDB (iOS).entitlements";
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3S89AQP84V;
@@ -809,7 +807,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0929EDC4286D93CC007C4BFB /* Build configuration list for PBXNativeTarget "MovieDB (iOS)" */ = {
+		0929EDC4286D93CC007C4BFB /* Build configuration list for PBXNativeTarget "MovieDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0929EDC5286D93CC007C4BFB /* Debug */,
@@ -818,7 +816,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		09937477287C25BF00253F1D /* Build configuration list for PBXNativeTarget "MovieDBTests (iOS)" */ = {
+		09937477287C25BF00253F1D /* Build configuration list for PBXNativeTarget "MovieDBTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				09937478287C25BF00253F1D /* Debug */,
