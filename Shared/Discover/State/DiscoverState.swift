@@ -49,13 +49,13 @@ struct SearchState: Equatable {
 enum DiscoverAction: Equatable, BindableAction {
     case binding(BindingAction<DiscoverState>)
     case fetchPopular(MediaType)
-    case fetchPopularDone(kind: MediaType, result: Result<[Media], AppError>)
+    case fetchPopularDone(kind: MediaType, result: TaskResult<[Media]>)
     
     case fetchTrending(mediaType: MediaType = .all, timeWindow: TimeWindow)
     case fetchTrendingDone(
         mediaType: MediaType,
         timeWindow: TimeWindow,
-        result: Result<[Media], AppError>)
+        result: TaskResult<[Media]>)
     
     case search(page: Int = 1)
     case searchResponse(TaskResult<PageResponses<Media>>)
@@ -77,13 +77,12 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .fetchPopular(let kind):
-        return environment.dbClient
-            .popular(kind)
-            .receive(on: environment.mainQueue)
-            .catchToEffect {
-                DiscoverAction.fetchPopularDone(kind: kind, result: $0)
-            }
-            .cancellable(id: kind, cancelInFlight: true)
+        return .task {
+            await .fetchPopularDone(kind: kind, result: TaskResult {
+                try await environment.dbClient.popular(kind)
+            })
+        }
+        .animation()
         
     case let .fetchPopularDone(kind: .movie, result: .success(results)):
         state.popularMovies = .init(uniqueElements: results)
@@ -96,24 +95,25 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .fetchPopularDone(kind: _, result: .failure(let error)):
-        state.error = error
+        if let error = error as? AppError {
+            state.error = error
+        }
         return .none
 
     case .fetchPopularDone(kind: _, result: _):
         return .none
         
     case .fetchTrending(mediaType: let mediaType, timeWindow: let timeWindow):
-        return environment.dbClient
-            .trending(mediaType, timeWindow)
-            .receive(on: environment.mainQueue)
-            .catchToEffect {
-                DiscoverAction.fetchTrendingDone(
-                    mediaType: mediaType,
-                    timeWindow: timeWindow,
-                    result: $0
-                )
-            }
-            .cancellable(id: timeWindow)
+        return .task {
+            await .fetchTrendingDone(
+                mediaType: mediaType,
+                timeWindow: timeWindow,
+                result: TaskResult<[Media]> {
+                    try await environment.dbClient.trending(mediaType, timeWindow)
+                }
+            )
+        }
+        .animation()
         
     case let .fetchTrendingDone(mediaType: _, timeWindow: .day, result: .success(results)):
         state.dailyTrending = .init(uniqueElements: results)

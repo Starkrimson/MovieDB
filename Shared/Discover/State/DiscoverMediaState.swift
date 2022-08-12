@@ -25,7 +25,7 @@ struct DiscoverMediaState: Equatable {
 
 enum DiscoverMediaAction: Equatable {
     case fetchMedia(loadMore: Bool = false)
-    case fetchMediaDone(loadMore: Bool, result: Result<PageResponses<Media>, AppError>)
+    case fetchMediaDone(loadMore: Bool, result: TaskResult<PageResponses<Media>>)
 }
 
 struct DiscoverMediaEnvironment {
@@ -40,17 +40,17 @@ let discoverMediaReducer = Reducer<
     switch action {
     case .fetchMedia(let loadMore):
         state.status = .loading
-        return environment.dbClient
-            .discover(state.mediaType, [
-                .page(loadMore ? state.page + 1 : 1),
-                .keywords(state.withKeywords),
-                    .genres(state.withGenres)
-            ])
-            .receive(on: environment.mainQueue)
-            .catchToEffect {
-                DiscoverMediaAction.fetchMediaDone(loadMore: loadMore, result: $0)
-            }
-            .cancellable(id: state.page)
+        return .task { [state] in
+            await .fetchMediaDone(loadMore: loadMore, result: TaskResult<PageResponses<Media>> {
+                try await environment.dbClient
+                    .discover(state.mediaType, [
+                        .page(loadMore ? state.page + 1 : 1),
+                        .keywords(state.withKeywords),
+                        .genres(state.withGenres)
+                    ])
+            })
+        }
+        .animation()
         
     case .fetchMediaDone(let loadMore, result: .success(let value)):
         state.status = .normal
@@ -64,7 +64,7 @@ let discoverMediaReducer = Reducer<
         return .none
         
     case .fetchMediaDone(_, result: .failure(let error)):
-        state.status = .error(error)
+//        state.status = .error(error)
         return .none
     }
 }

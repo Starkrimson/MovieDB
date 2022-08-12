@@ -12,28 +12,24 @@ import ComposableArchitecture
 @MainActor
 final class MovieDBTests: XCTestCase {
 
-    func testFetchPopularShows() {
+    func testFetchPopularShows() async {
         let store = TestStore(
             initialState: .init(),
             reducer: discoverReducer,
             environment: .init(mainQueue: .immediate, dbClient: .previews)
         )
         
-        store.environment.dbClient.popular = {
-            Effect(value:  $0 == .movie ? mockMediaMovies : mockMediaTVShows)
-        }
-        
         // 获取热门电影
-        store.send(.fetchPopular(.movie))
+        _ = await store.send(.fetchPopular(.movie))
         // 成功接收到热门电影
-        store.receive(.fetchPopularDone(kind: .movie, result: .success(mockMediaMovies))) {
+        await store.receive(.fetchPopularDone(kind: .movie, result: .success(mockMediaMovies))) {
             $0.popularMovies = .init(uniqueElements: mockMediaMovies)
         }
         
         // 获取热门电视节目
-        store.send(.fetchPopular(.tv))
+        _ = await store.send(.fetchPopular(.tv))
         // 成功接收热门电视节目
-        store.receive(.fetchPopularDone(kind: .tv, result: .success(mockMediaTVShows))) {
+        await store.receive(.fetchPopularDone(kind: .tv, result: .success(mockMediaTVShows))) {
             $0.popularTVShows = .init(uniqueElements: mockMediaTVShows)
         }
     }
@@ -51,7 +47,7 @@ final class MovieDBTests: XCTestCase {
             $0.movieState = .init(mockMovies[0])
         }
         
-        await store.send(.fetchDetails(mediaType: .tv)) {
+        _ = await store.send(.fetchDetails(mediaType: .tv)) {
             $0.status = .loading
         }
         await store.receive(.fetchDetailsResponse(.success(.tv(mockTVShows[0])))) {
@@ -59,7 +55,7 @@ final class MovieDBTests: XCTestCase {
             $0.tvState = .init(mockTVShows[0])
         }
         
-        await store.send(.fetchDetails(mediaType: .person)) {
+        _ = await store.send(.fetchDetails(mediaType: .person)) {
             $0.status = .loading
         }
         await store.receive(.fetchDetailsResponse(.success(.person(mockPeople[0])))) {
@@ -67,7 +63,7 @@ final class MovieDBTests: XCTestCase {
             $0.personState = .init(mockPeople[0])
         }
         
-        await store.send(.fetchDetails(mediaType: .all)) {
+        _ = await store.send(.fetchDetails(mediaType: .all)) {
             $0.status = .loading
         }
         await store.receive(.fetchDetailsResponse(.failure(AppError.sample("Something Went Wrong")))) {

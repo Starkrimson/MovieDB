@@ -11,13 +11,13 @@ import Combine
 
 struct MovieDBClient {
     
-    var popular: (MediaType) -> Effect<[Media], AppError>
-    var trending: (MediaType, TimeWindow) -> Effect<[Media], AppError>
+    var popular: @Sendable (MediaType) async throws -> [Media]
+    var trending: @Sendable (MediaType, TimeWindow) async throws -> [Media]
     var details: @Sendable (MediaType, Int) async throws -> DetailModel
-    var collection: (Int) -> Effect<Movie.Collection, AppError>
+    var collection: @Sendable (Int) async throws -> Movie.Collection
     /// (tvID, seasonNumber)
-    var season: (Int, Int) -> Effect<Season, AppError>
-    var discover: (MediaType, [URL.DiscoverQueryItem]) -> Effect<PageResponses<Media>, AppError>
+    var season: @Sendable (Int, Int) async throws -> Season
+    var discover: @Sendable (MediaType, [URL.DiscoverQueryItem]) async throws -> PageResponses<Media>
     /// (query, page)
     var search: @Sendable (String, Int) async throws -> PageResponses<Media>
 }
@@ -34,17 +34,16 @@ let defaultDecoder: JSONDecoder = {
 extension MovieDBClient {
     static let live = Self(
         popular: { mediaType in
-            URLSession.shared.dataTaskPublisher(for: .popular(mediaType: mediaType))
-                .map { $0.data }
-                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0.results ?? [] }
+            let (data, _) = try await URLSession.shared
+                .data(from: .popular(mediaType: mediaType))
+            let value = try defaultDecoder.decodeResponse(PageResponses<Media>.self, from: data)
+            return value.results ?? []
         },
         trending: { mediaType, timeWindow in
-            URLSession.shared
-                .dataTaskPublisher(for: .trending(mediaType: mediaType, timeWindow: timeWindow))
-                .map { $0.data }
-                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0.results ?? [] }
+            let (data, _) = try await URLSession.shared
+                .data(from: .trending(mediaType: mediaType, timeWindow: timeWindow))
+            let value = try defaultDecoder.decodeResponse(PageResponses<Media>.self, from: data)
+            return value.results ?? []
         },
         details: { mediaType, id in
             try await Task.sleep(nanoseconds: NSEC_PER_SEC)
@@ -66,25 +65,19 @@ extension MovieDBClient {
             }
         },
         collection: { id in
-            URLSession.shared
-                .dataTaskPublisher(for: .collection(id: id))
-                .map { $0.data }
-                .decode(type: Movie.Collection.self, decoder: defaultDecoder)
-                .tryEraseToEffect()
+            let (data, _) = try await URLSession.shared
+                .data(from: .collection(id: id))
+            return try defaultDecoder.decodeResponse(Movie.Collection.self, from: data)
         },
         season: { tvID, seasonNumber in
-            URLSession.shared
-                .dataTaskPublisher(for: .season(tvID: tvID, seasonNumber: seasonNumber))
-                .map { $0.data }
-                .decode(type: Season.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0 }
+            let (data, _) = try await URLSession.shared
+                .data(from: .season(tvID: tvID, seasonNumber: seasonNumber))
+            return try defaultDecoder.decodeResponse(Season.self, from: data)
         },
         discover: { mediaType, queryItems in
-            URLSession.shared
-                .dataTaskPublisher(for: .discover(mediaType: mediaType, queryItems: queryItems))
-                .map(\.data)
-                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect()
+            let (data, _) = try await URLSession.shared
+                .data(from: .discover(mediaType: mediaType, queryItems: queryItems))
+            return try defaultDecoder.decodeResponse(PageResponses<Media>.self, from: data)
         },
         search: { query, page in
             let (data, _) = try await URLSession.shared
@@ -95,11 +88,9 @@ extension MovieDBClient {
     
     static let previews = Self(
         popular: {
-            Effect(value:  $0 == .movie ? mockMediaMovies : mockMediaTVShows)
+            $0 == .movie ? mockMediaMovies : mockMediaTVShows
         },
-        trending: { _, _ in
-            Effect(value: mockMedias)
-        },
+        trending: { _, _ in mockMedias },
         details: { mediaType, _ in
             switch mediaType {
             case .all:
@@ -112,11 +103,9 @@ extension MovieDBClient {
                 return .person(mockPeople[0])
             }
         },
-        collection: { id in
-            Effect(value: mockCollection)
-        },
-        season: { _, _ in Effect(value: mockTVShows[0].seasons![0]) },
-        discover: { _, _ in Effect(value: .init(results: mockMedias)) },
+        collection: { id in mockCollection },
+        season: { _, _ in mockTVShows[0].seasons![0] },
+        discover: { _, _ in .init(results: mockMedias) },
         search: { _, _ in .init(results: mockMedias) }
     )
 }
