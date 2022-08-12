@@ -13,7 +13,7 @@ struct MovieDBClient {
     
     var popular: (MediaType) -> Effect<[Media], AppError>
     var trending: (MediaType, TimeWindow) -> Effect<[Media], AppError>
-    var details: (MediaType, Int) -> Effect<DetailModel, AppError>
+    var details: @Sendable (MediaType, Int) async throws -> DetailModel
     var collection: (Int) -> Effect<Movie.Collection, AppError>
     /// (tvID, seasonNumber)
     var season: (Int, Int) -> Effect<Season, AppError>
@@ -47,25 +47,22 @@ extension MovieDBClient {
                 .tryEraseToEffect { $0.results ?? [] }
         },
         details: { mediaType, id in
-            let data = URLSession.shared
-                .dataTaskPublisher(for: .details(
+            try await Task.sleep(nanoseconds: NSEC_PER_SEC)
+            let (data, _) = try await URLSession.shared
+                .data(from: .details(
                     mediaType: mediaType, id: id,
                     appendToResponse: .images, .recommendations, .keywords, mediaType == .person ? .combined_credits : .credits
                 ))
-                .map { $0.data }
             switch mediaType {
             case .tv:
-                return data
-                    .decode(type: TVShow.self, decoder: defaultDecoder)
-                    .tryEraseToEffect { .tv($0) }
+                let value = try defaultDecoder.decodeResponse(TVShow.self, from: data)
+                return .tv(value)
             case .person:
-                return data
-                    .decode(type: Person.self, decoder: defaultDecoder)
-                    .tryEraseToEffect { .person($0) }
+                let value = try defaultDecoder.decodeResponse(Person.self, from: data)
+                return .person(value)
             default:
-                return data
-                    .decode(type: Movie.self, decoder: defaultDecoder)
-                    .tryEraseToEffect { .movie($0) }
+                let value = try defaultDecoder.decodeResponse(Movie.self, from: data)
+                return .movie(value)
             }
         },
         collection: { id in
@@ -106,13 +103,13 @@ extension MovieDBClient {
         details: { mediaType, _ in
             switch mediaType {
             case .all:
-                return Effect(error: .sample("Something Went Wrong"))
+                throw AppError.sample("Something Went Wrong")
             case .movie:
-                return Effect(value: .movie(mockMovies[0]))
+                return .movie(mockMovies[0])
             case .tv:
-                return Effect(value: .tv(mockTVShows[0]))
+                return .tv(mockTVShows[0])
             case .person:
-                return Effect(value: .person(mockPeople[0]))
+                return .person(mockPeople[0])
             }
         },
         collection: { id in

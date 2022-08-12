@@ -47,10 +47,26 @@ struct DetailView: View {
                 }
             }
             .navigationTitle(viewStore.media.displayName)
-            .onAppear {
+            .onAppearAndRefresh {
                 viewStore.send(.fetchDetails(mediaType: viewStore.mediaType))
             }
         }
+    }
+}
+
+extension View {
+    
+    func onAppearAndRefresh(perform action: (() -> Void)? = nil) -> some View {
+        onAppear(perform: action)
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        action?()
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+            }
     }
 }
 
