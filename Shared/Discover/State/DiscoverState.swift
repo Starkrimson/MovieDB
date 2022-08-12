@@ -95,9 +95,7 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .fetchPopularDone(kind: _, result: .failure(let error)):
-        if let error = error as? AppError {
-            state.error = error
-        }
+        state.error = error as? AppError
         return .none
 
     case .fetchPopularDone(kind: _, result: _):
@@ -152,7 +150,7 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .searchResponse(.failure(let error)):
-        customDump(error)
+        state.error = error as? AppError
         return .none
     }
 }

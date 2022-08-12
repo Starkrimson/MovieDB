@@ -156,9 +156,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         return .none
         
     case .fetchDetailsResponse(.failure(let error)):
-        if let error = error as? AppError {
-            state.status = .error(error)
-        }
+        state.status = .error(error as! AppError)
         customDump(error)
         return .none
         
