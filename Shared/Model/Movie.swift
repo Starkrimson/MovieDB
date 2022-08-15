@@ -26,7 +26,7 @@ enum DetailModel: Equatable {
 
 struct Movie: Codable, Equatable, Identifiable, DBResponses {
     var adult: Bool?
-    var backdropPath: Int?
+    var backdropPath: String?
     var belongsToCollection: BelongsToCollection?
     var budget: Int?
     var genres: [Genre]?

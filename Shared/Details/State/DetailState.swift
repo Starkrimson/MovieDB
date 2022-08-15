@@ -21,7 +21,17 @@ struct DetailState: Equatable {
     var status: Status = .loading
     
     enum Status: Equatable {
-        case normal, loading, error(AppError)
+        case normal, loading, error(Error)
+
+        static func == (lhs: DetailState.Status, rhs: DetailState.Status) -> Bool {
+            switch (lhs, rhs) {
+            case (.normal, .normal): return true
+            case (.loading, .loading): return true
+            case let (.error(l), .error(r)):
+                return l.localizedDescription == r.localizedDescription
+            default: return false
+            }
+        }
     }
 }
 
@@ -156,7 +166,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         return .none
         
     case .fetchDetailsResponse(.failure(let error)):
-        state.status = .error(error as! AppError)
+        state.status = .error(error)
         customDump(error)
         return .none
         

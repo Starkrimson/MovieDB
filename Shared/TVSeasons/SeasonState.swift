@@ -48,7 +48,7 @@ let seasonReducer = Reducer<SeasonState, SeasonAction, SeasonEnvironment> {
         return .none
         
     case .fetchSeasonDone(.failure(let error)):
-        state.status = .error(error as! AppError)
+        state.status = .error(error)
         return .none
     }
 }

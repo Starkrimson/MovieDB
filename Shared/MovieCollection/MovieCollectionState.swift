@@ -45,7 +45,7 @@ let movieCollectionReducer = Reducer<MovieCollectionState, MovieCollectionAction
         return .none
         
     case .fetchCollectionDone(.failure(let error)):
-        state.status = .error(error as! AppError)
+        state.status = .error(error)
         return .none
     }
 }
