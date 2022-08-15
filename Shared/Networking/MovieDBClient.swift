@@ -11,15 +11,15 @@ import Combine
 
 struct MovieDBClient {
     
-    var popular: (MediaType) -> Effect<[Media], AppError>
-    var trending: (MediaType, TimeWindow) -> Effect<[Media], AppError>
-    var details: (MediaType, Int) -> Effect<DetailModel, AppError>
-    var collection: (Int) -> Effect<Movie.Collection, AppError>
+    var popular: @Sendable (MediaType) async throws -> [Media]
+    var trending: @Sendable (MediaType, TimeWindow) async throws -> [Media]
+    var details: @Sendable (MediaType, Int) async throws -> DetailModel
+    var collection: @Sendable (Int) async throws -> Movie.Collection
     /// (tvID, seasonNumber)
-    var season: (Int, Int) -> Effect<Season, AppError>
-    var discover: (MediaType, [URL.DiscoverQueryItem]) -> Effect<PageResponses<Media>, AppError>
+    var season: @Sendable (Int, Int) async throws -> Season
+    var discover: @Sendable (MediaType, [URL.DiscoverQueryItem]) async throws -> PageResponses<Media>
     /// (query, page)
-    var search: (String, Int) -> Effect<PageResponses<Media>, AppError>
+    var search: @Sendable (String, Int) async throws -> PageResponses<Media>
 }
 
 let defaultDecoder: JSONDecoder = {
@@ -34,129 +34,100 @@ let defaultDecoder: JSONDecoder = {
 extension MovieDBClient {
     static let live = Self(
         popular: { mediaType in
-            URLSession.shared.dataTaskPublisher(for: .popular(mediaType: mediaType))
-                .map { $0.data }
-                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0.results ?? [] }
+            let value = try await URLSession.shared
+                .response(PageResponses<Media>.self, from: .popular(mediaType: mediaType))
+            return value.results ?? []
         },
         trending: { mediaType, timeWindow in
-            URLSession.shared
-                .dataTaskPublisher(for: .trending(mediaType: mediaType, timeWindow: timeWindow))
-                .map { $0.data }
-                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0.results ?? [] }
+            let value = try await URLSession.shared
+                .response(PageResponses<Media>.self,
+                          from: .trending(mediaType: mediaType, timeWindow: timeWindow))
+            return value.results ?? []
         },
         details: { mediaType, id in
-            let data = URLSession.shared
-                .dataTaskPublisher(for: .details(
-                    mediaType: mediaType, id: id,
-                    appendToResponse: .images, .recommendations, .keywords, mediaType == .person ? .combined_credits : .credits
-                ))
-                .map { $0.data }
-            switch mediaType {
-            case .tv:
-                return data
-                    .decode(type: TVShow.self, decoder: defaultDecoder)
-                    .tryEraseToEffect { .tv($0) }
-            case .person:
-                return data
-                    .decode(type: Person.self, decoder: defaultDecoder)
-                    .tryEraseToEffect { .person($0) }
-            default:
-                return data
-                    .decode(type: Movie.self, decoder: defaultDecoder)
-                    .tryEraseToEffect { .movie($0) }
+            do {
+                try await Task.sleep(nanoseconds: NSEC_PER_SEC)
+                let (data, _) = try await URLSession.shared
+                    .data(from: .details(
+                        mediaType: mediaType, id: id,
+                        appendToResponse: .images, .recommendations, .keywords, mediaType == .person ? .combined_credits : .credits
+                    ))
+                switch mediaType {
+                case .tv:
+                    let value = try defaultDecoder.decodeResponse(TVShow.self, from: data)
+                    return .tv(value)
+                case .person:
+                    let value = try defaultDecoder.decodeResponse(Person.self, from: data)
+                    return .person(value)
+                default:
+                    let value = try defaultDecoder.decodeResponse(Movie.self, from: data)
+                    return .movie(value)
+                }
+            } catch {
+                throw AppError.error(error)
             }
         },
         collection: { id in
-            URLSession.shared
-                .dataTaskPublisher(for: .collection(id: id))
-                .map { $0.data }
-                .decode(type: Movie.Collection.self, decoder: defaultDecoder)
-                .tryEraseToEffect()
+            try await URLSession.shared
+                .response(Movie.Collection.self, from: .collection(id: id))
         },
         season: { tvID, seasonNumber in
-            URLSession.shared
-                .dataTaskPublisher(for: .season(tvID: tvID, seasonNumber: seasonNumber))
-                .map { $0.data }
-                .decode(type: Season.self, decoder: defaultDecoder)
-                .tryEraseToEffect { $0 }
+            try await URLSession.shared
+                .response(Season.self,
+                          from: .season(tvID: tvID, seasonNumber: seasonNumber))
         },
         discover: { mediaType, queryItems in
-            URLSession.shared
-                .dataTaskPublisher(for: .discover(mediaType: mediaType, queryItems: queryItems))
-                .map(\.data)
-                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect()
+            try await URLSession.shared
+                .response(PageResponses<Media>.self,
+                          from: .discover(mediaType: mediaType, queryItems: queryItems))
         },
         search: { query, page in
-            URLSession.shared
-                .dataTaskPublisher(for: .search(query: query, page: page))
-                .map(\.data)
-                .decode(type: PageResponses<Media>.self, decoder: defaultDecoder)
-                .tryEraseToEffect()
+            try await URLSession.shared
+                .response(PageResponses<Media>.self, from: .search(query: query, page: page))
         }
-    )
-    
-    static let failing = Self(
-        popular: { _ in .failing("MovieDBClient.popular") },
-        trending: { _, _ in .failing("MovieDBClient.trending") },
-        details: { _, _ in .failing("MovieDBClient.details") },
-        collection: { _ in .failing("MovieDBClient.collection") },
-        season: { _, _ in .failing("MovieDBClient.season") },
-        discover: { _, _ in .failing("MovieDBClient.discover") },
-        search: { _, _ in .failing("MovieDBClient.search") }
     )
     
     static let previews = Self(
         popular: {
-            Effect(value:  $0 == .movie ? mockMediaMovies : mockMediaTVShows)
+            $0 == .movie ? mockMediaMovies : mockMediaTVShows
         },
-        trending: { _, _ in
-            Effect(value: mockMedias)
-        },
+        trending: { _, _ in mockMedias },
         details: { mediaType, _ in
             switch mediaType {
             case .all:
-                return Effect(error: .sample("Something Went Wrong"))
+                throw AppError.sample("Something Went Wrong")
             case .movie:
-                return Effect(value: .movie(mockMovies[0]))
+                return .movie(mockMovies[0])
             case .tv:
-                return Effect(value: .tv(mockTVShows[0]))
+                return .tv(mockTVShows[0])
             case .person:
-                return Effect(value: .person(mockPeople[0]))
+                return .person(mockPeople[0])
             }
         },
-        collection: { id in
-            Effect(value: mockCollection)
-        },
-        season: { _, _ in Effect(value: mockTVShows[0].seasons![0]) },
-        discover: { _, _ in Effect(value: .init(results: mockMedias)) },
-        search: { _, _ in Effect(value: .init(results: mockMedias)) }
+        collection: { id in mockCollection },
+        season: { _, _ in mockTVShows[0].seasons![0] },
+        discover: { _, _ in .init(results: mockMedias) },
+        search: { _, _ in .init(results: mockMedias) }
     )
 }
 
-extension Publisher {
-    
-    /// tryMap 返回数据，如果 success == false 抛出错误
-    func tryEraseToEffect<T>(_ transform: @escaping (Self.Output) -> T)
-    -> Effect<T, AppError> where Output: DBResponses {
-        tryMap { output in
-            if output.success == false {
-                throw AppError.sample(output.statusMessage)
-            }
-            return transform(output)
+extension JSONDecoder {
+    func decodeResponse<T>(_ type: T.Type, from data: Data) throws -> T where T: DBResponses, T: Decodable {
+        let value = try decode(type, from: data)
+        if value.success == false {
+            throw AppError.sample(value.statusMessage)
         }
-        .mapError { error in
-            if error is AppError  {
-                return error as! AppError
-            }
-            return AppError.networkingFailed(error)
-        }
-        .eraseToEffect()
+        return value
     }
-    
-    func tryEraseToEffect<T>() -> Effect<T, AppError> where Output: DBResponses {
-        tryEraseToEffect { $0 as! T }
+}
+
+extension URLSession {
+    func response<T>(_ type: T.Type, from url: URL) async throws -> T where T: DBResponses, T: Decodable {
+        do {
+            let (data, _) = try await data(from: url)
+            return try defaultDecoder.decodeResponse(type, from: data)
+        } catch {
+            throw AppError.error(error)
+        }
     }
 }

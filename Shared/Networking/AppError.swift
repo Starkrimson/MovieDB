@@ -4,7 +4,7 @@ enum AppError: Error, Equatable, Identifiable {
     var id: String { localizedDescription }
 
     case badURL
-    case networkingFailed(Error)
+    case error(Error)
     case sample(String?)
     
     static func ==(lhs: AppError, rhs: AppError) -> Bool {
@@ -16,7 +16,7 @@ extension AppError: LocalizedError {
     var localizedDescription: String {
         switch self {
         case .badURL: return "无效 URL"
-        case .networkingFailed(let error):
+        case .error(let error):
             return error.localizedDescription
         case .sample(let string):
             return string ?? ""

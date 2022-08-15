@@ -9,6 +9,8 @@ import Foundation
 import ComposableArchitecture
 
 struct DiscoverState: Equatable {
+    var backdropPath: String?
+    
     @BindableState var popularIndex: Int = 0
     var popularMovies: IdentifiedArrayOf<Media> = []
     var popularTVShows: IdentifiedArrayOf<Media> = []
@@ -49,16 +51,16 @@ struct SearchState: Equatable {
 enum DiscoverAction: Equatable, BindableAction {
     case binding(BindingAction<DiscoverState>)
     case fetchPopular(MediaType)
-    case fetchPopularDone(kind: MediaType, result: Result<[Media], AppError>)
+    case fetchPopularDone(kind: MediaType, result: TaskResult<[Media]>)
     
     case fetchTrending(mediaType: MediaType = .all, timeWindow: TimeWindow)
     case fetchTrendingDone(
         mediaType: MediaType,
         timeWindow: TimeWindow,
-        result: Result<[Media], AppError>)
+        result: TaskResult<[Media]>)
     
     case search(page: Int = 1)
-    case searchDone(result: Result<PageResponses<Media>, AppError>)
+    case searchResponse(TaskResult<PageResponses<Media>>)
 }
 
 struct DiscoverEnvironment {
@@ -77,13 +79,12 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .fetchPopular(let kind):
-        return environment.dbClient
-            .popular(kind)
-            .receive(on: environment.mainQueue)
-            .catchToEffect {
-                DiscoverAction.fetchPopularDone(kind: kind, result: $0)
-            }
-            .cancellable(id: kind, cancelInFlight: true)
+        return .task {
+            await .fetchPopularDone(kind: kind, result: TaskResult {
+                try await environment.dbClient.popular(kind)
+            })
+        }
+        .animation()
         
     case let .fetchPopularDone(kind: .movie, result: .success(results)):
         state.popularMovies = .init(uniqueElements: results)
@@ -96,26 +97,26 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .fetchPopularDone(kind: _, result: .failure(let error)):
-        state.error = error
+        state.error = error as? AppError
         return .none
 
     case .fetchPopularDone(kind: _, result: _):
         return .none
         
     case .fetchTrending(mediaType: let mediaType, timeWindow: let timeWindow):
-        return environment.dbClient
-            .trending(mediaType, timeWindow)
-            .receive(on: environment.mainQueue)
-            .catchToEffect {
-                DiscoverAction.fetchTrendingDone(
-                    mediaType: mediaType,
-                    timeWindow: timeWindow,
-                    result: $0
-                )
-            }
-            .cancellable(id: timeWindow)
+        return .task {
+            await .fetchTrendingDone(
+                mediaType: mediaType,
+                timeWindow: timeWindow,
+                result: TaskResult<[Media]> {
+                    try await environment.dbClient.trending(mediaType, timeWindow)
+                }
+            )
+        }
+        .animation()
         
     case let .fetchTrendingDone(mediaType: _, timeWindow: .day, result: .success(results)):
+        state.backdropPath = results.randomElement()?.backdropPath
         state.dailyTrending = .init(uniqueElements: results)
         state.error = nil
         return .none
@@ -129,16 +130,20 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         return .none
         
     case .search(let page):
+        enum SearchID: Hashable { }
+        
         if state.search.query.isEmpty {
             return .none
         }
-        return environment.dbClient
-            .search(state.search.query, page)
-            .receive(on: environment.mainQueue)
-            .catchToEffect(DiscoverAction.searchDone(result:))
-            .cancellable(id: state.search.query)
-        
-    case .searchDone(result: .success(let value)):
+        return .task { [query = state.search.query] in
+            await .searchResponse(TaskResult<PageResponses<Media>> {
+                try await environment.dbClient.search(query, page)
+            })
+        }
+        .animation()
+        .cancellable(id: SearchID.self)
+            
+    case .searchResponse(.success(let value)):
         state.search.page = value.page ?? 1
         state.search.totalPages = value.totalPages ?? 1
         if value.page == 1 {
@@ -147,7 +152,8 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         state.search.list.append(contentsOf: value.results ?? [])
         return .none
         
-    case .searchDone(result: .failure(let error)):
+    case .searchResponse(.failure(let error)):
+        state.error = error as? AppError
         return .none
     }
 }

@@ -21,7 +21,7 @@ struct SeasonState: Equatable {
 
 enum SeasonAction: Equatable {
     case fetchSeason
-    case fetchSeasonDone(Result<Season, AppError>)
+    case fetchSeasonDone(TaskResult<Season>)
 }
 
 struct SeasonEnvironment {
@@ -35,10 +35,12 @@ let seasonReducer = Reducer<SeasonState, SeasonAction, SeasonEnvironment> {
     switch action {
     case .fetchSeason:
         state.status = .loading
-        return environment.dbClient
-            .season(state.tvID, state.seasonNumber)
-            .receive(on: environment.mainQueue)
-            .catchToEffect(SeasonAction.fetchSeasonDone)
+        return .task { [state] in
+            await .fetchSeasonDone(TaskResult<Season> {
+                try await environment.dbClient.season(state.tvID, state.seasonNumber)
+            })
+        }
+        .animation()
         
     case .fetchSeasonDone(.success(let season)):
         state.status = .normal

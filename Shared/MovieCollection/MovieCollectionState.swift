@@ -17,7 +17,7 @@ struct MovieCollectionState: Equatable {
 
 enum MovieCollectionAction: Equatable {
     case fetchCollection
-    case fetchCollectionDone(Result<Movie.Collection, AppError>)
+    case fetchCollectionDone(TaskResult<Movie.Collection>)
 }
 
 struct MovieCollectionEnvironment {
@@ -31,11 +31,13 @@ let movieCollectionReducer = Reducer<MovieCollectionState, MovieCollectionAction
     switch action {
     case .fetchCollection:
         state.status = .loading
-        return environment.dbClient
-            .collection(state.belongsTo.id ?? 0)
-            .receive(on: environment.mainQueue)
-            .catchToEffect(MovieCollectionAction.fetchCollectionDone)
-            .cancellable(id: state.belongsTo)
+        return .task { [id = state.belongsTo.id] in
+            await .fetchCollectionDone(TaskResult<Movie.Collection> {
+                try await environment.dbClient
+                    .collection(id ?? 0)
+            })
+        }
+        .animation()
         
     case .fetchCollectionDone(.success(let value)):
         state.status = .normal

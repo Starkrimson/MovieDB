@@ -35,6 +35,7 @@ extension DetailView {
                 // MARK: - 查看系列按钮
                 VStack(alignment: .leading) {
                     Text("\(collection.name ?? "")之一")
+                        .foregroundColor(.white)
                         .font(.largeTitle)
                     
                     NavigationLink(destination: .movieCollection(collection)) {

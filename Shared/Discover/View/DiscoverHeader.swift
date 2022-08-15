@@ -9,11 +9,13 @@ import SwiftUI
 
 extension DiscoverView {
     struct Header: View {
+        var backdropPath: String? = ""
+        
         var body: some View {
             ZStack {
                 // MARK: - 背景图
                 GeometryReader { proxy in
-                    URLImage("/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg".imagePath(.duotone(w: 1920, h: 600)))
+                    URLImage(backdropPath?.imagePath(.duotone(w: 1920, h: 600)))
                         .scaledToFill()
                         .frame(width: proxy.size.width, height: 240)
                         .clipped()
@@ -36,6 +38,7 @@ extension DiscoverView {
                     Text("这里有海量的电影、剧集和人物等你来发现。快来探索吧！")
                         .font(.title2)
                 }
+                .foregroundColor(.white)
                 .fontWeight(.medium)
                 .padding()
             }
@@ -46,6 +49,6 @@ extension DiscoverView {
 
 struct DiscoverHeader_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView.Header()
+        DiscoverView.Header(backdropPath: "/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg")
     }
 }

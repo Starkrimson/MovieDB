@@ -25,7 +25,7 @@ struct DiscoverView: View {
                     }
                     .padding()
                 } else {
-                    Header()
+                    Header(backdropPath: viewStore.backdropPath)
                     if let error = viewStore.error {
                         ErrorTips(error: error)
                     }
@@ -45,7 +45,7 @@ struct DiscoverView: View {
                 }
                 
             }
-            .onAppear {
+            .onAppearAndRefresh {
                 viewStore.send(.fetchPopular(.movie))
                 viewStore.send(.fetchPopular(.tv))
                 viewStore.send(.fetchTrending(timeWindow: .day))
@@ -85,7 +85,7 @@ struct DiscoverView_Previews: PreviewProvider {
             store: .init(
                 initialState: .init(),
                 reducer: discoverReducer,
-                environment: .init(mainQueue: .main, dbClient: .failing)
+                environment: .init(mainQueue: .main, dbClient: .previews)
             )
         )
     }

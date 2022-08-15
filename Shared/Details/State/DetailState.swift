@@ -21,7 +21,17 @@ struct DetailState: Equatable {
     var status: Status = .loading
     
     enum Status: Equatable {
-        case normal, loading, error(AppError)
+        case normal, loading, error(Error)
+
+        static func == (lhs: DetailState.Status, rhs: DetailState.Status) -> Bool {
+            switch (lhs, rhs) {
+            case (.normal, .normal): return true
+            case (.loading, .loading): return true
+            case let (.error(l), .error(r)):
+                return l.localizedDescription == r.localizedDescription
+            default: return false
+            }
+        }
     }
 }
 
@@ -118,7 +128,7 @@ struct PersonState: Equatable {
 
 enum DetailAction: Equatable {
     case fetchDetails(mediaType: MediaType)
-    case fetchDetailsDone(Result<DetailModel, AppError>)
+    case fetchDetailsResponse(TaskResult<DetailModel>)
     case selectImageType(imageType: Media.ImageType)
 }
 
@@ -129,17 +139,21 @@ struct DetailEnvironment {
 
 let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
     state, action, environment in
+    enum DetailID { }
     
     switch action {
     case .fetchDetails(mediaType: let mediaType):
-        state.status = .loading
-        return environment.dbClient
-            .details(mediaType, state.media.id ?? 0)
-            .receive(on: environment.mainQueue)
-            .catchToEffect(DetailAction.fetchDetailsDone)
-            .cancellable(id: state.media.id ?? 0)
         
-    case .fetchDetailsDone(.success(let detail)):
+        state.status = .loading
+        return .task { [id = state.media.id] in
+            await .fetchDetailsResponse(TaskResult<DetailModel> {
+                try await environment.dbClient.details(mediaType, id ?? 0)
+            })
+        }
+        .animation()
+        .cancellable(id: DetailID.self)
+        
+    case .fetchDetailsResponse(.success(let detail)):
         state.status = .normal
         switch detail {
         case .movie(let movie):
@@ -151,7 +165,7 @@ let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
         }
         return .none
         
-    case .fetchDetailsDone(.failure(let error)):
+    case .fetchDetailsResponse(.failure(let error)):
         state.status = .error(error)
         customDump(error)
         return .none

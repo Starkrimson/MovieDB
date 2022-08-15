@@ -9,80 +9,64 @@ import XCTest
 import ComposableArchitecture
 @testable import MovieDB
 
+@MainActor
 final class MovieDBTests: XCTestCase {
 
-    func testFetchPopularShows() {
+    func testFetchPopularShows() async {
         let store = TestStore(
             initialState: .init(),
             reducer: discoverReducer,
-            environment: .init(mainQueue: .immediate, dbClient: .failing)
+            environment: .init(mainQueue: .immediate, dbClient: .previews)
         )
         
-        store.environment.dbClient.popular = {
-            Effect(value:  $0 == .movie ? mockMediaMovies : mockMediaTVShows)
-        }
-        
         // 获取热门电影
-        store.send(.fetchPopular(.movie))
+        _ = await store.send(.fetchPopular(.movie))
         // 成功接收到热门电影
-        store.receive(.fetchPopularDone(kind: .movie, result: .success(mockMediaMovies))) {
+        await store.receive(.fetchPopularDone(kind: .movie, result: .success(mockMediaMovies))) {
             $0.popularMovies = .init(uniqueElements: mockMediaMovies)
         }
         
         // 获取热门电视节目
-        store.send(.fetchPopular(.tv))
+        _ = await store.send(.fetchPopular(.tv))
         // 成功接收热门电视节目
-        store.receive(.fetchPopularDone(kind: .tv, result: .success(mockMediaTVShows))) {
+        await store.receive(.fetchPopularDone(kind: .tv, result: .success(mockMediaTVShows))) {
             $0.popularTVShows = .init(uniqueElements: mockMediaTVShows)
         }
     }
     
-    func testFetchDetails() {
+    func testFetchDetails() async {
         let store = TestStore(
             initialState: .init(media: mockMedias[0], mediaType: .movie),
             reducer: detailReducer,
-            environment: .init(mainQueue: .immediate, dbClient: .failing)
+            environment: .init(mainQueue: .immediate, dbClient: .previews)
         )
         
-        store.environment.dbClient.details = { mediaType, _ in
-            switch mediaType {
-            case .all:
-                return Effect(error: .sample("Something Went Wrong"))
-            case .movie:
-                return Effect(value: .movie(mockMovies[0]))
-            case .tv:
-                return Effect(value: .tv(mockTVShows[0]))
-            case .person:
-                return Effect(value: .person(mockPeople[0]))
-            }
-        }
-        
-        store.send(.fetchDetails(mediaType: .movie))
-        store.receive(.fetchDetailsDone(.success(.movie(mockMovies[0])))) {
+        _ = await store.send(.fetchDetails(mediaType: .movie))
+        await store.receive(.fetchDetailsResponse(.success(.movie(mockMovies[0])))) {
             $0.status = .normal
             $0.movieState = .init(mockMovies[0])
         }
         
-        store.send(.fetchDetails(mediaType: .tv)) {
+        _ = await store.send(.fetchDetails(mediaType: .tv)) {
             $0.status = .loading
         }
-        store.receive(.fetchDetailsDone(.success(.tv(mockTVShows[0])))) {
+        await store.receive(.fetchDetailsResponse(.success(.tv(mockTVShows[0])))) {
             $0.status = .normal
             $0.tvState = .init(mockTVShows[0])
         }
         
-        store.send(.fetchDetails(mediaType: .person)) {
+        _ = await store.send(.fetchDetails(mediaType: .person)) {
             $0.status = .loading
         }
-        store.receive(.fetchDetailsDone(.success(.person(mockPeople[0])))) {
+        await store.receive(.fetchDetailsResponse(.success(.person(mockPeople[0])))) {
             $0.status = .normal
             $0.personState = .init(mockPeople[0])
         }
         
-        store.send(.fetchDetails(mediaType: .all)) {
+        _ = await store.send(.fetchDetails(mediaType: .all)) {
             $0.status = .loading
         }
-        store.receive(.fetchDetailsDone(.failure(.sample("Something Went Wrong")))) {
+        await store.receive(.fetchDetailsResponse(.failure(AppError.sample("Something Went Wrong")))) {
             $0.status = .error(.sample("Something Went Wrong"))
         }
     }
