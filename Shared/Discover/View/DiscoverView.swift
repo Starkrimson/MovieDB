@@ -25,7 +25,7 @@ struct DiscoverView: View {
                     }
                     .padding()
                 } else {
-                    Header()
+                    Header(backdropPath: viewStore.backdropPath)
                     if let error = viewStore.error {
                         ErrorTips(error: error)
                     }
@@ -45,7 +45,7 @@ struct DiscoverView: View {
                 }
                 
             }
-            .onAppear {
+            .onAppearAndRefresh {
                 viewStore.send(.fetchPopular(.movie))
                 viewStore.send(.fetchPopular(.tv))
                 viewStore.send(.fetchTrending(timeWindow: .day))

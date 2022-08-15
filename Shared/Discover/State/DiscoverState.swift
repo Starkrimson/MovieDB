@@ -9,6 +9,8 @@ import Foundation
 import ComposableArchitecture
 
 struct DiscoverState: Equatable {
+    var backdropPath: String?
+    
     @BindableState var popularIndex: Int = 0
     var popularMovies: IdentifiedArrayOf<Media> = []
     var popularTVShows: IdentifiedArrayOf<Media> = []
@@ -114,6 +116,7 @@ let discoverReducer = Reducer<DiscoverState, DiscoverAction, DiscoverEnvironment
         .animation()
         
     case let .fetchTrendingDone(mediaType: _, timeWindow: .day, result: .success(results)):
+        state.backdropPath = results.randomElement()?.backdropPath
         state.dailyTrending = .init(uniqueElements: results)
         state.error = nil
         return .none
