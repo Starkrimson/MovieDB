@@ -31,7 +31,15 @@ let defaultDecoder: JSONDecoder = {
     return decoder
 }()
 
-extension MovieDBClient {
+extension DependencyValues {
+    var dbClient: MovieDBClient {
+        get { self[MovieDBClient.self] }
+        set { self[MovieDBClient.self] = newValue }
+    }
+}
+
+extension MovieDBClient: DependencyKey {
+    static var liveValue: MovieDBClient = live
     static let live = Self(
         popular: { mediaType in
             let value = try await URLSession.shared
@@ -87,6 +95,7 @@ extension MovieDBClient {
         }
     )
     
+    static var previewValue: MovieDBClient = previews
     static let previews = Self(
         popular: {
             $0 == .movie ? mockMediaMovies : mockMediaTVShows
@@ -109,6 +118,8 @@ extension MovieDBClient {
         discover: { _, _ in .init(results: mockMedias) },
         search: { _, _ in .init(results: mockMedias) }
     )
+    
+    static var testValue: MovieDBClient = previewValue
 }
 
 extension JSONDecoder {

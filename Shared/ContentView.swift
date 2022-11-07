@@ -16,27 +16,44 @@ struct ContentView: View {
     )
     
     var body: some View {
-        WithViewStore(store, observe: \.selectedTab) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             NavigationSplitView {
                 List(
-                    MovieDBReducer.Tab.allCases,
-                    selection: viewStore.binding(send: MovieDBReducer.Action.tabSelected)
+                    MovieDBReducer.Tab.allCases.filter { $0 != .search },
+                    selection: viewStore.binding(
+                        get: { $0.selectedTab },
+                        send: MovieDBReducer.Action.tabSelected
+                    )
                 ) { item in
                     Label(item.rawValue.localized, systemImage: item.systemImage)
                 }
+                .searchable(
+                    text: viewStore.binding(\.search.$query),
+                    placement: .sidebar,
+                    prompt: "SEARCH PLACEHOLDER".localized
+                )
+                .onSubmit(of: .search) {
+                    viewStore.send(.search(.search()))
+                }
             } detail: {
-                switch viewStore.state {
-                case .discover:
-                    DiscoverView(
-                        store: .init(
-                            initialState: .init(),
-                            reducer: discoverReducer,
-                            environment: .init(mainQueue: .main, dbClient: .live)
+                NavigationStack {
+                    switch viewStore.selectedTab {
+                    case .search:
+                        SearchResultsView(store: store.scope(
+                            state: \.search, action: MovieDBReducer.Action.search)
                         )
-                    )
-                    
-                default:
-                    Label(viewStore.state?.rawValue.localized ?? "", systemImage: viewStore.state?.systemImage ?? "")
+                        
+                    case .discover:
+                        DiscoverView(
+                            store: store.scope(
+                                state: \.discover,
+                                action: MovieDBReducer.Action.discover
+                            )
+                        )
+
+                    default:
+                        Label(viewStore.selectedTab?.rawValue.localized ?? "", systemImage: viewStore.selectedTab?.systemImage ?? "")
+                    }
                 }
             }
         }
