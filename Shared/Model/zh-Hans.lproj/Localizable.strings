@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  MovieDB
+
+  Created by allie on 7/11/2022.
+  
+*/
+
+"DISCOVER" = "探索";
+"MOVIES" = "电影";
+"TVSHOWS" = "剧集";
