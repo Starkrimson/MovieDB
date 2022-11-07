@@ -19,7 +19,6 @@
 		0952C8FA2897751600E3A7D8 /* DiscoverMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0952C8F92897751600E3A7D8 /* DiscoverMediaView.swift */; };
 		0952C8FD289776A600E3A7D8 /* DiscoverMediaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0952C8FC289776A600E3A7D8 /* DiscoverMediaState.swift */; };
 		09615959286E89240001F593 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615958286E89230001F593 /* DiscoverView.swift */; };
-		0961595D286E8A080001F593 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 0961595C286E8A080001F593 /* Dependencies */; };
 		09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615960286EA6410001F593 /* DiscoverHeader.swift */; };
 		09615964286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615963286EA6D20001F593 /* DiscoverSectionTitle.swift */; };
 		09615967286EC3630001F593 /* DiscoverCardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615966286EC3630001F593 /* DiscoverCardRow.swift */; };
@@ -43,6 +42,7 @@
 		09B123192890DEA0007B5815 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B123182890DEA0007B5815 /* GridLayout.swift */; };
 		09B3A2612881652E009B4468 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B3A2602881652E009B4468 /* ScoreView.swift */; };
 		09BC21E0289109110074A46E /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BC21DF289109110074A46E /* URLImage.swift */; };
+		09CE6D782918BE12001E87F3 /* MovieDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 09CE6D772918BE12001E87F3 /* MovieDependencies */; };
 		09D2E110288A454700A14D96 /* Credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D2E10F288A454700A14D96 /* Credits.swift */; };
 		09D7A009289259E500CE9C9F /* EpisodeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7A008289259E500CE9C9F /* EpisodeList.swift */; };
 		09D9A37D288A9ED200ABD638 /* CreditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D9A37C288A9ED200ABD638 /* CreditView.swift */; };
@@ -86,7 +86,6 @@
 		0929EDAA286D93CC007C4BFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0929EDAF286D93CC007C4BFB /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0929EDB7286D93CC007C4BFB /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		0929EDCB286D945B007C4BFB /* Dependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Dependencies; sourceTree = "<group>"; };
 		092E211A2887913100DDF596 /* TV.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TV.json; sourceTree = "<group>"; };
 		093936D5288A3678008C869C /* KnownFor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnownFor.swift; sourceTree = "<group>"; };
 		0948CF8F289D1A0C00EC69C3 /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
@@ -118,6 +117,7 @@
 		09B123182890DEA0007B5815 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		09B3A2602881652E009B4468 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		09BC21DF289109110074A46E /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
+		09CE6D762918BD0C001E87F3 /* MovieDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MovieDependencies; sourceTree = "<group>"; };
 		09D2E10F288A454700A14D96 /* Credits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credits.swift; sourceTree = "<group>"; };
 		09D7A008289259E500CE9C9F /* EpisodeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeList.swift; sourceTree = "<group>"; };
 		09D9A37C288A9ED200ABD638 /* CreditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditView.swift; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0961595D286E8A080001F593 /* Dependencies in Frameworks */,
+				09CE6D782918BE12001E87F3 /* MovieDependencies in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +212,7 @@
 		0929EDCA286D945B007C4BFB /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				0929EDCB286D945B007C4BFB /* Dependencies */,
+				09CE6D762918BD0C001E87F3 /* MovieDependencies */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -396,7 +396,7 @@
 			);
 			name = MovieDB;
 			packageProductDependencies = (
-				0961595C286E8A080001F593 /* Dependencies */,
+				09CE6D772918BE12001E87F3 /* MovieDependencies */,
 			);
 			productName = "MovieDB (iOS)";
 			productReference = 0929EDAF286D93CC007C4BFB /* MovieDB.app */;
@@ -828,9 +828,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0961595C286E8A080001F593 /* Dependencies */ = {
+		09CE6D772918BE12001E87F3 /* MovieDependencies */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Dependencies;
+			productName = MovieDependencies;
 		};
 /* End XCSwiftPackageProductDependency section */
 
