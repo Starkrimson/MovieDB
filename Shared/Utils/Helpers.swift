@@ -48,6 +48,10 @@ extension String {
     func localized(comment: String) -> String {
         NSLocalizedString(self.uppercased(), comment: comment)
     }
+    
+    func localized(comment: String = "", arguments: CVarArg...) -> String {
+        String(format: localized(comment: ""), arguments: arguments)
+    }
 }
 
 let defaultQueryItems = [

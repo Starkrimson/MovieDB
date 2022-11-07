@@ -10,3 +10,7 @@
 "MOVIES" = "Movies";
 "TVSHOWS" = "TV Shows";
 "SEARCH PLACEHOLDER" = "Search for a movie, tv show, person...";
+"SEARCH RESULTS TITLE" = "\"%@\" results";
+"WELCOME TITLE" = "Welcome.";
+"WELCOME CONTENT" = "Millions of movies, TV shows and people to discover. Explore now.";
+"NOT FOUND" = "Not Found";

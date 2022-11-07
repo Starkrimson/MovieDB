@@ -13,16 +13,30 @@ struct SearchResultsView: View {
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            ScrollView {
-                MediaGrid(
-                    list: viewStore.list,
-                    canLoadMore: !viewStore.isLastPage
-                ) {
-                    viewStore.send(.search(page: viewStore.page + 1))
+            Group {
+                switch viewStore.status {
+                case .loading where viewStore.list.isEmpty:
+                    ProgressView()
+                    
+                case .error(let error):
+                    ErrorTips(error: error)
+                    
+                case .normal where viewStore.list.isEmpty:
+                    Text("Not Found".localized)
+                    
+                default:
+                    ScrollView {
+                        MediaGrid(
+                            list: viewStore.list,
+                            canLoadMore: !viewStore.isLastPage
+                        ) {
+                            viewStore.send(.search(page: viewStore.page + 1))
+                        }
+                        .padding()
+                    }
                 }
-                .padding()
             }
-            .navigationTitle("\"\(viewStore.query)\" 的结果")
+            .navigationTitle("SEARCH RESULTS TITLE".localized(arguments: viewStore.query))
         }
     }
 }

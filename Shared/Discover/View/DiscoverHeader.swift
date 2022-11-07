@@ -32,10 +32,10 @@ extension DiscoverView {
                 )
                 
                 VStack(alignment: .leading) {
-                    Text("欢迎。")
+                    Text("WELCOME TITLE".localized)
                         .font(.title)
                     
-                    Text("这里有海量的电影、剧集和人物等你来发现。快来探索吧！")
+                    Text("WELCOME CONTENT".localized)
                         .font(.title2)
                 }
                 .foregroundColor(.white)
