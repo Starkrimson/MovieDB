@@ -9,12 +9,10 @@ import SwiftUI
 import ComposableArchitecture
 
 struct DiscoverView: View {
-    @State var trendingIndex: Int = 0
-
     let store: StoreOf<DiscoverReducer>
     
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             ScrollView {
                 Header(backdropPath: viewStore.backdropPath)
                 if let error = viewStore.error {
@@ -25,14 +23,19 @@ struct DiscoverView: View {
                     selectedIndex: viewStore.binding(\.$popularIndex),
                     labels: ["MOVIES".localized, "TVSHOWS".localized]
                 )
-                CardRow(mediaType: viewStore.popularIndex == 0 ? .movie : .tv,
-                        list: viewStore.popularList)
+                CardRow(store: store.scope(state: \.popularList, action: DiscoverReducer.Action.detail))
                 SectionTitle(
                     title: "TRENDING".localized,
                     selectedIndex: viewStore.binding(\.$trendingIndex),
                     labels: ["TODAY".localized, "THIS WEEK".localized]
                 )
-                CardRow(list: viewStore.trendingList)
+                CardRow(store: store.scope(state: \.trendingList, action: DiscoverReducer.Action.detail))
+            }
+            .navigationDestination(for: DetailReducer.State.self) { state in
+                DetailView(store: .init(
+                    initialState: state,
+                    reducer: DetailReducer()
+                ))
             }
             .task {
                 await viewStore.send(.task).finish()

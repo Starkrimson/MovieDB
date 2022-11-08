@@ -11,23 +11,24 @@ import ComposableArchitecture
 extension DiscoverView {
     
     struct CardRow: View {
-        var mediaType: MediaType?
-        var list: IdentifiedArrayOf<Media> = []
-    
+        let store: Store<IdentifiedArrayOf<DetailReducer.State>, (DetailReducer.State.ID, DetailReducer.Action)>
+        
         var body: some View {
             // MARK: - 横向滑动电影/剧集
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
-                    ForEach(list) { item in
-                        NavigationLink(destination: .mediaDetail(media: item, mediaType: mediaType)) {
-                            DiscoverView.CardItem(
-                                posterPath: item.displayPosterPath,
-                                score: item.voteAverage,
-                                title: item.displayName,
-                                date: item.releaseDate ?? item.firstAirDate ?? ""
-                            )
+                    ForEachStore(store) { detailStore in
+                        WithViewStore(detailStore, observe: { $0 }) { detailViewStore in
+                            NavigationLink(value: detailViewStore.state) {
+                                DiscoverView.CardItem(
+                                    posterPath: detailViewStore.media.displayPosterPath,
+                                    score: detailViewStore.media.voteAverage,
+                                    title: detailViewStore.media.displayName,
+                                    date: detailViewStore.media.releaseDate ?? detailViewStore.media.firstAirDate ?? ""
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -76,9 +77,9 @@ extension DiscoverView {
     }
 }
 
-struct DiscoverCardRow_Previews: PreviewProvider {
-
-    static var previews: some View {
-        DiscoverView.CardRow(list: .init(uniqueElements: mockMedias))
-    }
-}
+//struct DiscoverCardRow_Previews: PreviewProvider {
+//
+//    static var previews: some View {
+//        DiscoverView.CardRow(list: .init(uniqueElements: mockMedias))
+//    }
+//}

@@ -13,7 +13,7 @@ struct DetailView: View {
     let store: StoreOf<DetailReducer>
     
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             ScrollView {
                 Header(state: viewStore.state)
                 

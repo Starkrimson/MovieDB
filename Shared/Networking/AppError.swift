@@ -13,7 +13,7 @@ enum AppError: Error, Equatable, Identifiable {
 }
 
 extension AppError: LocalizedError {
-    var localizedDescription: String {
+    var errorDescription: String? {
         switch self {
         case .badURL: return "无效 URL"
         case .error(let error):

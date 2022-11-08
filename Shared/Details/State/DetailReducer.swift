@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct MovieState: Equatable {
+struct MovieState: Equatable, Hashable {
     var movie: Movie
     
     var directors: [Media.Crew]
@@ -23,7 +23,7 @@ struct MovieState: Equatable {
     }
 }
 
-struct TVState: Equatable {
+struct TVState: Equatable, Hashable {
     var tv: TVShow
     
     var createdBy: [Media.Crew]
@@ -37,7 +37,7 @@ struct TVState: Equatable {
     }
 }
 
-struct PersonState: Equatable {
+struct PersonState: Equatable, Hashable {
     var person: Person
     
     var knownFor: [Media.Cast]
@@ -96,12 +96,14 @@ struct PersonState: Equatable {
                     )
                 }
             }
-    }    
+    }
 }
 
 struct DetailReducer: ReducerProtocol {
     
-    struct State: Equatable {
+    struct State: Equatable, Identifiable, Hashable {
+        var id: Media.ID? { media.id }
+        
         let media: Media
         let mediaType: MediaType
         
@@ -121,7 +123,6 @@ struct DetailReducer: ReducerProtocol {
     @Dependency(\.dbClient) var dbClient
         
     var body: some ReducerProtocol<State, Action> {
-
         Reduce { state, action in
             enum DetailID { }
             
@@ -149,7 +150,7 @@ struct DetailReducer: ReducerProtocol {
                 return .none
                 
             case .fetchDetailsResponse(.failure(let error)):
-                state.status = .error(error)
+                state.status = .error(error.localizedDescription)
                 customDump(error)
                 return .none
                 

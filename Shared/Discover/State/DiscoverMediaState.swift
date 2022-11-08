@@ -64,7 +64,7 @@ let discoverMediaReducer = Reducer<
         return .none
         
     case .fetchMediaDone(_, result: .failure(let error)):
-        state.status = .error(error)
+        state.status = .error(error.localizedDescription)
         return .none
     }
 }
