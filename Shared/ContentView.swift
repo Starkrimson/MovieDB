@@ -7,27 +7,56 @@
 
 import SwiftUI
 import CoreData
+import ComposableArchitecture
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    let store: StoreOf<MovieDBReducer> = .init(
+        initialState: .init(),
+        reducer: MovieDBReducer()
+    )
+    
     var body: some View {
-        NavigationStack {
-            DiscoverView(
-                store: .init(
-                    initialState: .init(),
-                    reducer: discoverReducer,
-                    environment: .init(mainQueue: .main, dbClient: .live)
+        WithViewStore(store, observe: { $0 }) { viewStore in
+            NavigationSplitView {
+                List(
+                    selection: viewStore.binding(
+                        get: { $0.selectedTab },
+                        send: MovieDBReducer.Action.tabSelected
+                    )
+                ) {
+                    Section {
+                        ForEach(MovieDBReducer.Tab.allCases.filter { $0 != .search }) { item in
+                            Label(item.rawValue.localized, systemImage: item.systemImage)
+                        }
+                    }
+                }
+                .searchable(
+                    text: viewStore.binding(\.search.$query),
+                    placement: .sidebar,
+                    prompt: "SEARCH PLACEHOLDER".localized
                 )
-            )
-            .toolbar {
-                ToolbarItem {
-                    Color.clear
+                .onSubmit(of: .search) {
+                    viewStore.send(.search(.search()))
+                }
+            } detail: {
+                NavigationStack {
+                    switch viewStore.selectedTab {
+                    case .search:
+                        SearchResultsView(store: store.scope(
+                            state: \.search, action: MovieDBReducer.Action.search)
+                        )
+                        
+                    case .discover:
+                        DiscoverView(
+                            store: store.scope(
+                                state: \.discover,
+                                action: MovieDBReducer.Action.discover
+                            )
+                        )
+
+                    default:
+                        Label(viewStore.selectedTab?.rawValue.localized ?? "", systemImage: viewStore.selectedTab?.systemImage ?? "")
+                    }
                 }
             }
         }
@@ -36,6 +65,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView()
     }
 }

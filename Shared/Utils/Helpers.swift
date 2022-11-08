@@ -40,11 +40,23 @@ extension String {
     func imagePath(_ fileSize: FileSize = .face(w: 440, h: 660)) -> String {
         "https://image.tmdb.org/t/p/\(fileSize.rawValue)\(self)"
     }
+    
+    var localized: String {
+        localized(comment: "")
+    }
+    
+    func localized(comment: String) -> String {
+        NSLocalizedString(self.uppercased(), comment: comment)
+    }
+    
+    func localized(comment: String = "", arguments: CVarArg...) -> String {
+        String(format: localized(comment: ""), arguments: arguments)
+    }
 }
 
 let defaultQueryItems = [
     URLQueryItem(name: "api_key", value: ""),
-    URLQueryItem(name: "language", value: "zh"),
+    URLQueryItem(name: "language", value: "LANGUAGE".localized),
     URLQueryItem(name: "include_image_language", value: "en,null"),
 ]
 

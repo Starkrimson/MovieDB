@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  MovieDB
+
+  Created by allie on 7/11/2022.
+  
+*/
+
+"LANGUAGE" = "en";
+"DISCOVER" = "Discover";
+"MOVIES" = "Movies";
+"TVSHOWS" = "TV Shows";
+"SEARCH PLACEHOLDER" = "Search for a movie, tv show, person...";
+"SEARCH RESULTS TITLE" = "\"%@\" results";
+"WELCOME TITLE" = "Welcome.";
+"WELCOME CONTENT" = "Millions of movies, TV shows and people to discover. Explore now.";
+"NOT FOUND" = "Not Found";
+"POPULAR" = "Popular";
+"TRENDING" = "Trending";
+"TODAY" = "Today";
+"THIS WEEK" = "This Week";
