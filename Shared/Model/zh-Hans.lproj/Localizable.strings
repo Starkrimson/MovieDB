@@ -6,6 +6,7 @@
   
 */
 
+"LANGUAGE" = "zh";
 "DISCOVER" = "探索";
 "MOVIES" = "电影";
 "TVSHOWS" = "剧集";
@@ -14,3 +15,7 @@
 "WELCOME TITLE" = "欢迎。";
 "WELCOME CONTENT" = "这里有海量的电影、剧集和人物等你来发现。快来探索吧！";
 "NOT FOUND" = "未找到";
+"POPULAR" = "热门";
+"TRENDING" = "趋势";
+"TODAY" = "今日";
+"THIS WEEK" = "本周";

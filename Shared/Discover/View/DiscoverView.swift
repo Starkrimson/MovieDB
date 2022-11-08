@@ -21,24 +21,21 @@ struct DiscoverView: View {
                     ErrorTips(error: error)
                 }
                 SectionTitle(
-                    title: "热门",
+                    title: "POPULAR".localized,
                     selectedIndex: viewStore.binding(\.$popularIndex),
-                    labels: ["电影", "电视播出"]
+                    labels: ["MOVIES".localized, "TVSHOWS".localized]
                 )
                 CardRow(mediaType: viewStore.popularIndex == 0 ? .movie : .tv,
                         list: viewStore.popularList)
                 SectionTitle(
-                    title: "趋势",
+                    title: "TRENDING".localized,
                     selectedIndex: viewStore.binding(\.$trendingIndex),
-                    labels: ["今日", "本周"]
+                    labels: ["TODAY".localized, "THIS WEEK".localized]
                 )
                 CardRow(list: viewStore.trendingList)
             }
-            .onAppearAndRefresh {
-                viewStore.send(.fetchPopular(.movie))
-                viewStore.send(.fetchPopular(.tv))
-                viewStore.send(.fetchTrending(timeWindow: .day))
-                viewStore.send(.fetchTrending(timeWindow: .week))
+            .task {
+                await viewStore.send(.task).finish()
             }
             .frame(minWidth: 320)
             .navigationTitle("Discover")

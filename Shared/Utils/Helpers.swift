@@ -56,7 +56,7 @@ extension String {
 
 let defaultQueryItems = [
     URLQueryItem(name: "api_key", value: ""),
-    URLQueryItem(name: "language", value: "zh"),
+    URLQueryItem(name: "language", value: "LANGUAGE".localized),
     URLQueryItem(name: "include_image_language", value: "en,null"),
 ]
 

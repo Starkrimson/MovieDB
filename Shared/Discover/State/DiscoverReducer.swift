@@ -37,6 +37,8 @@ struct DiscoverReducer: ReducerProtocol {
     
     enum Action: Equatable, BindableAction {
         case binding(BindingAction<State>)
+        
+        case task
         case fetchPopular(MediaType)
         case fetchPopularDone(kind: MediaType, result: TaskResult<[Media]>)
         
@@ -55,6 +57,14 @@ struct DiscoverReducer: ReducerProtocol {
             switch action {
             case .binding:
                 return .none
+                
+            case .task:
+                return .merge(
+                    .task { .fetchPopular(.movie) },
+                    .task { .fetchPopular(.tv) },
+                    .task { .fetchTrending(timeWindow: .day) },
+                    .task { .fetchTrending(timeWindow: .week) }
+                )
                 
             case .fetchPopular(let kind):
                 return .task {

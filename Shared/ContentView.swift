@@ -19,13 +19,16 @@ struct ContentView: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             NavigationSplitView {
                 List(
-                    MovieDBReducer.Tab.allCases.filter { $0 != .search },
                     selection: viewStore.binding(
                         get: { $0.selectedTab },
                         send: MovieDBReducer.Action.tabSelected
                     )
-                ) { item in
-                    Label(item.rawValue.localized, systemImage: item.systemImage)
+                ) {
+                    Section {
+                        ForEach(MovieDBReducer.Tab.allCases.filter { $0 != .search }) { item in
+                            Label(item.rawValue.localized, systemImage: item.systemImage)
+                        }
+                    }
                 }
                 .searchable(
                     text: viewStore.binding(\.search.$query),
