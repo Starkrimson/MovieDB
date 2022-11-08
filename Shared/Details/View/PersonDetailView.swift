@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct PersonDetailView: View {
-    let store: Store<PersonState, DetailAction>
+    let store: Store<PersonState, DetailReducer.Action>
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -33,14 +33,13 @@ struct PersonDetailView: View {
 struct PersonDetailView_Previews: PreviewProvider {
     static var previews: some View {
         IfLetStore(
-            Store<DetailState, DetailAction>(
+            Store<DetailReducer.State, DetailReducer.Action>(
                 initialState: .init(
                     media: mockMedias[2],
                     mediaType: .person,
                     personState: .init(mockPeople[0])
                 ),
-                reducer: detailReducer,
-                environment: .init(mainQueue: .main, dbClient: .previews)
+                reducer: DetailReducer()
             ).scope(state: \.personState),
             then: PersonDetailView.init
         )

@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct MovieCollectionState: Equatable {
     let belongsTo: BelongsToCollection
-    var status: DetailState.Status = .loading
+    var status: ViewStatus = .loading
 
     var collection: Movie.Collection?
 }

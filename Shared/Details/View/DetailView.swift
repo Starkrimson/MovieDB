@@ -10,7 +10,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct DetailView: View {
-    let store: Store<DetailState, DetailAction>
+    let store: StoreOf<DetailReducer>
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -75,8 +75,7 @@ struct DetailView_Previews: PreviewProvider {
         DetailView(
             store: .init(
                 initialState: .init(media: mockMedias[2], mediaType: .person),
-                reducer: detailReducer,
-                environment: .init(mainQueue: .main, dbClient: .previews)
+                reducer: DetailReducer()
             )
         )
         .frame(height: 850)

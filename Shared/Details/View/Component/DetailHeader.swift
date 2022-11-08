@@ -51,7 +51,7 @@ struct MediaHeader: View {
 extension DetailView {
     
     struct Header: View {
-        var state: DetailState
+        var state: DetailReducer.State
         
         var body: some View {
             switch state.mediaType {

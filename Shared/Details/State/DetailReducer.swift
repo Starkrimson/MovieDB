@@ -1,39 +1,12 @@
 //
-//  DetailState.swift
+//  DetailReducer.swift
 //  MovieDB
 //
 //  Created by allie on 14/7/2022.
 //
 
 import Foundation
-
-import Foundation
 import ComposableArchitecture
-
-struct DetailState: Equatable {
-    let media: Media
-    let mediaType: MediaType
-    
-    var tvState: TVState?
-    var movieState: MovieState?
-    var personState: PersonState?
-        
-    var status: Status = .loading
-    
-    enum Status: Equatable {
-        case normal, loading, error(Error)
-
-        static func == (lhs: DetailState.Status, rhs: DetailState.Status) -> Bool {
-            switch (lhs, rhs) {
-            case (.normal, .normal): return true
-            case (.loading, .loading): return true
-            case let (.error(l), .error(r)):
-                return l.localizedDescription == r.localizedDescription
-            default: return false
-            }
-        }
-    }
-}
 
 struct MovieState: Equatable {
     var movie: Movie
@@ -126,56 +99,68 @@ struct PersonState: Equatable {
     }    
 }
 
-enum DetailAction: Equatable {
-    case fetchDetails(mediaType: MediaType)
-    case fetchDetailsResponse(TaskResult<DetailModel>)
-    case selectImageType(imageType: Media.ImageType)
-}
-
-struct DetailEnvironment {
-    var mainQueue: AnySchedulerOf<DispatchQueue>
-    var dbClient: MovieDBClient
-}
-
-let detailReducer = Reducer<DetailState, DetailAction, DetailEnvironment> {
-    state, action, environment in
-    enum DetailID { }
+struct DetailReducer: ReducerProtocol {
     
-    switch action {
-    case .fetchDetails(mediaType: let mediaType):
+    struct State: Equatable {
+        let media: Media
+        let mediaType: MediaType
         
-        state.status = .loading
-        return .task { [id = state.media.id] in
-            await .fetchDetailsResponse(TaskResult<DetailModel> {
-                try await environment.dbClient.details(mediaType, id ?? 0)
-            })
+        var tvState: TVState?
+        var movieState: MovieState?
+        var personState: PersonState?
+            
+        var status: ViewStatus = .loading
+    }
+    
+    enum Action: Equatable {
+        case fetchDetails(mediaType: MediaType)
+        case fetchDetailsResponse(TaskResult<DetailModel>)
+        case selectImageType(imageType: Media.ImageType)
+    }
+    
+    @Dependency(\.dbClient) var dbClient
+        
+    var body: some ReducerProtocol<State, Action> {
+
+        Reduce { state, action in
+            enum DetailID { }
+            
+            switch action {
+            case .fetchDetails(mediaType: let mediaType):
+                state.status = .loading
+                return .task { [id = state.media.id] in
+                    await .fetchDetailsResponse(TaskResult<DetailModel> {
+                        try await dbClient.details(mediaType, id ?? 0)
+                    })
+                }
+                .animation()
+                .cancellable(id: DetailID.self)
+                
+            case .fetchDetailsResponse(.success(let detail)):
+                state.status = .normal
+                switch detail {
+                case .movie(let movie):
+                    state.movieState = .init(movie)
+                case .tv(let tv):
+                    state.tvState = .init(tv)
+                case .person(let person):
+                    state.personState = .init(person)
+                }
+                return .none
+                
+            case .fetchDetailsResponse(.failure(let error)):
+                state.status = .error(error)
+                customDump(error)
+                return .none
+                
+            case let .selectImageType(imageType):
+                if state.mediaType == .movie {
+                    state.movieState?.selectedImageType = imageType
+                } else if state.mediaType == .tv {
+                    state.tvState?.selectedImageType = imageType
+                }
+                return .none
+            }
         }
-        .animation()
-        .cancellable(id: DetailID.self)
-        
-    case .fetchDetailsResponse(.success(let detail)):
-        state.status = .normal
-        switch detail {
-        case .movie(let movie):
-            state.movieState = .init(movie)
-        case .tv(let tv):
-            state.tvState = .init(tv)
-        case .person(let person):
-            state.personState = .init(person)
-        }
-        return .none
-        
-    case .fetchDetailsResponse(.failure(let error)):
-        state.status = .error(error)
-        customDump(error)
-        return .none
-        
-    case let .selectImageType(imageType):
-        if state.mediaType == .movie {
-            state.movieState?.selectedImageType = imageType
-        } else if state.mediaType == .tv {
-            state.tvState?.selectedImageType = imageType
-        }
-        return .none
     }
 }

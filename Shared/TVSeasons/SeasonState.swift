@@ -13,7 +13,7 @@ struct SeasonState: Equatable {
     let seasonNumber: Int
     let showName: String
     
-    var status: DetailState.Status = .loading
+    var status: ViewStatus = .loading
     var season: Season?
     
     var episodes: [Episode] { season?.episodes ?? [] }

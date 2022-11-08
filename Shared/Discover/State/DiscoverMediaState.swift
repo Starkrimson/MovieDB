@@ -18,7 +18,7 @@ struct DiscoverMediaState: Equatable {
     var totalPages: Int = 1
     var list: IdentifiedArrayOf<Media> = []
     
-    var status: DetailState.Status = .loading
+    var status: ViewStatus = .loading
     
     var isLastPage: Bool { page >= totalPages }
 }

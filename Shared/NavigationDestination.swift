@@ -39,8 +39,7 @@ extension View {
             case let .mediaDetail(media, mediaType):
                 DetailView(store: .init(
                     initialState: .init(media: media, mediaType: mediaType ?? media.mediaType ?? .movie),
-                    reducer: detailReducer,
-                    environment: .init(mainQueue: .main, dbClient: .live)
+                    reducer: DetailReducer()
                 ))
             case let .movieCollection(belongsTo):
                 MovieCollectionView(store: .init(
