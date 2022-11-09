@@ -22,27 +22,21 @@ struct DetailView: View {
                 case .error(let error):
                     ErrorTips(error: error)
                 case .normal:
-                    switch viewStore.mediaType {
-                    case .movie:
-                        IfLetStore(
-                            store.scope(state: \.movieState),
-                            then: MovieDetailView.init
-                        )
-                        
-                    case .tv:
-                        IfLetStore(
-                            store.scope(state: \.tvState),
-                            then: TVDetailView.init
-                        )
-                        
-                    case .person:
-                        IfLetStore(
-                            store.scope(state: \.personState),
-                            then: PersonDetailView.init
-                        )
-
-                    default:
-                        EmptyView()
+                    IfLetStore(store.scope(state: \.detail)) { letStore in
+                        SwitchStore(letStore) {
+                            CaseLet(
+                                state: /DetailReducer.DetailState.movie,
+                                then: MovieDetailView.init
+                            )
+                            CaseLet(
+                                state: /DetailReducer.DetailState.tv,
+                                then: TVDetailView.init
+                            )
+                            CaseLet(
+                                state: /DetailReducer.DetailState.person,
+                                then: PersonDetailView.init
+                            )
+                        }
                     }
                 }
             }

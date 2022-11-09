@@ -10,7 +10,7 @@ import SwiftUI
 extension DetailView {
     
     struct Images: View {
-        @Binding var selectedImageType: Media.ImageType
+        @State var selectedImageType: Media.ImageType = .backdrop
         var images: Media.Images
         
         var body: some View {
@@ -75,7 +75,6 @@ extension DetailView {
 struct DetailImages_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Images(
-            selectedImageType: .constant(.backdrop),
             images: mockMovies[0].images ?? .init()
         )
     }

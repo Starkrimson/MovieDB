@@ -19,7 +19,9 @@ extension DiscoverView {
                 HStack(spacing: 0) {
                     ForEachStore(store) { detailStore in
                         WithViewStore(detailStore, observe: { $0 }) { detailViewStore in
-                            NavigationLink(value: detailViewStore.state) {
+                            NavigationLink {
+                                DetailView(store: detailStore)
+                            } label: {
                                 DiscoverView.CardItem(
                                     posterPath: detailViewStore.media.displayPosterPath,
                                     score: detailViewStore.media.voteAverage,

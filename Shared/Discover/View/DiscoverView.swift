@@ -23,19 +23,22 @@ struct DiscoverView: View {
                     selectedIndex: viewStore.binding(\.$popularIndex),
                     labels: ["MOVIES".localized, "TVSHOWS".localized]
                 )
-                CardRow(store: store.scope(state: \.popularList, action: DiscoverReducer.Action.detail))
+                if viewStore.popularIndex == 0 {
+                    CardRow(store: store.scope(state: \.popularMovies, action: DiscoverReducer.Action.popularMovie))
+                } else {
+                    CardRow(store: store.scope(state: \.popularTVShows, action: DiscoverReducer.Action.popularTVShow))
+                }
+                
                 SectionTitle(
                     title: "TRENDING".localized,
                     selectedIndex: viewStore.binding(\.$trendingIndex),
                     labels: ["TODAY".localized, "THIS WEEK".localized]
                 )
-                CardRow(store: store.scope(state: \.trendingList, action: DiscoverReducer.Action.detail))
-            }
-            .navigationDestination(for: DetailReducer.State.self) { state in
-                DetailView(store: .init(
-                    initialState: state,
-                    reducer: DetailReducer()
-                ))
+                if viewStore.trendingIndex == 0 {
+                    CardRow(store: store.scope(state: \.dailyTrending, action: DiscoverReducer.Action.dailyTrending))
+                } else {
+                    CardRow(store: store.scope(state: \.weeklyTrending, action: DiscoverReducer.Action.weeklyTrending))
+                }
             }
             .task {
                 await viewStore.send(.task).finish()

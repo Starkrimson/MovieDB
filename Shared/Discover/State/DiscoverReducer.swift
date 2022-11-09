@@ -17,20 +17,9 @@ struct DiscoverReducer: ReducerProtocol {
         var popularMovies: IdentifiedArrayOf<DetailReducer.State> = []
         var popularTVShows: IdentifiedArrayOf<DetailReducer.State> = []
         
-        var popularList: IdentifiedArrayOf<DetailReducer.State> {
-            popularIndex == 0
-            ? popularMovies
-            : popularTVShows
-        }
-        
         @BindableState var trendingIndex: Int = 0
         var dailyTrending: IdentifiedArrayOf<DetailReducer.State> = []
         var weeklyTrending: IdentifiedArrayOf<DetailReducer.State> = []
-        var trendingList: IdentifiedArrayOf<DetailReducer.State> {
-            trendingIndex == 0
-            ? dailyTrending
-            : weeklyTrending
-        }
 
         var error: String?
     }
@@ -48,7 +37,10 @@ struct DiscoverReducer: ReducerProtocol {
             timeWindow: TimeWindow,
             result: TaskResult<[Media]>)
         
-        case detail(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case popularMovie(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case popularTVShow(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case dailyTrending(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case weeklyTrending(id: DetailReducer.State.ID, action: DetailReducer.Action)
     }
     
     @Dependency(\.dbClient) var dbClient
@@ -127,14 +119,29 @@ struct DiscoverReducer: ReducerProtocol {
             case .fetchTrendingDone:
                 return .none
                 
-            case .detail:
+            case .popularMovie:
+                return .none
+                
+            case .popularTVShow:
+                return .none
+                
+            case .dailyTrending:
+                return .none
+                
+            case .weeklyTrending:
                 return .none
             }
         }
-        .forEach(\.popularMovies, action: /Action.detail) {
+        .forEach(\.popularMovies, action: /Action.popularMovie) {
             DetailReducer()
         }
-        .forEach(\.popularTVShows, action: /Action.detail) {
+        .forEach(\.popularTVShows, action: /Action.popularTVShow) {
+            DetailReducer()
+        }
+        .forEach(\.dailyTrending, action: /Action.dailyTrending) {
+            DetailReducer()
+        }
+        .forEach(\.weeklyTrending, action: /Action.weeklyTrending) {
             DetailReducer()
         }
     }

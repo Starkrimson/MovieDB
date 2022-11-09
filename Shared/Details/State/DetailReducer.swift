@@ -13,9 +13,7 @@ struct MovieState: Equatable, Hashable {
     
     var directors: [Media.Crew]
     var writers: [Media.Crew]
-    
-    var selectedImageType: Media.ImageType = .backdrop
-    
+        
     init(_ movie: Movie) {
         self.movie = movie
         directors = movie.credits?.crew?.filter { $0.department == "Directing" } ?? []
@@ -27,9 +25,7 @@ struct TVState: Equatable, Hashable {
     var tv: TVShow
     
     var createdBy: [Media.Crew]
-    
-    var selectedImageType: Media.ImageType = .backdrop
-    
+        
     init(_ tv: TVShow) {
         self.tv = tv
         
@@ -107,17 +103,20 @@ struct DetailReducer: ReducerProtocol {
         let media: Media
         let mediaType: MediaType
         
-        var tvState: TVState?
-        var movieState: MovieState?
-        var personState: PersonState?
-            
+        var detail: DetailState?
+                    
         var status: ViewStatus = .loading
+    }
+    
+    enum DetailState: Equatable, Hashable {
+        case movie(MovieState)
+        case tv(TVState)
+        case person(PersonState)
     }
     
     enum Action: Equatable {
         case fetchDetails(mediaType: MediaType)
         case fetchDetailsResponse(TaskResult<DetailModel>)
-        case selectImageType(imageType: Media.ImageType)
     }
     
     @Dependency(\.dbClient) var dbClient
@@ -141,25 +140,17 @@ struct DetailReducer: ReducerProtocol {
                 state.status = .normal
                 switch detail {
                 case .movie(let movie):
-                    state.movieState = .init(movie)
+                    state.detail = .movie(.init(movie))
                 case .tv(let tv):
-                    state.tvState = .init(tv)
+                    state.detail = .tv(.init(tv))
                 case .person(let person):
-                    state.personState = .init(person)
+                    state.detail = .person(.init(person))
                 }
                 return .none
                 
             case .fetchDetailsResponse(.failure(let error)):
                 state.status = .error(error.localizedDescription)
                 customDump(error)
-                return .none
-                
-            case let .selectImageType(imageType):
-                if state.mediaType == .movie {
-                    state.movieState?.selectedImageType = imageType
-                } else if state.mediaType == .tv {
-                    state.tvState?.selectedImageType = imageType
-                }
                 return .none
             }
         }
