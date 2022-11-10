@@ -17,17 +17,25 @@ struct DiscoverMediaReducer: ReducerProtocol {
         var filters: [URL.DiscoverQueryItem] = []
 
         var page: Int = 1
+        var quickSort: QuickSort = .popular
         var totalPages: Int = 1
         var list: IdentifiedArrayOf<Media> = []
         
         var status: ViewStatus = .loading
         
         var isLastPage: Bool { page >= totalPages }
+        
+        enum QuickSort: String, CaseIterable, Identifiable {
+            var id: Self { self }
+            case popular
+            case topRated = "Top Rated"
+        }
     }
     
     enum Action: Equatable {
         case fetchMedia(loadMore: Bool = false)
         case fetchMediaDone(loadMore: Bool, result: TaskResult<PageResponses<Media>>)
+        case setQuickSort(State.QuickSort)
     }
     
     @Dependency(\.dbClient) var dbClient
@@ -62,6 +70,22 @@ struct DiscoverMediaReducer: ReducerProtocol {
             case .fetchMediaDone(_, result: .failure(let error)):
                 state.status = .error(error.localizedDescription)
                 return .none
+                
+            case .setQuickSort(let quickSort):
+                state.quickSort = quickSort
+                state.page = 1
+                state.totalPages = 1
+                if quickSort == .popular {
+                    state.filters = []
+                } else {
+                    state.filters = [
+                        .sortBy("vote_average.desc"),
+                        .voteCountGTE(300)
+                    ]
+                }
+                return .task {
+                    .fetchMedia()
+                }
             }
         }
     }

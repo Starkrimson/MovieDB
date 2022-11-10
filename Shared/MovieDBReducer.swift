@@ -32,6 +32,8 @@ struct MovieDBReducer: ReducerProtocol {
         var selectedTab: Tab? = .discover
         var search: SearchReducer.State = .init()
         var discover: DiscoverReducer.State = .init()
+        var movies: DiscoverMediaReducer.State = .init(mediaType: .movie, name: Tab.movies.rawValue.localized)
+        var tvShows: DiscoverMediaReducer.State = .init(mediaType: .tv, name: Tab.tvShows.rawValue.localized)
     }
     
     enum Action: Equatable, BindableAction {
@@ -39,6 +41,8 @@ struct MovieDBReducer: ReducerProtocol {
         case tabSelected(Tab?)
         case search(SearchReducer.Action)
         case discover(DiscoverReducer.Action)
+        case movies(DiscoverMediaReducer.Action)
+        case tvShows(DiscoverMediaReducer.Action)
     }
         
     var body: some ReducerProtocol<State, Action> {
@@ -47,6 +51,12 @@ struct MovieDBReducer: ReducerProtocol {
         }
         Scope(state: \.search, action: /Action.search) {
             SearchReducer()
+        }
+        Scope(state: \.movies, action: /Action.movies) {
+            DiscoverMediaReducer()
+        }
+        Scope(state: \.tvShows, action: /Action.tvShows) {
+            DiscoverMediaReducer()
         }
         BindingReducer()
         Reduce { state, action in
@@ -71,6 +81,12 @@ struct MovieDBReducer: ReducerProtocol {
                 return .none
                 
             case .discover:
+                return .none
+                
+            case .movies:
+                return .none
+                
+            case .tvShows:
                 return .none
             }
         }

@@ -35,9 +35,11 @@ struct DiscoverMediaView: View {
             }
             .toolbar {
                 ToolbarItem {
-                    Picker("Menu", selection: .constant("Popular")) {
-                        ForEach(["Popular", "Top Rated"], id: \.self) { item in
-                            Text(item)
+                    Picker("Menu", selection: viewStore.binding(
+                        get: \.quickSort, send: DiscoverMediaReducer.Action.setQuickSort
+                    )) {
+                        ForEach(DiscoverMediaReducer.State.QuickSort.allCases) { item in
+                            Text(item.rawValue.localized)
                         }
                     }
                     .pickerStyle(.segmented)

@@ -35,7 +35,7 @@ struct MediaGrid: View {
                 }
             }
             if canLoadMore {
-                Button("载入更多") {
+                Button("LOAD MORE".localized) {
                     onLoadMore()
                 }
             }

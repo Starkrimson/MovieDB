@@ -55,17 +55,21 @@ struct ContentView: View {
                         )
                         
                     case .movies:
-                        DiscoverMediaView(store: .init(
-                            initialState: .init(mediaType: .movie, name: MovieDBReducer.Tab.movies.rawValue.localized),
-                            reducer: DiscoverMediaReducer()
-                        ))
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.movies,
+                                action: MovieDBReducer.Action.movies
+                            )
+                        )
                         
                     case .tvShows:
-                        DiscoverMediaView(store: .init(
-                            initialState: .init(mediaType: .tv, name: MovieDBReducer.Tab.tvShows.rawValue.localized),
-                            reducer: DiscoverMediaReducer()
-                        ))
-
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.tvShows,
+                                action: MovieDBReducer.Action.tvShows
+                            )
+                        )
+                        
                     case .none:
                         EmptyView()
                     }
