@@ -8,63 +8,61 @@
 import Foundation
 import ComposableArchitecture
 
-struct DiscoverMediaState: Equatable {
-    let mediaType: MediaType
-    let name: String
-    var withKeywords: [Int] = []
-    var withGenres: [Int] = []
-
-    var page: Int = 1
-    var totalPages: Int = 1
-    var list: IdentifiedArrayOf<Media> = []
+struct DiscoverMediaReducer: ReducerProtocol {
     
-    var status: ViewStatus = .loading
+    struct State: Equatable {
+        let mediaType: MediaType
+        let name: String
+        
+        var filters: [URL.DiscoverQueryItem] = []
+
+        var page: Int = 1
+        var totalPages: Int = 1
+        var list: IdentifiedArrayOf<Media> = []
+        
+        var status: ViewStatus = .loading
+        
+        var isLastPage: Bool { page >= totalPages }
+    }
     
-    var isLastPage: Bool { page >= totalPages }
-}
-
-enum DiscoverMediaAction: Equatable {
-    case fetchMedia(loadMore: Bool = false)
-    case fetchMediaDone(loadMore: Bool, result: TaskResult<PageResponses<Media>>)
-}
-
-struct DiscoverMediaEnvironment {
-    var mainQueue: AnySchedulerOf<DispatchQueue>
-    var dbClient: MovieDBClient
-}
-
-let discoverMediaReducer = Reducer<
-    DiscoverMediaState, DiscoverMediaAction, DiscoverMediaEnvironment
-> {
-    state, action, environment in
-    switch action {
-    case .fetchMedia(let loadMore):
-        state.status = .loading
-        return .task { [state] in
-            await .fetchMediaDone(loadMore: loadMore, result: TaskResult<PageResponses<Media>> {
-                try await environment.dbClient
-                    .discover(state.mediaType, [
-                        .page(loadMore ? state.page + 1 : 1),
-                        .keywords(state.withKeywords),
-                        .genres(state.withGenres)
-                    ])
-            })
+    enum Action: Equatable {
+        case fetchMedia(loadMore: Bool = false)
+        case fetchMediaDone(loadMore: Bool, result: TaskResult<PageResponses<Media>>)
+    }
+    
+    @Dependency(\.dbClient) var dbClient
+    
+    var body: some ReducerProtocol<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .fetchMedia(let loadMore):
+                state.status = .loading
+                return .task { [state] in
+                    await .fetchMediaDone(loadMore: loadMore, result: TaskResult<PageResponses<Media>> {
+                        try await dbClient
+                            .discover(
+                                state.mediaType,
+                                state.filters + [ .page(loadMore ? state.page + 1 : 1) ]
+                            )
+                    })
+                }
+                .animation()
+                
+            case .fetchMediaDone(let loadMore, result: .success(let value)):
+                state.status = .normal
+                state.page = value.page ?? 1
+                state.totalPages = value.totalPages ?? 1
+                let list = value.results ?? []
+                if !loadMore {
+                    state.list.removeAll()
+                }
+                state.list.append(contentsOf: list)
+                return .none
+                
+            case .fetchMediaDone(_, result: .failure(let error)):
+                state.status = .error(error.localizedDescription)
+                return .none
+            }
         }
-        .animation()
-        
-    case .fetchMediaDone(let loadMore, result: .success(let value)):
-        state.status = .normal
-        state.page = value.page ?? 1
-        state.totalPages = value.totalPages ?? 1
-        let list = value.results ?? []
-        if !loadMore {
-            state.list.removeAll()
-        }
-        state.list.append(contentsOf: list)
-        return .none
-        
-    case .fetchMediaDone(_, result: .failure(let error)):
-        state.status = .error(error.localizedDescription)
-        return .none
     }
 }

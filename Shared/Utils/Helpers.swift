@@ -132,10 +132,24 @@ extension URL {
     }
     
     enum DiscoverQueryItem: Equatable {
+        /// Specify the page of results to query. minimum: 1 maximum: 1000 default: 1
         case page(Int)
+        /// Choose from one of the many available sort options.
+        /// Allowed Values: , popularity.asc, popularity.desc, release_date.asc, release_date.desc, revenue.asc, revenue.desc, primary_release_date.asc, primary_release_date.desc, original_title.asc, original_title.desc, vote_average.asc, vote_average.desc, vote_count.asc, vote_count.desc
+        /// default: popularity.desc
         case sortBy(String)
+        /// Comma separated value of genre ids that you want to include in the results.
         case genres([Int])
+        /// A comma separated list of keyword ID's. Only includes movies that have one of the ID's added as a keyword.
         case keywords([Int])
+        /// Filter and only include movies that have a vote count that is greater or equal to the specified value. minimum: 0
+        case voteCountGTE(Int)
+        /// Filter and only include movies that have a vote count that is less than or equal to the specified value. minimum: 1
+        case voteCountLTE(Int)
+        /// Filter and only include movies that have a rating that is greater or equal to the specified value. minimum: 0
+        case voteAverageGTE(Int)
+        /// Filter and only include movies that have a rating that is less than or equal to the specified value. minimum: 0
+        case voteAverageLTE(Int)
         
         var key: String {
             switch self {
@@ -147,13 +161,23 @@ extension URL {
                 return "with_genres"
             case .keywords:
                 return "with_keywords"
+            case .voteCountGTE:
+                return "vote_count.gte"
+            case .voteCountLTE:
+                return "vote_count.lte"
+            case .voteAverageGTE:
+                return "vote_average.gte"
+            case .voteAverageLTE:
+                return "vote_average.lte"
             }
         }
         
         var value: String {
             switch self {
-            case .page(let page):
-                return "\(page)"
+            case .page(let value),
+                 .voteCountGTE(let value), .voteCountLTE(let value),
+                 .voteAverageGTE(let value), .voteAverageLTE(let value):
+                return "\(value)"
             case .sortBy(let sort):
                 return sort
             case .genres(let ids), .keywords(let ids):

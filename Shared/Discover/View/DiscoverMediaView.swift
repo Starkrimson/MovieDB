@@ -9,16 +9,18 @@ import SwiftUI
 import ComposableArchitecture
 
 struct DiscoverMediaView: View {
-    let store: Store<DiscoverMediaState, DiscoverMediaAction>
+    let store: StoreOf<DiscoverMediaReducer>
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            ScrollView {                
-                MediaGrid(list: viewStore.list,
-                           canLoadMore: !viewStore.isLastPage && viewStore.status != .loading) {
+            ScrollView {
+                MediaGrid(
+                    list: viewStore.list,
+                    canLoadMore: !viewStore.isLastPage && viewStore.status != .loading
+                ) {
                     viewStore.send(.fetchMedia(loadMore: true))
                 }
-                
+                .padding()
                 if viewStore.status == .loading {
                     ProgressView()
                 }
@@ -31,17 +33,27 @@ struct DiscoverMediaView: View {
             .onAppear {
                 viewStore.send(.fetchMedia())
             }
+            .toolbar {
+                ToolbarItem {
+                    Picker("Menu", selection: .constant("Popular")) {
+                        ForEach(["Popular", "Top Rated"], id: \.self) { item in
+                            Text(item)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+            }
         }
     }
 }
 
 struct DiscoverMediaView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMediaView(store: .init(
-            initialState: .init(mediaType: .movie, name: "Movie", totalPages: 2),
-            reducer: discoverMediaReducer,
-            environment: .init(mainQueue: .main, dbClient: .previews)
-        ))
+        NavigationStack {
+            DiscoverMediaView(store: .init(
+                initialState: .init(mediaType: .movie, name: "Movie", totalPages: 2),
+                reducer: DiscoverMediaReducer()
+            ))
+        }
     }
 }
-
