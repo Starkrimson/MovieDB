@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MovieDetailView: View {
-    let store: Store<MovieState, DetailAction>
+    let store: Store<MovieState, DetailReducer.Action>
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -34,15 +34,7 @@ struct MovieDetailView: View {
                 
                 // MARK: - 海报/剧照
                 if let images = viewStore.movie.images {
-                    DetailView.Images(
-                        selectedImageType: viewStore.binding(
-                            get: \.selectedImageType,
-                            send: {
-                                .selectImageType(imageType: $0)
-                            }
-                        ),
-                        images: images
-                    )
+                    DetailView.Images(images: images)
                 }
                 
                 // MARK: - 电影系列
@@ -66,16 +58,23 @@ struct MovieDetailView: View {
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
         IfLetStore(
-            Store<DetailState, DetailAction>(
+            StoreOf<DetailReducer>(
                 initialState: .init(
                     media: mockMedias[0],
                     mediaType: .movie,
-                    movieState: .init(mockMovies[0])
+                    detail: .movie(.init(mockMovies[0]))
                 ),
-                reducer: detailReducer,
-                environment: .init(mainQueue: .main, dbClient: .previews)
-            ).scope(state: \.movieState),
-            then: MovieDetailView.init
+                reducer: DetailReducer()
+            )
+            .scope(state: \.detail),
+            then: { detailStore in
+                SwitchStore(detailStore) {
+                    CaseLet(
+                        state: /DetailReducer.DetailState.movie,
+                        then: MovieDetailView.init
+                    )
+                }
+            }
         )
         .frame(minHeight: 1650)
     }

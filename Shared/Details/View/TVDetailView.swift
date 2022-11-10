@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct TVDetailView: View {
-    let store: Store<TVState, DetailAction>
+    let store: Store<TVState, DetailReducer.Action>
 
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -43,15 +43,7 @@ struct TVDetailView: View {
                 
                 // MARK: - 海报/剧照
                 if let images = viewStore.tv.images {
-                    DetailView.Images(
-                        selectedImageType: viewStore.binding(
-                            get: \.selectedImageType,
-                            send: {
-                                .selectImageType(imageType: $0)
-                            }
-                        ),
-                        images: images
-                    )
+                    DetailView.Images(images: images)
                 }
                 
                 // MARK: - 相关推荐
@@ -70,16 +62,23 @@ struct TVDetailView: View {
 struct TVDetailView_Previews: PreviewProvider {
     static var previews: some View {
         IfLetStore(
-            Store<DetailState, DetailAction>(
+            StoreOf<DetailReducer>(
                 initialState: .init(
                     media: mockMedias[1],
                     mediaType: .tv,
-                    tvState: .init(mockTVShows[0])
+                    detail: .tv(.init(mockTVShows[0]))
                 ),
-                reducer: detailReducer,
-                environment: .init(mainQueue: .main, dbClient: .previews)
-            ).scope(state: \.tvState),
-            then: TVDetailView.init
+                reducer: DetailReducer()
+            )
+            .scope(state: \.detail),
+            then: { detailStore in
+                SwitchStore(detailStore) {
+                    CaseLet(
+                        state: /DetailReducer.DetailState.tv,
+                        then: TVDetailView.init
+                    )
+                }
+            }
         )
         .frame(minHeight: 1050)
     }

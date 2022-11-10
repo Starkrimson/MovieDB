@@ -51,7 +51,7 @@ struct MediaHeader: View {
 extension DetailView {
     
     struct Header: View {
-        var state: DetailState
+        var state: DetailReducer.State
         
         var body: some View {
             switch state.mediaType {
@@ -74,9 +74,8 @@ extension DetailView {
                         Text(state.media.displayName)
                             .font(.largeTitle)
                         
-                        if let person = state.personState?.person {
-                            DetailView.Material(detail: .person(person))
-                                .padding(.top)
+                        if case .person(let personState) = state.detail {
+                            DetailView.Material(detail: .person(personState.person))
                         }
                     }
                     .padding(.leading)

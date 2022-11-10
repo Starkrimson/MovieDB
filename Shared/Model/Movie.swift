@@ -24,7 +24,7 @@ enum DetailModel: Equatable {
     }
 }
 
-struct Movie: Codable, Equatable, Identifiable, DBResponses {
+struct Movie: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var adult: Bool?
     var backdropPath: String?
     var belongsToCollection: BelongsToCollection?
@@ -77,7 +77,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses {
     }
 }
 
-struct SpokenLanguage: Codable, Equatable, Identifiable {
+struct SpokenLanguage: Codable, Equatable, Identifiable, Hashable {
     var englishName: String?
     var iso6391: String?
     var name: String?
@@ -85,21 +85,21 @@ struct SpokenLanguage: Codable, Equatable, Identifiable {
     var id: String? { iso6391 }
 }
 
-struct ProductionCountry: Codable, Equatable, Identifiable {
+struct ProductionCountry: Codable, Equatable, Identifiable, Hashable {
     var iso31661: String?
     var name: String?
     
     var id: String? { iso31661 }
 }
 
-struct ProductionCompany: Codable, Equatable, Identifiable {
+struct ProductionCompany: Codable, Equatable, Identifiable, Hashable {
     var id: Int?
     var logoPath: String?
     var name: String?
     var originCountry: String?
 }
 
-struct Genre: Codable, Equatable, Identifiable {
+struct Genre: Codable, Equatable, Identifiable, Hashable {
     var id: Int?
     var name: String?
 }
@@ -111,7 +111,7 @@ struct BelongsToCollection: Codable, Equatable, Identifiable, Hashable {
     var posterPath: String?
 }
 
-struct Keywords: Codable, Equatable {
+struct Keywords: Codable, Equatable, Hashable {
     var keywords: [Genre]?
 }
 

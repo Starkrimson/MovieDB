@@ -36,7 +36,7 @@
 		0993FBB2287E6A0E002227E0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FBB1287E6A0E002227E0 /* Helpers.swift */; };
 		0993FCD1287ECE27002227E0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0993FCD0287ECE27002227E0 /* Movie.swift */; };
 		09992B1A288E724300320342 /* ImageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09992B19288E724300320342 /* ImageGridView.swift */; };
-		09A05A9A287FE971003A2225 /* DetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A05A99287FE971003A2225 /* DetailState.swift */; };
+		09A05A9A287FE971003A2225 /* DetailReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A05A99287FE971003A2225 /* DetailReducer.swift */; };
 		09A05A9E287FEDF7003A2225 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A05A9D287FEDF7003A2225 /* DetailView.swift */; };
 		09A549F7288FE20F0052492A /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A549F6288FE20F0052492A /* FlowLayout.swift */; };
 		09B123192890DEA0007B5815 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B123182890DEA0007B5815 /* GridLayout.swift */; };
@@ -61,7 +61,6 @@
 		09E15D0B28912F8B00D64488 /* ErrorTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E15D0A28912F8B00D64488 /* ErrorTips.swift */; };
 		09E15D0E28913DB100D64488 /* DetailSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E15D0D28913DB100D64488 /* DetailSeason.swift */; };
 		09E15D122891428900D64488 /* SeasonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E15D112891428900D64488 /* SeasonList.swift */; };
-		09E15DA52892311E00D64488 /* NavigationDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E15DA42892311E00D64488 /* NavigationDestination.swift */; };
 		09E15DA82892429A00D64488 /* SeasonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E15DA72892429A00D64488 /* SeasonState.swift */; };
 		09F0262E28853723009DAC1F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F0262D28853723009DAC1F /* ProfileView.swift */; };
 		09F0263128853971009DAC1F /* DetailRecommended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F0263028853971009DAC1F /* DetailRecommended.swift */; };
@@ -115,7 +114,7 @@
 		0993FBB1287E6A0E002227E0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		0993FCD0287ECE27002227E0 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		09992B19288E724300320342 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
-		09A05A99287FE971003A2225 /* DetailState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailState.swift; sourceTree = "<group>"; };
+		09A05A99287FE971003A2225 /* DetailReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReducer.swift; sourceTree = "<group>"; };
 		09A05A9D287FEDF7003A2225 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		09A549F6288FE20F0052492A /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		09B123182890DEA0007B5815 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
@@ -141,7 +140,6 @@
 		09E15D0A28912F8B00D64488 /* ErrorTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTips.swift; sourceTree = "<group>"; };
 		09E15D0D28913DB100D64488 /* DetailSeason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSeason.swift; sourceTree = "<group>"; };
 		09E15D112891428900D64488 /* SeasonList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonList.swift; sourceTree = "<group>"; };
-		09E15DA42892311E00D64488 /* NavigationDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDestination.swift; sourceTree = "<group>"; };
 		09E15DA72892429A00D64488 /* SeasonState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonState.swift; sourceTree = "<group>"; };
 		09F0262D28853723009DAC1F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		09F0263028853971009DAC1F /* DetailRecommended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecommended.swift; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 				09CE6D792918DCC3001E87F3 /* MovieDBReducer.swift */,
 				0929EDA8286D93CA007C4BFB /* ContentView.swift */,
 				0929EDA9286D93CA007C4BFB /* Persistence.swift */,
-				09E15DA42892311E00D64488 /* NavigationDestination.swift */,
 				096A1A79287BFDB700C3C412 /* Networking */,
 				096A1A75287BFD5700C3C412 /* Model */,
 				0929EDAA286D93CC007C4BFB /* Assets.xcassets */,
@@ -333,7 +330,7 @@
 		09A05A98287FE960003A2225 /* State */ = {
 			isa = PBXGroup;
 			children = (
-				09A05A99287FE971003A2225 /* DetailState.swift */,
+				09A05A99287FE971003A2225 /* DetailReducer.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -449,7 +446,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					0929EDAE286D93CC007C4BFB = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -540,7 +537,6 @@
 				09615959286E89240001F593 /* DiscoverView.swift in Sources */,
 				09BC21E0289109110074A46E /* URLImage.swift in Sources */,
 				0952C8FA2897751600E3A7D8 /* DiscoverMediaView.swift in Sources */,
-				09E15DA52892311E00D64488 /* NavigationDestination.swift in Sources */,
 				0929EDB8286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
 				09F0263128853971009DAC1F /* DetailRecommended.swift in Sources */,
 				09E15D0B28912F8B00D64488 /* ErrorTips.swift in Sources */,
@@ -554,7 +550,7 @@
 				098C543F288531450063341E /* DetailImages.swift in Sources */,
 				09E15D082891199600D64488 /* MovieCollectionView.swift in Sources */,
 				09615964286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */,
-				09A05A9A287FE971003A2225 /* DetailState.swift in Sources */,
+				09A05A9A287FE971003A2225 /* DetailReducer.swift in Sources */,
 				0993FBAC287E6121002227E0 /* Mock.swift in Sources */,
 				0993FBB2287E6A0E002227E0 /* Helpers.swift in Sources */,
 				09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */,
@@ -600,6 +596,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -659,6 +656,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

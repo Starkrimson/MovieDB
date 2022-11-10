@@ -45,9 +45,17 @@ extension DetailView {
                         // MARK: - 类型
                         HStack {
                             ForEach(genres) { item in
-                                NavigationLink(destination:
-                                        .discoverMedia(mediaType: mediaType, name: item.name ?? "", genres: [item.id ?? 0])
-                                ) {
+                                NavigationLink {
+                                    DiscoverMediaView(store: .init(
+                                        initialState: .init(
+                                            mediaType: mediaType,
+                                            name: item.name ?? "",
+                                            withGenres: [item.id ?? 0]
+                                        ),
+                                        reducer: discoverMediaReducer,
+                                        environment: .init(mainQueue: .main, dbClient: .live)
+                                    ))
+                                } label: {
                                     Text(item.name ?? "")
                                 }
                             }
@@ -72,7 +80,12 @@ extension DetailView {
                     ScrollView(.horizontal) {
                         HStack(alignment: .top) {
                             ForEach(list) { crew in
-                                NavigationLink(destination: .mediaDetail(media: .from(crew), mediaType: .person)) {
+                                NavigationLink {
+                                    DetailView(store: .init(
+                                        initialState: .init(media: .from(crew), mediaType: .person),
+                                        reducer: DetailReducer()
+                                    ))
+                                } label: {
                                     ProfileView(
                                         axis: .horizontal,
                                         profilePath: crew.profilePath ?? "",

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TVShow: Codable, Equatable, Identifiable, DBResponses {
+struct TVShow: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var adult: Bool?
     var backdropPath: String?
     var createdBy: [Media.Crew]?
@@ -83,7 +83,7 @@ struct Episode: Codable, Equatable, Identifiable, Hashable {
     var voteCount: Int?
 }
 
-struct EpisodeToAir: Codable, Equatable, Identifiable {
+struct EpisodeToAir: Codable, Equatable, Identifiable, Hashable {
     var airDate: String?
     var episodeNumber: Int?
     var id: Int?
@@ -97,7 +97,7 @@ struct EpisodeToAir: Codable, Equatable, Identifiable {
     var voteCount: Int?
 }
 
-struct Network: Codable, Equatable, Identifiable {
+struct Network: Codable, Equatable, Identifiable, Hashable {
     var id: Int?
     var logoPath: String?
     var name: String?

@@ -38,7 +38,13 @@ extension DetailView {
                         .foregroundColor(.white)
                         .font(.largeTitle)
                     
-                    NavigationLink(destination: .movieCollection(collection)) {
+                    NavigationLink {
+                        MovieCollectionView(store: .init(
+                            initialState: .init(belongsTo: collection),
+                            reducer: movieCollectionReducer,
+                            environment: .init(mainQueue: .main, dbClient: .live)
+                        ))
+                    } label: {
                         Text("查看电影系列")
                     }
                 }

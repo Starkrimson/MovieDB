@@ -14,25 +14,14 @@ struct DiscoverReducer: ReducerProtocol {
         var backdropPath: String?
         
         @BindableState var popularIndex: Int = 0
-        var popularMovies: IdentifiedArrayOf<Media> = []
-        var popularTVShows: IdentifiedArrayOf<Media> = []
-        
-        var popularList: IdentifiedArrayOf<Media> {
-            popularIndex == 0
-            ? popularMovies
-            : popularTVShows
-        }
+        var popularMovies: IdentifiedArrayOf<DetailReducer.State> = []
+        var popularTVShows: IdentifiedArrayOf<DetailReducer.State> = []
         
         @BindableState var trendingIndex: Int = 0
-        var dailyTrending: IdentifiedArrayOf<Media> = []
-        var weeklyTrending: IdentifiedArrayOf<Media> = []
-        var trendingList: IdentifiedArrayOf<Media> {
-            trendingIndex == 0
-            ? dailyTrending
-            : weeklyTrending
-        }
-        
-        var error: AppError?
+        var dailyTrending: IdentifiedArrayOf<DetailReducer.State> = []
+        var weeklyTrending: IdentifiedArrayOf<DetailReducer.State> = []
+
+        var error: String?
     }
     
     enum Action: Equatable, BindableAction {
@@ -47,6 +36,11 @@ struct DiscoverReducer: ReducerProtocol {
             mediaType: MediaType,
             timeWindow: TimeWindow,
             result: TaskResult<[Media]>)
+        
+        case popularMovie(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case popularTVShow(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case dailyTrending(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case weeklyTrending(id: DetailReducer.State.ID, action: DetailReducer.Action)
     }
     
     @Dependency(\.dbClient) var dbClient
@@ -75,17 +69,21 @@ struct DiscoverReducer: ReducerProtocol {
                 .animation()
                 
             case let .fetchPopularDone(kind: .movie, result: .success(results)):
-                state.popularMovies = .init(uniqueElements: results)
+                state.popularMovies = .init(uniqueElements: results.map { media in
+                    DetailReducer.State(media: media, mediaType: .movie)
+                })
                 state.error = nil
                 return .none
                 
             case let .fetchPopularDone(kind: .tv, result: .success(results)):
-                state.popularTVShows = .init(uniqueElements: results)
+                state.popularTVShows = .init(uniqueElements: results.map { media in
+                    DetailReducer.State(media: media, mediaType: .tv)
+                })
                 state.error = nil
                 return .none
                 
             case .fetchPopularDone(kind: _, result: .failure(let error)):
-                state.error = error as? AppError
+                state.error = error.localizedDescription
                 return .none
 
             case .fetchPopularDone(kind: _, result: _):
@@ -105,18 +103,46 @@ struct DiscoverReducer: ReducerProtocol {
                 
             case let .fetchTrendingDone(mediaType: _, timeWindow: .day, result: .success(results)):
                 state.backdropPath = results.randomElement()?.backdropPath
-                state.dailyTrending = .init(uniqueElements: results)
+                state.dailyTrending = .init(uniqueElements: results.map { media in
+                    DetailReducer.State(media: media, mediaType: media.mediaType ?? .movie)
+                })
                 state.error = nil
                 return .none
                 
             case let .fetchTrendingDone(mediaType: _, timeWindow: .week, result: .success(results)):
-                state.weeklyTrending = .init(uniqueElements: results)
+                state.weeklyTrending = .init(uniqueElements: results.map { media in
+                    DetailReducer.State(media: media, mediaType: media.mediaType ?? .movie)
+                })
                 state.error = nil
                 return .none
                 
             case .fetchTrendingDone:
                 return .none
+                
+            case .popularMovie:
+                return .none
+                
+            case .popularTVShow:
+                return .none
+                
+            case .dailyTrending:
+                return .none
+                
+            case .weeklyTrending:
+                return .none
             }
+        }
+        .forEach(\.popularMovies, action: /Action.popularMovie) {
+            DetailReducer()
+        }
+        .forEach(\.popularTVShows, action: /Action.popularTVShow) {
+            DetailReducer()
+        }
+        .forEach(\.dailyTrending, action: /Action.dailyTrending) {
+            DetailReducer()
+        }
+        .forEach(\.weeklyTrending, action: /Action.weeklyTrending) {
+            DetailReducer()
         }
     }
 }

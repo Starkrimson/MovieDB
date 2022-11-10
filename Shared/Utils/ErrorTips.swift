@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct ErrorTips: View {
-    let error: Error
+    let error: String
     
     var body: some View {
         HStack {
             Image(systemName: "exclamationmark.circle.fill")
                 .foregroundColor(.red)
-            Text((error as? AppError)?.localizedDescription ?? error.localizedDescription)
+            Text(error)
         }
     }
 }
 
 struct ErrorTips_Previews: PreviewProvider {
     static var previews: some View {
-        ErrorTips(error: AppError.sample("Sample error"))
+        ErrorTips(error: "Sample error")
     }
 }

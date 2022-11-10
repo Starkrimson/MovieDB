@@ -22,7 +22,12 @@ extension DetailView {
                 ScrollView(.horizontal) {
                     HStack(alignment: .top, spacing: 0) {
                         ForEach(recommendations.prefix(10)) { recommend in
-                            NavigationLink(destination: .mediaDetail(media: recommend, mediaType: recommend.mediaType)) {
+                            NavigationLink {
+                                DetailView(store: .init(
+                                    initialState: .init(media: recommend, mediaType: recommend.mediaType ?? .movie),
+                                    reducer: DetailReducer()
+                                ))
+                            } label: {
                                 VStack {
                                     URLImage(recommend.backdropPath?.imagePath(.face(w: 500, h: 282)))
                                         .frame(width: 250, height: 141)

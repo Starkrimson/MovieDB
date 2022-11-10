@@ -15,11 +15,13 @@ struct SeasonList: View {
     var body: some View {
         ScrollView {
             ForEach(seasons) { season in
-                NavigationLink(destination: .episodeList(
-                    showName: showName,
-                    tvID: tvID,
-                    seasonNumber: season.seasonNumber ?? 0
-                )) {
+                NavigationLink {
+                    EpisodeList(store: .init(
+                        initialState: .init(tvID: tvID, seasonNumber: season.seasonNumber ?? 0, showName: showName),
+                        reducer: seasonReducer,
+                        environment: .init(mainQueue: .main, dbClient: .live)
+                    ))
+                } label: {
                     SeasonRow(
                         showName: showName,
                         seasonName: season.name ?? "",

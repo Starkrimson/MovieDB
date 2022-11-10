@@ -18,7 +18,7 @@ struct DiscoverMediaState: Equatable {
     var totalPages: Int = 1
     var list: IdentifiedArrayOf<Media> = []
     
-    var status: DetailState.Status = .loading
+    var status: ViewStatus = .loading
     
     var isLastPage: Bool { page >= totalPages }
 }
@@ -64,7 +64,7 @@ let discoverMediaReducer = Reducer<
         return .none
         
     case .fetchMediaDone(_, result: .failure(let error)):
-        state.status = .error(error)
+        state.status = .error(error.localizedDescription)
         return .none
     }
 }

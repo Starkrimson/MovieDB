@@ -13,8 +13,8 @@ protocol DBResponses {
     var statusMessage: String? { get }
 }
 
-struct PageResponses<Result>: Codable, Equatable, DBResponses
-where Result: Codable, Result: Equatable {
+struct PageResponses<Result>: Codable, Equatable, DBResponses, Hashable
+where Result: Codable, Result: Equatable, Result: Hashable {
     
     var page: Int?
     var totalResults: Int?

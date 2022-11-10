@@ -10,10 +10,10 @@ import SwiftUI
 import ComposableArchitecture
 
 struct DetailView: View {
-    let store: Store<DetailState, DetailAction>
+    let store: StoreOf<DetailReducer>
     
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             ScrollView {
                 Header(state: viewStore.state)
                 
@@ -22,27 +22,21 @@ struct DetailView: View {
                 case .error(let error):
                     ErrorTips(error: error)
                 case .normal:
-                    switch viewStore.mediaType {
-                    case .movie:
-                        IfLetStore(
-                            store.scope(state: \.movieState),
-                            then: MovieDetailView.init
-                        )
-                        
-                    case .tv:
-                        IfLetStore(
-                            store.scope(state: \.tvState),
-                            then: TVDetailView.init
-                        )
-                        
-                    case .person:
-                        IfLetStore(
-                            store.scope(state: \.personState),
-                            then: PersonDetailView.init
-                        )
-
-                    default:
-                        EmptyView()
+                    IfLetStore(store.scope(state: \.detail)) { letStore in
+                        SwitchStore(letStore) {
+                            CaseLet(
+                                state: /DetailReducer.DetailState.movie,
+                                then: MovieDetailView.init
+                            )
+                            CaseLet(
+                                state: /DetailReducer.DetailState.tv,
+                                then: TVDetailView.init
+                            )
+                            CaseLet(
+                                state: /DetailReducer.DetailState.person,
+                                then: PersonDetailView.init
+                            )
+                        }
                     }
                 }
             }
@@ -75,8 +69,7 @@ struct DetailView_Previews: PreviewProvider {
         DetailView(
             store: .init(
                 initialState: .init(media: mockMedias[2], mediaType: .person),
-                reducer: detailReducer,
-                environment: .init(mainQueue: .main, dbClient: .previews)
+                reducer: DetailReducer()
             )
         )
         .frame(height: 850)

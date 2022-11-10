@@ -9,12 +9,10 @@ import SwiftUI
 import ComposableArchitecture
 
 struct DiscoverView: View {
-    @State var trendingIndex: Int = 0
-
     let store: StoreOf<DiscoverReducer>
     
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             ScrollView {
                 Header(backdropPath: viewStore.backdropPath)
                 if let error = viewStore.error {
@@ -25,21 +23,28 @@ struct DiscoverView: View {
                     selectedIndex: viewStore.binding(\.$popularIndex),
                     labels: ["MOVIES".localized, "TVSHOWS".localized]
                 )
-                CardRow(mediaType: viewStore.popularIndex == 0 ? .movie : .tv,
-                        list: viewStore.popularList)
+                if viewStore.popularIndex == 0 {
+                    CardRow(store: store.scope(state: \.popularMovies, action: DiscoverReducer.Action.popularMovie))
+                } else {
+                    CardRow(store: store.scope(state: \.popularTVShows, action: DiscoverReducer.Action.popularTVShow))
+                }
+                
                 SectionTitle(
                     title: "TRENDING".localized,
                     selectedIndex: viewStore.binding(\.$trendingIndex),
                     labels: ["TODAY".localized, "THIS WEEK".localized]
                 )
-                CardRow(list: viewStore.trendingList)
+                if viewStore.trendingIndex == 0 {
+                    CardRow(store: store.scope(state: \.dailyTrending, action: DiscoverReducer.Action.dailyTrending))
+                } else {
+                    CardRow(store: store.scope(state: \.weeklyTrending, action: DiscoverReducer.Action.weeklyTrending))
+                }
             }
             .task {
                 await viewStore.send(.task).finish()
             }
             .frame(minWidth: 320)
             .navigationTitle("Discover")
-            .appDestination()
         }
     }
 }

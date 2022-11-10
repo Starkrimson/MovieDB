@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Person: Codable, Equatable, Identifiable, DBResponses {
+struct Person: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var adult: Bool?
     var alsoKnownAs: [String]?
     var biography: String?

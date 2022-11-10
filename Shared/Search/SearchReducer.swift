@@ -8,18 +8,8 @@
 import Foundation
 import ComposableArchitecture
 
-enum ViewStatus: Equatable {
-    case normal, loading, error(Error)
-
-    static func == (lhs: ViewStatus, rhs: ViewStatus) -> Bool {
-        switch (lhs, rhs) {
-        case (.normal, .normal): return true
-        case (.loading, .loading): return true
-        case let (.error(l), .error(r)):
-            return l.localizedDescription == r.localizedDescription
-        default: return false
-        }
-    }
+enum ViewStatus: Equatable, Hashable {
+    case normal, loading, error(String)
 }
 
 struct SearchReducer: ReducerProtocol {
@@ -77,7 +67,7 @@ struct SearchReducer: ReducerProtocol {
                 return .none
                 
             case .searchResponse(.failure(let error)):
-                state.status = .error(error)
+                state.status = .error(error.localizedDescription)
                 return .none
             }
         }
