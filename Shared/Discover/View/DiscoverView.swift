@@ -45,7 +45,6 @@ struct DiscoverView: View {
             }
             .frame(minWidth: 320)
             .navigationTitle("Discover")
-            .appDestination()
         }
     }
 }

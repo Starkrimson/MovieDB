@@ -22,7 +22,12 @@ extension PersonDetailView {
                         ForEach(credit.credits) { item in
                             HStack {
                                 Text(item.year)
-                                NavigationLink(destination: .mediaDetail(media: .from(item), mediaType: item.mediaType)) {
+                                NavigationLink {
+                                    DetailView(store: .init(
+                                        initialState: .init(media: .from(item), mediaType: item.mediaType ?? .movie),
+                                        reducer: DetailReducer()
+                                    ))
+                                } label: {
                                     Text(item.title)
                                 }
                                 .buttonStyle(.plain)

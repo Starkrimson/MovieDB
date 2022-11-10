@@ -17,7 +17,12 @@ struct MediaGrid: View {
         VStack {
             GridLayout(estimatedItemWidth: 200) {
                 ForEach(list) { item in
-                    NavigationLink(destination: .mediaDetail(media: item)) {
+                    NavigationLink {
+                        DetailView(store: .init(
+                            initialState: .init(media: item, mediaType: item.mediaType ?? .movie),
+                            reducer: DetailReducer()
+                        ))
+                    } label: {
                         VStack {
                             URLImage(item.displayPosterPath)
                                 .aspectRatio(150/225, contentMode: .fill)

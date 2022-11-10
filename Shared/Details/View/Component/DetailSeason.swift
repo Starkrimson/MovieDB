@@ -17,12 +17,13 @@ extension DetailView {
         var body: some View {
             if let lastSeason = seasons.last {
                 VStack(alignment: .leading, spacing: 0) {
-                    NavigationLink(
-                        destination: .episodeList(
-                            showName: showName, tvID: tvID,
-                            seasonNumber: lastSeason.seasonNumber ?? 0
-                        )
-                    ) {
+                    NavigationLink {
+                        EpisodeList(store: .init(
+                            initialState: .init(tvID: tvID, seasonNumber: lastSeason.seasonNumber ?? 0, showName: showName),
+                            reducer: seasonReducer,
+                            environment: .init(mainQueue: .main, dbClient: .live)
+                        ))
+                    } label: {
                         HStack {
                             Text("当前季")
                                 .font(.title2.weight(.medium))
@@ -37,7 +38,9 @@ extension DetailView {
                         Text(overview)
                             .padding(.top, 6)
                     }
-                    NavigationLink(destination: .seasonList(showName: showName, tvID: tvID, seasons: seasons)) {
+                    NavigationLink {
+                        SeasonList(showName: showName, tvID: tvID, seasons: seasons)
+                    } label: {
                         Text("查看全部季")
                             .font(.title3.weight(.medium))
                     }

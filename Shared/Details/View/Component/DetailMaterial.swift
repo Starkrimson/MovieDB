@@ -63,12 +63,17 @@ extension DetailView {
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(keywords) { keyword in
-                            NavigationLink(
-                                destination: .discoverMedia(
-                                    mediaType: detail.mediaType,
-                                    name: keyword.name ?? "",
-                                    keywords: [keyword.id ?? 0])
-                            ) {
+                            NavigationLink {
+                                DiscoverMediaView(store: .init(
+                                    initialState: .init(
+                                        mediaType: detail.mediaType,
+                                        name: keyword.name ?? "",
+                                        withKeywords: [keyword.id ?? 0]
+                                    ),
+                                    reducer: discoverMediaReducer,
+                                    environment: .init(mainQueue: .main, dbClient: .live)
+                                ))
+                            } label: {
                                 Text(keyword.name ?? "")
                             }
                         }

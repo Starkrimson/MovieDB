@@ -48,7 +48,9 @@ extension DetailView {
                             )
                             .padding(.leading)
                         }
-                        NavigationLink(destination: .imageGrid(images)) {
+                        NavigationLink {
+                            ImageGridView(images: images)
+                        } label: {
                             HStack(spacing: 3) {
                                 Text("查看更多")
                                 Image(systemName: "chevron.right.circle.fill")
@@ -61,7 +63,9 @@ extension DetailView {
                 }
                 
                 // MARK: - 查看全部
-                NavigationLink(destination: .imageGrid(images)) {
+                NavigationLink {
+                    ImageGridView(images: images)
+                } label: {
                     Text("查看全部\(selectedImageType.description)")
                         .font(.title3.weight(.medium))
                         .padding(.horizontal)
