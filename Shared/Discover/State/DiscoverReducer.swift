@@ -63,7 +63,7 @@ struct DiscoverReducer: ReducerProtocol {
             case .fetchPopular(let kind):
                 return .task {
                     await .fetchPopularDone(kind: kind, result: TaskResult {
-                        try await dbClient.popular(kind)
+                        try await dbClient.popular(kind, 1).results ?? []
                     })
                 }
                 .animation()

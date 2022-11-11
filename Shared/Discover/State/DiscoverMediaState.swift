@@ -58,11 +58,16 @@ struct DiscoverMediaReducer: ReducerProtocol {
                 state.status = .loading
                 return .task { [state] in
                     await .fetchMediaDone(loadMore: loadMore, result: TaskResult<PageResponses<Media>> {
-                        try await dbClient
-                            .discover(
-                                state.mediaType,
-                                state.filters + [ .page(loadMore ? state.page + 1 : 1) ] + state.filter.filters
-                            )
+                        if state.mediaType == .person {
+                            return try await dbClient
+                                .popular(.person, loadMore ? state.page + 1 : 1)
+                        } else {
+                            return try await dbClient
+                                .discover(
+                                    state.mediaType,
+                                    state.filters + [ .page(loadMore ? state.page + 1 : 1) ] + state.filter.filters
+                                )
+                        }
                     })
                 }
                 .animation()

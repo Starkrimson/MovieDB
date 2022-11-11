@@ -70,6 +70,14 @@ struct ContentView: View {
                             )
                         )
                         
+                    case .people:
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.people,
+                                action: MovieDBReducer.Action.people
+                            )
+                        )
+
                     case .none:
                         EmptyView()
                     }

@@ -34,24 +34,26 @@ struct DiscoverMediaView: View {
                 viewStore.send(.fetchMedia())
             }
             .toolbar {
-                ToolbarItem {
-                    Picker("Menu", selection: viewStore.binding(
-                        get: \.quickSort, send: DiscoverMediaReducer.Action.setQuickSort
-                    )) {
-                        ForEach(DiscoverMediaReducer.State.QuickSort.allCases) { item in
-                            Text(item.rawValue.localized)
+                if viewStore.mediaType != .person {
+                    ToolbarItem {
+                        Picker("Menu", selection: viewStore.binding(
+                            get: \.quickSort, send: DiscoverMediaReducer.Action.setQuickSort
+                        )) {
+                            ForEach(DiscoverMediaReducer.State.QuickSort.allCases) { item in
+                                Text(item.rawValue.localized)
+                            }
                         }
+                        .pickerStyle(.segmented)
                     }
-                    .pickerStyle(.segmented)
-                }
-                
-                ToolbarItem {
-                    MediaFilterMenu(
-                        store: store.scope(
-                            state: \.filter,
-                            action: DiscoverMediaReducer.Action.filter
+                    
+                    ToolbarItem {
+                        MediaFilterMenu(
+                            store: store.scope(
+                                state: \.filter,
+                                action: DiscoverMediaReducer.Action.filter
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
