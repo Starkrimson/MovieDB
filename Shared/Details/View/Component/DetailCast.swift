@@ -28,10 +28,7 @@ extension DetailView {
                         ForEach(cast.prefix(10)) { cast in
                             NavigationLink {
                                 DetailView(store: .init(
-                                    initialState: .init(
-                                        media: .from(cast),
-                                        mediaType: .person
-                                    ),
+                                    initialState: .init(media: .from(cast)),
                                     reducer: DetailReducer()
                                 ))
                             } label: {

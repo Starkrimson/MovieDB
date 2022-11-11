@@ -24,7 +24,7 @@ extension PersonDetailView {
                             ForEach(knownFor) { item in
                                 NavigationLink {
                                     DetailView(store: .init(
-                                        initialState: .init(media: .from(item), mediaType: item.mediaType ?? .movie),
+                                        initialState: .init(media: .from(item)),
                                         reducer: DetailReducer()
                                     ))
                                 } label: {

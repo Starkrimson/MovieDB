@@ -90,9 +90,15 @@ extension MovieDBClient: DependencyKey {
                           from: .season(tvID: tvID, seasonNumber: seasonNumber))
         },
         discover: { mediaType, queryItems in
-            try await URLSession.shared
+            var value = try await URLSession.shared
                 .response(PageResponses<Media>.self,
                           from: .discover(mediaType: mediaType, queryItems: queryItems))
+            value.results = value.results?.map {
+                var item = $0
+                item.mediaType = mediaType
+                return item
+            }
+            return value
         },
         search: { query, page in
             try await URLSession.shared

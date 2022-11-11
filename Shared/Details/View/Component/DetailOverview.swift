@@ -81,7 +81,7 @@ extension DetailView {
                             ForEach(list) { crew in
                                 NavigationLink {
                                     DetailView(store: .init(
-                                        initialState: .init(media: .from(crew), mediaType: .person),
+                                        initialState: .init(media: .from(crew)),
                                         reducer: DetailReducer()
                                     ))
                                 } label: {

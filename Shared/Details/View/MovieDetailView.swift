@@ -61,7 +61,6 @@ struct MovieDetailView_Previews: PreviewProvider {
             StoreOf<DetailReducer>(
                 initialState: .init(
                     media: mockMedias[0],
-                    mediaType: .movie,
                     detail: .movie(.init(mockMovies[0]))
                 ),
                 reducer: DetailReducer()

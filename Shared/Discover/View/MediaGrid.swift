@@ -19,7 +19,7 @@ struct MediaGrid: View {
                 ForEach(list) { item in
                     NavigationLink {
                         DetailView(store: .init(
-                            initialState: .init(media: item, mediaType: item.mediaType ?? .movie),
+                            initialState: .init(media: item),
                             reducer: DetailReducer()
                         ))
                     } label: {

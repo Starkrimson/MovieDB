@@ -101,7 +101,6 @@ struct DetailReducer: ReducerProtocol {
         var id: Media.ID? { media.id }
         
         let media: Media
-        let mediaType: MediaType
         
         var detail: DetailState?
                     
@@ -115,7 +114,7 @@ struct DetailReducer: ReducerProtocol {
     }
     
     enum Action: Equatable {
-        case fetchDetails(mediaType: MediaType)
+        case fetchDetails
         case fetchDetailsResponse(TaskResult<DetailModel>)
     }
     
@@ -126,11 +125,11 @@ struct DetailReducer: ReducerProtocol {
             enum DetailID { }
             
             switch action {
-            case .fetchDetails(mediaType: let mediaType):
+            case .fetchDetails:
                 state.status = .loading
-                return .task { [id = state.media.id] in
+                return .task { [media = state.media] in
                     await .fetchDetailsResponse(TaskResult<DetailModel> {
-                        try await dbClient.details(mediaType, id ?? 0)
+                        try await dbClient.details(media.mediaType ?? .movie, media.id ?? 0)
                     })
                 }
                 .animation()

@@ -24,7 +24,7 @@ extension DetailView {
                         ForEach(recommendations.prefix(10)) { recommend in
                             NavigationLink {
                                 DetailView(store: .init(
-                                    initialState: .init(media: recommend, mediaType: recommend.mediaType ?? .movie),
+                                    initialState: .init(media: recommend),
                                     reducer: DetailReducer()
                                 ))
                             } label: {
