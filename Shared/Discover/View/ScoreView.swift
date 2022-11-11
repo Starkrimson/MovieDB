@@ -10,16 +10,6 @@ import SwiftUI
 struct ScoreView: View {
     let score: Double
     
-    var color: Color {
-        if score >= 7 {
-            return .green
-        } else if score >= 4 {
-            return .yellow
-        } else {
-            return .pink
-        }
-    }
-    
     var body: some View {
         ZStack {
             // MARK: - 评分百分比
@@ -34,7 +24,7 @@ struct ScoreView: View {
             Circle()
                 .trim(from: 1 - score / 10, to: 1)
                 .stroke(
-                    color,
+                    score.scoreColor,
                     style: .init(
                         lineWidth: 3, lineCap: .round, lineJoin: .round
                     )

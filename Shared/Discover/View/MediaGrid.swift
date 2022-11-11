@@ -23,13 +23,7 @@ struct MediaGrid: View {
                             reducer: DetailReducer()
                         ))
                     } label: {
-                        VStack {
-                            URLImage(item.displayPosterPath)
-                                .aspectRatio(150/225, contentMode: .fill)
-                                .cornerRadius(6)
-                            Text(item.displayName)
-                                .lineLimit(2)
-                        }
+                        MediaItem(media: item, imageSize: .aspectRatio)
                     }
                     .buttonStyle(.plain)
                 }
@@ -46,5 +40,6 @@ struct MediaGrid: View {
 struct MediaGrid_Previews: PreviewProvider {
     static var previews: some View {
         MediaGrid(list: .init(uniqueElements: mockMedias)) { }
+            .frame(height: 350)
     }
 }

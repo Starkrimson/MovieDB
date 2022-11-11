@@ -68,6 +68,7 @@
 		09F0264428867CBE009DAC1F /* MovieDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09937473287C25BE00253F1D /* MovieDBTests.swift */; };
 		09F295F6291DDF9B00D0F28E /* MediaFilterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F295F5291DDF9B00D0F28E /* MediaFilterReducer.swift */; };
 		09F295F8291DE52B00D0F28E /* MediaFilterMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F295F7291DE52B00D0F28E /* MediaFilterMenu.swift */; };
+		09F295FA291E211A00D0F28E /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F295F9291E211A00D0F28E /* MediaItem.swift */; };
 		09F41B6228814DED002E6F41 /* DetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F41B6128814DED002E6F41 /* DetailHeader.swift */; };
 		589A2B27C98199A20C3171EA /* Person.json in Resources */ = {isa = PBXBuildFile; fileRef = 589A2322CDCFFB69C840BBCB /* Person.json */; };
 /* End PBXBuildFile section */
@@ -148,6 +149,7 @@
 		09F02633288542FE009DAC1F /* DetailMaterial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMaterial.swift; sourceTree = "<group>"; };
 		09F295F5291DDF9B00D0F28E /* MediaFilterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFilterReducer.swift; sourceTree = "<group>"; };
 		09F295F7291DE52B00D0F28E /* MediaFilterMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFilterMenu.swift; sourceTree = "<group>"; };
+		09F295F9291E211A00D0F28E /* MediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
 		09F41B6128814DED002E6F41 /* DetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeader.swift; sourceTree = "<group>"; };
 		589A2322CDCFFB69C840BBCB /* Person.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Person.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -256,6 +258,7 @@
 				0952C8F92897751600E3A7D8 /* DiscoverMediaView.swift */,
 				09F295F7291DE52B00D0F28E /* MediaFilterMenu.swift */,
 				0948CF8F289D1A0C00EC69C3 /* MediaGrid.swift */,
+				09F295F9291E211A00D0F28E /* MediaItem.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				09A05A9A287FE971003A2225 /* DetailReducer.swift in Sources */,
 				0993FBAC287E6121002227E0 /* Mock.swift in Sources */,
 				0993FBB2287E6A0E002227E0 /* Helpers.swift in Sources */,
+				09F295FA291E211A00D0F28E /* MediaItem.swift in Sources */,
 				09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */,
 				09F295F6291DDF9B00D0F28E /* MediaFilterReducer.swift in Sources */,
 				098C5442288532C20063341E /* DetailCollection.swift in Sources */,

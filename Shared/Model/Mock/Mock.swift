@@ -49,6 +49,7 @@ let mockMedias: [Media] = [
     .init(
         title: "雷神4：爱与雷霆",
         originalTitle: "Thor: Love and Thunder",
+        releaseDate: "2022-10-10",
         mediaType: .movie,
         backdropPath: "/p1F51Lvj3sMopG948F5HsBbl43C.jpg",
         id: 616037,
@@ -56,6 +57,7 @@ let mockMedias: [Media] = [
         voteAverage: 7
     ),
     .init(
+        firstAirDate: "2022-10-12",
         name: "Stranger Things",
         originalName: "Stranger Things",
         mediaType: .tv,

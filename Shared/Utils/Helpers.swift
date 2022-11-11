@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum FileSize {
     case original
@@ -51,6 +52,18 @@ extension String {
     
     func localized(comment: String = "", arguments: CVarArg...) -> String {
         String(format: localized(comment: ""), arguments: arguments)
+    }
+}
+
+extension Double {
+    var scoreColor: Color {
+        if self >= 7 {
+            return .green
+        } else if self >= 4 {
+            return .yellow
+        } else {
+            return .pink
+        }
     }
 }
 
