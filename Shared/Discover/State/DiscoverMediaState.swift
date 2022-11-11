@@ -14,6 +14,7 @@ struct DiscoverMediaReducer: ReducerProtocol {
         let mediaType: MediaType
         let name: String
         
+        /// 用作初始化的 filter，区分 keywords 或者 genres
         var filters: [URL.DiscoverQueryItem] = []
 
         var page: Int = 1
@@ -22,6 +23,8 @@ struct DiscoverMediaReducer: ReducerProtocol {
         var list: IdentifiedArrayOf<Media> = []
         
         var status: ViewStatus = .loading
+        
+        var filter: MediaFilterReducer.State = .init()
         
         var isLastPage: Bool { page >= totalPages }
         
@@ -36,21 +39,29 @@ struct DiscoverMediaReducer: ReducerProtocol {
         case fetchMedia(loadMore: Bool = false)
         case fetchMediaDone(loadMore: Bool, result: TaskResult<PageResponses<Media>>)
         case setQuickSort(State.QuickSort)
+        case filter(MediaFilterReducer.Action)
     }
     
     @Dependency(\.dbClient) var dbClient
     
     var body: some ReducerProtocol<State, Action> {
+        Scope(state: \.filter, action: /Action.filter) {
+            MediaFilterReducer()
+        }
         Reduce { state, action in
             switch action {
             case .fetchMedia(let loadMore):
+                if !loadMore {
+                    state.page = 1
+                    state.totalPages = 1
+                }
                 state.status = .loading
                 return .task { [state] in
                     await .fetchMediaDone(loadMore: loadMore, result: TaskResult<PageResponses<Media>> {
                         try await dbClient
                             .discover(
                                 state.mediaType,
-                                state.filters + [ .page(loadMore ? state.page + 1 : 1) ]
+                                state.filters + [ .page(loadMore ? state.page + 1 : 1) ] + state.filter.filters
                             )
                     })
                 }
@@ -73,19 +84,18 @@ struct DiscoverMediaReducer: ReducerProtocol {
                 
             case .setQuickSort(let quickSort):
                 state.quickSort = quickSort
-                state.page = 1
-                state.totalPages = 1
                 if quickSort == .popular {
-                    state.filters = []
+                    state.filter = .init()
                 } else {
-                    state.filters = [
-                        .sortBy("vote_average.desc"),
-                        .voteCountGTE(300)
-                    ]
+                    state.filter = .init(sortBy: "vote_average.desc", minimumUserVotes: 300)
                 }
-                return .task {
-                    .fetchMedia()
+                return .task { .fetchMedia() }
+                                
+            case .filter(let action):
+                if action == .reset {
+                    state.quickSort = .popular
                 }
+                return .task { .fetchMedia() }
             }
         }
     }

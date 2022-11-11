@@ -44,6 +44,15 @@ struct DiscoverMediaView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+                
+                ToolbarItem {
+                    MediaFilterMenu(
+                        store: store.scope(
+                            state: \.filter,
+                            action: DiscoverMediaReducer.Action.filter
+                        )
+                    )
+                }
             }
         }
     }
