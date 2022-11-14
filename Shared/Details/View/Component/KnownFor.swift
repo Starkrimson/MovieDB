@@ -20,24 +20,20 @@ extension PersonDetailView {
                         .padding(.leading)
                     
                     ScrollView(.horizontal) {
-                        HStack(spacing: 0) {
+                        HStack(alignment: .top) {
                             ForEach(knownFor) { item in
                                 NavigationLink {
                                     DetailView(store: .init(
-                                        initialState: .init(media: .from(item), mediaType: item.mediaType ?? .movie),
+                                        initialState: .init(media: .from(item)),
                                         reducer: DetailReducer()
                                     ))
                                 } label: {
-                                    DiscoverView.CardItem(
-                                        posterPath: item.posterPath?.imagePath() ?? "",
-                                        score: nil,
-                                        title: item.title ?? item.name ?? "",
-                                        date: ""
-                                    )
+                                    MediaItem(media: .from(item))
                                 }
                                 .buttonStyle(.plain)
                             }
                         }
+                        .padding(.horizontal)
                     }
                 }
             }

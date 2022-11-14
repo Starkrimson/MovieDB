@@ -53,9 +53,33 @@ struct ContentView: View {
                                 action: MovieDBReducer.Action.discover
                             )
                         )
+                        
+                    case .movies:
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.movies,
+                                action: MovieDBReducer.Action.movies
+                            )
+                        )
+                        
+                    case .tvShows:
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.tvShows,
+                                action: MovieDBReducer.Action.tvShows
+                            )
+                        )
+                        
+                    case .people:
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.people,
+                                action: MovieDBReducer.Action.people
+                            )
+                        )
 
-                    default:
-                        Label(viewStore.selectedTab?.rawValue.localized ?? "", systemImage: viewStore.selectedTab?.systemImage ?? "")
+                    case .none:
+                        EmptyView()
                     }
                 }
             }

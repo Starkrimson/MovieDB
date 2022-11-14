@@ -63,21 +63,21 @@ struct DiscoverReducer: ReducerProtocol {
             case .fetchPopular(let kind):
                 return .task {
                     await .fetchPopularDone(kind: kind, result: TaskResult {
-                        try await dbClient.popular(kind)
+                        try await dbClient.popular(kind, 1).results ?? []
                     })
                 }
                 .animation()
                 
             case let .fetchPopularDone(kind: .movie, result: .success(results)):
                 state.popularMovies = .init(uniqueElements: results.map { media in
-                    DetailReducer.State(media: media, mediaType: .movie)
+                    DetailReducer.State(media: media)
                 })
                 state.error = nil
                 return .none
                 
             case let .fetchPopularDone(kind: .tv, result: .success(results)):
                 state.popularTVShows = .init(uniqueElements: results.map { media in
-                    DetailReducer.State(media: media, mediaType: .tv)
+                    DetailReducer.State(media: media)
                 })
                 state.error = nil
                 return .none
@@ -104,14 +104,14 @@ struct DiscoverReducer: ReducerProtocol {
             case let .fetchTrendingDone(mediaType: _, timeWindow: .day, result: .success(results)):
                 state.backdropPath = results.randomElement()?.backdropPath
                 state.dailyTrending = .init(uniqueElements: results.map { media in
-                    DetailReducer.State(media: media, mediaType: media.mediaType ?? .movie)
+                    DetailReducer.State(media: media)
                 })
                 state.error = nil
                 return .none
                 
             case let .fetchTrendingDone(mediaType: _, timeWindow: .week, result: .success(results)):
                 state.weeklyTrending = .init(uniqueElements: results.map { media in
-                    DetailReducer.State(media: media, mediaType: media.mediaType ?? .movie)
+                    DetailReducer.State(media: media)
                 })
                 state.error = nil
                 return .none

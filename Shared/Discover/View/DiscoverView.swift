@@ -23,6 +23,7 @@ struct DiscoverView: View {
                     selectedIndex: viewStore.binding(\.$popularIndex),
                     labels: ["MOVIES".localized, "TVSHOWS".localized]
                 )
+                .padding(.top)
                 if viewStore.popularIndex == 0 {
                     CardRow(store: store.scope(state: \.popularMovies, action: DiscoverReducer.Action.popularMovie))
                 } else {
@@ -44,7 +45,7 @@ struct DiscoverView: View {
                 await viewStore.send(.task).finish()
             }
             .frame(minWidth: 320)
-            .navigationTitle("Discover")
+            .navigationTitle("Discover".localized)
         }
     }
 }

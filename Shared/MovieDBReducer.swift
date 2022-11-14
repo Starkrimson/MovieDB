@@ -17,6 +17,7 @@ struct MovieDBReducer: ReducerProtocol {
         case discover
         case movies
         case tvShows
+        case people = "popular people"
         
         var systemImage: String {
             switch self {
@@ -24,6 +25,7 @@ struct MovieDBReducer: ReducerProtocol {
             case .discover: return "star"
             case .movies: return "popcorn"
             case .tvShows: return "sparkles.tv"
+            case .people: return "person.2"
             }
         }
     }
@@ -32,6 +34,9 @@ struct MovieDBReducer: ReducerProtocol {
         var selectedTab: Tab? = .discover
         var search: SearchReducer.State = .init()
         var discover: DiscoverReducer.State = .init()
+        var movies: DiscoverMediaReducer.State = .init(mediaType: .movie, name: Tab.movies.rawValue.localized)
+        var tvShows: DiscoverMediaReducer.State = .init(mediaType: .tv, name: Tab.tvShows.rawValue.localized)
+        var people: DiscoverMediaReducer.State = .init(mediaType: .person, name: Tab.people.rawValue.localized)
     }
     
     enum Action: Equatable, BindableAction {
@@ -39,6 +44,9 @@ struct MovieDBReducer: ReducerProtocol {
         case tabSelected(Tab?)
         case search(SearchReducer.Action)
         case discover(DiscoverReducer.Action)
+        case movies(DiscoverMediaReducer.Action)
+        case tvShows(DiscoverMediaReducer.Action)
+        case people(DiscoverMediaReducer.Action)
     }
         
     var body: some ReducerProtocol<State, Action> {
@@ -47,6 +55,15 @@ struct MovieDBReducer: ReducerProtocol {
         }
         Scope(state: \.search, action: /Action.search) {
             SearchReducer()
+        }
+        Scope(state: \.movies, action: /Action.movies) {
+            DiscoverMediaReducer()
+        }
+        Scope(state: \.tvShows, action: /Action.tvShows) {
+            DiscoverMediaReducer()
+        }
+        Scope(state: \.people, action: /Action.people) {
+            DiscoverMediaReducer()
         }
         BindingReducer()
         Reduce { state, action in
@@ -71,6 +88,15 @@ struct MovieDBReducer: ReducerProtocol {
                 return .none
                 
             case .discover:
+                return .none
+                
+            case .movies:
+                return .none
+                
+            case .tvShows:
+                return .none
+                
+            case .people:
                 return .none
             }
         }

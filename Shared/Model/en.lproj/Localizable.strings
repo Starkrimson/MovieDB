@@ -17,5 +17,15 @@
 "NOT FOUND" = "Not Found";
 "POPULAR" = "Popular";
 "TRENDING" = "Trending";
+"TOP RATED" = "Top Rated";
 "TODAY" = "Today";
 "THIS WEEK" = "This Week";
+"LOAD MORE" = "Load More";
+"FILTERS" = "Filters";
+"SORT" = "Sort";
+"MINIMUM USER VOTES" = "Minimum User Votes";
+"RESET" = "Reset";
+"USER SCORE" = "User Score";
+"MINIMUM" = "Minimum";
+"MAXIMUM" = "Maximum";
+"POPULAR PEOPLE" = "Popular People";

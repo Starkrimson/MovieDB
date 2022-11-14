@@ -54,7 +54,7 @@ extension DetailView {
         var state: DetailReducer.State
         
         var body: some View {
-            switch state.mediaType {
+            switch state.media.mediaType {
             case .movie, .tv:
                 MediaHeader(
                     backdropPath: state.media.backdropPath,
@@ -91,6 +91,6 @@ extension DetailView {
 
 struct DetailHeader_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView.Header(state: .init(media: mockMedias[1], mediaType: .tv))
+        DetailView.Header(state: .init(media: mockMedias[1]))
     }
 }

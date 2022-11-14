@@ -42,7 +42,7 @@ struct DetailView: View {
             }
             .navigationTitle(viewStore.media.displayName)
             .onAppearAndRefresh {
-                viewStore.send(.fetchDetails(mediaType: viewStore.mediaType))
+                viewStore.send(.fetchDetails)
             }
         }
     }
@@ -68,7 +68,7 @@ struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(
             store: .init(
-                initialState: .init(media: mockMedias[2], mediaType: .person),
+                initialState: .init(media: mockMedias[2]),
                 reducer: DetailReducer()
             )
         )

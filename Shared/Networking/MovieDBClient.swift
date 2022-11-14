@@ -11,7 +11,7 @@ import Combine
 
 struct MovieDBClient {
     
-    var popular: @Sendable (MediaType) async throws -> [Media]
+    var popular: @Sendable (MediaType, _ page: Int) async throws -> PageResponses<Media>
     var trending: @Sendable (MediaType, TimeWindow) async throws -> [Media]
     var details: @Sendable (MediaType, Int) async throws -> DetailModel
     var collection: @Sendable (Int) async throws -> Movie.Collection
@@ -41,10 +41,15 @@ extension DependencyValues {
 extension MovieDBClient: DependencyKey {
     static var liveValue: MovieDBClient = live
     static let live = Self(
-        popular: { mediaType in
-            let value = try await URLSession.shared
-                .response(PageResponses<Media>.self, from: .popular(mediaType: mediaType))
-            return value.results ?? []
+        popular: { mediaType, page in
+            var value = try await URLSession.shared
+                .response(PageResponses<Media>.self, from: .popular(mediaType: mediaType, page: page))
+            value.results = value.results?.map {
+                var item = $0
+                item.mediaType = mediaType
+                return item
+            }
+            return value
         },
         trending: { mediaType, timeWindow in
             let value = try await URLSession.shared
@@ -85,9 +90,15 @@ extension MovieDBClient: DependencyKey {
                           from: .season(tvID: tvID, seasonNumber: seasonNumber))
         },
         discover: { mediaType, queryItems in
-            try await URLSession.shared
+            var value = try await URLSession.shared
                 .response(PageResponses<Media>.self,
                           from: .discover(mediaType: mediaType, queryItems: queryItems))
+            value.results = value.results?.map {
+                var item = $0
+                item.mediaType = mediaType
+                return item
+            }
+            return value
         },
         search: { query, page in
             try await URLSession.shared
@@ -97,8 +108,8 @@ extension MovieDBClient: DependencyKey {
     
     static var previewValue: MovieDBClient = previews
     static let previews = Self(
-        popular: {
-            $0 == .movie ? mockMediaMovies : mockMediaTVShows
+        popular: { type, _ in
+            .init(results: type == .movie ? mockMediaMovies : mockMediaTVShows)
         },
         trending: { _, _ in mockMedias },
         details: { mediaType, _ in

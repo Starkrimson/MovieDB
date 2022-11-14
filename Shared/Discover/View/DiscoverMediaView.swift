@@ -9,16 +9,18 @@ import SwiftUI
 import ComposableArchitecture
 
 struct DiscoverMediaView: View {
-    let store: Store<DiscoverMediaState, DiscoverMediaAction>
+    let store: StoreOf<DiscoverMediaReducer>
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            ScrollView {                
-                MediaGrid(list: viewStore.list,
-                           canLoadMore: !viewStore.isLastPage && viewStore.status != .loading) {
+            ScrollView {
+                MediaGrid(
+                    list: viewStore.list,
+                    canLoadMore: !viewStore.isLastPage && viewStore.status != .loading
+                ) {
                     viewStore.send(.fetchMedia(loadMore: true))
                 }
-                
+                .padding()
                 if viewStore.status == .loading {
                     ProgressView()
                 }
@@ -31,17 +33,40 @@ struct DiscoverMediaView: View {
             .onAppear {
                 viewStore.send(.fetchMedia())
             }
+            .toolbar {
+                if viewStore.mediaType != .person {
+                    ToolbarItem {
+                        Picker("Menu", selection: viewStore.binding(
+                            get: \.quickSort, send: DiscoverMediaReducer.Action.setQuickSort
+                        )) {
+                            ForEach(DiscoverMediaReducer.State.QuickSort.allCases) { item in
+                                Text(item.rawValue.localized)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                    }
+                    
+                    ToolbarItem {
+                        MediaFilterMenu(
+                            store: store.scope(
+                                state: \.filter,
+                                action: DiscoverMediaReducer.Action.filter
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
 struct DiscoverMediaView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverMediaView(store: .init(
-            initialState: .init(mediaType: .movie, name: "Movie", totalPages: 2),
-            reducer: discoverMediaReducer,
-            environment: .init(mainQueue: .main, dbClient: .previews)
-        ))
+        NavigationStack {
+            DiscoverMediaView(store: .init(
+                initialState: .init(mediaType: .movie, name: "Movie", totalPages: 2),
+                reducer: DiscoverMediaReducer()
+            ))
+        }
     }
 }
-

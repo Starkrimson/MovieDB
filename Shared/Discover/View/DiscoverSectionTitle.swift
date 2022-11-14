@@ -32,7 +32,7 @@ extension DiscoverView {
                 
                 Spacer()
             }
-            .padding()
+            .padding(.horizontal)
         }
     }
 }

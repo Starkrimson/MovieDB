@@ -35,7 +35,7 @@ struct CreditView: View {
             ForEach(credit.cast ?? []) { item in
                 NavigationLink {
                     DetailView(store: .init(
-                        initialState: .init(media: .from(item), mediaType: .person),
+                        initialState: .init(media: .from(item)),
                         reducer: DetailReducer()
                     ))
                 } label: {
@@ -63,7 +63,7 @@ struct CreditView: View {
                 ForEach(crew.1) { item in
                     NavigationLink {
                         DetailView(store: .init(
-                            initialState: .init(media: .from(item), mediaType: .person),
+                            initialState: .init(media: .from(item)),
                             reducer: DetailReducer()
                         ))
                     } label: {

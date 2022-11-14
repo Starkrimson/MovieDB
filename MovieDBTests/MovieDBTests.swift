@@ -23,7 +23,7 @@ final class MovieDBTests: XCTestCase {
         // 成功接收到热门电影
         await store.receive(.fetchPopularDone(kind: .movie, result: .success(mockMediaMovies))) {
             $0.popularMovies = .init(uniqueElements: mockMediaMovies.map {
-                DetailReducer.State(media: $0, mediaType: .movie)
+                DetailReducer.State(media: $0)
             })
         }
         
@@ -32,44 +32,37 @@ final class MovieDBTests: XCTestCase {
         // 成功接收热门电视节目
         await store.receive(.fetchPopularDone(kind: .tv, result: .success(mockMediaTVShows))) {
             $0.popularTVShows = .init(uniqueElements: mockMediaTVShows.map {
-                DetailReducer.State(media: $0, mediaType: .tv)
+                DetailReducer.State(media: $0)
             })
         }
     }
     
-    func testFetchDetails() async {
+    func testFetchMovie() async {
         let store = TestStore(
-            initialState: .init(media: mockMedias[0], mediaType: .movie),
+            initialState: .init(media: mockMedias[0]),
             reducer: DetailReducer()
         )
         
-        _ = await store.send(.fetchDetails(mediaType: .movie))
+        _ = await store.send(.fetchDetails)
         await store.receive(.fetchDetailsResponse(.success(.movie(mockMovies[0])))) {
             $0.status = .normal
             $0.detail = .movie(.init(mockMovies[0]))
         }
-        
-        _ = await store.send(.fetchDetails(mediaType: .tv)) {
+    }
+    
+    func testFetchTVShow() async {
+        let store = TestStore(
+            initialState: .init(media: mockMedias[1], status: .normal),
+            reducer: DetailReducer()
+        )
+
+        _ = await store.send(.fetchDetails) {
             $0.status = .loading
         }
+        
         await store.receive(.fetchDetailsResponse(.success(.tv(mockTVShows[0])))) {
             $0.status = .normal
             $0.detail = .tv(.init(mockTVShows[0]))
-        }
-        
-        _ = await store.send(.fetchDetails(mediaType: .person)) {
-            $0.status = .loading
-        }
-        await store.receive(.fetchDetailsResponse(.success(.person(mockPeople[0])))) {
-            $0.status = .normal
-            $0.detail = .person(.init(mockPeople[0]))
-        }
-        
-        _ = await store.send(.fetchDetails(mediaType: .all)) {
-            $0.status = .loading
-        }
-        await store.receive(.fetchDetailsResponse(.failure(AppError.sample("Something Went Wrong")))) {
-            $0.status = .error("Something Went Wrong")
         }
     }
     

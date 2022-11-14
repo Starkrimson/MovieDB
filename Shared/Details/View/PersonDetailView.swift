@@ -36,7 +36,6 @@ struct PersonDetailView_Previews: PreviewProvider {
             StoreOf<DetailReducer>(
                 initialState: .init(
                     media: mockMedias[2],
-                    mediaType: .person,
                     detail: .person(.init(mockPeople[0]))
                 ),
                 reducer: DetailReducer()
