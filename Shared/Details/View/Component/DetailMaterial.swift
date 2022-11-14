@@ -60,21 +60,19 @@ extension DetailView {
                     }
                 }
                 
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(keywords) { keyword in
-                            NavigationLink {
-                                DiscoverMediaView(store: .init(
-                                    initialState: .init(
-                                        mediaType: detail.mediaType,
-                                        name: keyword.name ?? "",
-                                        filters: [.keywords([keyword.id ?? 0])]
-                                    ),
-                                    reducer: DiscoverMediaReducer()
-                                ))
-                            } label: {
-                                Text(keyword.name ?? "")
-                            }
+                FlowLayout {
+                    ForEach(keywords) { keyword in
+                        NavigationLink {
+                            DiscoverMediaView(store: .init(
+                                initialState: .init(
+                                    mediaType: detail.mediaType,
+                                    name: keyword.name ?? "",
+                                    filters: [.keywords([keyword.id ?? 0])]
+                                ),
+                                reducer: DiscoverMediaReducer()
+                            ))
+                        } label: {
+                            Text(keyword.name ?? "")
                         }
                     }
                 }

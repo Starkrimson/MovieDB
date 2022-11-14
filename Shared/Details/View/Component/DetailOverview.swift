@@ -27,11 +27,7 @@ extension DetailView {
                     VStack {
                         // MARK: - 评分
                         score.map { score in
-                            HStack {
-                                ScoreView(score: score)
-                                Text("用户评分")
-                                    .font(.title3.weight(.medium))
-                            }
+                            ScoreView(score: score)
                         }
                         
                         // MARK: - 发布时间
@@ -64,15 +60,17 @@ extension DetailView {
                 }
                 
                 // MARK: - 简介
-                Text(tagline ?? "")
-                overview.map { overview in
-                    Group {
-                        Text("剧情简介")
-                            .font(.title2.weight(.medium))
-                            .padding(.vertical, 5)
-                        Text(overview)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(tagline ?? "")
+                    overview.map { overview in
+                        Group {
+                            Text("剧情简介")
+                                .font(.title2.weight(.medium))
+                            Text(overview)
+                        }
                     }
                 }
+                .padding(.horizontal)
 
                 // MARK: - 导演/编剧
                 ForEach([directors, writers].filter { !$0.isEmpty }, id: \.self) { list in
@@ -95,10 +93,10 @@ extension DetailView {
                                 .buttonStyle(.plain)
                             }
                         }
+                        .padding(.horizontal)
                     }
                 }
             }
-            .padding()
         }
     }
 }

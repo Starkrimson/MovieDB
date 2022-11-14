@@ -61,7 +61,7 @@
         }
     ],
     "status": "Released",
-    "tagline": "",
+    "tagline": "The one is not the only.",
     "title": "雷神4：爱与雷霆",
     "video": false,
     "vote_average": 6.8,
@@ -1025,6 +1025,42 @@
                 "vote_average": 0.0,
                 "vote_count": 0,
                 "width": 1588
+            }
+        ]
+    },
+    "keywords": {
+        "keywords": [
+            {
+                "id": 1701,
+                "name": "hero"
+            },
+            {
+                "id": 9663,
+                "name": "sequel"
+            },
+            {
+                "id": 9715,
+                "name": "superhero"
+            },
+            {
+                "id": 9717,
+                "name": "based on comic"
+            },
+            {
+                "id": 179431,
+                "name": "duringcreditsstinger"
+            },
+            {
+                "id": 180059,
+                "name": "death of king"
+            },
+            {
+                "id": 180547,
+                "name": "marvel cinematic universe (mcu)"
+            },
+            {
+                "id": 195394,
+                "name": "hidden civilization"
             }
         ]
     },

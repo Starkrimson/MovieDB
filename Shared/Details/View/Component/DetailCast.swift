@@ -21,10 +21,10 @@ extension DetailView {
                 Text("主演")
                     .font(.title2.weight(.medium))
                     .padding(.horizontal)
-                
+
                 // MARK: - 演员列表
                 ScrollView(.horizontal) {
-                    HStack(alignment: .top, spacing: 0) {
+                    HStack(alignment: .top) {
                         ForEach(cast.prefix(10)) { cast in
                             NavigationLink {
                                 DetailView(store: .init(
@@ -37,11 +37,10 @@ extension DetailView {
                                     name: cast.name ?? "",
                                     job: cast.character ?? ""
                                 )
-                                .padding(.leading)
                             }
                             .buttonStyle(.plain)
                         }
-                        
+
                         NavigationLink {
                             CreditView(credit: credits)
                         } label: {
@@ -55,8 +54,9 @@ extension DetailView {
                         }
                         .buttonStyle(.plain)
                     }
+                    .padding(.horizontal)
                 }
-                
+
                 // MARK: - 完整演职员表
                 NavigationLink {
                     CreditView(credit: credits)
@@ -69,10 +69,10 @@ extension DetailView {
             }
         }
     }
-
 }
 struct DetailCast_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Cast(credits: mockMovies[0].credits ?? .init())
+            .frame(height: 700)
     }
 }

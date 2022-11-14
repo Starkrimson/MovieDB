@@ -40,11 +40,8 @@ struct MediaItem: View {
                 Spacer()
                 
                 media.voteAverage
-                    .map { score in
-                        Text("\(score, specifier: "%.1f")")
-                            .font(.subheadline)
-                            .foregroundColor(score.scoreColor)
-                    }
+                    .map { ($0, true) }
+                    .map(ScoreView.init)
             }
             .padding(.horizontal)
             

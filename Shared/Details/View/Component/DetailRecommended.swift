@@ -20,7 +20,7 @@ extension DetailView {
                 
                 // MARK: - 推荐列表
                 ScrollView(.horizontal) {
-                    HStack(alignment: .top, spacing: 0) {
+                    HStack(alignment: .top) {
                         ForEach(recommendations.prefix(10)) { recommend in
                             NavigationLink {
                                 DetailView(store: .init(
@@ -35,14 +35,17 @@ extension DetailView {
                                     HStack {
                                         Text(recommend.displayName)
                                         Spacer()
-                                        Text(recommend.voteAverage.map { "\($0 * 10, specifier: "%.0f")%" } ?? "")
+                                        recommend.voteAverage
+                                            .map { ($0, true) }
+                                            .map(ScoreView.init)
                                     }
+                                    .frame(width: 250)
                                 }
-                                .padding(.leading)
                             }
                             .buttonStyle(.plain)
                         }
                     }
+                    .padding(.horizontal)
                 }
             }
         }

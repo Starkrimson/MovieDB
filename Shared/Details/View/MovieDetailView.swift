@@ -13,7 +13,7 @@ struct MovieDetailView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack {
+            VStack(alignment: .leading) {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
                     mediaType: .movie,
@@ -43,7 +43,7 @@ struct MovieDetailView: View {
                 }
                 
                 // MARK: - 相关推荐
-                if let recommendations = viewStore.movie.recommendations?.results {
+                if let recommendations = viewStore.movie.recommendations?.results, !recommendations.isEmpty {
                     DetailView.Recommended(recommendations: recommendations)
                 }
                 

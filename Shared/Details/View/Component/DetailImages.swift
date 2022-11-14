@@ -27,11 +27,10 @@ extension DetailView {
                 }
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
-                .padding(.top)
-                
+
                 // MARK: - 图片列表
                 ScrollView(.horizontal) {
-                    HStack(spacing: 0) {
+                    HStack {
                         ForEach(
                             selectedImageType == .poster
                             ? images.posters?.prefix(10) ?? []
@@ -46,7 +45,6 @@ extension DetailView {
                                 width: selectedImageType == .poster ? 94 : 250,
                                 height: 141
                             )
-                            .padding(.leading)
                         }
                         NavigationLink {
                             ImageGridView(images: images)
@@ -60,6 +58,7 @@ extension DetailView {
                         }
                         .buttonStyle(.plain)
                     }
+                    .padding(.horizontal)
                 }
                 
                 // MARK: - 查看全部

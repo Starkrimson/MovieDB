@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+import MovieDependencies
 
 struct MovieState: Equatable, Hashable {
     var movie: Movie
@@ -16,8 +17,8 @@ struct MovieState: Equatable, Hashable {
         
     init(_ movie: Movie) {
         self.movie = movie
-        directors = movie.credits?.crew?.filter { $0.department == "Directing" } ?? []
-        writers = movie.credits?.crew?.filter { $0.department == "Writing" } ?? []
+        directors = movie.credits?.crew?.filter { $0.department == "Directing" }.unique(\.id) ?? []
+        writers = movie.credits?.crew?.filter { $0.department == "Writing" }.unique(\.id) ?? []
     }
 }
 
@@ -29,7 +30,7 @@ struct TVState: Equatable, Hashable {
     init(_ tv: TVShow) {
         self.tv = tv
         
-        createdBy = tv.createdBy ?? []
+        createdBy = tv.createdBy?.unique(\.id) ?? []
     }
 }
 
@@ -50,6 +51,7 @@ struct PersonState: Equatable, Hashable {
         knownFor = Array(person.combinedCredits?.cast?
             .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
             .prefix(10) ?? [])
+            .unique(\.id)
         
         let actingCredits: [Media.CombinedCredits.Credit] = person.combinedCredits?.cast?
             .sorted(by: >)
@@ -63,7 +65,8 @@ struct PersonState: Equatable, Hashable {
                         backdropPath: cast.backdropPath,
                         id: cast.id
                     )
-            } ?? []
+            }
+            .unique(\.id) ?? []
         
         combinedCredits = [
             .init(

@@ -13,7 +13,7 @@ struct TVDetailView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack {
+            VStack(alignment: .leading) {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
                     mediaType: .tv,
