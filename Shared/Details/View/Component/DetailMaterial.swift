@@ -16,25 +16,25 @@ extension DetailView {
             switch detail {
             case .movie(let movie):
                 return [
-                    ("原产地片名", movie.originalTitle),
-                    ("状态", movie.status?.rawValue),
-                    ("原始语言", movie.originalLanguage),
-                    ("预算", movie.budget.map { String(format: "$%d", locale: .current, $0) }),
-                    ("票房", movie.revenue.map { String(format: "$%d", locale: .current, $0) })
+                    ("ORIGINAL TITLE".localized, movie.originalTitle),
+                    ("STATUS".localized, movie.status?.rawValue),
+                    ("ORIGINAL LANGUAGE".localized, movie.originalLanguage),
+                    ("BUDGET".localized, movie.budget.map { String(format: "$%d", locale: .current, $0) }),
+                    ("REVENUE".localized, movie.revenue.map { String(format: "$%d", locale: .current, $0) })
                 ]
             case .tv(let tv):
                 return [
-                    ("状态", tv.status),
-                    ("电视网", tv.networks?.first?.name),
-                    ("类型", tv.type),
-                    ("原始语言", tv.originalLanguage)
+                    ("STATUS".localized, tv.status),
+                    ("NETWORK".localized, tv.networks?.first?.name),
+                    ("TYPE".localized, tv.type),
+                    ("ORIGINAL LANGUAGE".localized, tv.originalLanguage)
                 ]
             case .person(let person):
                 return [
-                    ("代表作", person.knownForDepartment),
-                    ("性别", person.gender?.description),
-                    ("生日", person.birthday),
-                    ("出生地", person.placeOfBirth),
+                    ("KNOWN FOR".localized, person.knownForDepartment),
+                    ("GENDER".localized, person.gender?.description),
+                    ("BIRTHDAY".localized, person.birthday),
+                    ("PLACE OF BIRTH".localized, person.placeOfBirth),
                 ]
             }
         }

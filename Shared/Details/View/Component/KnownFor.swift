@@ -15,7 +15,7 @@ extension PersonDetailView {
         var body: some View {
             VStack(alignment: .leading) {
                 if !knownFor.isEmpty {
-                    Text("代表作")
+                    Text("KNOWN FOR".localized)
                         .font(.title2.weight(.medium))
                         .padding(.leading)
                     

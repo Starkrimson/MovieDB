@@ -59,7 +59,7 @@ struct PersonState: Equatable, Hashable {
                     .init(
                         year: String((cast.releaseDate ?? cast.firstAirDate ?? "").prefix(4)),
                         title: cast.title ?? cast.name ?? "",
-                        character: cast.character.map({ "饰演 \($0)" }) ?? "",
+                        character: cast.character.map({ "\("AS".localized) \($0)" }) ?? "",
                         mediaType: cast.mediaType,
                         posterPath: cast.posterPath,
                         backdropPath: cast.backdropPath,
@@ -81,7 +81,7 @@ struct PersonState: Equatable, Hashable {
                 let credit = Media.CombinedCredits.Credit(
                     year: String((crew.releaseDate ?? crew.firstAirDate ?? "").prefix(4)),
                     title: crew.title ?? crew.name ?? "",
-                    character: crew.job ?? "",
+                    character: crew.job?.localized ?? "",
                     mediaType: crew.mediaType,
                     posterPath: crew.posterPath,
                     backdropPath: crew.backdropPath,

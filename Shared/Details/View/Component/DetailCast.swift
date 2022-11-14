@@ -18,7 +18,7 @@ extension DetailView {
         
         var body: some View {
             VStack(alignment: .leading) {
-                Text("主演")
+                Text("TOP BILLED CAST".localized)
                     .font(.title2.weight(.medium))
                     .padding(.horizontal)
 
@@ -45,7 +45,7 @@ extension DetailView {
                             CreditView(credit: credits)
                         } label: {
                             HStack(spacing: 3) {
-                                Text("查看更多")
+                                Text("VIEW MORE".localized)
                                 Image(systemName: "chevron.right.circle.fill")
                                     .foregroundColor(.accentColor)
                             }
@@ -61,7 +61,7 @@ extension DetailView {
                 NavigationLink {
                     CreditView(credit: credits)
                 } label: {
-                    Text("完整演职员表")
+                    Text("FULL CAST & CREW".localized)
                         .font(.title3.weight(.medium))
                 }
                 .buttonStyle(.plain)

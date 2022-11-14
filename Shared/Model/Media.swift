@@ -110,9 +110,9 @@ extension Media {
         var description: String {
             switch self {
             case .poster:
-                return "海报"
+                return "POSTERS".localized
             case .backdrop:
-                return "剧照"
+                return "BACKDROPS".localized
             }
         }
     }

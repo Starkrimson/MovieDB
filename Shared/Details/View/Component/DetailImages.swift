@@ -22,7 +22,7 @@ extension DetailView {
                             .tag(type)
                     }
                 } label: {
-                    Text("媒体")
+                    Text("MEDIA".localized)
                         .font(.title2.weight(.medium))
                 }
                 .pickerStyle(.segmented)
@@ -50,7 +50,7 @@ extension DetailView {
                             ImageGridView(images: images)
                         } label: {
                             HStack(spacing: 3) {
-                                Text("查看更多")
+                                Text("VIEW MORE".localized)
                                 Image(systemName: "chevron.right.circle.fill")
                                     .foregroundColor(.accentColor)
                             }
@@ -65,7 +65,7 @@ extension DetailView {
                 NavigationLink {
                     ImageGridView(images: images)
                 } label: {
-                    Text("查看全部\(selectedImageType.description)")
+                    Text("\("VIEW ALL".localized)\(selectedImageType.description)")
                         .font(.title3.weight(.medium))
                         .padding(.horizontal)
                 }

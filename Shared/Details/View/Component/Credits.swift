@@ -17,7 +17,7 @@ extension PersonDetailView {
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(credits) { credit in
                     VStack(alignment: .leading) {
-                        Text(credit.department)
+                        Text(credit.department.localized)
                             .font(.title2.weight(.medium))
                         ForEach(credit.credits) { item in
                             HStack {

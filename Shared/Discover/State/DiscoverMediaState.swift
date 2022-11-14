@@ -30,8 +30,8 @@ struct DiscoverMediaReducer: ReducerProtocol {
         
         enum QuickSort: String, CaseIterable, Identifiable {
             var id: Self { self }
-            case popular
-            case topRated = "Top Rated"
+            case popular = "POPULAR"
+            case topRated = "TOP RATED"
         }
     }
     

@@ -34,7 +34,7 @@ extension DetailView {
                 
                 // MARK: - 查看系列按钮
                 VStack(alignment: .leading) {
-                    Text("\(collection.name ?? "")之一")
+                    Text("PART OF COLLECTION".localized(arguments: collection.name ?? ""))
                         .foregroundColor(.white)
                         .font(.largeTitle)
                     
@@ -45,7 +45,7 @@ extension DetailView {
                             environment: .init(mainQueue: .main, dbClient: .live)
                         ))
                     } label: {
-                        Text("查看电影系列")
+                        Text("VIEW THE COLLECTION".localized)
                     }
                 }
                 .padding(.leading, 20)

@@ -14,7 +14,7 @@ extension DetailView {
         
         var body: some View {
             VStack(alignment: .leading) {
-                Text("推荐")
+                Text("RECOMMENDATIONS".localized)
                     .font(.title2.weight(.medium))
                     .padding(.horizontal)
                 

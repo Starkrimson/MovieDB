@@ -22,7 +22,7 @@ struct SearchResultsView: View {
                     ErrorTips(error: error)
                     
                 case .normal where viewStore.list.isEmpty:
-                    Text("Not Found".localized)
+                    Text("NOT FOUND".localized)
                     
                 default:
                     ScrollView {

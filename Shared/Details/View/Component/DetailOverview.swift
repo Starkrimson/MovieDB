@@ -34,7 +34,7 @@ extension DetailView {
                         HStack(spacing: 0) {
                             Text("\(date?.string("yyyy", "MMMM", "dd") ?? "")")
                             runtime.map { runtime in
-                                Text(" · \(runtime)分钟")
+                                Text(" · \(runtime) \("MINUTES".localized)")
                             }
                         }
                         
@@ -64,7 +64,7 @@ extension DetailView {
                     Text(tagline ?? "")
                     overview.map { overview in
                         Group {
-                            Text("剧情简介")
+                            Text("OVERVIEW".localized)
                                 .font(.title2.weight(.medium))
                             Text(overview)
                         }
@@ -87,7 +87,7 @@ extension DetailView {
                                         axis: .horizontal,
                                         profilePath: crew.profilePath ?? "",
                                         name: crew.name ?? "",
-                                        job: crew.job ?? ""
+                                        job: crew.job?.localized ?? ""
                                     )
                                 }
                                 .buttonStyle(.plain)

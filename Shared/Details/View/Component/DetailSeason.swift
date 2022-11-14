@@ -25,14 +25,14 @@ extension DetailView {
                         ))
                     } label: {
                         HStack {
-                            Text("当前季")
+                            Text("CURRENT SEASON".localized)
                                 .font(.title2.weight(.medium))
                             Text("\(lastSeason.name ?? "")")
                             Spacer()
                         }
                     }
                     .buttonStyle(.plain)
-                    Text("\(lastSeason.airDate?.string("yyyy") ?? "") | \(lastSeason.episodeCount ?? 0)集")
+                    Text("\(lastSeason.airDate?.string("yyyy") ?? "") | \(lastSeason.episodeCount ?? 0) \("EPISODES".localized)")
                         .padding(.top, 3)
                     lastSeason.overview.map { overview in
                         Text(overview)
@@ -41,7 +41,7 @@ extension DetailView {
                     NavigationLink {
                         SeasonList(showName: showName, tvID: tvID, seasons: seasons)
                     } label: {
-                        Text("查看全部季")
+                        Text("VIEW ALL SEASONS".localized)
                             .font(.title3.weight(.medium))
                     }
                     .buttonStyle(.plain)

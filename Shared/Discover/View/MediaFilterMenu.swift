@@ -15,27 +15,27 @@ struct MediaFilterMenu: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             Menu("FILTERS".localized) {
                 
-                Menu("\("User Score".localized) \(viewStore.minimumUserScore) ~ \(viewStore.maximumUserScore)") {
+                Menu("\("USER SCORE".localized) \(viewStore.minimumUserScore) ~ \(viewStore.maximumUserScore)") {
                     SecondaryMenu(
-                        title: "minimum".localized,
+                        title: "MINIMUM".localized,
                         data: Array(0...10),
                         value: viewStore.binding(\.$minimumUserScore)
                     )
                     
                     SecondaryMenu(
-                        title: "maximum".localized,
+                        title: "MAXIMUM".localized,
                         data: Array(1...10),
                         value: viewStore.binding(\.$maximumUserScore)
                     )
                 }
                                 
                 SecondaryMenu(
-                    title: "Minimum User Votes".localized,
+                    title: "MINIMUM USER VOTES".localized,
                     data: (0...5).map { $0 * 100 },
                     value: viewStore.binding(\.$minimumUserVotes)
                 )
                 
-                Button("Reset".localized) {
+                Button("RESET".localized) {
                     viewStore.send(.reset)
                 }
             }
