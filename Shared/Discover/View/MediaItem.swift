@@ -41,7 +41,7 @@ struct MediaItem: View {
                 
                 media.voteAverage
                     .map { score in
-                        Text(score, format: .number)
+                        Text("\(score, specifier: "%.1f")")
                             .font(.subheadline)
                             .foregroundColor(score.scoreColor)
                     }
