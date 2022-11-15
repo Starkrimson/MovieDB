@@ -47,7 +47,7 @@ extension String {
     }
     
     func localized(comment: String) -> String {
-        NSLocalizedString(self.uppercased(), comment: comment)
+        NSLocalizedString(self, comment: comment)
     }
     
     func localized(comment: String = "", arguments: CVarArg...) -> String {
