@@ -22,7 +22,12 @@ struct ImageGridView: View {
                     ? images.posters ?? []
                     : images.backdrops ?? []
                 ) { item in
-                    Item(image: item, type: selectedImageType)
+                    NavigationLink {
+                        ImageBrowser(image: item)
+                    } label: {
+                        Item(image: item, type: selectedImageType)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding()
@@ -107,7 +112,11 @@ extension ImageGridView {
 
 struct ImageGridView_Previews: PreviewProvider {
     static var previews: some View {
-        ImageGridView(images: mockMovies[0].images ?? .init(),
-                      selectedImageType: .backdrop)
+        NavigationStack {
+            ImageGridView(
+                images: mockMovies[0].images ?? .init(),
+                selectedImageType: .backdrop
+            )
+        }
     }
 }

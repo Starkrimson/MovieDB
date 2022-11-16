@@ -26,7 +26,7 @@ struct URLImage: View {
                     .font(.largeTitle)
             }
             .resizable()
-            .background(Color.secondary)
+            .background(Color.secondary.opacity(0.5))
     }
 }
 

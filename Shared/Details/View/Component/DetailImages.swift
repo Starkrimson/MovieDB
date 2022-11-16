@@ -36,15 +36,20 @@ extension DetailView {
                             ? images.posters?.prefix(10) ?? []
                             : images.backdrops?.prefix(10) ?? []
                         ) { poster in
-                            URLImage(poster.filePath?.imagePath(
-                                selectedImageType == .poster
-                                ? .best(w: 188, h: 282)
-                                : .face(w: 500, h: 282)
-                            ))
-                            .frame(
-                                width: selectedImageType == .poster ? 94 : 250,
-                                height: 141
-                            )
+                            NavigationLink {
+                                ImageBrowser(image: poster)
+                            } label: {
+                                URLImage(poster.filePath?.imagePath(
+                                    selectedImageType == .poster
+                                    ? .best(w: 188, h: 282)
+                                    : .face(w: 500, h: 282)
+                                ))
+                                .frame(
+                                    width: selectedImageType == .poster ? 94 : 250,
+                                    height: 141
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
                         NavigationLink {
                             ImageGridView(images: images)
