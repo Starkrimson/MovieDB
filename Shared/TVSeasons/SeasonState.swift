@@ -8,47 +8,47 @@
 import Foundation
 import ComposableArchitecture
 
-struct SeasonState: Equatable {
-    let tvID: Int
-    let seasonNumber: Int
-    let showName: String
+struct SeasonReducer: ReducerProtocol {
     
-    var status: ViewStatus = .loading
-    var season: Season?
+    struct State: Equatable {
+        let tvID: Int
+        let seasonNumber: Int
+        let showName: String
+        
+        var status: ViewStatus = .loading
+        var season: Season?
+        
+        var episodes: [Episode] { season?.episodes ?? [] }
+    }
     
-    var episodes: [Episode] { season?.episodes ?? [] }
-}
-
-enum SeasonAction: Equatable {
-    case fetchSeason
-    case fetchSeasonDone(TaskResult<Season>)
-}
-
-struct SeasonEnvironment {
-    var mainQueue: AnySchedulerOf<DispatchQueue>
-    var dbClient: MovieDBClient
-}
-
-let seasonReducer = Reducer<SeasonState, SeasonAction, SeasonEnvironment> {
-    state, action, environment in
+    enum Action: Equatable {
+        case fetchSeason
+        case fetchSeasonDone(TaskResult<Season>)
+    }
     
-    switch action {
-    case .fetchSeason:
-        state.status = .loading
-        return .task { [state] in
-            await .fetchSeasonDone(TaskResult<Season> {
-                try await environment.dbClient.season(state.tvID, state.seasonNumber)
-            })
+    @Dependency(\.dbClient) var dbClient
+        
+    var body: some ReducerProtocol<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .fetchSeason:
+                state.status = .loading
+                return .task { [state] in
+                    await .fetchSeasonDone(TaskResult<Season> {
+                        try await dbClient.season(state.tvID, state.seasonNumber)
+                    })
+                }
+                .animation()
+                
+            case .fetchSeasonDone(.success(let season)):
+                state.status = .normal
+                state.season = season
+                return .none
+                
+            case .fetchSeasonDone(.failure(let error)):
+                state.status = .error(error.localizedDescription)
+                return .none
+            }
         }
-        .animation()
-        
-    case .fetchSeasonDone(.success(let season)):
-        state.status = .normal
-        state.season = season
-        return .none
-        
-    case .fetchSeasonDone(.failure(let error)):
-        state.status = .error(error.localizedDescription)
-        return .none
     }
 }

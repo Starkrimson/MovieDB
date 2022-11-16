@@ -39,8 +39,7 @@ extension DependencyValues {
 }
 
 extension MovieDBClient: DependencyKey {
-    static var liveValue: MovieDBClient = live
-    static let live = Self(
+    static var liveValue: MovieDBClient = Self(
         popular: { mediaType, page in
             var value = try await URLSession.shared
                 .response(PageResponses<Media>.self, from: .popular(mediaType: mediaType, page: page))
@@ -106,8 +105,7 @@ extension MovieDBClient: DependencyKey {
         }
     )
     
-    static var previewValue: MovieDBClient = previews
-    static let previews = Self(
+    static var previewValue: MovieDBClient = Self(
         popular: { type, _ in
             .init(results: type == .movie ? mockMediaMovies : mockMediaTVShows)
         },

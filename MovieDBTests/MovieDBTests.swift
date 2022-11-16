@@ -69,22 +69,23 @@ final class MovieDBTests: XCTestCase {
     func testFetchMovieCollection() async {
         let store = TestStore(
             initialState: .init(belongsTo: .init(id: 1)),
-            reducer: movieCollectionReducer,
-            environment: .init(mainQueue: .immediate, dbClient: .previews)
+            reducer: MovieCollectionReducer()
         )
         
         _ = await store.send(.fetchCollection)
         await store.receive(.fetchCollectionDone(.success(mockCollection))) {
             $0.status = .normal
             $0.collection = mockCollection
+            $0.movies = .init(uniqueElements: mockCollection.parts?.map {
+                DetailReducer.State(media: $0)
+            } ?? [])
         }
     }
     
     func testFetchTVSeason() async {
         let store = TestStore(
             initialState: .init(tvID: 1, seasonNumber: 2, showName: ""),
-            reducer: seasonReducer,
-            environment: .init(mainQueue: .immediate, dbClient: .previews)
+            reducer: SeasonReducer()
         )
         
         _ = await store.send(.fetchSeason)

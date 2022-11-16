@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct EpisodeList: View {
-    let store: Store<SeasonState, SeasonAction>
+    let store: StoreOf<SeasonReducer>
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -80,8 +80,7 @@ struct EpisodeView_Previews: PreviewProvider {
     static var previews: some View {
         EpisodeList(store: .init(
             initialState: .init(tvID: 1, seasonNumber: 2, showName: "Show"),
-            reducer: seasonReducer,
-            environment: .init(mainQueue: .main, dbClient: .previews)
+            reducer: SeasonReducer()
         ))
         .frame(minWidth: 730, minHeight: 300)
         

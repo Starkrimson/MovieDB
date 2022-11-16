@@ -31,8 +31,7 @@ extension DetailView {
                             NavigationLink {
                                 EpisodeList(store: .init(
                                     initialState: .init(tvID: tvID, seasonNumber: season.seasonNumber ?? 0, showName: showName),
-                                    reducer: seasonReducer,
-                                    environment: .init(mainQueue: .main, dbClient: .live)
+                                    reducer: SeasonReducer()
                                 ))
                             } label: {
                                 SeasonRow(
