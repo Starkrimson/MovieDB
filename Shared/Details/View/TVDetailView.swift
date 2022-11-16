@@ -61,24 +61,26 @@ struct TVDetailView: View {
 
 struct TVDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        IfLetStore(
-            StoreOf<DetailReducer>(
-                initialState: .init(
-                    media: mockMedias[1],
-                    detail: .tv(.init(mockTVShows[0]))
-                ),
-                reducer: DetailReducer()
-            )
-            .scope(state: \.detail),
-            then: { detailStore in
-                SwitchStore(detailStore) {
-                    CaseLet(
-                        state: /DetailReducer.DetailState.tv,
-                        then: TVDetailView.init
-                    )
+        NavigationStack {
+            IfLetStore(
+                StoreOf<DetailReducer>(
+                    initialState: .init(
+                        media: mockMedias[1],
+                        detail: .tv(.init(mockTVShows[0]))
+                    ),
+                    reducer: DetailReducer()
+                )
+                .scope(state: \.detail),
+                then: { detailStore in
+                    SwitchStore(detailStore) {
+                        CaseLet(
+                            state: /DetailReducer.DetailState.tv,
+                            then: TVDetailView.init
+                        )
+                    }
                 }
-            }
-        )
-        .frame(minHeight: 1050)
+            )
+            .frame(minHeight: 1050)
+        }
     }
 }
