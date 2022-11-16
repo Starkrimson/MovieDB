@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MovieCollectionView: View {
-    let store: Store<MovieCollectionState, MovieCollectionAction>
+    let store: StoreOf<MovieCollectionReducer>
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -26,46 +26,62 @@ struct MovieCollectionView: View {
                 case .error(let error):
                     ErrorTips(error: error)
                 case .normal:
-                    PartsView(parts: viewStore.collection?.parts ?? [])
+                    ForEachStore(store.scope(
+                        state: \.movies,
+                        action: MovieCollectionReducer.Action.movie)
+                    ) { detailStore in
+                        WithViewStore(detailStore, observe: { $0 }) { detailViewStore in
+                            NavigationLink {
+                                DetailView(store: detailStore)
+                            } label: {
+                                Part(media: detailViewStore.media)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
                 }
             }
             .navigationTitle(viewStore.belongsTo.name ?? "")
-            .onAppear {
+            .task {
                 viewStore.send(.fetchCollection)
             }
         }
     }
 }
 
-private struct PartsView: View {
-    let parts: [Media]
+private struct Part: View {
+    let media: Media
     
     var body: some View {
-        ForEach(parts) { media in
-            HStack(spacing: 0) {
-                URLImage(media.posterPath?.imagePath(.best(w: 260, h: 390)) ?? "")
-                    .frame(width: 94, height: 141)
-                    .cornerRadius(6)
-                
-                VStack(alignment: .leading) {
+        HStack(spacing: 0) {
+            URLImage(media.posterPath?.imagePath(.best(w: 260, h: 390)) ?? "")
+                .frame(width: 94, height: 141)
+                .cornerRadius(6)
+            
+            VStack(alignment: .leading) {
+                HStack {
                     Text(media.displayName)
                         .font(.title)
                     
-                    Text(media.releaseDate ?? "")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    
                     Spacer()
-                    
-                    Text(media.overview ?? "")
-                        .lineLimit(3)
+                    ScoreView(score: media.voteAverage ?? 0)
+                    Image(systemName: "chevron.right")
                 }
-                .padding()
                 
-                Spacer(minLength: 0)
+                Text(media.releaseDate ?? "")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(media.overview ?? "")
+                    .lineLimit(3)
             }
-            .padding(.leading)
+            .padding()
+            
+            Spacer(minLength: 0)
         }
+        .padding(.leading)
     }
 }
 
@@ -73,11 +89,8 @@ struct MovieCollectionView_Previews: PreviewProvider {
     static var previews: some View {
         MovieCollectionView(store: .init(
             initialState: .init(belongsTo: mockMovies[0].belongsToCollection ?? .init()),
-            reducer: movieCollectionReducer,
-            environment: .init(mainQueue: .main, dbClient: .previews)
+            reducer: MovieCollectionReducer()
         ))
         .frame(width: 720, height: 720)
-        
-        PartsView(parts: mockMedias)
     }
 }

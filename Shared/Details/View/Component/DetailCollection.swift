@@ -41,8 +41,7 @@ extension DetailView {
                     NavigationLink {
                         MovieCollectionView(store: .init(
                             initialState: .init(belongsTo: collection),
-                            reducer: movieCollectionReducer,
-                            environment: .init(mainQueue: .main, dbClient: .live)
+                            reducer: MovieCollectionReducer()
                         ))
                     } label: {
                         Text("VIEW THE COLLECTION".localized)
