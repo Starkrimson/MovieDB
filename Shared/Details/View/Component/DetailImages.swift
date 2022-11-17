@@ -15,19 +15,6 @@ extension DetailView {
         
         var body: some View {
             VStack(alignment: .leading) {
-                // MARK: - 图片类型
-                Picker(selection: $selectedImageType) {
-                    ForEach(Media.ImageType.allCases) { type in
-                        Text(type.description)
-                            .tag(type)
-                    }
-                } label: {
-                    Text("MEDIA".localized)
-                        .font(.title2.weight(.medium))
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-
                 // MARK: - 图片列表
                 ScrollView(.horizontal) {
                     HStack {
@@ -52,7 +39,7 @@ extension DetailView {
                             .buttonStyle(.plain)
                         }
                         NavigationLink {
-                            ImageGridView(images: images)
+                            ImageGridView(images: images, selectedImageType: selectedImageType)
                         } label: {
                             HStack(spacing: 3) {
                                 Text("VIEW MORE".localized)
@@ -65,16 +52,24 @@ extension DetailView {
                     }
                     .padding(.horizontal)
                 }
-                
-                // MARK: - 查看全部
-                NavigationLink {
-                    ImageGridView(images: images)
-                } label: {
-                    Text("\("VIEW ALL".localized)\(selectedImageType.description)")
-                        .font(.title3.weight(.medium))
-                        .padding(.horizontal)
+                .header {
+                    // MARK: - 图片类型
+                    Picker("MEDIA".localized, selection: $selectedImageType) {
+                        ForEach(Media.ImageType.allCases) { type in
+                            Text(type.description)
+                                .tag(type)
+                        }
+                    }
+                    .pickerStyle(.segmented)
                 }
-                .buttonStyle(.plain)
+                .footer {
+                    // MARK: - 查看全部
+                    NavigationLink {
+                        ImageGridView(images: images, selectedImageType: selectedImageType)
+                    } label: {
+                        Text("\("VIEW ALL".localized)\(selectedImageType.description)")
+                    }
+                }
             }
         }
     }

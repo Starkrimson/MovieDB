@@ -13,7 +13,7 @@ struct MovieDetailView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
                     mediaType: .movie,
@@ -40,6 +40,7 @@ struct MovieDetailView: View {
                 // MARK: - 电影系列
                 if let collection = viewStore.movie.belongsToCollection {
                     DetailView.Collection(collection: collection)
+                        .padding(.top)
                 }
                 
                 // MARK: - 相关推荐

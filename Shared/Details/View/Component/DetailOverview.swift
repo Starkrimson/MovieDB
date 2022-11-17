@@ -21,7 +21,7 @@ extension DetailView {
         let writers: [Media.Crew]
         
         var body: some View {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Spacer()
                     VStack {
@@ -37,6 +37,7 @@ extension DetailView {
                                 Text(" · \(runtime) \("MINUTES".localized)")
                             }
                         }
+                        .padding(6)
                         
                         // MARK: - 类型
                         HStack {
@@ -60,17 +61,13 @@ extension DetailView {
                 }
                 
                 // MARK: - 简介
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(tagline ?? "")
-                    overview.map { overview in
-                        Group {
-                            Text("OVERVIEW".localized)
-                                .font(.title2.weight(.medium))
-                            Text(overview)
-                        }
-                    }
+                Text(tagline ?? "")
+                    .padding(.horizontal)
+                overview.map { overview in
+                    Text(overview)
+                        .padding(.horizontal)
+                        .header("OVERVIEW".localized)
                 }
-                .padding(.horizontal)
 
                 // MARK: - 导演/编剧
                 ForEach([directors, writers].filter { !$0.isEmpty }, id: \.self) { list in
@@ -94,6 +91,7 @@ extension DetailView {
                             }
                         }
                         .padding(.horizontal)
+                        .padding(.top)
                     }
                 }
             }

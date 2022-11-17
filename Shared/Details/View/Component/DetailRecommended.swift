@@ -13,41 +13,36 @@ extension DetailView {
         let recommendations: [Media]
         
         var body: some View {
-            VStack(alignment: .leading) {
-                Text("RECOMMENDATIONS".localized)
-                    .font(.title2.weight(.medium))
-                    .padding(.horizontal)
-                
-                // MARK: - 推荐列表
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(recommendations.prefix(10)) { recommend in
-                            NavigationLink {
-                                DetailView(store: .init(
-                                    initialState: .init(media: recommend),
-                                    reducer: DetailReducer()
-                                ))
-                            } label: {
-                                VStack {
-                                    URLImage(recommend.backdropPath?.imagePath(.face(w: 500, h: 282)))
-                                        .frame(width: 250, height: 141)
-                                        .cornerRadius(6)
-                                    HStack {
-                                        Text(recommend.displayName)
-                                        Spacer()
-                                        recommend.voteAverage
-                                            .map { ($0, true) }
-                                            .map(ScoreView.init)
-                                    }
-                                    .frame(width: 250)
+            // MARK: - 推荐列表
+            ScrollView(.horizontal) {
+                HStack(alignment: .top) {
+                    ForEach(recommendations.prefix(10)) { recommend in
+                        NavigationLink {
+                            DetailView(store: .init(
+                                initialState: .init(media: recommend),
+                                reducer: DetailReducer()
+                            ))
+                        } label: {
+                            VStack {
+                                URLImage(recommend.backdropPath?.imagePath(.face(w: 500, h: 282)))
+                                    .frame(width: 250, height: 141)
+                                    .cornerRadius(6)
+                                HStack {
+                                    Text(recommend.displayName)
+                                    Spacer()
+                                    recommend.voteAverage
+                                        .map { ($0, true) }
+                                        .map(ScoreView.init)
                                 }
+                                .frame(width: 250)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding(.horizontal)
                 }
+                .padding(.horizontal)
             }
+            .header("RECOMMENDATIONS".localized)
         }
     }
 }

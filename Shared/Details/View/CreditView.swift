@@ -56,31 +56,28 @@ struct CreditView: View {
     var body: some View {
         ScrollView {
             ForEach(combinedCredits) { credit in
-                VStack(alignment: .leading) {
-                    Text(credit.department.localized)
-                        .font(.headline)
-                    Divider()
-                    GridLayout(estimatedItemWidth: 250) {
-                        ForEach(credit.credits) { item in
-                            NavigationLink {
-                                DetailView(store: .init(
-                                    initialState: .init(media: .from(item)),
-                                    reducer: DetailReducer()
-                                ))
-                            } label: {
-                                ProfileView(
-                                    axis: .horizontal,
-                                    profilePath: item.posterPath ?? "",
-                                    name: item.title,
-                                    job: item.character
-                                )
-                            }
-                            .buttonStyle(.plain)
+                GridLayout(estimatedItemWidth: 250) {
+                    ForEach(credit.credits) { item in
+                        NavigationLink {
+                            DetailView(store: .init(
+                                initialState: .init(media: .from(item)),
+                                reducer: DetailReducer()
+                            ))
+                        } label: {
+                            ProfileView(
+                                axis: .horizontal,
+                                profilePath: item.posterPath ?? "",
+                                name: item.title,
+                                job: item.character
+                            )
                         }
+                        .buttonStyle(.plain)
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                .header(credit.department.localized)
             }
+            Color.clear
         }
         .navigationTitle("FULL CAST & CREW".localized)
     }

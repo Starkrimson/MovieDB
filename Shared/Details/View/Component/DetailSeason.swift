@@ -15,39 +15,36 @@ extension DetailView {
         let seasons: [Season]
         
         var body: some View {
-            VStack {
-                if let lastSeason = seasons.last {
-                    HStack {
-                        Text("CURRENT SEASON".localized)
-                            .font(.title2.weight(.medium))
-                        Text("\(lastSeason.name ?? "")")
-                        Spacer()
-                    }
-                    .padding([.horizontal, .top])
-                }
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(seasons.reversed()) { season in
-                            NavigationLink {
-                                EpisodeList(store: .init(
-                                    initialState: .init(tvID: tvID, seasonNumber: season.seasonNumber ?? 0, showName: showName),
-                                    reducer: SeasonReducer()
-                                ))
-                            } label: {
-                                SeasonRow(
-                                    showName: showName,
-                                    seasonName: season.name ?? "",
-                                    profilePath: season.posterPath ?? "",
-                                    airDate: season.airDate ?? .init(),
-                                    episodeCount: season.episodeCount ?? 0,
-                                    overview: season.overview ?? ""
-                                )
-                                .frame(maxWidth: 300)
-                            }
-                            .buttonStyle(.plain)
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(seasons.reversed()) { season in
+                        NavigationLink {
+                            EpisodeList(store: .init(
+                                initialState: .init(tvID: tvID, seasonNumber: season.seasonNumber ?? 0, showName: showName),
+                                reducer: SeasonReducer()
+                            ))
+                        } label: {
+                            SeasonRow(
+                                showName: showName,
+                                seasonName: season.name ?? "",
+                                profilePath: season.posterPath ?? "",
+                                airDate: season.airDate ?? .init(),
+                                episodeCount: season.episodeCount ?? 0,
+                                overview: season.overview ?? ""
+                            )
+                            .frame(maxWidth: 300)
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding(.horizontal)
+                }
+                .padding(.horizontal)
+            }
+            .header {
+                HStack(alignment: .lastTextBaseline) {
+                    Text("CURRENT SEASON".localized)
+                    Text("\(seasons.last?.name ?? "")")
+                        .font(.subheadline)
+                    Spacer()
                 }
             }
         }
