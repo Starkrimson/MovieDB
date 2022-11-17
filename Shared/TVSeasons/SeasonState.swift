@@ -38,7 +38,6 @@ struct SeasonReducer: ReducerProtocol {
                         try await dbClient.season(state.tvID, state.seasonNumber)
                     })
                 }
-                .animation()
                 
             case .fetchSeasonDone(.success(let season)):
                 state.status = .normal

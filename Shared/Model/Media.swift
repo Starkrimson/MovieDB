@@ -125,6 +125,9 @@ extension Media {
         
         /// person
         var profiles: [Image]?
+        
+        /// episode
+        var stills: [Image]?
     }
     
     struct Image: Codable, Equatable, Identifiable, Hashable {

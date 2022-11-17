@@ -144,6 +144,21 @@ extension URL {
         )
     }
     
+    /// 生成 Episode URL
+    /// - Parameters:
+    ///   - tvID: 剧集 ID
+    ///   - seasonNumber: seasonNumber
+    ///   - episodeNumber: episodeNumber
+    /// - Returns: URL
+    static func episode(tvID: Int, seasonNumber: Int, episodeNumber: Int, appendToResponse: AppendToResponse...) -> URL {
+        url(
+            paths: ["tv", tvID, "season", seasonNumber, "episode", episodeNumber],
+            queryItems: [
+                "append_to_response": appendToResponse.map { $0.rawValue }.joined(separator: ",")
+            ]
+        )
+    }
+    
     enum DiscoverQueryItem: Equatable {
         /// Specify the page of results to query. minimum: 1 maximum: 1000 default: 1
         case page(Int)

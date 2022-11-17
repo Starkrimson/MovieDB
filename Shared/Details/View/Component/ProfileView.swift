@@ -27,7 +27,7 @@ struct ProfileView: View {
                     .font(.footnote)
                     .lineLimit(2)
             }
-            .frame(width: 138)
+            .frame(maxWidth: 138)
         } else {
             // MARK: - 图片名称水平排列
             HStack {
@@ -40,8 +40,8 @@ struct ProfileView: View {
                     Text(job)
                         .font(.footnote)
                 }
-                .padding(.leading, 6)
             }
+            .frame(maxHeight: 66)
         }
     }
 }

@@ -68,7 +68,7 @@ struct Season: Codable, Equatable, Identifiable, Hashable, DBResponses {
     var statusMessage: String?
 }
 
-struct Episode: Codable, Equatable, Identifiable, Hashable {
+struct Episode: Codable, Equatable, Identifiable, Hashable, DBResponses {
     var airDate: String?
     var episodeNumber: Int?
     var id: Int?
@@ -81,6 +81,15 @@ struct Episode: Codable, Equatable, Identifiable, Hashable {
     var stillPath: String?
     var voteAverage: Double?
     var voteCount: Int?
+    
+    var guestStars: [Media.Cast]?
+    var crew: [Media.Crew]?
+    
+    var images: Media.Images?
+    
+    var success: Bool?
+    var statusCode: Int?
+    var statusMessage: String?
 }
 
 struct EpisodeToAir: Codable, Equatable, Identifiable, Hashable {

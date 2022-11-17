@@ -25,7 +25,15 @@ struct EpisodeList: View {
                     List {
                         Section("\(viewStore.season?.name ?? "") \(viewStore.episodes.count) \("EPISODES".localized)") {
                             ForEach(viewStore.episodes) { episode in
-                                EpisodeRow(episode: episode)
+                                NavigationLink {
+                                    EpisodeView(store: .init(
+                                        initialState: .init(tvID: viewStore.tvID, episode: episode),
+                                        reducer: EpisodeReducer()
+                                    ))
+                                } label: {
+                                    EpisodeRow(episode: episode)
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                     }
@@ -50,8 +58,16 @@ struct EpisodeRow: View {
                     .cornerRadius(6)
                 
                 VStack(alignment: .leading) {
-                    Text("\(episode.episodeNumber ?? 0) \(episode.name ?? "")")
-                        .font(.headline)
+                    HStack {
+                        Text("\(episode.episodeNumber ?? 0) \(episode.name ?? "")")
+                            .font(.headline)
+                        
+                        Spacer()
+                        ScoreView(score: episode.voteAverage ?? 0)
+                        Image(systemName: "chevron.right")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
                     
                     Group {
                         Text(episode.airDate ?? "")
@@ -63,6 +79,7 @@ struct EpisodeRow: View {
                     Spacer()
                     
                     Text(episode.overview ?? "")
+                        .lineLimit(4)
                 }
                 .padding(.leading)
                 .padding(.vertical, 6)
@@ -75,7 +92,7 @@ struct EpisodeRow: View {
     }
 }
 
-struct EpisodeView_Previews: PreviewProvider {
+struct EpisodeList_Previews: PreviewProvider {
     static var previews: some View {
         EpisodeList(store: .init(
             initialState: .init(tvID: 1, seasonNumber: 2, showName: "Show", status: .normal),

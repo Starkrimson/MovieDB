@@ -17,6 +17,7 @@ struct MovieDBClient {
     var collection: @Sendable (Int) async throws -> Movie.Collection
     /// (tvID, seasonNumber)
     var season: @Sendable (Int, Int) async throws -> Season
+    var episode: @Sendable (_ tvID: Int, _ seasonNumber: Int, _ episodeNumber: Int)  async throws -> Episode
     var discover: @Sendable (MediaType, [URL.DiscoverQueryItem]) async throws -> PageResponses<Media>
     /// (query, page)
     var search: @Sendable (String, Int) async throws -> PageResponses<Media>
@@ -88,6 +89,18 @@ extension MovieDBClient: DependencyKey {
                 .response(Season.self,
                           from: .season(tvID: tvID, seasonNumber: seasonNumber))
         },
+        episode: { tvID, seasonNumber, episodeNumber in
+            try await URLSession.shared
+                .response(
+                    Episode.self,
+                    from: .episode(
+                        tvID: tvID,
+                        seasonNumber: seasonNumber,
+                        episodeNumber: episodeNumber,
+                        appendToResponse: .images
+                    )
+                )
+        },
         discover: { mediaType, queryItems in
             var value = try await URLSession.shared
                 .response(PageResponses<Media>.self,
@@ -124,6 +137,7 @@ extension MovieDBClient: DependencyKey {
         },
         collection: { id in mockCollection },
         season: { _, _ in mockTVShows[0].seasons![0] },
+        episode: { _, _, _ in mockTVShows[0].seasons![0].episodes![0] },
         discover: { _, _ in .init(results: mockMedias) },
         search: { _, _ in .init(results: mockMedias) }
     )
