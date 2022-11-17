@@ -22,18 +22,17 @@ struct EpisodeList: View {
                     ErrorTips(error: error)
                     
                 case .normal:
-                    ScrollView {
-                        Text("\(viewStore.season?.name ?? "") \(viewStore.episodes.count) 集")
-                            .font(.title2.weight(.medium))
-                            .padding()
-                        ForEach(viewStore.episodes) { episode in
-                            EpisodeRow(episode: episode)
+                    List {
+                        Section("\(viewStore.season?.name ?? "") \(viewStore.episodes.count) \("EPISODES".localized)") {
+                            ForEach(viewStore.episodes) { episode in
+                                EpisodeRow(episode: episode)
+                            }
                         }
                     }
                 }
             }
             .navigationTitle(viewStore.showName)
-            .onAppear {
+            .task {
                 viewStore.send(.fetchSeason)
             }
         }
@@ -44,42 +43,42 @@ struct EpisodeRow: View {
     let episode: Episode
 
     var body: some View {
-        HStack(spacing: 0) {
-            URLImage(episode.stillPath?.imagePath(.best(w: 454, h: 254)) ?? "")
-                .frame(width: 227, height: 127)
-                .cornerRadius(6)
-            
-            VStack(alignment: .leading) {
-                Text("\(episode.episodeNumber ?? 0) \(episode.name ?? "")")
-                    .font(.title2)
-                    .fontWeight(.medium)
+        VStack {
+            HStack(alignment: .top, spacing: 0) {
+                URLImage(episode.stillPath?.imagePath(.best(w: 454, h: 254)) ?? "")
+                    .frame(width: 227, height: 127)
+                    .cornerRadius(6)
                 
-                Group {
-                    Text(episode.airDate ?? "")
-                    Text("\(episode.runtime ?? 0)m")
+                VStack(alignment: .leading) {
+                    Text("\(episode.episodeNumber ?? 0) \(episode.name ?? "")")
+                        .font(.headline)
+                    
+                    Group {
+                        Text(episode.airDate ?? "")
+                        Text("\(episode.runtime ?? 0)m")
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text(episode.overview ?? "")
                 }
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+                .padding(.leading)
+                .padding(.vertical, 6)
                 
-                Spacer()
-                
-                Text(episode.overview ?? "")
-                    .lineLimit(3)
+                Spacer(minLength: 0)
             }
-            .frame(maxHeight: 127)
-            .padding(.horizontal)
             
-            Spacer(minLength: 0)
+            Divider()
         }
-        .padding(.vertical)
-        .padding(.leading)
     }
 }
 
 struct EpisodeView_Previews: PreviewProvider {
     static var previews: some View {
         EpisodeList(store: .init(
-            initialState: .init(tvID: 1, seasonNumber: 2, showName: "Show"),
+            initialState: .init(tvID: 1, seasonNumber: 2, showName: "Show", status: .normal),
             reducer: SeasonReducer()
         ))
         .frame(minWidth: 730, minHeight: 300)
