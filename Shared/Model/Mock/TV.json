@@ -420,7 +420,141 @@
           "vote_average": 8.241,
           "vote_count": 203
         }
-      ]
+      ],
+      "credits": {
+        "cast": [
+          {
+            "adult": false,
+            "gender": 1,
+            "id": 1920,
+            "known_for_department": "Acting",
+            "name": "Winona Ryder",
+            "original_name": "Winona Ryder",
+            "popularity": 26.903,
+            "profile_path": "/rymbG27dRdRldtjZz3JfNpUT7A1.jpg",
+            "character": "Joyce Byers",
+            "credit_id": "5759b97bc3a3684ea90029c1",
+            "order": 0
+          },
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 35029,
+            "known_for_department": "Acting",
+            "name": "David Harbour",
+            "original_name": "David Harbour",
+            "popularity": 19.762,
+            "profile_path": "/chPekukMF5SNnW6b22NbYPqAStr.jpg",
+            "character": "Jim Hopper",
+            "credit_id": "5759b986c3a3683e7c003967",
+            "order": 1
+          },
+          {
+            "adult": false,
+            "gender": 1,
+            "id": 1356210,
+            "known_for_department": "Acting",
+            "name": "Millie Bobby Brown",
+            "original_name": "Millie Bobby Brown",
+            "popularity": 125.863,
+            "profile_path": "/2685xGmq68G6tmnUbfgSR6rywEV.jpg",
+            "character": "Jane “Eleven” Hopper",
+            "credit_id": "579f8d3092514178bf003120",
+            "order": 2
+          },
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 1442069,
+            "known_for_department": "Acting",
+            "name": "Finn Wolfhard",
+            "original_name": "Finn Wolfhard",
+            "popularity": 34.87,
+            "profile_path": "/5OVmquAk0W5BIsRlVKslEP497JD.jpg",
+            "character": "Mike Wheeler",
+            "credit_id": "5759b9909251416bab0002c4",
+            "order": 3
+          },
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 1653291,
+            "known_for_department": "Acting",
+            "name": "Gaten Matarazzo",
+            "original_name": "Gaten Matarazzo",
+            "popularity": 24.729,
+            "profile_path": "/yanRypHyaFRgTn31fwq8xzcfSHg.jpg",
+            "character": "Dustin Henderson",
+            "credit_id": "57a49317c3a36865ed000ee2",
+            "order": 4
+          },
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 1474123,
+            "known_for_department": "Acting",
+            "name": "Caleb McLaughlin",
+            "original_name": "Caleb McLaughlin",
+            "popularity": 19.177,
+            "profile_path": "/xKXJtSOcgGmzSXExU6kz2FXAysC.jpg",
+            "character": "Lucas Sinclair",
+            "credit_id": "57a4932f9251411765000c50",
+            "order": 5
+          },
+          {
+            "adult": false,
+            "gender": 1,
+            "id": 1039011,
+            "known_for_department": "Acting",
+            "name": "Natalia Dyer",
+            "original_name": "Natalia Dyer",
+            "popularity": 23.49,
+            "profile_path": "/cQaa3XEiUTgJxp85VeFYFyblJIH.jpg",
+            "character": "Nancy Wheeler",
+            "credit_id": "5759b9a8c3a3683e9d0037d3",
+            "order": 8
+          },
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 1448222,
+            "known_for_department": "Acting",
+            "name": "Charlie Heaton",
+            "original_name": "Charlie Heaton",
+            "popularity": 21.175,
+            "profile_path": "/kPBiwpi1N0MCFITuxAy6LyrzE9e.jpg",
+            "character": "Jonathan Byers",
+            "credit_id": "5759b9b8c3a3684ea90029cf",
+            "order": 9
+          },
+          {
+            "adult": false,
+            "gender": 2,
+            "id": 8654,
+            "known_for_department": "Acting",
+            "name": "Matthew Modine",
+            "original_name": "Matthew Modine",
+            "popularity": 16.425,
+            "profile_path": "/z974QEHL12qUvLyk6hlWGAmDgom.jpg",
+            "character": "Martin Brenner",
+            "credit_id": "5759b9c4c3a3683e7c003977",
+            "order": 14
+          },
+          {
+            "adult": false,
+            "gender": 1,
+            "id": 20047,
+            "known_for_department": "Acting",
+            "name": "Cara Buono",
+            "original_name": "Cara Buono",
+            "popularity": 20.482,
+            "profile_path": "/8nK8PSGTfDr3GtqdgUcWwbSlyJX.jpg",
+            "character": "Karen Wheeler",
+            "credit_id": "5d2572b3a698cf0010ab272b",
+            "order": 17
+          }
+        ]
+      }
     },
     {
       "air_date": "2017-10-27",

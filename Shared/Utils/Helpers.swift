@@ -140,7 +140,7 @@ extension URL {
     static func season(tvID: Int, seasonNumber: Int) -> URL {
         url(
             paths: ["tv", tvID, "season", seasonNumber],
-            queryItems: [:]
+            queryItems: ["append_to_response": "credits"]
         )
     }
     

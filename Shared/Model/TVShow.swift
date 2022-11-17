@@ -63,6 +63,8 @@ struct Season: Codable, Equatable, Identifiable, Hashable, DBResponses {
     
     var episodes: [Episode]?
     
+    var credits: Media.Credits?
+    
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?

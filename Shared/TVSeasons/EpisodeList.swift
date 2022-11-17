@@ -22,24 +22,49 @@ struct EpisodeList: View {
                     ErrorTips(error: error)
                     
                 case .normal:
-                    List {
-                        Section("\(viewStore.season?.name ?? "") \(viewStore.episodes.count) \("EPISODES".localized)") {
-                            ForEach(viewStore.episodes) { episode in
-                                NavigationLink {
-                                    EpisodeView(store: .init(
-                                        initialState: .init(tvID: viewStore.tvID, episode: episode),
-                                        reducer: EpisodeReducer()
-                                    ))
-                                } label: {
-                                    EpisodeRow(episode: episode)
-                                }
-                                .buttonStyle(.plain)
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 0) {
+                            if let overview = viewStore.season?.overview, !overview.isEmpty {
+                                Text(overview)
+                                    .padding([.horizontal, .top])
                             }
+                            
+                            if let cast = viewStore.season?.credits?.cast, !cast.isEmpty {
+                                ScrollView(.horizontal) {
+                                    HStack {
+                                        ForEach(cast) { item in
+                                            ProfileView(
+                                                profilePath: item.profilePath ?? "",
+                                                name: item.name ?? "",
+                                                job: item.character ?? ""
+                                            )
+                                        }
+                                    }
+                                    .padding(.horizontal)
+                                }
+                                .header("SEASON REGULARS".localized)
+                            }
+                            
+                            VStack {
+                                ForEach(viewStore.episodes) { episode in
+                                    NavigationLink {
+                                        EpisodeView(store: .init(
+                                            initialState: .init(tvID: viewStore.tvID, episode: episode),
+                                            reducer: EpisodeReducer()
+                                        ))
+                                    } label: {
+                                        EpisodeRow(episode: episode)
+                                            .padding(.horizontal)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .header("\(viewStore.episodes.count) \("EPISODES".localized)")
                         }
                     }
                 }
             }
-            .navigationTitle(viewStore.showName)
+            .navigationTitle(viewStore.showName + " \(viewStore.season?.name ?? "")")
             .task {
                 viewStore.send(.fetchSeason)
             }
