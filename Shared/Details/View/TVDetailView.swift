@@ -62,6 +62,7 @@ struct TVDetailView: View {
     }
 }
 
+#if DEBUG
 struct TVDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
@@ -87,3 +88,4 @@ struct TVDetailView_Previews: PreviewProvider {
         }
     }
 }
+#endif

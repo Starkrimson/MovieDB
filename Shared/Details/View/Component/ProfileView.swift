@@ -46,7 +46,7 @@ struct ProfileView: View {
     }
 }
 
-
+#if DEBUG
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -78,3 +78,4 @@ struct ProfileView_Previews: PreviewProvider {
         }
     }
 }
+#endif

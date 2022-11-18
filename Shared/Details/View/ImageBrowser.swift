@@ -46,6 +46,7 @@ struct ImageBrowser: View {
     }
 }
 
+#if DEBUG
 struct ImageBrowser_Previews: PreviewProvider {
     static var previews: some View {
         ImageBrowser(
@@ -53,3 +54,4 @@ struct ImageBrowser_Previews: PreviewProvider {
         )
     }
 }
+#endif

@@ -34,8 +34,10 @@ extension PersonDetailView {
     }
 }
 
+#if DEBUG
 struct KnownFor_Previews: PreviewProvider {
     static var previews: some View {
         PersonDetailView.KnownFor(knownFor: Array(mockPeople[0].combinedCredits?.cast?.prefix(10).map(Media.CombinedCredits.Credit.from) ?? []))
     }
 }
+#endif

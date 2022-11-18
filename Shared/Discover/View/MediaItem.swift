@@ -63,6 +63,7 @@ struct MediaItem: View {
     }
 }
 
+#if DEBUG
 struct MediaItem_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
@@ -73,3 +74,4 @@ struct MediaItem_Previews: PreviewProvider {
         .frame(height: 850)
     }
 }
+#endif

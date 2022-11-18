@@ -83,9 +83,11 @@ struct CreditView: View {
     }
 }
 
+#if DEBUG
 struct CreditView_Previews: PreviewProvider {
     static var previews: some View {
         CreditView(credit: mockMovies[0].credits ?? .init())
             .frame(width: 400)
     }
 }
+#endif

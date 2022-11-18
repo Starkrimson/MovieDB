@@ -210,6 +210,7 @@
 				0929EDAA286D93CC007C4BFB /* Assets.xcassets */,
 				09A549F5288FE1EC0052492A /* Utils */,
 				0929EDA5286D93CA007C4BFB /* MovieDB.xcdatamodeld */,
+				09CD650229278D3D00F45376 /* Preview Content */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -289,7 +290,6 @@
 				0993FCD0287ECE27002227E0 /* Movie.swift */,
 				09DB36972880080A00EFFC2B /* TVShow.swift */,
 				09DB36A0288012D100EFFC2B /* Person.swift */,
-				097CED412884F7F600115FC6 /* Mock */,
 				09CE6D7F2918E6E6001E87F3 /* Localizable.strings */,
 			);
 			path = Model;
@@ -378,6 +378,14 @@
 				09E15D0A28912F8B00D64488 /* ErrorTips.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		09CD650229278D3D00F45376 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				097CED412884F7F600115FC6 /* Mock */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		09CE6D842918FA81001E87F3 /* Search */ = {
@@ -741,6 +749,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S89AQP84V;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
@@ -777,6 +786,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S89AQP84V;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;

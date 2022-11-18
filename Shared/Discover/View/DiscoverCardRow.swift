@@ -34,6 +34,7 @@ extension DiscoverView {
     }
 }
 
+#if DEBUG
 struct DiscoverCardRow_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -48,3 +49,4 @@ struct DiscoverCardRow_Previews: PreviewProvider {
         )
     }
 }
+#endif

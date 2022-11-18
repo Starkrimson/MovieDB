@@ -117,6 +117,7 @@ struct EpisodeRow: View {
     }
 }
 
+#if DEBUG
 struct EpisodeList_Previews: PreviewProvider {
     static var previews: some View {
         EpisodeList(store: .init(
@@ -128,3 +129,4 @@ struct EpisodeList_Previews: PreviewProvider {
         EpisodeRow(episode: mockTVShows[0].seasons![0].episodes![0])
     }
 }
+#endif

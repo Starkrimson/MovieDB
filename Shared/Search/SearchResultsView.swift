@@ -41,6 +41,7 @@ struct SearchResultsView: View {
     }
 }
 
+#if DEBUG
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
         SearchResultsView(
@@ -51,3 +52,4 @@ struct SearchResultsView_Previews: PreviewProvider {
         )
     }
 }
+#endif

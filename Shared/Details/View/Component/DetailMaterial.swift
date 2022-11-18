@@ -82,6 +82,7 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailFooter_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Material(detail: .movie(mockMovies[0]))
@@ -91,3 +92,4 @@ struct DetailFooter_Previews: PreviewProvider {
         DetailView.Material(detail: .person(mockPeople[0]))
     }
 }
+#endif

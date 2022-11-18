@@ -59,6 +59,7 @@ struct GridLayout: Layout {
     }
 }
 
+#if DEBUG
 struct GridLayout_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
@@ -77,3 +78,4 @@ struct GridLayout_Previews: PreviewProvider {
         .frame(width: 720)
     }
 }
+#endif

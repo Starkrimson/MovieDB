@@ -48,8 +48,10 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailRecommended_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Recommended(recommendations: mockMedias)
     }
 }
+#endif

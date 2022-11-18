@@ -62,9 +62,12 @@ extension DetailView {
         }
     }
 }
+
+#if DEBUG
 struct DetailCast_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Cast(credits: mockMovies[0].credits ?? .init())
             .frame(height: 700)
     }
 }
+#endif

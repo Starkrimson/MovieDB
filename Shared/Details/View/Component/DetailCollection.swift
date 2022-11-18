@@ -54,8 +54,10 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailCollection_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Collection(collection: mockMovies[0].belongsToCollection ?? .init())
     }
 }
+#endif

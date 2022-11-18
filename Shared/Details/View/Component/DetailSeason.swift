@@ -91,8 +91,10 @@ struct SeasonRow: View {
     }
 }
 
+#if DEBUG
 struct DetailSeason_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Seasons(showName: "Show", tvID: 1, seasons: mockTVShows[0].seasons ?? [])
     }
 }
+#endif

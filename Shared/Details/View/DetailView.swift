@@ -48,6 +48,7 @@ struct DetailView: View {
     }
 }
 
+#if DEBUG
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(
@@ -59,3 +60,4 @@ struct DetailView_Previews: PreviewProvider {
         .frame(height: 850)
     }
 }
+#endif

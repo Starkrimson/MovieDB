@@ -152,6 +152,7 @@ extension ImageGridView {
     }
 }
 
+#if DEBUG
 struct ImageGridView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
@@ -162,3 +163,4 @@ struct ImageGridView_Previews: PreviewProvider {
         }
     }
 }
+#endif

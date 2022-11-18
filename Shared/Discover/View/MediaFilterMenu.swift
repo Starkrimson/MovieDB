@@ -70,6 +70,7 @@ struct MediaFilterMenu: View {
     }
 }
 
+#if DEBUG
 struct MediaFilterMenu_Previews: PreviewProvider {
     static var previews: some View {
         MediaFilterMenu(store: .init(
@@ -78,3 +79,4 @@ struct MediaFilterMenu_Previews: PreviewProvider {
         ))
     }
 }
+#endif

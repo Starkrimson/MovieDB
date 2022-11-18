@@ -85,6 +85,7 @@ private struct Part: View {
     }
 }
 
+#if DEBUG
 struct MovieCollectionView_Previews: PreviewProvider {
     static var previews: some View {
         MovieCollectionView(store: .init(
@@ -94,3 +95,4 @@ struct MovieCollectionView_Previews: PreviewProvider {
         .frame(width: 720, height: 720)
     }
 }
+#endif

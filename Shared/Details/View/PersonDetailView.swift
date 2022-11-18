@@ -35,6 +35,7 @@ struct PersonDetailView: View {
     }
 }
 
+#if DEBUG
 struct PersonDetailView_Previews: PreviewProvider {
     static var previews: some View {
         IfLetStore(
@@ -58,3 +59,4 @@ struct PersonDetailView_Previews: PreviewProvider {
         .frame(minHeight: 1250)
     }
 }
+#endif

@@ -100,6 +100,7 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailBasic_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Overview(
@@ -115,3 +116,4 @@ struct DetailBasic_Previews: PreviewProvider {
         )
     }
 }
+#endif

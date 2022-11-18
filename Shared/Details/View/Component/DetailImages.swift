@@ -132,6 +132,7 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailImages_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Images(
@@ -141,3 +142,4 @@ struct DetailImages_Previews: PreviewProvider {
         )
     }
 }
+#endif

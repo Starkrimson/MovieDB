@@ -63,6 +63,7 @@ private extension SearchFieldPlacement {
     }
 }
 
+#if DEBUG
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {        
         DiscoverView(
@@ -73,3 +74,4 @@ struct DiscoverView_Previews: PreviewProvider {
         )
     }
 }
+#endif
