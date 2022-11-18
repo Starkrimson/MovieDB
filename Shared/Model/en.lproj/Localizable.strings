@@ -35,7 +35,7 @@
 "MEDIA" = "Media";
 "BACKDROPS" = "Backdrops";
 "POSTERS" = "Posters";
-"VIEW ALL" = "View All";
+"VIEW ALL" = "View All ";
 "PART OF COLLECTION" = "Part of the %@";
 "VIEW THE COLLECTION" = "VIEW THE COLLECTION";
 "RECOMMENDATIONS" = "Recommendations";
@@ -62,3 +62,5 @@
 "GUEST STARS" = "Guest Stars";
 "EPISODE IMAGES" = "Episode Images";
 "SEASON REGULARS" = "Season Regulars";
+"MALE" = "Male";
+"FEMALE" = "Female";

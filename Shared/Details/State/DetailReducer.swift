@@ -37,7 +37,7 @@ struct TVState: Equatable, Hashable {
 struct PersonState: Equatable, Hashable {
     var person: Person
     
-    var knownFor: [Media.Cast]
+    var knownFor: [Media.CombinedCredits.Credit]
     
     var combinedCredits: IdentifiedArrayOf<Media.CombinedCredits>
 
@@ -47,11 +47,28 @@ struct PersonState: Equatable, Hashable {
         
     init(_ person: Person) {
         self.person = person
-        
-        knownFor = Array(person.combinedCredits?.cast?
-            .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
-            .prefix(10) ?? [])
-            .unique(\.id)
+                
+        knownFor = {
+            if person.knownForDepartment == "Acting" {
+               return person.combinedCredits?.cast?
+                    .unique(\.id)
+                    .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
+                    .filter {
+                        if $0.mediaType == .tv {
+                            return $0.episodeCount ?? 0 >= 5
+                        }
+                        return true
+                    }
+                    .prefix(10)
+                    .map(Media.CombinedCredits.Credit.from) ?? []
+            } else {
+                return person.combinedCredits?.crew?
+                    .unique(\.id)
+                    .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
+                    .prefix(10)
+                    .map(Media.CombinedCredits.Credit.from) ?? []
+            }
+        }()
         
         let actingCredits: [Media.CombinedCredits.Credit] = person.combinedCredits?.cast?
             .sorted(by: >)

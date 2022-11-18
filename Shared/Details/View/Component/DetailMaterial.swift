@@ -35,6 +35,7 @@ extension DetailView {
                     ("GENDER".localized, person.gender?.description),
                     ("BIRTHDAY".localized, person.birthday),
                     ("PLACE OF BIRTH".localized, person.placeOfBirth),
+                    ("ALSO KNOWN AS".localized, person.alsoKnownAs?.joined(separator: ", "))
                 ]
             }
         }

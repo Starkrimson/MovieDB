@@ -16,28 +16,26 @@ extension PersonDetailView {
         var body: some View {
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(credits) { credit in
-                    VStack(alignment: .leading) {
-                        Text(credit.department.localized)
-                            .font(.title2.weight(.medium))
-                        ForEach(credit.credits) { item in
-                            HStack {
-                                Text(item.year)
-                                NavigationLink {
-                                    DetailView(store: .init(
-                                        initialState: .init(media: .from(item)),
-                                        reducer: DetailReducer()
-                                    ))
-                                } label: {
-                                    Text(item.title)
-                                }
-                                .buttonStyle(.plain)
-                                Text(item.character)
-                                    .foregroundColor(.secondary)
-                                Spacer()
+                    ForEach(credit.credits) { item in
+                        HStack {
+                            Text(item.year)
+                                .frame(minWidth: 40)
+                            NavigationLink {
+                                DetailView(store: .init(
+                                    initialState: .init(media: .from(item)),
+                                    reducer: DetailReducer()
+                                ))
+                            } label: {
+                                Text(item.title)
                             }
+                            .buttonStyle(.plain)
+                            Text(item.character)
+                                .foregroundColor(.secondary)
+                            Spacer()
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .header(credit.department.localized)
                 }
             }
         }

@@ -171,8 +171,9 @@ extension Media {
         var posterPath: String?
         var backdropPath: String?
         var releaseDate: String?
-                
+        
         var firstAirDate: String?
+        var episodeCount: Int?
         
         static func < (lhs: Media.Cast, rhs: Media.Cast) -> Bool {
             (lhs.releaseDate ?? lhs.firstAirDate ?? "")
@@ -225,6 +226,30 @@ extension Media {
             var posterPath: String?
             var backdropPath: String?
             var id: Int?
+            
+            static func from(_ cast: Media.Cast) -> Credit {
+                .init(
+                    year: String((cast.releaseDate ?? cast.firstAirDate ?? "").prefix(4)),
+                    title: cast.title ?? cast.name ?? "",
+                    character: cast.character.map({ "\("AS".localized) \($0)" }) ?? "",
+                    mediaType: cast.mediaType,
+                    posterPath: cast.posterPath,
+                    backdropPath: cast.backdropPath,
+                    id: cast.id
+                )
+            }
+            
+            static func from(_ crew: Media.Crew) -> Credit {
+                .init(
+                    year: String((crew.releaseDate ?? crew.firstAirDate ?? "").prefix(4)),
+                    title: crew.title ?? crew.name ?? "",
+                    character: crew.job?.localized ?? "",
+                    mediaType: crew.mediaType,
+                    posterPath: crew.posterPath,
+                    backdropPath: crew.backdropPath,
+                    id: crew.id
+                )
+            }
         }
     }
 }

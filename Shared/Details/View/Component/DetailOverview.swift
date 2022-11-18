@@ -62,7 +62,8 @@ extension DetailView {
                 
                 // MARK: - 简介
                 Text(tagline ?? "")
-                    .padding(.horizontal)
+                    .font(.body.italic())
+                    .padding([.horizontal, .top])
                 overview.map { overview in
                     Text(overview)
                         .padding(.horizontal)

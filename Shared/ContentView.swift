@@ -24,7 +24,7 @@ struct ContentView: View {
                         send: MovieDBReducer.Action.tabSelected
                     )
                 ) {
-                    Section {
+                    Section("MovieDB") {
                         ForEach(MovieDBReducer.Tab.allCases.filter { $0 != .search }) { item in
                             Label(item.rawValue.localized, systemImage: item.systemImage)
                         }

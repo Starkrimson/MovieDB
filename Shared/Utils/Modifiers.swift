@@ -18,7 +18,7 @@ extension View {
         VStack(alignment: .leading, spacing: 0) {
             content()
                 .font(.title3.weight(.medium))
-                .padding([.leading, .top])
+                .padding([.horizontal, .top])
                 .padding(.bottom, 6)
             self
         }
@@ -36,7 +36,7 @@ extension View {
             content()
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-                .padding(.leading)
+                .padding(.horizontal)
                 .padding(.top, 6)
         }
     }
