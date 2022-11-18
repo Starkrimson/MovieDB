@@ -42,6 +42,14 @@ extension String {
         "https://image.tmdb.org/t/p/\(fileSize.rawValue)\(self)"
     }
     
+    var ytImagePath: String {
+        "https://i.ytimg.com/vi/\(self)/hqdefault.jpg"
+    }
+    
+    var ytPlayURL: URL? {
+        URL(string: "http://youtube.com/watch?v=\(self)")
+    }
+    
     var localized: String {
         localized(comment: "")
     }
@@ -71,6 +79,7 @@ let defaultQueryItems = [
     URLQueryItem(name: "api_key", value: ""),
     URLQueryItem(name: "language", value: "LANGUAGE".localized),
     URLQueryItem(name: "include_image_language", value: "en,null"),
+    URLQueryItem(name: "include_video_language", value: "en,null"),
 ]
 
 extension URL {

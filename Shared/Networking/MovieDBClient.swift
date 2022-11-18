@@ -63,7 +63,7 @@ extension MovieDBClient: DependencyKey {
                 let (data, _) = try await URLSession.shared
                     .data(from: .details(
                         mediaType: mediaType, id: id,
-                        appendToResponse: .images, .recommendations, .keywords, mediaType == .person ? .combined_credits : .credits
+                        appendToResponse: .images, .videos, .recommendations, .keywords, mediaType == .person ? .combined_credits : .credits
                     ))
                 switch mediaType {
                 case .tv:

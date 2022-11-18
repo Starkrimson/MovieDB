@@ -9,32 +9,41 @@ import SwiftUI
 
 struct ImageGridView: View {
     let images: Media.Images
+    var videos: [Media.Video] = []
     
-    @State var selectedImageType: Media.ImageType = .backdrop
+    @State var selectedImageType: Media.ImageType = .backdrops
+    
+    @Environment(\.openURL) var openURL
     
     var body: some View {
         ScrollView {
             GridLayout(
-                estimatedItemWidth: selectedImageType == .poster ? 188 : 375
+                estimatedItemWidth: selectedImageType == .posters ? 188 : 375
             ) {
-                ForEach(
-                    selectedImageType == .poster
-                    ? images.posters ?? []
-                    : images.backdrops ?? []
-                ) { item in
-                    NavigationLink {
-                        ImageBrowser(image: item)
-                    } label: {
-                        Item(image: item, type: selectedImageType)
+                if selectedImageType == .videos {
+                    videoStack
+                } else {
+                    ForEach(
+                        images.images(of: selectedImageType)
+                    ) { item in
+                        NavigationLink {
+                            ImageBrowser(image: item)
+                        } label: {
+                            Item(image: item, type: selectedImageType)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
                 }
             }
             .padding()
         }
         .toolbar {
             Picker("MEDIA".localized, selection: $selectedImageType) {
-                ForEach(Media.ImageType.allCases) {
+                ForEach(
+                    videos.isEmpty
+                    ? images.imageTypes
+                    : [.videos] + images.imageTypes
+                ) {
                     Text($0.description)
                         .tag($0)
                 }
@@ -42,6 +51,39 @@ struct ImageGridView: View {
             .pickerStyle(.segmented)
         }
         .navigationTitle("MEDIA".localized)
+    }
+    
+    @ViewBuilder
+    var videoStack: some View {
+        ForEach(videos) { video in
+            Button {
+                if let url = video.key?.ytPlayURL {
+                    openURL(url)
+                }
+            } label: {
+                ZStack(alignment: .bottomLeading) {
+                    ZStack {
+                        URLImage(video.key?.ytImagePath)
+                        
+                        Image(systemName: "play.circle.fill")
+                            .font(.largeTitle)
+                    }
+                    HStack {
+                        Text(video.name ?? "")
+                            .lineLimit(2)
+                            .padding(4)
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(6)
+                        Spacer()
+                        Image(systemName: "link")
+                    }
+                    .font(.caption)
+                    .padding(6)
+                }
+                .aspectRatio(240/180, contentMode: .fill)
+            }
+            .buttonStyle(.plain)
+        }
     }
 }
 
@@ -83,11 +125,11 @@ extension ImageGridView {
         var body: some View {
             ZStack(alignment: .bottomTrailing) {
                 URLImage(image.filePath?.imagePath(
-                    type == .poster
+                    type == .posters
                     ? .best(w: 188, h: 282)
                     : .face(w: 500, h: 282)
                 ))
-                .aspectRatio(type == .poster ? 188/282 : 500/282, contentMode: .fill)
+                .aspectRatio(type == .posters ? 188/282 : 500/282, contentMode: .fill)
                 if over {
                     VStack(alignment: .trailing) {
                         buttons
@@ -115,7 +157,7 @@ struct ImageGridView_Previews: PreviewProvider {
         NavigationStack {
             ImageGridView(
                 images: mockMovies[0].images ?? .init(),
-                selectedImageType: .backdrop
+                selectedImageType: .backdrops
             )
         }
     }

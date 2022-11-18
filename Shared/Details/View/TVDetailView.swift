@@ -43,7 +43,10 @@ struct TVDetailView: View {
                 
                 // MARK: - 海报/剧照
                 if let images = viewStore.tv.images {
-                    DetailView.Images(images: images)
+                    DetailView.Images(
+                        images: images,
+                        videos: viewStore.tv.videos?.results ?? []
+                    )
                 }
                 
                 // MARK: - 相关推荐

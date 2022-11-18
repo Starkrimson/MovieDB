@@ -29,6 +29,7 @@ extension DetailView {
                                     .cornerRadius(6)
                                 HStack {
                                     Text(recommend.displayName)
+                                        .lineLimit(1)
                                     Spacer()
                                     recommend.voteAverage
                                         .map { ($0, true) }

@@ -57,6 +57,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var credits: Media.Credits?
     var recommendations: PageResponses<Media>?
     var keywords: Keywords?
+    var videos: PageResponses<Media.Video>?
 
     var success: Bool?
     var statusCode: Int?

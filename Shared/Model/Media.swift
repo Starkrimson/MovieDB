@@ -102,18 +102,13 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
 
 extension Media {
     
-    enum ImageType: CustomStringConvertible, CaseIterable, Identifiable {
-        case backdrop, poster
+    enum ImageType: String, CustomStringConvertible, CaseIterable, Identifiable {
+        case videos, backdrops, posters, logos, stills
         
         var id: Self { self }
         
         var description: String {
-            switch self {
-            case .poster:
-                return "POSTERS".localized
-            case .backdrop:
-                return "BACKDROPS".localized
-            }
+            rawValue.uppercased().localized
         }
     }
     
@@ -128,6 +123,38 @@ extension Media {
         
         /// episode
         var stills: [Image]?
+        
+        var imageTypes: [ImageType] {
+            var types: [ImageType] = []
+            if backdrops?.isEmpty == false {
+                types.append(.backdrops)
+            }
+            if posters?.isEmpty == false {
+                types.append(.posters)
+            }
+//            if logos?.isEmpty == false {
+//                types.append(.logos)
+//            }
+            if stills?.isEmpty == false {
+                types.append(.stills)
+            }
+            return types
+        }
+        
+        func images(of type: ImageType) -> [Image] {
+            switch type {
+            case .backdrops:
+                return backdrops ?? []
+            case .posters:
+                return posters ?? []
+            case .logos:
+                return logos ?? []
+            case .stills:
+                return stills ?? []
+            case .videos:
+                return []
+            }
+        }
     }
     
     struct Image: Codable, Equatable, Identifiable, Hashable {
@@ -140,6 +167,19 @@ extension Media {
         var width: Int?
         
         var id: String? { filePath }
+    }
+    
+    struct Video: Codable, Equatable, Identifiable, Hashable {
+        var iso_639_1: String? // "en",
+        var iso_3166_1: String? // "US",
+        var name: String? // "Q&A Featurette",
+        var key: String? // "Gf4AXNthfVg",
+        var site: String? // "YouTube",
+        var size: Double? // 1080,
+        var type: String? // "Featurette",
+        var official: Bool? // true,
+        var published_at: String? // "2022-10-15T19:00:11.000Z",
+        var id: String? // "634e619e1089ba007d54910f"
     }
 }
 
