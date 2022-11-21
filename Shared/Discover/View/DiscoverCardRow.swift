@@ -9,16 +9,18 @@ import SwiftUI
 import ComposableArchitecture
 
 extension DiscoverView {
-    
+
     struct CardRow: View {
         let store: Store<IdentifiedArrayOf<DetailReducer.State>, (DetailReducer.State.ID, DetailReducer.Action)>
-        
+
         var body: some View {
             // MARK: - 横向滑动电影/剧集
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
                     ForEachStore(store) { detailStore in
-                        WithViewStore(detailStore, observe: { $0 }) { detailViewStore in
+                        WithViewStore(detailStore) {
+                            $0
+                        } content: { detailViewStore in
                             NavigationLink {
                                 DetailView(store: detailStore)
                             } label: {

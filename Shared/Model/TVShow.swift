@@ -40,14 +40,14 @@ struct TVShow: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var type: String?
     var voteAverage: Double?
     var voteCount: Int?
-    
+
     // append_to_response
     var images: Media.Images?
     var credits: Media.Credits?
     var recommendations: PageResponses<Media>?
     var keywords: PageResponses<Genre>?
     var videos: PageResponses<Media.Video>?
-    
+
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?
@@ -61,11 +61,11 @@ struct Season: Codable, Equatable, Identifiable, Hashable, DBResponses {
     var overview: String?
     var posterPath: String?
     var seasonNumber: Int?
-    
+
     var episodes: [Episode]?
-    
+
     var credits: Media.Credits?
-    
+
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?
@@ -84,12 +84,12 @@ struct Episode: Codable, Equatable, Identifiable, Hashable, DBResponses {
     var stillPath: String?
     var voteAverage: Double?
     var voteCount: Int?
-    
+
     var guestStars: [Media.Cast]?
     var crew: [Media.Crew]?
-    
+
     var images: Media.Images?
-    
+
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?

@@ -10,7 +10,7 @@ import SwiftUI
 struct ScoreView: View {
     let score: Double
     var scoreOnly: Bool = false
-    
+
     var body: some View {
         HStack(spacing: 3) {
             if !scoreOnly {
@@ -31,15 +31,15 @@ struct ScoreView: View {
         .font(.subheadline)
         .foregroundColor(score.scoreColor)
     }
-    
+
     var fills: Int {
         Int(score * 0.5)
     }
-    
+
     var halfFills: Int {
         score * 0.5 - floor(score * 0.5) >= 0.5 ? 1 : 0
     }
-    
+
     var stars: Int {
         5 - fills - halfFills
     }

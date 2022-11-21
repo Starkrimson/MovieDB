@@ -10,17 +10,17 @@ import ComposableArchitecture
 
 struct EpisodeList: View {
     let store: StoreOf<SeasonReducer>
-    
+
     var body: some View {
         WithViewStore(store) { viewStore in
             Group {
                 switch viewStore.status {
                 case .loading:
                     ProgressView()
-                    
+
                 case .error(let error):
                     ErrorTips(error: error)
-                    
+
                 case .normal:
                     ScrollView {
                         VStack(alignment: .leading, spacing: 0) {
@@ -28,7 +28,7 @@ struct EpisodeList: View {
                                 Text(overview)
                                     .padding([.horizontal, .top])
                             }
-                            
+
                             if let cast = viewStore.season?.credits?.cast, !cast.isEmpty {
                                 ScrollView(.horizontal) {
                                     HStack {
@@ -44,7 +44,7 @@ struct EpisodeList: View {
                                 }
                                 .header("SEASON REGULARS".localized)
                             }
-                            
+
                             VStack {
                                 ForEach(viewStore.episodes) { episode in
                                     NavigationLink {
@@ -78,40 +78,40 @@ struct EpisodeRow: View {
     var body: some View {
         VStack {
             HStack(alignment: .top, spacing: 0) {
-                URLImage(episode.stillPath?.imagePath(.best(w: 454, h: 254)) ?? "")
+                URLImage(episode.stillPath?.imagePath(.best(width: 454, height: 254)) ?? "")
                     .frame(width: 227, height: 127)
                     .cornerRadius(6)
-                
+
                 VStack(alignment: .leading) {
                     HStack {
                         Text("\(episode.episodeNumber ?? 0) \(episode.name ?? "")")
                             .font(.headline)
-                        
+
                         Spacer()
                         ScoreView(score: episode.voteAverage ?? 0)
                         Image(systemName: "chevron.right")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
-                    
+
                     Group {
                         Text(episode.airDate ?? "")
                         Text("\(episode.runtime ?? 0)m")
                     }
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                    
+
                     Spacer()
-                    
+
                     Text(episode.overview ?? "")
                         .lineLimit(4)
                 }
                 .padding(.leading)
                 .padding(.vertical, 6)
-                
+
                 Spacer(minLength: 0)
             }
-            
+
             Divider()
         }
     }
@@ -125,7 +125,7 @@ struct EpisodeList_Previews: PreviewProvider {
             reducer: SeasonReducer()
         ))
         .frame(minWidth: 730, minHeight: 300)
-        
+
         EpisodeRow(episode: mockTVShows[0].seasons![0].episodes![0])
     }
 }

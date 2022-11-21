@@ -8,10 +8,10 @@
 import SwiftUI
 
 extension DetailView {
-    
+
     struct Material: View {
         var detail: DetailModel
-        
+
         private var map: [(String, String?)] {
             switch detail {
             case .movie(let movie):
@@ -22,12 +22,12 @@ extension DetailView {
                     ("BUDGET".localized, movie.budget.map { String(format: "$%d", locale: .current, $0) }),
                     ("REVENUE".localized, movie.revenue.map { String(format: "$%d", locale: .current, $0) })
                 ]
-            case .tv(let tv):
+            case .tvShow(let tvShow):
                 return [
-                    ("STATUS".localized, tv.status),
-                    ("NETWORK".localized, tv.networks?.first?.name),
-                    ("TYPE".localized, tv.type),
-                    ("ORIGINAL LANGUAGE".localized, tv.originalLanguage)
+                    ("STATUS".localized, tvShow.status),
+                    ("NETWORK".localized, tvShow.networks?.first?.name),
+                    ("TYPE".localized, tvShow.type),
+                    ("ORIGINAL LANGUAGE".localized, tvShow.originalLanguage)
                 ]
             case .person(let person):
                 return [
@@ -39,18 +39,18 @@ extension DetailView {
                 ]
             }
         }
-        
+
         private var keywords: [Genre] {
             switch detail {
             case .movie(let movie):
                 return movie.keywords?.keywords ?? []
-            case .tv(let tv):
-                return tv.keywords?.results ?? []
+            case .tvShow(let tvShow):
+                return tvShow.keywords?.results ?? []
             case .person:
                 return []
             }
         }
-        
+
         var body: some View {
             VStack(alignment: .leading, spacing: 6) {
                 ForEach(map, id: \.0) { item in
@@ -60,7 +60,7 @@ extension DetailView {
                         Text(item.1 ?? "")
                     }
                 }
-                
+
                 FlowLayout {
                     ForEach(keywords) { keyword in
                         NavigationLink {
@@ -86,9 +86,9 @@ extension DetailView {
 struct DetailFooter_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Material(detail: .movie(mockMovies[0]))
-        
-        DetailView.Material(detail: .tv(mockTVShows[0]))
-        
+
+        DetailView.Material(detail: .tvShow(mockTVShows[0]))
+
         DetailView.Material(detail: .person(mockPeople[0]))
     }
 }

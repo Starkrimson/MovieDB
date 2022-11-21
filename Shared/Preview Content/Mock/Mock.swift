@@ -5,6 +5,7 @@
 //  Created by allie on 13/7/2022.
 //
 
+// swiftlint:disable all
 import Foundation
 
 let mockMediaMovies: [Media] = [
@@ -22,7 +23,7 @@ let mockMediaMovies: [Media] = [
         title: "雷神4：爱与雷霆",
         originalTitle: "Thor: Love and Thunder",
         id: 616037
-    ),
+    )
 ]
 
 let mockMediaTVShows: [Media] = [
@@ -40,7 +41,7 @@ let mockMediaTVShows: [Media] = [
         name: "终极名单",
         originalName: "The Terminal List",
         id: 120911
-    ),
+    )
 ]
 
 let mockMedias: [Media] = [
@@ -58,7 +59,7 @@ let mockMedias: [Media] = [
         firstAirDate: "2022-10-12",
         name: "Stranger Things",
         originalName: "Stranger Things",
-        mediaType: .tv,
+        mediaType: .tvShow,
         backdropPath: "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg",
         id: 66732,
         posterPath: "/2mYLTEQd1oHuXA6NICPIKX7OOvo.jpg",
@@ -69,14 +70,14 @@ let mockMedias: [Media] = [
         profilePath: "/edPU5HxncLWa1YkgRPNkSd68ONG.jpg",
         mediaType: .person,
         id: 524
-    ),
+    )
 ]
 
 let mockMovies: [Movie] = {
     let url = Bundle.main.url(forResource: "Movie", withExtension: "json")!
     let data = try! Data(contentsOf: url)
     let movie = try! defaultDecoder.decode(Movie.self, from: data)
-    
+
     return [
         movie,
         .init(
@@ -92,7 +93,7 @@ let mockMovies: [Movie] = {
             posterPath: "/hCie8qIrmMsEvPxDdvqJczj82n9.jpg",
             title: "小黄人大眼萌2：格鲁的崛起",
             voteAverage: 7
-        ),
+        )
     ]
 }()
 

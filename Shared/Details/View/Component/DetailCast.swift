@@ -8,14 +8,14 @@
 import SwiftUI
 
 extension DetailView {
-    
+
     struct Cast: View {
         var credits: Media.Credits
-        
+
         var cast: [Media.Cast] {
             credits.cast ?? []
         }
-        
+
         var body: some View {
             // MARK: - 演员列表
             ScrollView(.horizontal) {

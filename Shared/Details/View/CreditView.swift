@@ -10,9 +10,9 @@ import ComposableArchitecture
 
 struct CreditView: View {
     let credit: Media.Credits
-    
+
     private var combinedCredits: [Media.CombinedCredits]
-    
+
     init(credit: Media.Credits) {
         self.credit = credit
 
@@ -30,7 +30,7 @@ struct CreditView: View {
             .init(department: "Directing", credits: []),
             .init(department: "Writing", credits: [])
         ]
-        
+
         // MARK: - 工作人员列表
         credit.crew?.forEach { crew in
             let item = Media.CombinedCredits.Credit(
@@ -49,10 +49,10 @@ struct CreditView: View {
                 )
             }
         }
-        
+
         combinedCredits.removeAll(where: { $0.credits.isEmpty })
     }
-        
+
     var body: some View {
         ScrollView {
             ForEach(combinedCredits) { credit in

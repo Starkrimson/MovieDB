@@ -9,15 +9,15 @@ import Foundation
 import ComposableArchitecture
 
 struct MediaFilterReducer: ReducerProtocol {
-    
+
     struct State: Equatable {
         @BindableState var sortBy: String = "popularity.desc"
 
         @BindableState var minimumUserScore: Int = 0
         @BindableState var maximumUserScore: Int = 10
-        
+
         @BindableState var minimumUserVotes: Int = 0
-        
+
         var filters: [URL.DiscoverQueryItem] {
             [
                 .sortBy(sortBy),
@@ -27,12 +27,12 @@ struct MediaFilterReducer: ReducerProtocol {
             ]
         }
     }
-    
+
     enum Action: Equatable, BindableAction {
         case binding(_ action: BindingAction<State>)
         case reset
     }
-        
+
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
         Reduce { state, action in

@@ -10,20 +10,22 @@ import ComposableArchitecture
 
 struct SearchResultsView: View {
     let store: StoreOf<SearchReducer>
-    
+
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store) {
+            $0
+        } content: { viewStore in
             Group {
                 switch viewStore.status {
                 case .loading where viewStore.list.isEmpty:
                     ProgressView()
-                    
+
                 case .error(let error):
                     ErrorTips(error: error)
-                    
+
                 case .normal where viewStore.list.isEmpty:
                     Text("NOT FOUND".localized)
-                    
+
                 default:
                     ScrollView {
                         MediaGrid(

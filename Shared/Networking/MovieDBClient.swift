@@ -10,7 +10,7 @@ import ComposableArchitecture
 import Combine
 
 struct MovieDBClient {
-    
+
     var popular: @Sendable (MediaType, _ page: Int) async throws -> PageResponses<Media>
     var trending: @Sendable (MediaType, TimeWindow) async throws -> [Media]
     var details: @Sendable (MediaType, Int) async throws -> DetailModel
@@ -63,12 +63,16 @@ extension MovieDBClient: DependencyKey {
                 let (data, _) = try await URLSession.shared
                     .data(from: .details(
                         mediaType: mediaType, id: id,
-                        appendToResponse: .images, .videos, .recommendations, .keywords, mediaType == .person ? .combined_credits : .credits
+                        appendToResponse: .images,
+                        .videos,
+                        .recommendations,
+                        .keywords,
+                        mediaType == .person ? .combinedCredits : .credits
                     ))
                 switch mediaType {
-                case .tv:
+                case .tvShow:
                     let value = try defaultDecoder.decodeResponse(TVShow.self, from: data)
-                    return .tv(value)
+                    return .tvShow(value)
                 case .person:
                     let value = try defaultDecoder.decodeResponse(Person.self, from: data)
                     return .person(value)
@@ -117,7 +121,7 @@ extension MovieDBClient: DependencyKey {
                 .response(PageResponses<Media>.self, from: .search(query: query, page: page))
         }
     )
-    
+
     static var previewValue: MovieDBClient = Self(
         popular: { type, _ in
             .init(results: type == .movie ? mockMediaMovies : mockMediaTVShows)
@@ -129,19 +133,19 @@ extension MovieDBClient: DependencyKey {
                 throw AppError.sample("Something Went Wrong")
             case .movie:
                 return .movie(mockMovies[0])
-            case .tv:
-                return .tv(mockTVShows[0])
+            case .tvShow:
+                return .tvShow(mockTVShows[0])
             case .person:
                 return .person(mockPeople[0])
             }
         },
-        collection: { id in mockCollection },
+        collection: { _ in mockCollection },
         season: { _, _ in mockTVShows[0].seasons![0] },
         episode: { _, _, _ in mockTVShows[0].seasons![0].episodes![0] },
         discover: { _, _ in .init(results: mockMedias) },
         search: { _, _ in .init(results: mockMedias) }
     )
-    
+
     static var testValue: MovieDBClient = previewValue
 }
 

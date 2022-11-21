@@ -10,11 +10,11 @@ import SwiftUI
 struct ImageGridView: View {
     let images: Media.Images
     var videos: [Media.Video] = []
-    
+
     @State var selectedImageType: Media.ImageType = .backdrops
-    
+
     @Environment(\.openURL) var openURL
-    
+
     var body: some View {
         ScrollView {
             GridLayout(
@@ -52,7 +52,7 @@ struct ImageGridView: View {
         }
         .navigationTitle("MEDIA".localized)
     }
-    
+
     @ViewBuilder
     var videoStack: some View {
         ForEach(videos) { video in
@@ -64,7 +64,7 @@ struct ImageGridView: View {
                 ZStack(alignment: .bottomLeading) {
                     ZStack {
                         URLImage(video.key?.ytImagePath)
-                        
+
                         Image(systemName: "play.circle.fill")
                             .font(.largeTitle)
                     }
@@ -88,14 +88,14 @@ struct ImageGridView: View {
 }
 
 extension ImageGridView {
-    
+
     struct Item: View {
         var image: Media.Image
         var type: Media.ImageType
-        
+
         @State var over = false
         @Environment(\.openURL) var openURL
-        
+
         var originalURL: URL {
             guard let string = image.filePath?.imagePath(.original),
              let url = URL(string: string) else {
@@ -103,7 +103,7 @@ extension ImageGridView {
             }
             return url
         }
-        
+
         @ViewBuilder
         var buttons: some View {
             Button {
@@ -121,13 +121,13 @@ extension ImageGridView {
                 )
             )
         }
-    
+
         var body: some View {
             ZStack(alignment: .bottomTrailing) {
                 URLImage(image.filePath?.imagePath(
                     type == .posters
-                    ? .best(w: 188, h: 282)
-                    : .face(w: 500, h: 282)
+                    ? .best(width: 188, height: 282)
+                    : .face(width: 500, height: 282)
                 ))
                 .aspectRatio(type == .posters ? 188/282 : 500/282, contentMode: .fill)
                 if over {

@@ -8,10 +8,10 @@
 import SwiftUI
 
 extension PersonDetailView {
-    
+
     struct KnownFor: View {
         let knownFor: [Media.CombinedCredits.Credit]
-        
+
         var body: some View {
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
@@ -37,7 +37,14 @@ extension PersonDetailView {
 #if DEBUG
 struct KnownFor_Previews: PreviewProvider {
     static var previews: some View {
-        PersonDetailView.KnownFor(knownFor: Array(mockPeople[0].combinedCredits?.cast?.prefix(10).map(Media.CombinedCredits.Credit.from) ?? []))
+        PersonDetailView.KnownFor(
+            knownFor: Array(
+                mockPeople[0].combinedCredits?
+                    .cast?
+                    .prefix(10)
+                    .map(Media.CombinedCredits.Credit.from) ?? []
+            )
+        )
     }
 }
 #endif

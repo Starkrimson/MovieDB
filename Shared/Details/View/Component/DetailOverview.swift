@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension DetailView {
-    
+
     struct Overview: View {
         let mediaType: MediaType
         let date: Date?
@@ -19,7 +19,7 @@ extension DetailView {
         let overview: String?
         let directors: [Media.Crew]
         let writers: [Media.Crew]
-        
+
         var body: some View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
@@ -29,7 +29,7 @@ extension DetailView {
                         score.map { score in
                             ScoreView(score: score)
                         }
-                        
+
                         // MARK: - 发布时间
                         HStack(spacing: 0) {
                             Text("\(date?.string("yyyy", "MMMM", "dd") ?? "")")
@@ -38,7 +38,7 @@ extension DetailView {
                             }
                         }
                         .padding(6)
-                        
+
                         // MARK: - 类型
                         HStack {
                             ForEach(genres) { item in
@@ -59,7 +59,7 @@ extension DetailView {
                     }
                     Spacer()
                 }
-                
+
                 // MARK: - 简介
                 Text(tagline ?? "")
                     .font(.body.italic())

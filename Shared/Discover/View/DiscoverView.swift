@@ -10,9 +10,11 @@ import ComposableArchitecture
 
 struct DiscoverView: View {
     let store: StoreOf<DiscoverReducer>
-    
+
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store) {
+            $0
+        } content: { viewStore in
             ScrollView {
                 Header(backdropPath: viewStore.backdropPath)
                 if let error = viewStore.error {
@@ -29,7 +31,7 @@ struct DiscoverView: View {
                 } else {
                     CardRow(store: store.scope(state: \.popularTVShows, action: DiscoverReducer.Action.popularTVShow))
                 }
-                
+
                 SectionTitle(
                     title: "TRENDING".localized,
                     selectedIndex: viewStore.binding(\.$trendingIndex),
@@ -51,7 +53,7 @@ struct DiscoverView: View {
 }
 
 private extension SearchFieldPlacement {
-    
+
     static var discoverSearchPlacement: SearchFieldPlacement {
         #if os(iOS)
         UIDevice.current.userInterfaceIdiom == .pad
@@ -65,7 +67,7 @@ private extension SearchFieldPlacement {
 
 #if DEBUG
 struct DiscoverView_Previews: PreviewProvider {
-    static var previews: some View {        
+    static var previews: some View {
         DiscoverView(
             store: .init(
                 initialState: .init(),

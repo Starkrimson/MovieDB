@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ErrorTips: View {
     let error: String
-    
+
     var body: some View {
         HStack {
             Image(systemName: "exclamationmark.circle.fill")

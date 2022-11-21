@@ -14,13 +14,13 @@ struct FlowLayout: Layout {
     var alignment: TextAlignment = .leading
     var verticalSpacing: CGFloat = 10
     var horizontalSpacing: CGFloat = 10
-        
+
     struct Row {
         var viewRects: [CGRect] = []
-        
+
         var width: CGFloat { viewRects.last?.maxX ?? 0 }
         var height: CGFloat { viewRects.map(\.height).max() ?? 0 }
-        
+
         func getStartX(in bounds: CGRect, alignment: TextAlignment) -> CGFloat {
             switch alignment {
             case .leading:
@@ -32,12 +32,12 @@ struct FlowLayout: Layout {
             }
         }
     }
-    
+
     private func getRows(subviews: Subviews, totalWidth: CGFloat?) -> [Row] {
         guard let totalWidth, !subviews.isEmpty else { return [] }
         var rows = [Row()]
         let proposal = ProposedViewSize(width: totalWidth, height: nil)
-        
+
         subviews.indices.forEach { index in
             let view = subviews[index]
             let size = view.sizeThatFits(proposal)
@@ -59,10 +59,10 @@ struct FlowLayout: Layout {
                 rows[rows.count - 1].viewRects.append(rect)
             }
         }
-        
+
         return rows
     }
-    
+
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let rows = getRows(subviews: subviews, totalWidth: proposal.width)
         return .init(
@@ -70,17 +70,17 @@ struct FlowLayout: Layout {
             height: rows.last?.viewRects.map(\.maxY).max() ?? 0
         )
     }
-    
+
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let rows = getRows(subviews: subviews, totalWidth: proposal.width)
         var index = 0
         rows.forEach { row in
             let minX = row.getStartX(in: bounds, alignment: alignment)
-            
+
             row.viewRects.forEach { rect in
                 let view = subviews[index]
                 defer { index += 1 }
-                
+
                 view.place(
                     at: .init(x: rect.minX + minX,
                               y: rect.minY + bounds.minY),
@@ -95,8 +95,8 @@ struct FlowLayout_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             FlowLayout(alignment: .trailing, verticalSpacing: 15, horizontalSpacing: 15).callAsFunction {
-                ForEach("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.".split(separator: " "), id: \.self) { e in
-                    Text(e)
+                ForEach("The quick brown fox jumps over the lazy dog".split(separator: " "), id: \.self) { element in
+                    Text(element)
                         .padding()
                         .background(Color.purple)
                 }

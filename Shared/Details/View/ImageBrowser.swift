@@ -11,7 +11,7 @@ struct ImageBrowser: View {
     var image: Media.Image
 
     @Environment(\.openURL) private var openURL
-    
+
     var originURL: URL {
         guard let path = image.filePath?.imagePath(.original),
               let url = URL(string: path) else {
@@ -19,19 +19,19 @@ struct ImageBrowser: View {
         }
         return url
     }
-    
+
     var ratio: Double {
         guard let width = image.width, let height = image.height else {
             return 1
         }
         return Double(width) / Double(height)
     }
-    
+
     @ViewBuilder
     var urlImage: URLImage {
         URLImage(image.filePath?.imagePath(.original))
     }
-    
+
     var body: some View {
         urlImage
             .aspectRatio(ratio, contentMode: .fit)

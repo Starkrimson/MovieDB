@@ -9,16 +9,16 @@ import Foundation
 import ComposableArchitecture
 
 struct MovieDBReducer: ReducerProtocol {
-    
+
     enum Tab: String, CaseIterable, Identifiable {
         var id: Self { self }
-        
+
         case search = "SEARCH"
         case discover = "DISCOVER"
         case movies = "MOVIES"
         case tvShows = "TV SHOWS"
         case people = "POPULAR PEOPLE"
-        
+
         var systemImage: String {
             switch self {
             case .search: return "magnifyingglass"
@@ -29,16 +29,16 @@ struct MovieDBReducer: ReducerProtocol {
             }
         }
     }
-    
+
     struct State: Equatable {
         var selectedTab: Tab? = .discover
         var search: SearchReducer.State = .init()
         var discover: DiscoverReducer.State = .init()
         var movies: DiscoverMediaReducer.State = .init(mediaType: .movie, name: Tab.movies.rawValue.localized)
-        var tvShows: DiscoverMediaReducer.State = .init(mediaType: .tv, name: Tab.tvShows.rawValue.localized)
+        var tvShows: DiscoverMediaReducer.State = .init(mediaType: .tvShow, name: Tab.tvShows.rawValue.localized)
         var people: DiscoverMediaReducer.State = .init(mediaType: .person, name: Tab.people.rawValue.localized)
     }
-    
+
     enum Action: Equatable, BindableAction {
         case binding(_ action: BindingAction<State>)
         case tabSelected(Tab?)
@@ -48,7 +48,7 @@ struct MovieDBReducer: ReducerProtocol {
         case tvShows(DiscoverMediaReducer.Action)
         case people(DiscoverMediaReducer.Action)
     }
-        
+
     var body: some ReducerProtocol<State, Action> {
         Scope(state: \.discover, action: /Action.discover) {
             DiscoverReducer()
@@ -74,28 +74,28 @@ struct MovieDBReducer: ReducerProtocol {
                     state.selectedTab = .discover
                 }
                 return .none
-                
+
             case .tabSelected(let tab):
                 state.selectedTab = tab
                 state.search = .init()
                 return .none
-                
+
             case .search(.search):
                 state.selectedTab = .search
                 return .none
-                
+
             case .search:
                 return .none
-                
+
             case .discover:
                 return .none
-                
+
             case .movies:
                 return .none
-                
+
             case .tvShows:
                 return .none
-                
+
             case .people:
                 return .none
             }

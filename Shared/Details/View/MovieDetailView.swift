@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct MovieDetailView: View {
     let store: Store<MovieState, DetailReducer.Action>
-    
+
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack(alignment: .leading, spacing: 0) {
@@ -26,12 +26,12 @@ struct MovieDetailView: View {
                     directors: viewStore.directors,
                     writers: viewStore.writers
                 )
-                
+
                 // MARK: - 演员表
                 if let credits = viewStore.movie.credits, credits.cast?.isEmpty == false {
                     DetailView.Cast(credits: credits)
                 }
-                
+
                 // MARK: - 海报/剧照
                 if let images = viewStore.movie.images {
                     DetailView.Images(
@@ -39,18 +39,18 @@ struct MovieDetailView: View {
                         videos: viewStore.movie.videos?.results ?? []
                     )
                 }
-                
+
                 // MARK: - 电影系列
                 if let collection = viewStore.movie.belongsToCollection {
                     DetailView.Collection(collection: collection)
                         .padding(.top)
                 }
-                
+
                 // MARK: - 相关推荐
                 if let recommendations = viewStore.movie.recommendations?.results, !recommendations.isEmpty {
                     DetailView.Recommended(recommendations: recommendations)
                 }
-                
+
                 // MARK: - 电影原产信息
                 DetailView.Material(detail: .movie(viewStore.movie))
                     .padding()

@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct DiscoverMediaView: View {
     let store: StoreOf<DiscoverMediaReducer>
-    
+
     var body: some View {
         WithViewStore(store) { viewStore in
             ScrollView {
@@ -24,7 +24,7 @@ struct DiscoverMediaView: View {
                 if viewStore.status == .loading {
                     ProgressView()
                 }
-                
+
                 if case let .error(error) = viewStore.status {
                     ErrorTips(error: error)
                 }
@@ -45,7 +45,7 @@ struct DiscoverMediaView: View {
                         }
                         .pickerStyle(.segmented)
                     }
-                    
+
                     ToolbarItem {
                         MediaFilterMenu(
                             store: store.scope(

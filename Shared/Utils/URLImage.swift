@@ -10,15 +10,15 @@ import Kingfisher
 
 struct URLImage: View {
     let url: URL?
-    
+
     init(_ url: URL?) {
         self.url = url
     }
-    
+
     init(_ urlString: String?) {
         self.url = URL(string: urlString ?? "")
     }
-    
+
     var body: some View {
         KFImage(url)
             .placeholder {
@@ -60,7 +60,7 @@ extension URLImage: Transferable {
             }
         }
     }
-    
+
     static var transferRepresentation: some TransferRepresentation {
         if #available(iOS 16.1, *) {
             return ProxyRepresentation<URLImage, Image>(exporting: { item in
@@ -86,6 +86,6 @@ extension URLImage: Transferable {
 
 struct URLImage_Previews: PreviewProvider {
     static var previews: some View {
-        URLImage(URL(string: "/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg".imagePath(.duotone(w: 1920, h: 600))))
+        URLImage(URL(string: "/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg".imagePath(.duotone(width: 1920, height: 600))))
     }
 }

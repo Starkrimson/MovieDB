@@ -11,25 +11,25 @@ struct MediaHeader: View {
     let backdropPath: String?
     let posterPath: String?
     let name: String
-    
+
     var body: some View {
         VStack {
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
                     // MARK: - 背景图
-                    URLImage(backdropPath?.imagePath(.multiFaces(w: 1000, h: 450)))
+                    URLImage(backdropPath?.imagePath(.multiFaces(width: 1000, height: 450)))
                         .frame(width: proxy.size.width)
-                    
+
                     // MARK: - 渐变
                     LinearGradient(
                         colors: [
                             Color(red: 3/255.0, green: 37/255.0, blue: 68/255.0, opacity: 0.8),
-                            Color(red: 3/255.0, green: 37/255.0, blue: 68/255.0, opacity: 0),
+                            Color(red: 3/255.0, green: 37/255.0, blue: 68/255.0, opacity: 0)
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
-                    
+
                     // MARK: - 海报
                     URLImage(posterPath?.imagePath())
                         .cornerRadius(6)
@@ -39,7 +39,7 @@ struct MediaHeader: View {
                 }
             }
             .aspectRatio(1000/450, contentMode: .fill)
-            
+
             // MARK: - 电影名
             Text(name)
                 .font(.largeTitle)
@@ -49,31 +49,31 @@ struct MediaHeader: View {
 }
 
 extension DetailView {
-    
+
     struct Header: View {
         var state: DetailReducer.State
-        
+
         var body: some View {
             switch state.media.mediaType {
-            case .movie, .tv:
+            case .movie, .tvShow:
                 MediaHeader(
                     backdropPath: state.media.backdropPath,
                     posterPath: state.media.posterPath,
                     name: state.media.displayName
                 )
-                
-            default :
+
+            default:
                 HStack(alignment: .top, spacing: 0) {
                     // MARK: - 人像
-                    URLImage(state.media.profilePath?.imagePath(.face(w: 276, h: 350)))
+                    URLImage(state.media.profilePath?.imagePath(.face(width: 276, height: 350)))
                         .frame(width: 157, height: 200)
                         .cornerRadius(4)
-                    
+
                     // MARK: - 个人信息
                     VStack(alignment: .leading, spacing: 0) {
                         Text(state.media.displayName)
                             .font(.largeTitle)
-                        
+
                         if case .person(let personState) = state.detail {
                             DetailView.Material(detail: .person(personState.person))
                         }

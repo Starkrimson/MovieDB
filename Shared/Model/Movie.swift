@@ -9,15 +9,15 @@ import Foundation
 
 enum DetailModel: Equatable {
     case movie(Movie)
-    case tv(TVShow)
+    case tvShow(TVShow)
     case person(Person)
-    
+
     var mediaType: MediaType {
         switch self {
         case .movie:
             return .movie
-        case .tv:
-            return .tv
+        case .tvShow:
+            return .tvShow
         case .person:
             return .person
         }
@@ -51,7 +51,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var video: Bool?
     var voteAverage: Double?
     var voteCount: Int?
-    
+
     // append_to_response
     var images: Media.Images?
     var credits: Media.Credits?
@@ -62,7 +62,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var success: Bool?
     var statusCode: Int?
     var statusMessage: String?
-    
+
     enum Status: String, Codable {
         case rumored = "Rumored"
         case planned = "Planned"
@@ -70,7 +70,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses, Hashable {
         case postProduction = "Post Production"
         case released = "Released"
         case canceled = "Canceled"
-        
+
         init(from decoder: Decoder) throws {
             let value = try decoder.singleValueContainer().decode(String.self)
             self = Self(rawValue: value) ?? .rumored
@@ -82,14 +82,14 @@ struct SpokenLanguage: Codable, Equatable, Identifiable, Hashable {
     var englishName: String?
     var iso6391: String?
     var name: String?
-    
+
     var id: String? { iso6391 }
 }
 
 struct ProductionCountry: Codable, Equatable, Identifiable, Hashable {
     var iso31661: String?
     var name: String?
-    
+
     var id: String? { iso31661 }
 }
 
@@ -117,7 +117,7 @@ struct Keywords: Codable, Equatable, Hashable {
 }
 
 extension Movie {
-    
+
     struct Collection: Codable, Equatable, Identifiable, DBResponses {
         var backdropPath: String?
         var id: Int?
@@ -125,7 +125,7 @@ extension Movie {
         var overview: String?
         var parts: [Media]?
         var posterPath: String?
-        
+
         var success: Bool?
         var statusCode: Int?
         var statusMessage: String?
