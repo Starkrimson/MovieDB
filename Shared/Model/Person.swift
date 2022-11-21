@@ -47,9 +47,9 @@ enum Gender: Int, Codable, CustomStringConvertible {
         case .unknown:
             return ""
         case .male:
-            return "男"
+            return "MALE".localized
         case .female:
-            return "女"
+            return "FEMALE".localized
         }
     }
 }

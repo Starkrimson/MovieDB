@@ -60,6 +60,7 @@ struct DiscoverMediaView: View {
     }
 }
 
+#if DEBUG
 struct DiscoverMediaView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
@@ -70,3 +71,4 @@ struct DiscoverMediaView_Previews: PreviewProvider {
         }
     }
 }
+#endif

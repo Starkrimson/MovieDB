@@ -7,8 +7,6 @@
 
 import Foundation
 
-#if DEBUG
-
 let mockMediaMovies: [Media] = [
     .init(
         title: "小黄人大眼萌2：格鲁的崛起",
@@ -117,5 +115,3 @@ let mockPeople: [Person] = {
     let person = try! defaultDecoder.decode(Person.self, from: data)
     return [person]
 }()
-
-#endif

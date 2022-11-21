@@ -13,7 +13,7 @@ struct TVDetailView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack {
+            VStack(alignment: .leading, spacing: 0) {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
                     mediaType: .tv,
@@ -43,7 +43,10 @@ struct TVDetailView: View {
                 
                 // MARK: - 海报/剧照
                 if let images = viewStore.tv.images {
-                    DetailView.Images(images: images)
+                    DetailView.Images(
+                        images: images,
+                        videos: viewStore.tv.videos?.results ?? []
+                    )
                 }
                 
                 // MARK: - 相关推荐
@@ -59,26 +62,30 @@ struct TVDetailView: View {
     }
 }
 
+#if DEBUG
 struct TVDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        IfLetStore(
-            StoreOf<DetailReducer>(
-                initialState: .init(
-                    media: mockMedias[1],
-                    detail: .tv(.init(mockTVShows[0]))
-                ),
-                reducer: DetailReducer()
-            )
-            .scope(state: \.detail),
-            then: { detailStore in
-                SwitchStore(detailStore) {
-                    CaseLet(
-                        state: /DetailReducer.DetailState.tv,
-                        then: TVDetailView.init
-                    )
+        NavigationStack {
+            IfLetStore(
+                StoreOf<DetailReducer>(
+                    initialState: .init(
+                        media: mockMedias[1],
+                        detail: .tv(.init(mockTVShows[0]))
+                    ),
+                    reducer: DetailReducer()
+                )
+                .scope(state: \.detail),
+                then: { detailStore in
+                    SwitchStore(detailStore) {
+                        CaseLet(
+                            state: /DetailReducer.DetailState.tv,
+                            then: TVDetailView.init
+                        )
+                    }
                 }
-            }
-        )
-        .frame(minHeight: 1050)
+            )
+            .frame(minHeight: 1550)
+        }
     }
 }
+#endif

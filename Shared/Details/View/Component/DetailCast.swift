@@ -17,62 +17,57 @@ extension DetailView {
         }
         
         var body: some View {
-            VStack(alignment: .leading) {
-                Text("主演")
-                    .font(.title2.weight(.medium))
-                    .padding(.horizontal)
-                
-                // MARK: - 演员列表
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top, spacing: 0) {
-                        ForEach(cast.prefix(10)) { cast in
-                            NavigationLink {
-                                DetailView(store: .init(
-                                    initialState: .init(media: .from(cast)),
-                                    reducer: DetailReducer()
-                                ))
-                            } label: {
-                                ProfileView(
-                                    profilePath: cast.profilePath ?? "",
-                                    name: cast.name ?? "",
-                                    job: cast.character ?? ""
-                                )
-                                .padding(.leading)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        
+            // MARK: - 演员列表
+            ScrollView(.horizontal) {
+                HStack(alignment: .top) {
+                    ForEach(cast.prefix(10)) { cast in
                         NavigationLink {
-                            CreditView(credit: credits)
+                            DetailView(store: .init(
+                                initialState: .init(media: .from(cast)),
+                                reducer: DetailReducer()
+                            ))
                         } label: {
-                            HStack(spacing: 3) {
-                                Text("查看更多")
-                                Image(systemName: "chevron.right.circle.fill")
-                                    .foregroundColor(.accentColor)
-                            }
-                            .padding()
-                            .frame(height: 175)
+                            ProfileView(
+                                profilePath: cast.profilePath ?? "",
+                                name: cast.name ?? "",
+                                job: cast.character ?? ""
+                            )
                         }
                         .buttonStyle(.plain)
                     }
+
+                    NavigationLink {
+                        CreditView(credit: credits)
+                    } label: {
+                        HStack(spacing: 3) {
+                            Text("VIEW MORE".localized)
+                            Image(systemName: "chevron.right.circle.fill")
+                                .foregroundColor(.accentColor)
+                        }
+                        .padding()
+                        .frame(height: 175)
+                    }
+                    .buttonStyle(.plain)
                 }
-                
-                // MARK: - 完整演职员表
+                .padding(.horizontal)
+            }
+            .header("TOP BILLED CAST".localized)
+            .footer {
                 NavigationLink {
                     CreditView(credit: credits)
                 } label: {
-                    Text("完整演职员表")
-                        .font(.title3.weight(.medium))
+                    Text("FULL CAST & CREW".localized)
                 }
-                .buttonStyle(.plain)
-                .padding(.horizontal)
             }
         }
     }
-
 }
+
+#if DEBUG
 struct DetailCast_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Cast(credits: mockMovies[0].credits ?? .init())
+            .frame(height: 700)
     }
 }
+#endif

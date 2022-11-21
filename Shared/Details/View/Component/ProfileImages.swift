@@ -26,9 +26,10 @@ extension PersonDetailView {
     }
 }
 
-
+#if DEBUG
 struct ProfileImages_Previews: PreviewProvider {
     static var previews: some View {
         PersonDetailView.ProfileImages(profiles: mockPeople[0].images?.profiles ?? [])
     }
 }
+#endif

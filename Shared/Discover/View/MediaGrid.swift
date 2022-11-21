@@ -37,9 +37,11 @@ struct MediaGrid: View {
     }
 }
 
+#if DEBUG
 struct MediaGrid_Previews: PreviewProvider {
     static var previews: some View {
         MediaGrid(list: .init(uniqueElements: mockMedias)) { }
             .frame(height: 350)
     }
 }
+#endif

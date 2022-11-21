@@ -13,11 +13,11 @@ struct MovieDBReducer: ReducerProtocol {
     enum Tab: String, CaseIterable, Identifiable {
         var id: Self { self }
         
-        case search
-        case discover
-        case movies
-        case tvShows
-        case people = "popular people"
+        case search = "SEARCH"
+        case discover = "DISCOVER"
+        case movies = "MOVIES"
+        case tvShows = "TV SHOWS"
+        case people = "POPULAR PEOPLE"
         
         var systemImage: String {
             switch self {

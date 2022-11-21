@@ -15,46 +15,86 @@ extension DetailView {
         let seasons: [Season]
         
         var body: some View {
-            if let lastSeason = seasons.last {
-                VStack(alignment: .leading, spacing: 0) {
-                    NavigationLink {
-                        EpisodeList(store: .init(
-                            initialState: .init(tvID: tvID, seasonNumber: lastSeason.seasonNumber ?? 0, showName: showName),
-                            reducer: seasonReducer,
-                            environment: .init(mainQueue: .main, dbClient: .live)
-                        ))
-                    } label: {
-                        HStack {
-                            Text("当前季")
-                                .font(.title2.weight(.medium))
-                            Text("\(lastSeason.name ?? "")")
-                            Spacer()
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(seasons.reversed()) { season in
+                        NavigationLink {
+                            EpisodeList(store: .init(
+                                initialState: .init(tvID: tvID, seasonNumber: season.seasonNumber ?? 0, showName: showName),
+                                reducer: SeasonReducer()
+                            ))
+                        } label: {
+                            SeasonRow(
+                                showName: showName,
+                                seasonName: season.name ?? "",
+                                profilePath: season.posterPath ?? "",
+                                airDate: season.airDate ?? .init(),
+                                episodeCount: season.episodeCount ?? 0,
+                                overview: season.overview ?? ""
+                            )
+                            .frame(maxWidth: 300)
                         }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
-                    Text("\(lastSeason.airDate?.string("yyyy") ?? "") | \(lastSeason.episodeCount ?? 0)集")
-                        .padding(.top, 3)
-                    lastSeason.overview.map { overview in
-                        Text(overview)
-                            .padding(.top, 6)
-                    }
-                    NavigationLink {
-                        SeasonList(showName: showName, tvID: tvID, seasons: seasons)
-                    } label: {
-                        Text("查看全部季")
-                            .font(.title3.weight(.medium))
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.top)
                 }
-                .padding()
+                .padding(.horizontal)
+            }
+            .header {
+                HStack(alignment: .lastTextBaseline) {
+                    Text("CURRENT SEASON".localized)
+                    Text("\(seasons.last?.name ?? "")")
+                        .font(.subheadline)
+                    Spacer()
+                }
             }
         }
     }
 }
 
+struct SeasonRow: View {
+    let showName: String
+    let seasonName: String
+    let profilePath: String
+    let airDate: Date
+    let episodeCount: Int?
+    let overview: String
+    
+    var body: some View {
+        HStack {
+            URLImage(profilePath.imagePath(.best(w: 260, h: 390)))
+                .frame(width: 94, height: 141)
+                .cornerRadius(6)
+
+            VStack(alignment: .leading) {
+                HStack(spacing: 0) {
+                    Text(seasonName)
+                        .font(.headline)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                .fontWeight(.medium)
+                HStack(spacing: 0) {
+                    Text(airDate.string("yyyy"))
+                    episodeCount.map { Text("｜\($0) \("EPISODES".localized)") }
+                }
+                Spacer()
+                Text(overview)
+                    .font(.subheadline)
+            }
+            .padding(.vertical, 6)
+            .frame(maxHeight: 141)
+            
+            Spacer(minLength: 0)
+        }
+    }
+}
+
+#if DEBUG
 struct DetailSeason_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Seasons(showName: "Show", tvID: 1, seasons: mockTVShows[0].seasons ?? [])
     }
 }
+#endif

@@ -34,18 +34,17 @@ extension DetailView {
                 
                 // MARK: - 查看系列按钮
                 VStack(alignment: .leading) {
-                    Text("\(collection.name ?? "")之一")
+                    Text("PART OF COLLECTION".localized(arguments: collection.name ?? ""))
                         .foregroundColor(.white)
                         .font(.largeTitle)
                     
                     NavigationLink {
                         MovieCollectionView(store: .init(
                             initialState: .init(belongsTo: collection),
-                            reducer: movieCollectionReducer,
-                            environment: .init(mainQueue: .main, dbClient: .live)
+                            reducer: MovieCollectionReducer()
                         ))
                     } label: {
-                        Text("查看电影系列")
+                        Text("VIEW THE COLLECTION".localized)
                     }
                 }
                 .padding(.leading, 20)
@@ -55,8 +54,10 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailCollection_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Collection(collection: mockMovies[0].belongsToCollection ?? .init())
     }
 }
+#endif

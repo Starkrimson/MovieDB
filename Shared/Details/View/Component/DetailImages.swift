@@ -10,49 +10,31 @@ import SwiftUI
 extension DetailView {
     
     struct Images: View {
-        @State var selectedImageType: Media.ImageType = .backdrop
         var images: Media.Images
+        var videos: [Media.Video] = []
+        @State var selectedImageType: Media.ImageType = .backdrops
+        
+        @Environment(\.openURL) var openURL
         
         var body: some View {
             VStack(alignment: .leading) {
-                // MARK: - 图片类型
-                Picker(selection: $selectedImageType) {
-                    ForEach(Media.ImageType.allCases) { type in
-                        Text(type.description)
-                            .tag(type)
-                    }
-                } label: {
-                    Text("媒体")
-                        .font(.title2.weight(.medium))
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .padding(.top)
-                
                 // MARK: - 图片列表
                 ScrollView(.horizontal) {
-                    HStack(spacing: 0) {
-                        ForEach(
-                            selectedImageType == .poster
-                            ? images.posters?.prefix(10) ?? []
-                            : images.backdrops?.prefix(10) ?? []
-                        ) { poster in
-                            URLImage(poster.filePath?.imagePath(
-                                selectedImageType == .poster
-                                ? .best(w: 188, h: 282)
-                                : .face(w: 500, h: 282)
-                            ))
-                            .frame(
-                                width: selectedImageType == .poster ? 94 : 250,
-                                height: 141
-                            )
-                            .padding(.leading)
+                    HStack {
+                        if selectedImageType == .videos {
+                            videoStack
+                        } else {
+                            imageStack
                         }
                         NavigationLink {
-                            ImageGridView(images: images)
+                            ImageGridView(
+                                images: images,
+                                videos: videos,
+                                selectedImageType: selectedImageType
+                            )
                         } label: {
                             HStack(spacing: 3) {
-                                Text("查看更多")
+                                Text("VIEW MORE".localized)
                                 Image(systemName: "chevron.right.circle.fill")
                                     .foregroundColor(.accentColor)
                             }
@@ -60,15 +42,89 @@ extension DetailView {
                         }
                         .buttonStyle(.plain)
                     }
+                    .padding(.horizontal)
                 }
-                
-                // MARK: - 查看全部
+                .header {
+                    // MARK: - 图片类型
+                    Picker("MEDIA".localized, selection: $selectedImageType) {
+                        ForEach(
+                            videos.isEmpty
+                            ? images.imageTypes
+                            : [.videos] + images.imageTypes
+                        ) { type in
+                            Text(type.description)
+                                .tag(type)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                .footer {
+                    // MARK: - 查看全部
+                    NavigationLink {
+                        ImageGridView(
+                            images: images,
+                            videos: videos,
+                            selectedImageType: selectedImageType
+                        )
+                    } label: {
+                        Text("\("VIEW ALL".localized)\(selectedImageType.description)")
+                    }
+                }
+            }
+        }
+        
+        @ViewBuilder
+        var imageStack: some View {
+            ForEach(
+                images.images(of: selectedImageType).prefix(10)
+            ) { poster in
                 NavigationLink {
-                    ImageGridView(images: images)
+                    ImageBrowser(image: poster)
                 } label: {
-                    Text("查看全部\(selectedImageType.description)")
-                        .font(.title3.weight(.medium))
-                        .padding(.horizontal)
+                    URLImage(poster.filePath?.imagePath(
+                        selectedImageType == .posters
+                        ? .best(w: 188, h: 282)
+                        : .face(w: 500, h: 282)
+                    ))
+                    .frame(
+                        width: selectedImageType == .posters ? 94 : 250,
+                        height: 141
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        
+        @ViewBuilder
+        var videoStack: some View {
+            ForEach(
+                videos.prefix(10)
+            ) { video in
+                Button {
+                    if let url = video.key?.ytPlayURL {
+                        openURL(url)
+                    }
+                } label: {
+                    ZStack(alignment: .bottomLeading) {
+                        ZStack {
+                            URLImage(video.key?.ytImagePath)
+                            
+                            Image(systemName: "play.circle.fill")
+                                .font(.largeTitle)
+                        }
+                        HStack {
+                            Text(video.name ?? "")
+                                .lineLimit(2)
+                                .padding(4)
+                                .background(.ultraThinMaterial)
+                                .cornerRadius(6)
+                            Spacer()
+                            Image(systemName: "link")
+                        }
+                        .font(.caption)
+                        .padding(6)
+                    }
+                    .frame(width: 188, height: 141)
                 }
                 .buttonStyle(.plain)
             }
@@ -76,10 +132,14 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailImages_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Images(
-            images: mockMovies[0].images ?? .init()
+            images: mockMovies[0].images ?? .init(),
+            videos: mockMovies[0].videos?.results ?? [],
+            selectedImageType: .videos
         )
     }
 }
+#endif

@@ -11,95 +11,83 @@ import ComposableArchitecture
 struct CreditView: View {
     let credit: Media.Credits
     
-    private let crew: [(String, [Media.Crew])]
+    private var combinedCredits: [Media.CombinedCredits]
     
     init(credit: Media.Credits) {
         self.credit = credit
-            
-        self.crew = credit.crew?
-            .reduce(into: [(String, [Media.Crew])](), { partialResult, crew in
-                let department = crew.department ?? ""
-                if let index = partialResult.firstIndex(where: { $0.0 == department }) {
-                    partialResult[index].1.append(crew)
-                } else {
-                    partialResult.append((department, [crew]))
+
+        // MARK: - 演员列表
+        self.combinedCredits = [
+            .init(department: "Acting", credits: credit.cast?.map {
+                .init(
+                    year: "",
+                    title: $0.name ?? "",
+                    character: $0.character ?? "",
+                    posterPath: $0.profilePath,
+                    id: $0.id
+                )
+            } ?? []),
+            .init(department: "Directing", credits: []),
+            .init(department: "Writing", credits: [])
+        ]
+        
+        // MARK: - 工作人员列表
+        credit.crew?.forEach { crew in
+            let item = Media.CombinedCredits.Credit(
+                year: "",
+                title: crew.name ?? "",
+                character: crew.job?.localized ?? "",
+                id: crew.id
+            )
+            if let index = combinedCredits.firstIndex(where: { $0.department == crew.department }) {
+                if !combinedCredits[index].credits.contains(where: { $0.id == crew.id }) {
+                    combinedCredits[index].credits.append(item)
                 }
-            }) ?? []
-    }
-    
-    // MARK: - 演员列表
-    var acting: some View {
-        LazyVStack(alignment: .leading) {
-            Text("演员")
-                .font(.headline)
-            ForEach(credit.cast ?? []) { item in
-                NavigationLink {
-                    DetailView(store: .init(
-                        initialState: .init(media: .from(item)),
-                        reducer: DetailReducer()
-                    ))
-                } label: {
-                    ProfileView(
-                        axis: .horizontal,
-                        profilePath: item.profilePath ?? "",
-                        name: item.name ?? "",
-                        job: item.character ?? ""
-                    )
-                }
-                .buttonStyle(.plain)
+            } else {
+                combinedCredits.append(
+                    .init(department: crew.department ?? "", credits: [ item ])
+                )
             }
         }
-    }
-    
-    // MARK: - 工作人员列表
-    var member: some View {
-        LazyVStack(alignment: .leading) {
-            Text("工作人员")
-                .font(.headline)
-            
-            ForEach(crew, id: \.0) { crew in
-                Text(crew.0)
-                    .font(.headline)
-                ForEach(crew.1) { item in
-                    NavigationLink {
-                        DetailView(store: .init(
-                            initialState: .init(media: .from(item)),
-                            reducer: DetailReducer()
-                        ))
-                    } label: {
-                        ProfileView(
-                            axis: .horizontal,
-                            profilePath: item.profilePath ?? "",
-                            name: item.name ?? "",
-                            job: item.job ?? ""
-                        )
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
+        
+        combinedCredits.removeAll(where: { $0.credits.isEmpty })
     }
         
     var body: some View {
         ScrollView {
-            HStack {
-                FlowLayout()() {
-                    acting
-                        .frame(width: 240)
-                    member
-                        .frame(width: 240)
+            ForEach(combinedCredits) { credit in
+                GridLayout(estimatedItemWidth: 250) {
+                    ForEach(credit.credits) { item in
+                        NavigationLink {
+                            DetailView(store: .init(
+                                initialState: .init(media: .from(item)),
+                                reducer: DetailReducer()
+                            ))
+                        } label: {
+                            ProfileView(
+                                axis: .horizontal,
+                                profilePath: item.posterPath ?? "",
+                                name: item.title,
+                                job: item.character
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
-                
-                Spacer(minLength: 0)
+                .padding(.horizontal)
+                .header(credit.department.localized)
             }
+            Color.clear
         }
-        .navigationTitle("完整演职员表")
+        .navigationTitle("FULL CAST & CREW".localized)
     }
 }
 
+#if DEBUG
 struct CreditView_Previews: PreviewProvider {
     static var previews: some View {
         CreditView(credit: mockMovies[0].credits ?? .init())
             .frame(width: 400)
     }
 }
+#endif

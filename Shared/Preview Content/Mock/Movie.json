@@ -61,7 +61,7 @@
         }
     ],
     "status": "Released",
-    "tagline": "",
+    "tagline": "The one is not the only.",
     "title": "雷神4：爱与雷霆",
     "video": false,
     "vote_average": 6.8,
@@ -1025,6 +1025,42 @@
                 "vote_average": 0.0,
                 "vote_count": 0,
                 "width": 1588
+            }
+        ]
+    },
+    "keywords": {
+        "keywords": [
+            {
+                "id": 1701,
+                "name": "hero"
+            },
+            {
+                "id": 9663,
+                "name": "sequel"
+            },
+            {
+                "id": 9715,
+                "name": "superhero"
+            },
+            {
+                "id": 9717,
+                "name": "based on comic"
+            },
+            {
+                "id": 179431,
+                "name": "duringcreditsstinger"
+            },
+            {
+                "id": 180059,
+                "name": "death of king"
+            },
+            {
+                "id": 180547,
+                "name": "marvel cinematic universe (mcu)"
+            },
+            {
+                "id": 195394,
+                "name": "hidden civilization"
             }
         ]
     },
@@ -4222,6 +4258,43 @@
         "total_results": 40
     },
     "videos": {
-        "results": []
+        "results": [
+            {
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "name": "Q&A Featurette",
+                "key": "Gf4AXNthfVg",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Featurette",
+                "official": true,
+                "published_at": "2022-10-15T19:00:11.000Z",
+                "id": "634e619e1089ba007d54910f"
+            },
+            {
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "name": "Worthy or Unworthy Featurette",
+                "key": "St1PBqmmsrk",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Featurette",
+                "official": true,
+                "published_at": "2022-10-08T19:00:09.000Z",
+                "id": "63475021f621b20079f9e820"
+            },
+            {
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "name": "Deleted Scene - Wasting Time",
+                "key": "okVZk23JfQM",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Featurette",
+                "official": false,
+                "published_at": "2022-09-09T00:00:11.000Z",
+                "id": "632e56d80443c9007cccb87b"
+            }
+        ]
     }
 }

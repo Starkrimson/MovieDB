@@ -42,12 +42,20 @@ extension String {
         "https://image.tmdb.org/t/p/\(fileSize.rawValue)\(self)"
     }
     
+    var ytImagePath: String {
+        "https://i.ytimg.com/vi/\(self)/hqdefault.jpg"
+    }
+    
+    var ytPlayURL: URL? {
+        URL(string: "http://youtube.com/watch?v=\(self)")
+    }
+    
     var localized: String {
         localized(comment: "")
     }
     
     func localized(comment: String) -> String {
-        NSLocalizedString(self.uppercased(), comment: comment)
+        NSLocalizedString(self, comment: comment)
     }
     
     func localized(comment: String = "", arguments: CVarArg...) -> String {
@@ -71,6 +79,7 @@ let defaultQueryItems = [
     URLQueryItem(name: "api_key", value: ""),
     URLQueryItem(name: "language", value: "LANGUAGE".localized),
     URLQueryItem(name: "include_image_language", value: "en,null"),
+    URLQueryItem(name: "include_video_language", value: "en,null"),
 ]
 
 extension URL {
@@ -140,7 +149,22 @@ extension URL {
     static func season(tvID: Int, seasonNumber: Int) -> URL {
         url(
             paths: ["tv", tvID, "season", seasonNumber],
-            queryItems: [:]
+            queryItems: ["append_to_response": "credits"]
+        )
+    }
+    
+    /// 生成 Episode URL
+    /// - Parameters:
+    ///   - tvID: 剧集 ID
+    ///   - seasonNumber: seasonNumber
+    ///   - episodeNumber: episodeNumber
+    /// - Returns: URL
+    static func episode(tvID: Int, seasonNumber: Int, episodeNumber: Int, appendToResponse: AppendToResponse...) -> URL {
+        url(
+            paths: ["tv", tvID, "season", seasonNumber, "episode", episodeNumber],
+            queryItems: [
+                "append_to_response": appendToResponse.map { $0.rawValue }.joined(separator: ",")
+            ]
         )
     }
     

@@ -8,44 +8,59 @@
 import Foundation
 import ComposableArchitecture
 
-struct MovieCollectionState: Equatable {
-    let belongsTo: BelongsToCollection
-    var status: ViewStatus = .loading
-
-    var collection: Movie.Collection?
-}
-
-enum MovieCollectionAction: Equatable {
-    case fetchCollection
-    case fetchCollectionDone(TaskResult<Movie.Collection>)
-}
-
-struct MovieCollectionEnvironment {
-    var mainQueue: AnySchedulerOf<DispatchQueue>
-    var dbClient: MovieDBClient
-}
-
-let movieCollectionReducer = Reducer<MovieCollectionState, MovieCollectionAction, MovieCollectionEnvironment> {
-    state, action, environment in
+struct MovieCollectionReducer: ReducerProtocol {
     
-    switch action {
-    case .fetchCollection:
-        state.status = .loading
-        return .task { [id = state.belongsTo.id] in
-            await .fetchCollectionDone(TaskResult<Movie.Collection> {
-                try await environment.dbClient
-                    .collection(id ?? 0)
-            })
+    struct State: Equatable {
+        let belongsTo: BelongsToCollection
+        var status: ViewStatus = .loading
+
+        var collection: Movie.Collection?
+        
+        var movies: IdentifiedArrayOf<DetailReducer.State> = []
+    }
+    
+    enum Action: Equatable {
+        case fetchCollection
+        case fetchCollectionDone(TaskResult<Movie.Collection>)
+        
+        case movie(id: DetailReducer.State.ID, action: DetailReducer.Action)
+    }
+    
+    @Dependency(\.dbClient) var dbClient
+    
+    var body: some ReducerProtocol<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .fetchCollection:
+                state.status = .loading
+                return .task { [id = state.belongsTo.id] in
+                    await .fetchCollectionDone(TaskResult<Movie.Collection> {
+                        try await dbClient
+                            .collection(id ?? 0)
+                    })
+                }
+                .animation()
+                
+            case .fetchCollectionDone(.success(let value)):
+                state.status = .normal
+                state.collection = value
+                
+                state.movies = .init(uniqueElements: value.parts?.map {
+                    DetailReducer.State(media: $0)
+                } ?? [])
+                
+                return .none
+                
+            case .fetchCollectionDone(.failure(let error)):
+                state.status = .error(error.localizedDescription)
+                return .none
+                
+            case .movie:
+                return .none
+            }
         }
-        .animation()
-        
-    case .fetchCollectionDone(.success(let value)):
-        state.status = .normal
-        state.collection = value
-        return .none
-        
-    case .fetchCollectionDone(.failure(let error)):
-        state.status = .error(error.localizedDescription)
-        return .none
+        .forEach(\.movies, action: /Action.movie) {
+            DetailReducer()
+        }
     }
 }

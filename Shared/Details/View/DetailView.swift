@@ -41,29 +41,14 @@ struct DetailView: View {
                 }
             }
             .navigationTitle(viewStore.media.displayName)
-            .onAppearAndRefresh {
+            .task {
                 viewStore.send(.fetchDetails)
             }
         }
     }
 }
 
-extension View {
-    
-    func onAppearAndRefresh(perform action: (() -> Void)? = nil) -> some View {
-        onAppear(perform: action)
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        action?()
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
-            }
-    }
-}
-
+#if DEBUG
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(
@@ -75,3 +60,4 @@ struct DetailView_Previews: PreviewProvider {
         .frame(height: 850)
     }
 }
+#endif

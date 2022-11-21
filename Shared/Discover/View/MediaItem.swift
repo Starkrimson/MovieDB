@@ -40,11 +40,8 @@ struct MediaItem: View {
                 Spacer()
                 
                 media.voteAverage
-                    .map { score in
-                        Text("\(score, specifier: "%.1f")")
-                            .font(.subheadline)
-                            .foregroundColor(score.scoreColor)
-                    }
+                    .map { ($0, true) }
+                    .map(ScoreView.init)
             }
             .padding(.horizontal)
             
@@ -66,6 +63,7 @@ struct MediaItem: View {
     }
 }
 
+#if DEBUG
 struct MediaItem_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
@@ -76,3 +74,4 @@ struct MediaItem_Previews: PreviewProvider {
         .frame(height: 850)
     }
 }
+#endif

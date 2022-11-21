@@ -89,8 +89,10 @@ extension DetailView {
     }
 }
 
+#if DEBUG
 struct DetailHeader_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Header(state: .init(media: mockMedias[1]))
     }
 }
+#endif

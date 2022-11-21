@@ -21,26 +21,23 @@ extension DetailView {
         let writers: [Media.Crew]
         
         var body: some View {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Spacer()
                     VStack {
                         // MARK: - 评分
                         score.map { score in
-                            HStack {
-                                ScoreView(score: score)
-                                Text("用户评分")
-                                    .font(.title3.weight(.medium))
-                            }
+                            ScoreView(score: score)
                         }
                         
                         // MARK: - 发布时间
                         HStack(spacing: 0) {
                             Text("\(date?.string("yyyy", "MMMM", "dd") ?? "")")
                             runtime.map { runtime in
-                                Text(" · \(runtime)分钟")
+                                Text(" · \(runtime) \("MINUTES".localized)")
                             }
                         }
+                        .padding(6)
                         
                         // MARK: - 类型
                         HStack {
@@ -65,13 +62,12 @@ extension DetailView {
                 
                 // MARK: - 简介
                 Text(tagline ?? "")
+                    .font(.body.italic())
+                    .padding([.horizontal, .top])
                 overview.map { overview in
-                    Group {
-                        Text("剧情简介")
-                            .font(.title2.weight(.medium))
-                            .padding(.vertical, 5)
-                        Text(overview)
-                    }
+                    Text(overview)
+                        .padding(.horizontal)
+                        .header("OVERVIEW".localized)
                 }
 
                 // MARK: - 导演/编剧
@@ -89,20 +85,22 @@ extension DetailView {
                                         axis: .horizontal,
                                         profilePath: crew.profilePath ?? "",
                                         name: crew.name ?? "",
-                                        job: crew.job ?? ""
+                                        job: crew.job?.localized ?? ""
                                     )
                                 }
                                 .buttonStyle(.plain)
                             }
                         }
+                        .padding(.horizontal)
+                        .padding(.top)
                     }
                 }
             }
-            .padding()
         }
     }
 }
 
+#if DEBUG
 struct DetailBasic_Previews: PreviewProvider {
     static var previews: some View {
         DetailView.Overview(
@@ -118,3 +116,4 @@ struct DetailBasic_Previews: PreviewProvider {
         )
     }
 }
+#endif

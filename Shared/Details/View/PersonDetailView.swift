@@ -13,23 +13,29 @@ struct PersonDetailView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text(viewStore.person.biography ?? "")
                     .padding(.horizontal)
                 
                 // MARK: - 图片
                 ProfileImages(profiles: viewStore.images)
+                    .padding(.top)
                 
-                // MARK: - 代表作
-                KnownFor(knownFor: viewStore.knownFor)
+                if !viewStore.knownFor.isEmpty {
+                    // MARK: - 代表作
+                    KnownFor(knownFor: viewStore.knownFor)
+                }
                 
                 // MARK: - 参演
                 Credits(credits: viewStore.combinedCredits)
+                
+                Color.clear
             }
         }
     }
 }
 
+#if DEBUG
 struct PersonDetailView_Previews: PreviewProvider {
     static var previews: some View {
         IfLetStore(
@@ -50,6 +56,7 @@ struct PersonDetailView_Previews: PreviewProvider {
                 }
             }
         )
-        .frame(minHeight: 950)
+        .frame(minHeight: 1250)
     }
 }
+#endif

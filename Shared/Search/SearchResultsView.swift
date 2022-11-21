@@ -22,7 +22,7 @@ struct SearchResultsView: View {
                     ErrorTips(error: error)
                     
                 case .normal where viewStore.list.isEmpty:
-                    Text("Not Found".localized)
+                    Text("NOT FOUND".localized)
                     
                 default:
                     ScrollView {
@@ -41,6 +41,7 @@ struct SearchResultsView: View {
     }
 }
 
+#if DEBUG
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
         SearchResultsView(
@@ -51,3 +52,4 @@ struct SearchResultsView_Previews: PreviewProvider {
         )
     }
 }
+#endif

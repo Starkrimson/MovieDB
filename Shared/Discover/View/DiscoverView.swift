@@ -21,7 +21,7 @@ struct DiscoverView: View {
                 SectionTitle(
                     title: "POPULAR".localized,
                     selectedIndex: viewStore.binding(\.$popularIndex),
-                    labels: ["MOVIES".localized, "TVSHOWS".localized]
+                    labels: ["MOVIES".localized, "TV SHOWS".localized]
                 )
                 .padding(.top)
                 if viewStore.popularIndex == 0 {
@@ -45,7 +45,7 @@ struct DiscoverView: View {
                 await viewStore.send(.task).finish()
             }
             .frame(minWidth: 320)
-            .navigationTitle("Discover".localized)
+            .navigationTitle("DISCOVER".localized)
         }
     }
 }
@@ -63,6 +63,7 @@ private extension SearchFieldPlacement {
     }
 }
 
+#if DEBUG
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {        
         DiscoverView(
@@ -73,3 +74,4 @@ struct DiscoverView_Previews: PreviewProvider {
         )
     }
 }
+#endif

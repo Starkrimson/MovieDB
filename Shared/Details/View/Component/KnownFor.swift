@@ -10,39 +10,34 @@ import SwiftUI
 extension PersonDetailView {
     
     struct KnownFor: View {
-        let knownFor: [Media.Cast]
+        let knownFor: [Media.CombinedCredits.Credit]
         
         var body: some View {
-            VStack(alignment: .leading) {
-                if !knownFor.isEmpty {
-                    Text("代表作")
-                        .font(.title2.weight(.medium))
-                        .padding(.leading)
-                    
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .top) {
-                            ForEach(knownFor) { item in
-                                NavigationLink {
-                                    DetailView(store: .init(
-                                        initialState: .init(media: .from(item)),
-                                        reducer: DetailReducer()
-                                    ))
-                                } label: {
-                                    MediaItem(media: .from(item))
-                                }
-                                .buttonStyle(.plain)
-                            }
+            ScrollView(.horizontal) {
+                HStack(alignment: .top) {
+                    ForEach(knownFor) { item in
+                        NavigationLink {
+                            DetailView(store: .init(
+                                initialState: .init(media: .from(item)),
+                                reducer: DetailReducer()
+                            ))
+                        } label: {
+                            MediaItem(media: .from(item))
                         }
-                        .padding(.horizontal)
+                        .buttonStyle(.plain)
                     }
                 }
+                .padding(.horizontal)
             }
+            .header("KNOWN FOR".localized)
         }
     }
 }
 
+#if DEBUG
 struct KnownFor_Previews: PreviewProvider {
     static var previews: some View {
-        PersonDetailView.KnownFor(knownFor: Array(mockPeople[0].combinedCredits?.cast?.prefix(10) ?? []))
+        PersonDetailView.KnownFor(knownFor: Array(mockPeople[0].combinedCredits?.cast?.prefix(10).map(Media.CombinedCredits.Credit.from) ?? []))
     }
 }
+#endif

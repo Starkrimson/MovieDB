@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+import MovieDependencies
 
 struct MovieState: Equatable, Hashable {
     var movie: Movie
@@ -16,8 +17,8 @@ struct MovieState: Equatable, Hashable {
         
     init(_ movie: Movie) {
         self.movie = movie
-        directors = movie.credits?.crew?.filter { $0.department == "Directing" } ?? []
-        writers = movie.credits?.crew?.filter { $0.department == "Writing" } ?? []
+        directors = movie.credits?.crew?.filter { $0.department == "Directing" }.unique(\.id) ?? []
+        writers = movie.credits?.crew?.filter { $0.department == "Writing" }.unique(\.id) ?? []
     }
 }
 
@@ -29,14 +30,14 @@ struct TVState: Equatable, Hashable {
     init(_ tv: TVShow) {
         self.tv = tv
         
-        createdBy = tv.createdBy ?? []
+        createdBy = tv.createdBy?.unique(\.id) ?? []
     }
 }
 
 struct PersonState: Equatable, Hashable {
     var person: Person
     
-    var knownFor: [Media.Cast]
+    var knownFor: [Media.CombinedCredits.Credit]
     
     var combinedCredits: IdentifiedArrayOf<Media.CombinedCredits>
 
@@ -46,10 +47,28 @@ struct PersonState: Equatable, Hashable {
         
     init(_ person: Person) {
         self.person = person
-        
-        knownFor = Array(person.combinedCredits?.cast?
-            .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
-            .prefix(10) ?? [])
+                
+        knownFor = {
+            if person.knownForDepartment == "Acting" {
+               return person.combinedCredits?.cast?
+                    .unique(\.id)
+                    .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
+                    .filter {
+                        if $0.mediaType == .tv {
+                            return $0.episodeCount ?? 0 >= 5
+                        }
+                        return true
+                    }
+                    .prefix(10)
+                    .map(Media.CombinedCredits.Credit.from) ?? []
+            } else {
+                return person.combinedCredits?.crew?
+                    .unique(\.id)
+                    .sorted(by: { $0.popularity ?? 0 > $1.popularity ?? 0})
+                    .prefix(10)
+                    .map(Media.CombinedCredits.Credit.from) ?? []
+            }
+        }()
         
         let actingCredits: [Media.CombinedCredits.Credit] = person.combinedCredits?.cast?
             .sorted(by: >)
@@ -57,13 +76,14 @@ struct PersonState: Equatable, Hashable {
                     .init(
                         year: String((cast.releaseDate ?? cast.firstAirDate ?? "").prefix(4)),
                         title: cast.title ?? cast.name ?? "",
-                        character: cast.character.map({ "饰演 \($0)" }) ?? "",
+                        character: cast.character.map({ "\("AS".localized) \($0)" }) ?? "",
                         mediaType: cast.mediaType,
                         posterPath: cast.posterPath,
                         backdropPath: cast.backdropPath,
                         id: cast.id
                     )
-            } ?? []
+            }
+            .unique(\.id) ?? []
         
         combinedCredits = [
             .init(
@@ -78,7 +98,7 @@ struct PersonState: Equatable, Hashable {
                 let credit = Media.CombinedCredits.Credit(
                     year: String((crew.releaseDate ?? crew.firstAirDate ?? "").prefix(4)),
                     title: crew.title ?? crew.name ?? "",
-                    character: crew.job ?? "",
+                    character: crew.job?.localized ?? "",
                     mediaType: crew.mediaType,
                     posterPath: crew.posterPath,
                     backdropPath: crew.backdropPath,

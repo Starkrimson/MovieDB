@@ -13,7 +13,7 @@ struct MovieDetailView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack {
+            VStack(alignment: .leading, spacing: 0) {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
                     mediaType: .movie,
@@ -34,16 +34,20 @@ struct MovieDetailView: View {
                 
                 // MARK: - 海报/剧照
                 if let images = viewStore.movie.images {
-                    DetailView.Images(images: images)
+                    DetailView.Images(
+                        images: images,
+                        videos: viewStore.movie.videos?.results ?? []
+                    )
                 }
                 
                 // MARK: - 电影系列
                 if let collection = viewStore.movie.belongsToCollection {
                     DetailView.Collection(collection: collection)
+                        .padding(.top)
                 }
                 
                 // MARK: - 相关推荐
-                if let recommendations = viewStore.movie.recommendations?.results {
+                if let recommendations = viewStore.movie.recommendations?.results, !recommendations.isEmpty {
                     DetailView.Recommended(recommendations: recommendations)
                 }
                 
@@ -55,6 +59,7 @@ struct MovieDetailView: View {
     }
 }
 
+#if DEBUG
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
         IfLetStore(
@@ -78,3 +83,4 @@ struct MovieDetailView_Previews: PreviewProvider {
         .frame(minHeight: 1650)
     }
 }
+#endif
