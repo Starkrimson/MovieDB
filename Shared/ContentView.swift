@@ -14,9 +14,11 @@ struct ContentView: View {
         initialState: .init(),
         reducer: MovieDBReducer()
     )
-    
+
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store) {
+            $0
+        } content: { viewStore in
             NavigationSplitView {
                 List(
                     selection: viewStore.binding(
@@ -45,7 +47,7 @@ struct ContentView: View {
                         SearchResultsView(store: store.scope(
                             state: \.search, action: MovieDBReducer.Action.search)
                         )
-                        
+
                     case .discover:
                         DiscoverView(
                             store: store.scope(
@@ -53,7 +55,7 @@ struct ContentView: View {
                                 action: MovieDBReducer.Action.discover
                             )
                         )
-                        
+
                     case .movies:
                         DiscoverMediaView(
                             store: store.scope(
@@ -61,7 +63,7 @@ struct ContentView: View {
                                 action: MovieDBReducer.Action.movies
                             )
                         )
-                        
+
                     case .tvShows:
                         DiscoverMediaView(
                             store: store.scope(
@@ -69,7 +71,7 @@ struct ContentView: View {
                                 action: MovieDBReducer.Action.tvShows
                             )
                         )
-                        
+
                     case .people:
                         DiscoverMediaView(
                             store: store.scope(

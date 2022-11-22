@@ -16,46 +16,46 @@ struct TVDetailView: View {
             VStack(alignment: .leading, spacing: 0) {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
-                    mediaType: .tv,
-                    date: viewStore.tv.firstAirDate,
-                    score: viewStore.tv.voteAverage,
-                    runtime: viewStore.tv.episodeRunTime?.first,
-                    genres: viewStore.tv.genres ?? [],
-                    tagline: viewStore.tv.tagline,
-                    overview: viewStore.tv.overview,
+                    mediaType: .tvShow,
+                    date: viewStore.tvShow.firstAirDate,
+                    score: viewStore.tvShow.voteAverage,
+                    runtime: viewStore.tvShow.episodeRunTime?.first,
+                    genres: viewStore.tvShow.genres ?? [],
+                    tagline: viewStore.tvShow.tagline,
+                    overview: viewStore.tvShow.overview,
                     directors: viewStore.createdBy,
                     writers: []
                 )
-                
+
                 // MARK: - 演员表
-                if let credits = viewStore.tv.credits, credits.cast?.isEmpty == false {
+                if let credits = viewStore.tvShow.credits, credits.cast?.isEmpty == false {
                     DetailView.Cast(credits: credits)
                 }
-                
+
                 // MARK: - 当前季
-                if let seasons = viewStore.tv.seasons, !seasons.isEmpty {
+                if let seasons = viewStore.tvShow.seasons, !seasons.isEmpty {
                     DetailView.Seasons(
-                        showName: viewStore.tv.name ?? "",
-                        tvID: viewStore.tv.id ?? 0,
+                        showName: viewStore.tvShow.name ?? "",
+                        tvID: viewStore.tvShow.id ?? 0,
                         seasons: seasons
                     )
                 }
-                
+
                 // MARK: - 海报/剧照
-                if let images = viewStore.tv.images {
+                if let images = viewStore.tvShow.images {
                     DetailView.Images(
                         images: images,
-                        videos: viewStore.tv.videos?.results ?? []
+                        videos: viewStore.tvShow.videos?.results ?? []
                     )
                 }
-                
+
                 // MARK: - 相关推荐
-                if let recommendations = viewStore.tv.recommendations?.results {
+                if let recommendations = viewStore.tvShow.recommendations?.results {
                     DetailView.Recommended(recommendations: recommendations)
                 }
-                
+
                 // MARK: - 状态信息
-                DetailView.Material(detail: .tv(viewStore.tv))
+                DetailView.Material(detail: .tvShow(viewStore.tvShow))
                     .padding()
             }
         }
@@ -70,7 +70,7 @@ struct TVDetailView_Previews: PreviewProvider {
                 StoreOf<DetailReducer>(
                     initialState: .init(
                         media: mockMedias[1],
-                        detail: .tv(.init(mockTVShows[0]))
+                        detail: .tvShow(.init(mockTVShows[0]))
                     ),
                     reducer: DetailReducer()
                 )
@@ -78,7 +78,7 @@ struct TVDetailView_Previews: PreviewProvider {
                 then: { detailStore in
                     SwitchStore(detailStore) {
                         CaseLet(
-                            state: /DetailReducer.DetailState.tv,
+                            state: /DetailReducer.DetailState.tvShow,
                             then: TVDetailView.init
                         )
                     }

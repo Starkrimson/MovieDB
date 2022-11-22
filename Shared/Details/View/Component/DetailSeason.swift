@@ -8,19 +8,23 @@
 import SwiftUI
 
 extension DetailView {
-    
+
     struct Seasons: View {
         let showName: String
         let tvID: Int
         let seasons: [Season]
-        
+
         var body: some View {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(seasons.reversed()) { season in
                         NavigationLink {
                             EpisodeList(store: .init(
-                                initialState: .init(tvID: tvID, seasonNumber: season.seasonNumber ?? 0, showName: showName),
+                                initialState: .init(
+                                    tvID: tvID,
+                                    seasonNumber: season.seasonNumber ?? 0,
+                                    showName: showName
+                                ),
                                 reducer: SeasonReducer()
                             ))
                         } label: {
@@ -58,10 +62,10 @@ struct SeasonRow: View {
     let airDate: Date
     let episodeCount: Int?
     let overview: String
-    
+
     var body: some View {
         HStack {
-            URLImage(profilePath.imagePath(.best(w: 260, h: 390)))
+            URLImage(profilePath.imagePath(.best(width: 260, height: 390)))
                 .frame(width: 94, height: 141)
                 .cornerRadius(6)
 
@@ -85,7 +89,7 @@ struct SeasonRow: View {
             }
             .padding(.vertical, 6)
             .frame(maxHeight: 141)
-            
+
             Spacer(minLength: 0)
         }
     }

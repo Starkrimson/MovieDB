@@ -13,37 +13,37 @@ enum ViewStatus: Equatable, Hashable {
 }
 
 struct SearchReducer: ReducerProtocol {
-    
+
     struct State: Equatable {
         @BindableState var query: String = ""
-        
+
         var page: Int = 1
         var totalPages: Int = 1
         var list: IdentifiedArrayOf<Media> = []
-        
+
         var status: ViewStatus = .normal
 
         var isLastPage: Bool { page >= totalPages }
     }
-    
+
     enum Action: Equatable, BindableAction {
         case binding(_ action: BindingAction<State>)
         case search(page: Int = 1)
         case searchResponse(TaskResult<PageResponses<Media>>)
     }
-    
+
     @Dependency(\.dbClient) var dbClient
-    
+
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {
             case .binding:
                 return .none
-                
+
             case .search(let page):
                 enum SearchID: Hashable { }
-                
+
                 if state.query.isEmpty {
                     return .none
                 }
@@ -55,7 +55,7 @@ struct SearchReducer: ReducerProtocol {
                 }
                 .animation()
                 .cancellable(id: SearchID.self)
-                    
+
             case .searchResponse(.success(let value)):
                 state.page = value.page ?? 1
                 state.totalPages = value.totalPages ?? 1
@@ -65,7 +65,7 @@ struct SearchReducer: ReducerProtocol {
                 }
                 state.list.append(contentsOf: value.results ?? [])
                 return .none
-                
+
             case .searchResponse(.failure(let error)):
                 state.status = .error(error.localizedDescription)
                 return .none

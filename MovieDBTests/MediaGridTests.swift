@@ -12,16 +12,17 @@ import ComposableArchitecture
 @MainActor
 final class MediaGridTests: XCTestCase {
 
+    // swiftlint:disable function_body_length
     func testMovieGrid() async {
         let store = TestStore(
             initialState: .init(mediaType: .movie, name: ""),
             reducer: DiscoverMediaReducer()
         )
-        
+
         // 加载第一页数据
         let firstPage = PageResponses(page: 1, totalPages: 2, results: [mockMediaMovies[0]])
         store.dependencies.dbClient.discover = { _, _ in firstPage }
-        
+
         await store.send(.fetchMedia())
         await store.receive(.fetchMediaDone(loadMore: false, result: .success(firstPage))) { state in
             state.status = .normal
@@ -29,7 +30,7 @@ final class MediaGridTests: XCTestCase {
             state.totalPages = 2
             state.list = .init(uniqueElements: firstPage.results!)
         }
-        
+
         // 加载第二页数据
         let secondPage = PageResponses(page: 2, totalPages: 2, results: [mockMediaMovies[1]])
         store.dependencies.dbClient.discover = { _, _ in secondPage}
@@ -41,7 +42,7 @@ final class MediaGridTests: XCTestCase {
             $0.page = 2
             $0.list = .init(uniqueElements: firstPage.results! + secondPage.results!)
         }
-        
+
         // 切换高分排序
         store.dependencies.dbClient.discover = { _, _ in firstPage }
         await store.send(.setQuickSort(.topRated)) {
@@ -59,7 +60,7 @@ final class MediaGridTests: XCTestCase {
             $0.totalPages = 2
             $0.list = .init(uniqueElements: firstPage.results!)
         }
-        
+
         // 设置筛选项，最低分=5
         await store.send(.filter(.set(\.$minimumUserScore, 5))) {
             $0.filter.minimumUserScore = 5
@@ -72,7 +73,7 @@ final class MediaGridTests: XCTestCase {
             $0.totalPages = 2
             $0.status = .normal
         }
-        
+
         // 重置筛选
         await store.send(.filter(.reset)) {
             $0.quickSort = .popular
@@ -87,13 +88,13 @@ final class MediaGridTests: XCTestCase {
             $0.status = .normal
         }
     }
-    
+
     func testPersonGrid() async {
         let store = TestStore(
             initialState: .init(mediaType: .person, name: ""),
             reducer: DiscoverMediaReducer()
         )
-        
+
         let firstPage = PageResponses(page: 1, totalPages: 2, results: [mockMedias[2]])
         store.dependencies.dbClient.popular = { _, _ in firstPage }
         await store.send(.fetchMedia())

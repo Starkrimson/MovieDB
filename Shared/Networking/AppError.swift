@@ -6,8 +6,8 @@ enum AppError: Error, Equatable, Identifiable {
     case badURL
     case error(Error)
     case sample(String?)
-    
-    static func ==(lhs: AppError, rhs: AppError) -> Bool {
+
+    static func == (lhs: AppError, rhs: AppError) -> Bool {
         lhs.id == rhs.id
     }
 }

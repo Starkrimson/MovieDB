@@ -11,8 +11,8 @@ import ComposableArchitecture
 struct MediaGrid: View {
     var list: IdentifiedArrayOf<Media> = []
     var canLoadMore = false
-    var onLoadMore: ()->()
-    
+    var onLoadMore: () -> Void
+
     var body: some View {
         VStack {
             GridLayout(estimatedItemWidth: 200) {

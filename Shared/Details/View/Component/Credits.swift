@@ -9,10 +9,10 @@ import SwiftUI
 import ComposableArchitecture
 
 extension PersonDetailView {
-    
+
     struct Credits: View {
         let credits: IdentifiedArrayOf<Media.CombinedCredits>
-        
+
         var body: some View {
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(credits) { credit in
@@ -41,4 +41,3 @@ extension PersonDetailView {
         }
     }
 }
-

@@ -9,19 +9,19 @@ import SwiftUI
 /// 等宽铺满容器的 Grid Layout
 /// 根据 estimatedItemWidth 动态计算 column 数
 struct GridLayout: Layout {
-    
+
     /// 每个 item 预估的宽度，或者说最大宽度
     var estimatedItemWidth: CGFloat = 375
-    
+
     var verticalSpacing: CGFloat = 10
     var horizontalSpacing: CGFloat = 10
-    
+
     private func getRects(subviews: Subviews, totalWidth: CGFloat?) -> [CGRect] {
         guard let totalWidth, !totalWidth.isZero, !totalWidth.isInfinite else { return [] }
 
         let columns = (totalWidth / estimatedItemWidth).rounded(.up)
         let itemWidth = ((totalWidth - (horizontalSpacing * (columns - 1))) / columns).rounded(.down)
-        
+
         return subviews.indices.reduce([CGRect]()) { rects, index in
             let previousRect = rects.last ?? .zero
             let itemHeight = subviews[index].sizeThatFits(.init(width: itemWidth, height: nil)).height
@@ -39,15 +39,15 @@ struct GridLayout: Layout {
             return rects + [rect]
         }
     }
-    
+
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let rects = getRects(subviews: subviews, totalWidth: proposal.width)
         return .init(width: proposal.width ?? 0, height: rects.last?.maxY ?? 0)
     }
-    
+
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let rects = getRects(subviews: subviews, totalWidth: proposal.width)
-        
+
         rects.indices.forEach { index in
             let rect = rects[index]
             let view = subviews[index]
@@ -67,7 +67,7 @@ struct GridLayout_Previews: PreviewProvider {
             GridLayout(estimatedItemWidth: 320, verticalSpacing: 5, horizontalSpacing: 5).callAsFunction {
                 ForEach(mockMovies[0].images?.backdrops ?? []) { image in
                     VStack {
-                        URLImage(image.filePath?.imagePath(.face(w: 500, h: 282)))
+                        URLImage(image.filePath?.imagePath(.face(width: 500, height: 282)))
                             .aspectRatio(500/282, contentMode: .fill)
                         Text(image.filePath ?? "")
                         Text("\(image.width ?? 0) * \(image.height ?? 0)")

@@ -11,9 +11,11 @@ import MovieDependencies
 
 struct EpisodeView: View {
     let store: StoreOf<EpisodeReducer>
-    
+
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store) {
+            $0
+        } content: { viewStore in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
@@ -26,7 +28,7 @@ struct EpisodeView: View {
                     .padding()
                     Text(viewStore.episode.overview ?? "")
                         .padding(.horizontal)
-                    
+
                     if let crew = viewStore.episode.crew?.unique(\.id), !crew.isEmpty {
                         ScrollView(.horizontal) {
                             HStack {
@@ -51,7 +53,7 @@ struct EpisodeView: View {
                         }
                         .header("CREW".localized)
                     }
-                    
+
                     if let guestStars = viewStore.episode.guestStars, !guestStars.isEmpty {
                         ScrollView(.horizontal) {
                             HStack {
@@ -76,7 +78,7 @@ struct EpisodeView: View {
                         }
                         .header("GUEST STARS".localized)
                     }
-                    
+
                     if let images = viewStore.episode.images?.stills,
                        !images.isEmpty {
                         GridLayout(estimatedItemWidth: 375) {
@@ -84,7 +86,7 @@ struct EpisodeView: View {
                                 NavigationLink {
                                     ImageBrowser(image: item)
                                 } label: {
-                                    URLImage(item.filePath?.imagePath(.best(w: 454, h: 254)))
+                                    URLImage(item.filePath?.imagePath(.best(width: 454, height: 254)))
                                         .aspectRatio(item.aspectRatio ?? 1, contentMode: .fill)
                                 }
                                 .buttonStyle(.plain)

@@ -11,7 +11,7 @@ extension DetailView {
 
     struct Recommended: View {
         let recommendations: [Media]
-        
+
         var body: some View {
             // MARK: - 推荐列表
             ScrollView(.horizontal) {
@@ -24,7 +24,7 @@ extension DetailView {
                             ))
                         } label: {
                             VStack {
-                                URLImage(recommend.backdropPath?.imagePath(.face(w: 500, h: 282)))
+                                URLImage(recommend.backdropPath?.imagePath(.face(width: 500, height: 282)))
                                     .frame(width: 250, height: 141)
                                     .cornerRadius(6)
                                 HStack {

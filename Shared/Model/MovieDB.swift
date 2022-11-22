@@ -8,8 +8,9 @@
 import Foundation
 
 enum MediaType: String, Codable {
-    case all, movie, tv, person
-    
+    case all, movie, person
+    case tvShow = "tv"
+
     init(from decoder: Decoder) throws {
         let value = try decoder.singleValueContainer().decode(String.self)
         self = Self(rawValue: value) ?? .all
@@ -22,5 +23,6 @@ enum TimeWindow: String {
 
 /// https://developers.themoviedb.org/3/getting-started/append-to-response
 enum AppendToResponse: String {
-    case images, videos, credits, similar, recommendations, keywords, combined_credits
+    case images, videos, credits, similar, recommendations, keywords
+    case combinedCredits = "combined_credits"
 }

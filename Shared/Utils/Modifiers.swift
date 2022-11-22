@@ -13,7 +13,7 @@ extension View {
             Text(text)
         }
     }
-    
+
     func header<Header: View>(@ViewBuilder _ content: @escaping () -> Header) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             content()
@@ -23,7 +23,7 @@ extension View {
             self
         }
     }
-    
+
     func footer(_ key: LocalizedStringKey) -> some View {
         footer {
             Text(key)

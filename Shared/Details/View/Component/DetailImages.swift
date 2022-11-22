@@ -8,14 +8,14 @@
 import SwiftUI
 
 extension DetailView {
-    
+
     struct Images: View {
         var images: Media.Images
         var videos: [Media.Video] = []
         @State var selectedImageType: Media.ImageType = .backdrops
-        
+
         @Environment(\.openURL) var openURL
-        
+
         var body: some View {
             VStack(alignment: .leading) {
                 // MARK: - 图片列表
@@ -72,7 +72,7 @@ extension DetailView {
                 }
             }
         }
-        
+
         @ViewBuilder
         var imageStack: some View {
             ForEach(
@@ -83,8 +83,8 @@ extension DetailView {
                 } label: {
                     URLImage(poster.filePath?.imagePath(
                         selectedImageType == .posters
-                        ? .best(w: 188, h: 282)
-                        : .face(w: 500, h: 282)
+                        ? .best(width: 188, height: 282)
+                        : .face(width: 500, height: 282)
                     ))
                     .frame(
                         width: selectedImageType == .posters ? 94 : 250,
@@ -94,7 +94,7 @@ extension DetailView {
                 .buttonStyle(.plain)
             }
         }
-        
+
         @ViewBuilder
         var videoStack: some View {
             ForEach(
@@ -108,7 +108,7 @@ extension DetailView {
                     ZStack(alignment: .bottomLeading) {
                         ZStack {
                             URLImage(video.key?.ytImagePath)
-                            
+
                             Image(systemName: "play.circle.fill")
                                 .font(.largeTitle)
                         }

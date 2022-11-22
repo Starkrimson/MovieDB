@@ -10,16 +10,16 @@ import SwiftUI
 struct MediaItem: View {
     let media: Media
     var imageSize: ImageSize = .fixed
-    
+
     enum ImageSize {
         case fixed, aspectRatio
     }
-    
+
     var image: some View {
         URLImage(media.displayPosterPath)
             .cornerRadius(10)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             // MARK: - 海报
@@ -30,21 +30,21 @@ struct MediaItem: View {
                 image
                     .aspectRatio(150/225, contentMode: .fill)
             }
-            
+
             HStack {
                 // MARK: - 电影/剧集名
                 Text(media.displayName)
                     .lineLimit(2)
                     .font(.headline)
-    
+
                 Spacer()
-                
+
                 media.voteAverage
                     .map { ($0, true) }
                     .map(ScoreView.init)
             }
             .padding(.horizontal)
-            
+
             Group {
                 if media.mediaType == .person {
                     // MARK: - 代表作

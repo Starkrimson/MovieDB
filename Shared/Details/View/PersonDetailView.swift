@@ -10,25 +10,25 @@ import ComposableArchitecture
 
 struct PersonDetailView: View {
     let store: Store<PersonState, DetailReducer.Action>
-    
+
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewStore.person.biography ?? "")
                     .padding(.horizontal)
-                
+
                 // MARK: - 图片
                 ProfileImages(profiles: viewStore.images)
                     .padding(.top)
-                
+
                 if !viewStore.knownFor.isEmpty {
                     // MARK: - 代表作
                     KnownFor(knownFor: viewStore.knownFor)
                 }
-                
+
                 // MARK: - 参演
                 Credits(credits: viewStore.combinedCredits)
-                
+
                 Color.clear
             }
         }

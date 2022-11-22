@@ -8,20 +8,20 @@
 import SwiftUI
 
 extension DiscoverView {
-    
+
     struct SectionTitle: View {
         let title: String
         @Binding var selectedIndex: Int
-        
+
         var labels: [String] = []
-    
+
         var body: some View {
             HStack {
                 // MARK: - Section title
                 Text(title)
                     .font(.title2)
                     .fontWeight(.medium)
-                
+
                 // MARK: - segmented
                 Picker("", selection: $selectedIndex) {
                     ForEach(0..<labels.count, id: \.self) { index in
@@ -29,7 +29,7 @@ extension DiscoverView {
                     }
                 }
                 .pickerStyle(.segmented)
-                
+
                 Spacer()
             }
             .padding(.horizontal)

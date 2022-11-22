@@ -11,12 +11,14 @@ import ComposableArchitecture
 
 struct DetailView: View {
     let store: StoreOf<DetailReducer>
-    
+
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store) {
+            $0
+        } content: { viewStore in
             ScrollView {
                 Header(state: viewStore.state)
-                
+
                 switch viewStore.status {
                 case .loading: ProgressView()
                 case .error(let error):
@@ -29,7 +31,7 @@ struct DetailView: View {
                                 then: MovieDetailView.init
                             )
                             CaseLet(
-                                state: /DetailReducer.DetailState.tv,
+                                state: /DetailReducer.DetailState.tvShow,
                                 then: TVDetailView.init
                             )
                             CaseLet(
