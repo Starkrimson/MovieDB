@@ -16,7 +16,7 @@ struct URLImage: View {
     }
 
     init(_ urlString: String?) {
-        self.url = URL(string: urlString ?? "")
+        url = URL(string: urlString ?? "")
     }
 
     var body: some View {

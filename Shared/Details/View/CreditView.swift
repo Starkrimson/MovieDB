@@ -17,7 +17,7 @@ struct CreditView: View {
         self.credit = credit
 
         // MARK: - 演员列表
-        self.combinedCredits = [
+        combinedCredits = [
             .init(department: "Acting", credits: credit.cast?.map {
                 .init(
                     year: "",
