@@ -77,7 +77,7 @@ extension Double {
 }
 
 let defaultQueryItems = [
-    URLQueryItem(name: "api_key", value: "${API_KEY}"),
+    URLQueryItem(name: "api_key", value: Bundle.main.infoDictionary?["api_key"] as? String),
     URLQueryItem(name: "language", value: "LANGUAGE".localized),
     URLQueryItem(name: "include_image_language", value: "en,null"),
     URLQueryItem(name: "include_video_language", value: "en,null")
