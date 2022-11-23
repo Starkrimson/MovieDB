@@ -1,0 +1,67 @@
+/* 
+  Localizable.strings
+  MovieDB
+
+  Created by allie on 7/11/2022.
+  
+*/
+
+"LANGUAGE" = "en";
+"DISCOVER" = "Discover";
+"MOVIES" = "Movies";
+"TV SHOWS" = "TV Shows";
+"SEARCH PLACEHOLDER" = "Search for a movie, tv show, person...";
+"SEARCH RESULTS TITLE" = "\"%@\" results";
+"WELCOME TITLE" = "Welcome.";
+"WELCOME CONTENT" = "Millions of movies, TV shows and people to discover. Explore now.";
+"NOT FOUND" = "Not Found";
+"POPULAR" = "Popular";
+"TRENDING" = "Trending";
+"TOP RATED" = "Top Rated";
+"TODAY" = "Today";
+"THIS WEEK" = "This Week";
+"LOAD MORE" = "Load More";
+"FILTERS" = "Filters";
+"SORT" = "Sort";
+"MINIMUM USER VOTES" = "Minimum User Votes";
+"RESET" = "Reset";
+"USER SCORE" = "User Score";
+"MINIMUM" = "Minimum";
+"MAXIMUM" = "Maximum";
+"POPULAR PEOPLE" = "Popular People";
+"OVERVIEW" = "Overview";
+"TOP BILLED CAST" = "Top Billed Cast";
+"FULL CAST & CREW" = "Full Cast & Crew";
+"MEDIA" = "Media";
+"BACKDROPS" = "Backdrops";
+"POSTERS" = "Posters";
+"VIEW ALL" = "View All ";
+"PART OF COLLECTION" = "Part of the %@";
+"VIEW THE COLLECTION" = "VIEW THE COLLECTION";
+"RECOMMENDATIONS" = "Recommendations";
+"ORIGINAL LANGUAGE" = "Original Language";
+"BUDGET" = "Budget";
+"REVENUE" = "Revenue";
+"ORIGINAL TITLE" = "Original Title";
+"STATUS" = "Status";
+"MINUTES" = "Minutes";
+"VIEW MORE" = "View More";
+"CURRENT SEASON" = "Current Season";
+"VIEW ALL SEASONS" = "View All Seasons";
+"EPISODES" = "Episodes";
+"NETWORK" = "Network";
+"TYPE" = "Type";
+"KNOWN FOR" = "Known For";
+"GENDER" = "Gender";
+"BIRTHDAY" = "Birthday";
+"PLACE OF BIRTH" = "Place of Birth";
+"ALSO KNOWN AS" = "Also Known As";
+"AS" = "as";
+"VIEW ON WEB" = "View on Web";
+"CREW" = "Crew";
+"GUEST STARS" = "Guest Stars";
+"EPISODE IMAGES" = "Episode Images";
+"SEASON REGULARS" = "Season Regulars";
+"MALE" = "Male";
+"FEMALE" = "Female";
+"VIDEOS" = "Videos";

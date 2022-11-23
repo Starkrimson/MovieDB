@@ -7,84 +7,92 @@
 
 import SwiftUI
 import CoreData
+import ComposableArchitecture
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+    let store: StoreOf<MovieDBReducer> = .init(
+        initialState: .init(),
+        reducer: MovieDBReducer()
+    )
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+        WithViewStore(store) {
+            $0
+        } content: { viewStore in
+            NavigationSplitView {
+                List(
+                    selection: viewStore.binding(
+                        get: { $0.selectedTab },
+                        send: MovieDBReducer.Action.tabSelected
+                    )
+                ) {
+                    Section("MovieDB") {
+                        ForEach(MovieDBReducer.Tab.allCases.filter { $0 != .search }) { item in
+                            Label(item.rawValue.localized, systemImage: item.systemImage)
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                .searchable(
+                    text: viewStore.binding(\.search.$query),
+                    placement: .sidebar,
+                    prompt: "SEARCH PLACEHOLDER".localized
+                )
+                .onSubmit(of: .search) {
+                    viewStore.send(.search(.search()))
                 }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+            } detail: {
+                NavigationStack {
+                    switch viewStore.selectedTab {
+                    case .search:
+                        SearchResultsView(store: store.scope(
+                            state: \.search, action: MovieDBReducer.Action.search)
+                        )
+
+                    case .discover:
+                        DiscoverView(
+                            store: store.scope(
+                                state: \.discover,
+                                action: MovieDBReducer.Action.discover
+                            )
+                        )
+
+                    case .movies:
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.movies,
+                                action: MovieDBReducer.Action.movies
+                            )
+                        )
+
+                    case .tvShows:
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.tvShows,
+                                action: MovieDBReducer.Action.tvShows
+                            )
+                        )
+
+                    case .people:
+                        DiscoverMediaView(
+                            store: store.scope(
+                                state: \.people,
+                                action: MovieDBReducer.Action.people
+                            )
+                        )
+
+                    case .none:
+                        EmptyView()
                     }
                 }
-            }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
+#if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView()
     }
 }
+#endif

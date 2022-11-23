@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings
+  MovieDB
+
+  Created by allie on 7/11/2022.
+  
+*/
+
+"LANGUAGE" = "zh";
+"DISCOVER" = "探索";
+"MOVIES" = "电影";
+"TV SHOWS" = "剧集";
+"SEARCH PLACEHOLDER" = "搜索电影、剧集、人物...";
+"SEARCH RESULTS TITLE" = "“%@”的结果";
+"WELCOME TITLE" = "欢迎。";
+"WELCOME CONTENT" = "这里有海量的电影、剧集和人物等你来发现。快来探索吧！";
+"NOT FOUND" = "未找到";
+"POPULAR" = "热门";
+"TRENDING" = "趋势";
+"TOP RATED" = "高分";
+"TODAY" = "今日";
+"THIS WEEK" = "本周";
+"LOAD MORE" = "载入更多";
+"FILTERS" = "筛选";
+"SORT" = "排序";
+"MINIMUM USER VOTES" = "评分人数不少于";
+"RESET" = "重置";
+"USER SCORE" = "评分";
+"MINIMUM" = "最小";
+"MAXIMUM" = "最大";
+"POPULAR PEOPLE" = "热门人物";
+"MINUTES" = "分钟";
+"OVERVIEW" = "剧情简介";
+"TOP BILLED CAST" = "主演";
+"FULL CAST & CREW" = "完整演职员表";
+"MEDIA" = "媒体";
+"BACKDROPS" = "剧照";
+"POSTERS" = "海报";
+"VIEW ALL" = "查看全部";
+"VIEW MORE" = "查看更多";
+"PART OF COLLECTION" = "%@之一";
+"VIEW THE COLLECTION" = "查看电影系列";
+"RECOMMENDATIONS" = "推荐";
+"ORIGINAL LANGUAGE" = "原始语言";
+"BUDGET" = "预算";
+"REVENUE" = "票房";
+"ORIGINAL TITLE" = "原产地片名";
+"STATUS" = "状态";
+"CURRENT SEASON" = "当前季";
+"VIEW ALL SEASONS" = "查看全部季";
+"EPISODES" = "集";
+"NETWORK" = "电视网";
+"TYPE" = "类型";
+"KNOWN FOR" = "代表作";
+"GENDER" = "性别";
+"BIRTHDAY" = "生日";
+"PLACE OF BIRTH" = "出生地";
+"ALSO KNOWN AS" = "又名";
+"AS" = "饰演";
+"VIEW ON WEB" = "浏览器中打开";
+"CREW" = "工作人员";
+"GUEST STARS" = "客串演员";
+"EPISODE IMAGES" = "本集图片";
+"SEASON REGULARS" = "季固定演员";
+"VIDEOS" = "视频";
+"MALE" = "男";
+"FEMALE" = "女";
+
+"Acting" = "参演";
+"Production" = "制片";
+"Directing" = "导演";
+"Writing" = "编剧";
+"Crew" = "制作组";
+"Creator" = "创作者";
+"Screenplay" = "剧本";
+"Producer" = "制片人";
+"Casting" = "选角";
+"Script" = "剧本";
+"Thanks" = "感谢";
+"Story" = "故事";
+"Writer" = "编剧";
+"Director" = "导演";
+"Characters" = "角色";
+"Original Film Writer" = "原创电影作家";
+"Executive Producer" = "执行制片人";
+"Sound" = "音响";
+"Costume & Make-Up" = "服装及制作";
+"Art" = "艺术";
+"Editing" = "剪辑";
+"Visual Effects" = "视效";
+"Camera" = "摄像";
+"Lighting" = "灯光";
