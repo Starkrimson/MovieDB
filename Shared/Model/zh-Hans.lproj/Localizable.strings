@@ -65,6 +65,8 @@
 "VIDEOS" = "视频";
 "MALE" = "男";
 "FEMALE" = "女";
+"LIBRARY" = "资料库";
+"FAVOURITE" = "喜爱";
 
 "Acting" = "参演";
 "Production" = "制片";

@@ -19,6 +19,8 @@ struct MovieDBReducer: ReducerProtocol {
         case tvShows = "TV SHOWS"
         case people = "POPULAR PEOPLE"
 
+        case favourite = "FAVOURITE"
+
         var systemImage: String {
             switch self {
             case .search: return "magnifyingglass"
@@ -26,6 +28,7 @@ struct MovieDBReducer: ReducerProtocol {
             case .movies: return "popcorn"
             case .tvShows: return "sparkles.tv"
             case .people: return "person.2"
+            case .favourite: return "heart"
             }
         }
     }
