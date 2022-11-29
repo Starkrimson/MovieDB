@@ -45,9 +45,9 @@ struct DetailView: View {
             .toolbar {
                 ToolbarItem {
                     Button {
-
+                        viewStore.send(.markAsFavourite)
                     } label: {
-                        Label("FAVOURITE".localized, systemImage: "heart")
+                        Label("FAVOURITE".localized, systemImage: viewStore.isFavourite ? "heart.fill" : "heart")
                     }
                 }
             }

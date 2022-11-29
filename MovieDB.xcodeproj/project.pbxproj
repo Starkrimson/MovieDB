@@ -18,6 +18,7 @@
 		0948CF90289D1A0C00EC69C3 /* MediaGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0948CF8F289D1A0C00EC69C3 /* MediaGrid.swift */; };
 		0952C8FA2897751600E3A7D8 /* DiscoverMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0952C8F92897751600E3A7D8 /* DiscoverMediaView.swift */; };
 		0952C8FD289776A600E3A7D8 /* DiscoverMediaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0952C8FC289776A600E3A7D8 /* DiscoverMediaState.swift */; };
+		095990E5292E091C0064EFBA /* PersistenceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095990E4292E091C0064EFBA /* PersistenceClient.swift */; };
 		09615959286E89240001F593 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615958286E89230001F593 /* DiscoverView.swift */; };
 		09615961286EA6410001F593 /* DiscoverHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615960286EA6410001F593 /* DiscoverHeader.swift */; };
 		09615964286EA6D20001F593 /* DiscoverSectionTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09615963286EA6D20001F593 /* DiscoverSectionTitle.swift */; };
@@ -102,6 +103,7 @@
 		0948CF8F289D1A0C00EC69C3 /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
 		0952C8F92897751600E3A7D8 /* DiscoverMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverMediaView.swift; sourceTree = "<group>"; };
 		0952C8FC289776A600E3A7D8 /* DiscoverMediaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverMediaState.swift; sourceTree = "<group>"; };
+		095990E4292E091C0064EFBA /* PersistenceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceClient.swift; sourceTree = "<group>"; };
 		09615958286E89230001F593 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		09615960286EA6410001F593 /* DiscoverHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverHeader.swift; sourceTree = "<group>"; };
 		09615963286EA6D20001F593 /* DiscoverSectionTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSectionTitle.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 			children = (
 				096A1A7D287BFE7B00C3C412 /* AppError.swift */,
 				096A1A7A287BFDEB00C3C412 /* MovieDBClient.swift */,
+				095990E4292E091C0064EFBA /* PersistenceClient.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				09615959286E89240001F593 /* DiscoverView.swift in Sources */,
 				09BC21E0289109110074A46E /* URLImage.swift in Sources */,
 				0952C8FA2897751600E3A7D8 /* DiscoverMediaView.swift in Sources */,
+				095990E5292E091C0064EFBA /* PersistenceClient.swift in Sources */,
 				09CD646D2924923300F45376 /* ImageBrowser.swift in Sources */,
 				0929EDB8286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
 				09F295F8291DE52B00D0F28E /* MediaFilterMenu.swift in Sources */,
