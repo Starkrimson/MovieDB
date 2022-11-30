@@ -88,7 +88,12 @@ struct ContentView: View {
                         )
 
                     case .favourite:
-                        Text("fav")
+                        FavouriteList(
+                            store: store.scope(
+                                state: \.favourites,
+                                action: MovieDBReducer.Action.favourites
+                            )
+                        )
 
                     case .none:
                         EmptyView()

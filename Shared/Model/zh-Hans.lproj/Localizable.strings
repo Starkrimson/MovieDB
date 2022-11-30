@@ -67,6 +67,9 @@
 "FEMALE" = "女";
 "LIBRARY" = "资料库";
 "FAVOURITE" = "喜爱";
+"MY FAVOURITES" = "我的最爱";
+"MARK AS FAVOURITE" = "标记为我的最爱";
+"REMOVE FROM YOUR FAVORITE LIST" = "从「我的最爱」片单删除";
 
 "Acting" = "参演";
 "Production" = "制片";

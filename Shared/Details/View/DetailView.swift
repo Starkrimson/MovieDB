@@ -49,6 +49,11 @@ struct DetailView: View {
                     } label: {
                         Label("FAVOURITE".localized, systemImage: viewStore.isFavourite ? "heart.fill" : "heart")
                     }
+                    .help(
+                        viewStore.isFavourite
+                        ? "REMOVE FROM YOUR FAVORITE LIST".localized
+                        : "MARK AS FAVOURITE".localized
+                    )
                 }
             }
             .navigationTitle(viewStore.media.displayName)

@@ -58,9 +58,7 @@ extension PersistenceClient: DependencyKey {
         request.predicate = .init(format: "id == %i", id)
         return try PersistenceController.shared.container.viewContext.fetch(request).first
     }
-}
 
-extension PersistenceClient {
     static var previewValue: PersistenceClient = Self { mark  in
         switch mark {
         case .favourite(let media):
@@ -72,10 +70,12 @@ extension PersistenceClient {
             return nil
         }
     } favouriteList: {
-        (0..<5).map {
+        mockMedias.map {
             let favourite = Favourite(context: PersistenceController.preview.container.viewContext)
-            favourite.id = 30 + Int32($0)
-            favourite.mediaType = "movie"
+            favourite.id = Int32($0.id ?? 0)
+            favourite.mediaType = $0.mediaType?.rawValue
+            favourite.title = $0.displayName
+            favourite.posterPath = $0.posterPath ?? $0.profilePath
             return favourite
         }
     } favouriteItem: { _ in
