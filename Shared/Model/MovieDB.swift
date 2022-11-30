@@ -7,9 +7,25 @@
 
 import Foundation
 
-enum MediaType: String, Codable {
-    case all, movie, person
+enum MediaType: String, Codable, CaseIterable, Identifiable {
+    var id: Self { self }
+
+    case all, movie
     case tvShow = "tv"
+    case person
+
+    var localizedDescription: String {
+        switch self {
+        case .tvShow:
+            return "TV SHOWS".localized
+        case .movie:
+            return "MOVIES".localized
+        case .person:
+            return "PEOPLE".localized
+        case .all:
+            return "ALL".localized
+        }
+    }
 
     init(from decoder: Decoder) throws {
         let value = try decoder.singleValueContainer().decode(String.self)

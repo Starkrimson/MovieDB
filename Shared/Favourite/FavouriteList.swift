@@ -32,6 +32,45 @@ struct FavouriteList: View {
                 await viewStore.send(.fetchFavouriteList).finish()
             }
             .navigationTitle("MY FAVOURITES".localized)
+            .toolbar {
+                ToolbarItem {
+                    Picker(
+                        viewStore.selectedMediaType.localizedDescription,
+                        selection: viewStore.binding(\.$selectedMediaType)
+                    ) {
+                        ForEach(MediaType.allCases) {
+                            Text($0.localizedDescription)
+                        }
+                    }
+                }
+                ToolbarItem {
+                    Menu {
+                        Picker(
+                            "FILTER BY".localized,
+                            selection: viewStore.binding(\.$sortByKeyPath)
+                        ) {
+                            ForEach(viewStore.keyPaths, id: \.self) { keyPath in
+                                Text("\(keyPath.label.localized)")
+                            }
+                        }
+                        .pickerStyle(.inline)
+
+                        Picker(
+                            "ORDER".localized,
+                            selection: viewStore.binding(\.$ascending)
+                        ) {
+                            ForEach([true, false], id: \.self) {
+                                Text($0 ? "ASCENDING".localized : "DESCENDING".localized)
+                            }
+                        }
+                        .pickerStyle(.inline)
+                    } label: {
+                        Text(viewStore.sortByKeyPath.label.localized
+                             + " "
+                             + (viewStore.ascending ? "ASCENDING".localized : "DESCENDING".localized))
+                    }
+                }
+            }
         }
     }
 }

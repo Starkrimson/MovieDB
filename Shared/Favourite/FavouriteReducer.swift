@@ -11,11 +11,21 @@ import ComposableArchitecture
 struct FavouriteReducer: ReducerProtocol {
 
     struct State: Equatable {
-        var selectedMediaType = MediaType.all
+        @BindableState var selectedMediaType = MediaType.all
+        @BindableState var sortByKeyPath: PartialKeyPath<Favourite> = \Favourite.dateAdded
+        @BindableState var ascending: Bool = false
+        let keyPaths = [
+            \Favourite.dateAdded,
+            \Favourite.releaseDate,
+            \Favourite.title
+        ]
+
         var list: IdentifiedArrayOf<DetailReducer.State> = []
     }
 
-    enum Action: Equatable {
+    enum Action: Equatable, BindableAction {
+        case binding(_ action: BindingAction<State>)
+
         case fetchFavouriteList
         case fetchFavouriteListDone(TaskResult<[Favourite]>)
 
@@ -25,14 +35,22 @@ struct FavouriteReducer: ReducerProtocol {
     @Dependency(\.persistenceClient) var persistenceClient
 
     var body: some ReducerProtocol<State, Action> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
+            case .binding:
+                return .task { .fetchFavouriteList }
+
             case .fetchFavouriteList:
-                return .task {
+                return .task { [state = state] in
                     await .fetchFavouriteListDone(TaskResult<[Favourite]> {
-                        try persistenceClient.favouriteList()
+                        try persistenceClient.favouriteList(
+                            state.selectedMediaType,
+                            (state.sortByKeyPath, state.ascending)
+                        )
                     })
                 }
+                .animation()
 
             case .fetchFavouriteListDone(.success(let favourites)):
                 state.list = .init(uniqueElements: favourites.map {
