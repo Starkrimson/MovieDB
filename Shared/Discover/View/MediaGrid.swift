@@ -17,15 +17,13 @@ struct MediaGrid: View {
         VStack {
             GridLayout(estimatedItemWidth: 200) {
                 ForEach(list) { item in
-                    NavigationLink {
-                        DetailView(store: .init(
+                    DetailItem(
+                        store: .init(
                             initialState: .init(media: item),
                             reducer: DetailReducer()
-                        ))
-                    } label: {
-                        MediaItem(media: item, imageSize: .aspectRatio)
-                    }
-                    .buttonStyle(.plain)
+                        ),
+                        imageSize: .aspectRatio
+                    )
                 }
             }
             if canLoadMore {

@@ -58,7 +58,8 @@ struct FavouriteReducer: ReducerProtocol {
                 })
                 return .none
 
-            case .fetchFavouriteListDone:
+            case .fetchFavouriteListDone(.failure(let error)):
+                customDump(error)
                 return .none
 
             case .media:

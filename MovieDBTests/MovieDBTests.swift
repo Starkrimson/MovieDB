@@ -44,6 +44,7 @@ final class MovieDBTests: XCTestCase {
         )
 
         _ = await store.send(.fetchDetails)
+        await store.receive(.favouriteResult(.success(nil)))
         await store.receive(.fetchDetailsResponse(.success(.movie(mockMovies[0])))) {
             $0.status = .normal
             $0.detail = .movie(.init(mockMovies[0]))
@@ -59,7 +60,7 @@ final class MovieDBTests: XCTestCase {
         _ = await store.send(.fetchDetails) {
             $0.status = .loading
         }
-
+        await store.receive(.favouriteResult(.success(nil)))
         await store.receive(.fetchDetailsResponse(.success(.tvShow(mockTVShows[0])))) {
             $0.status = .normal
             $0.detail = .tvShow(.init(mockTVShows[0]))

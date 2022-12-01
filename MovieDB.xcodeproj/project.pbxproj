@@ -16,6 +16,7 @@
 		092E211B2887913100DDF596 /* TV.json in Resources */ = {isa = PBXBuildFile; fileRef = 092E211A2887913100DDF596 /* TV.json */; };
 		093936D6288A3678008C869C /* KnownFor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093936D5288A3678008C869C /* KnownFor.swift */; };
 		0948CF90289D1A0C00EC69C3 /* MediaGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0948CF8F289D1A0C00EC69C3 /* MediaGrid.swift */; };
+		094AE15029385CF3007EECF8 /* FavouriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094AE14F29385CF3007EECF8 /* FavouriteTests.swift */; };
 		0952C8FA2897751600E3A7D8 /* DiscoverMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0952C8F92897751600E3A7D8 /* DiscoverMediaView.swift */; };
 		0952C8FD289776A600E3A7D8 /* DiscoverMediaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0952C8FC289776A600E3A7D8 /* DiscoverMediaState.swift */; };
 		095990E5292E091C0064EFBA /* PersistenceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095990E4292E091C0064EFBA /* PersistenceClient.swift */; };
@@ -104,6 +105,7 @@
 		092E211A2887913100DDF596 /* TV.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TV.json; sourceTree = "<group>"; };
 		093936D5288A3678008C869C /* KnownFor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnownFor.swift; sourceTree = "<group>"; };
 		0948CF8F289D1A0C00EC69C3 /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
+		094AE14F29385CF3007EECF8 /* FavouriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTests.swift; sourceTree = "<group>"; };
 		0952C8F92897751600E3A7D8 /* DiscoverMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverMediaView.swift; sourceTree = "<group>"; };
 		0952C8FC289776A600E3A7D8 /* DiscoverMediaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverMediaState.swift; sourceTree = "<group>"; };
 		095990E4292E091C0064EFBA /* PersistenceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceClient.swift; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 			children = (
 				09937473287C25BE00253F1D /* MovieDBTests.swift */,
 				09F295FB291E49E000D0F28E /* MediaGridTests.swift */,
+				094AE14F29385CF3007EECF8 /* FavouriteTests.swift */,
 			);
 			path = MovieDBTests;
 			sourceTree = "<group>";
@@ -650,6 +653,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09F295FC291E49E000D0F28E /* MediaGridTests.swift in Sources */,
+				094AE15029385CF3007EECF8 /* FavouriteTests.swift in Sources */,
 				09F0264428867CBE009DAC1F /* MovieDBTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
