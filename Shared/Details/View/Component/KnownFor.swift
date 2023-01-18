@@ -16,15 +16,10 @@ extension PersonDetailView {
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
                     ForEach(knownFor) { item in
-                        NavigationLink {
-                            DetailView(store: .init(
-                                initialState: .init(media: .from(item)),
-                                reducer: DetailReducer()
-                            ))
-                        } label: {
-                            MediaItem(media: .from(item))
-                        }
-                        .buttonStyle(.plain)
+                        DetailItem(store: .init(
+                            initialState: .init(media: .from(item)),
+                            reducer: DetailReducer()
+                        ))
                     }
                 }
                 .padding(.horizontal)

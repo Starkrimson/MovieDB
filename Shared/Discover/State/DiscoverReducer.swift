@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct DiscoverReducer: ReducerProtocol {
 
     struct State: Equatable {
-        var backdropPath: String?
+        var randomMedia: Media?
 
         @BindableState var popularIndex: Int = 0
         var popularMovies: IdentifiedArrayOf<DetailReducer.State> = []
@@ -102,7 +102,7 @@ struct DiscoverReducer: ReducerProtocol {
                 .animation()
 
             case let .fetchTrendingDone(mediaType: _, timeWindow: .day, result: .success(results)):
-                state.backdropPath = results.randomElement()?.backdropPath
+                state.randomMedia = results.randomElement()
                 state.dailyTrending = .init(uniqueElements: results.map { media in
                     DetailReducer.State(media: media)
                 })

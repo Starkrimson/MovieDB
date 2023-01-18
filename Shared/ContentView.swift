@@ -15,6 +15,11 @@ struct ContentView: View {
         reducer: MovieDBReducer()
     )
 
+    let tabs: [(title: String, items: [MovieDBReducer.Tab])] = [
+        ("MovieDB", [.discover, .movies, .tvShows, .people]),
+        ("LIBRARY".localized, [.favourite])
+    ]
+
     var body: some View {
         WithViewStore(store) {
             $0
@@ -26,9 +31,11 @@ struct ContentView: View {
                         send: MovieDBReducer.Action.tabSelected
                     )
                 ) {
-                    Section("MovieDB") {
-                        ForEach(MovieDBReducer.Tab.allCases.filter { $0 != .search }) { item in
-                            Label(item.rawValue.localized, systemImage: item.systemImage)
+                    ForEach(tabs, id: \.title) { section in
+                        Section(section.title) {
+                            ForEach(section.items) { item in
+                                Label(item.rawValue.localized, systemImage: item.systemImage)
+                            }
                         }
                     }
                 }
@@ -77,6 +84,14 @@ struct ContentView: View {
                             store: store.scope(
                                 state: \.people,
                                 action: MovieDBReducer.Action.people
+                            )
+                        )
+
+                    case .favourite:
+                        FavouriteList(
+                            store: store.scope(
+                                state: \.favourites,
+                                action: MovieDBReducer.Action.favourites
                             )
                         )
 

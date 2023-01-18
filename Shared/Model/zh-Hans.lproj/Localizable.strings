@@ -10,6 +10,8 @@
 "DISCOVER" = "探索";
 "MOVIES" = "电影";
 "TV SHOWS" = "剧集";
+"PEOPLE" = "人物";
+"ALL" = "全部";
 "SEARCH PLACEHOLDER" = "搜索电影、剧集、人物...";
 "SEARCH RESULTS TITLE" = "“%@”的结果";
 "WELCOME TITLE" = "欢迎。";
@@ -65,6 +67,18 @@
 "VIDEOS" = "视频";
 "MALE" = "男";
 "FEMALE" = "女";
+"LIBRARY" = "资料库";
+"FAVOURITE" = "喜爱";
+"MY FAVOURITES" = "我的最爱";
+"MARK AS FAVOURITE" = "标记为我的最爱";
+"REMOVE FROM YOUR FAVORITE LIST" = "从「我的最爱」片单删除";
+"FILTER BY" = "筛选";
+"ORDER" = "排序";
+"DATE ADDED" = "添加日期";
+"RELEASE DATE" = "发行日期";
+"NAME" = "名称";
+"ASCENDING" = "升序";
+"DESCENDING" = "降序";
 
 "Acting" = "参演";
 "Production" = "制片";

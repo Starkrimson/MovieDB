@@ -107,6 +107,10 @@ struct DetailReducer: ReducerProtocol {
         var detail: DetailState?
 
         var status: ViewStatus = .loading
+
+        var favourite: Favourite?
+
+        var isFavourite: Bool { favourite != nil }
     }
 
     enum DetailState: Equatable, Hashable {
@@ -118,9 +122,13 @@ struct DetailReducer: ReducerProtocol {
     enum Action: Equatable {
         case fetchDetails
         case fetchDetailsResponse(TaskResult<DetailModel>)
+
+        case markAsFavourite
+        case favouriteResult(TaskResult<Favourite?>)
     }
 
     @Dependency(\.dbClient) var dbClient
+    @Dependency(\.persistenceClient) var persistenceClient
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
@@ -129,13 +137,20 @@ struct DetailReducer: ReducerProtocol {
             switch action {
             case .fetchDetails:
                 state.status = .loading
-                return .task { [media = state.media] in
-                    await .fetchDetailsResponse(TaskResult<DetailModel> {
-                        try await dbClient.details(media.mediaType ?? .movie, media.id ?? 0)
-                    })
-                }
-                .animation()
-                .cancellable(id: DetailID.self)
+                return .merge(
+                    .task { [media = state.media] in
+                        await .fetchDetailsResponse(TaskResult<DetailModel> {
+                            try await dbClient.details(media.mediaType ?? .movie, media.id ?? 0)
+                        })
+                    }
+                    .animation()
+                    .cancellable(id: DetailID.self),
+                    .task { [id = state.media.id] in
+                        await .favouriteResult(TaskResult<Favourite?> {
+                            try persistenceClient.favouriteItem(id)
+                        })
+                    }
+                )
 
             case .fetchDetailsResponse(.success(let detail)):
                 state.status = .normal
@@ -151,6 +166,24 @@ struct DetailReducer: ReducerProtocol {
 
             case .fetchDetailsResponse(.failure(let error)):
                 state.status = .error(error.localizedDescription)
+                customDump(error)
+                return .none
+
+            case.markAsFavourite:
+                return .task { [media = state.media, favourite = state.favourite] in
+                    await .favouriteResult(TaskResult<Favourite?> {
+                        if let favourite {
+                            return try persistenceClient.favourite(.remove(favourite))
+                        }
+                        return try persistenceClient.favourite(.favourite(media))
+                    })
+                }
+
+            case .favouriteResult(.success(let favourite)):
+                state.favourite = favourite
+                return .none
+
+            case .favouriteResult(.failure(let error)):
                 customDump(error)
                 return .none
             }

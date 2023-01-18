@@ -42,6 +42,20 @@ struct DetailView: View {
                     }
                 }
             }
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        viewStore.send(.markAsFavourite)
+                    } label: {
+                        Label("FAVOURITE".localized, systemImage: viewStore.isFavourite ? "heart.fill" : "heart")
+                    }
+                    .help(
+                        viewStore.isFavourite
+                        ? "REMOVE FROM YOUR FAVORITE LIST".localized
+                        : "MARK AS FAVOURITE".localized
+                    )
+                }
+            }
             .navigationTitle(viewStore.media.displayName)
             .task {
                 viewStore.send(.fetchDetails)

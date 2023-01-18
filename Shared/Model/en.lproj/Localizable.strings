@@ -10,6 +10,8 @@
 "DISCOVER" = "Discover";
 "MOVIES" = "Movies";
 "TV SHOWS" = "TV Shows";
+"PEOPLE" = "People";
+"ALL" = "All";
 "SEARCH PLACEHOLDER" = "Search for a movie, tv show, person...";
 "SEARCH RESULTS TITLE" = "\"%@\" results";
 "WELCOME TITLE" = "Welcome.";
@@ -65,3 +67,15 @@
 "MALE" = "Male";
 "FEMALE" = "Female";
 "VIDEOS" = "Videos";
+"LIBRARY" = "Library";
+"FAVOURITE" = "Favourite";
+"MY FAVOURITES" = "My Favourites";
+"MARK AS FAVOURITE" = "Mark as favourite";
+"REMOVE FROM YOUR FAVORITE LIST" = "Remove from your favorite list";
+"FILTER BY" = "Filter by";
+"ORDER" = "Order";
+"DATE ADDED" = "Date Added";
+"RELEASE DATE" = "Release Date";
+"NAME" = "Name";
+"ASCENDING" = "Ascending";
+"DESCENDING" = "Descending";

@@ -98,6 +98,18 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
             posterPath: combinedCredit.posterPath
         )
     }
+
+    static func from(_ favourite: Favourite) -> Media {
+        .init(
+            title: favourite.title,
+            releaseDate: favourite.releaseDate,
+            mediaType: .init(rawValue: favourite.mediaType ?? ""),
+            backdropPath: favourite.backdropPath,
+            id: Int(favourite.id),
+            overview: favourite.overview,
+            posterPath: favourite.posterPath
+        )
+    }
 }
 
 extension Media {

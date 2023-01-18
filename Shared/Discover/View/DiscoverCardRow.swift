@@ -18,16 +18,7 @@ extension DiscoverView {
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
                     ForEachStore(store) { detailStore in
-                        WithViewStore(detailStore) {
-                            $0
-                        } content: { detailViewStore in
-                            NavigationLink {
-                                DetailView(store: detailStore)
-                            } label: {
-                                MediaItem(media: detailViewStore.media)
-                            }
-                            .buttonStyle(.plain)
-                        }
+                        DetailItem(store: detailStore)
                     }
                 }
                 .padding()
