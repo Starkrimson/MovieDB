@@ -16,7 +16,7 @@ struct DiscoverView: View {
             $0
         } content: { viewStore in
             ScrollView {
-                Header(backdropPath: viewStore.backdropPath)
+                Header(media: viewStore.randomMedia)
                 if let error = viewStore.error {
                     ErrorTips(error: error)
                 }
