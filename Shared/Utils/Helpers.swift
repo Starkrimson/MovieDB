@@ -51,6 +51,22 @@ extension String {
         URL(string: "http://youtube.com/watch?v=\(self)")
     }
 
+    func imdbURL(mediaType: MediaType) -> URL? {
+        URL(string: "https://www.imdb.com/\(mediaType == .person ? "name" : "title")/\(self)")
+    }
+
+    var facebookURL: URL? {
+        URL(string: "https://www.facebook.com/\(self)")
+    }
+
+    var twitterURL: URL? {
+        URL(string: "https://twitter.com/\(self)")
+    }
+
+    var instagramURL: URL? {
+        URL(string: "https://instagram.com/\(self)")
+    }
+
     var localized: String {
         localized(comment: "")
     }
@@ -61,6 +77,12 @@ extension String {
 
     func localized(comment: String = "", arguments: CVarArg...) -> String {
         String(format: localized(comment: ""), arguments: arguments)
+    }
+}
+
+extension Int {
+    func tmdbURL(mediaType: MediaType) -> URL? {
+        URL(string: "https://www.themoviedb.org/\(mediaType.rawValue)/\(self)?language=\("LANGUAGE".localized)")
     }
 }
 

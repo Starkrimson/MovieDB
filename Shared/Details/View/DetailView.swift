@@ -55,6 +55,9 @@ struct DetailView: View {
                         : "MARK AS FAVOURITE".localized
                     )
                 }
+                ToolbarItem {
+                    IfLetStore(store.scope(state: \.detail), then: ExternalLinkMenu.init)
+                }
             }
             .navigationTitle(viewStore.media.displayName)
             .task {

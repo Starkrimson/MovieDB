@@ -41,4 +41,5 @@ enum TimeWindow: String {
 enum AppendToResponse: String {
     case images, videos, credits, similar, recommendations, keywords
     case combinedCredits = "combined_credits"
+    case externalIds = "external_ids"
 }
