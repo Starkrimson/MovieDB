@@ -56,7 +56,9 @@ struct DetailView: View {
                     )
                 }
                 ToolbarItem {
-                    IfLetStore(store.scope(state: \.detail), then: ExternalLinkMenu.init)
+                    IfLetStore(store.scope(state: \.detail)) {
+                        ExternalLinkMenu(displayName: viewStore.media.displayName, store: $0)
+                    }
                 }
             }
             .navigationTitle(viewStore.media.displayName)
