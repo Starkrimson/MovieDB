@@ -11,12 +11,12 @@ import ComposableArchitecture
 struct MediaFilterReducer: ReducerProtocol {
 
     struct State: Equatable {
-        @BindableState var sortBy: String = "popularity.desc"
+        @BindingState var sortBy: String = "popularity.desc"
 
-        @BindableState var minimumUserScore: Int = 0
-        @BindableState var maximumUserScore: Int = 10
+        @BindingState var minimumUserScore: Int = 0
+        @BindingState var maximumUserScore: Int = 10
 
-        @BindableState var minimumUserVotes: Int = 0
+        @BindingState var minimumUserVotes: Int = 0
 
         var filters: [URL.DiscoverQueryItem] {
             [

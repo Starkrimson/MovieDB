@@ -15,7 +15,7 @@ enum ViewStatus: Equatable, Hashable {
 struct SearchReducer: ReducerProtocol {
 
     struct State: Equatable {
-        @BindableState var query: String = ""
+        @BindingState var query: String = ""
 
         var page: Int = 1
         var totalPages: Int = 1
