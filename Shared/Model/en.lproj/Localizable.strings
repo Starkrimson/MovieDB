@@ -80,3 +80,8 @@
 "ASCENDING" = "Ascending";
 "DESCENDING" = "Descending";
 "VISIT" = "Visit";
+"HOMEPAGE" = "Homepage";
+"DEFAULT" = "Default";
+"CUSTOM" = "Custom";
+"ADD NEW ITEM" = "Add new item";
+"* REPRESENTS MEDIA NAME" = "* represents media name";

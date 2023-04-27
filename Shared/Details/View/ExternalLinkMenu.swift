@@ -31,7 +31,7 @@ struct ExternalLinkMenu: View {
     func buttons(externalLinks: ExternalLinks) -> some View {
         Group {
             if let url = externalLinks.homepage {
-                Link("Homepage", destination: url)
+                Link("HOMEPAGE".localized, destination: url)
             }
             if let url = externalLinks.tmdb {
                 Link("TMDB", destination: url)

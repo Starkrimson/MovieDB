@@ -28,6 +28,8 @@
 		096A1A77287BFD7500C3C412 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A76287BFD7500C3C412 /* Media.swift */; };
 		096A1A7B287BFDEB00C3C412 /* MovieDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7A287BFDEB00C3C412 /* MovieDBClient.swift */; };
 		096A1A7E287BFE7B00C3C412 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A1A7D287BFE7B00C3C412 /* AppError.swift */; };
+		09754ED929FA150F000A3E5D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09754ED829FA150F000A3E5D /* SettingsView.swift */; };
+		09754EDB29FA1B8F000A3E5D /* ExternalLinkSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09754EDA29FA1B8F000A3E5D /* ExternalLinkSettings.swift */; };
 		097CED432884F8C600115FC6 /* Movie.json in Resources */ = {isa = PBXBuildFile; fileRef = 097CED422884F8C600115FC6 /* Movie.json */; };
 		097CED472885124F00115FC6 /* DetailOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097CED462885124F00115FC6 /* DetailOverview.swift */; };
 		097D4A9129360ED000DF3C6E /* FavouriteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D4A9029360ED000DF3C6E /* FavouriteList.swift */; };
@@ -119,6 +121,8 @@
 		096A1A76287BFD7500C3C412 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		096A1A7A287BFDEB00C3C412 /* MovieDBClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBClient.swift; sourceTree = "<group>"; };
 		096A1A7D287BFE7B00C3C412 /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		09754ED829FA150F000A3E5D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		09754EDA29FA1B8F000A3E5D /* ExternalLinkSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLinkSettings.swift; sourceTree = "<group>"; };
 		097CED422884F8C600115FC6 /* Movie.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Movie.json; sourceTree = "<group>"; };
 		097CED462885124F00115FC6 /* DetailOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOverview.swift; sourceTree = "<group>"; };
 		097D4A9029360ED000DF3C6E /* FavouriteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteList.swift; sourceTree = "<group>"; };
@@ -217,6 +221,7 @@
 				09615957286E89140001F593 /* Discover */,
 				09A05A97287FE94E003A2225 /* Details */,
 				097D4A8F29360EA700DF3C6E /* Favourite */,
+				09754ED729FA14F5000A3E5D /* Settings */,
 				0929EDA7286D93CA007C4BFB /* MovieDBApp.swift */,
 				09CE6D792918DCC3001E87F3 /* MovieDBReducer.swift */,
 				0929EDA8286D93CA007C4BFB /* ContentView.swift */,
@@ -321,6 +326,15 @@
 				095990E4292E091C0064EFBA /* PersistenceClient.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		09754ED729FA14F5000A3E5D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				09754ED829FA150F000A3E5D /* SettingsView.swift */,
+				09754EDA29FA1B8F000A3E5D /* ExternalLinkSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		097CED412884F7F600115FC6 /* Mock */ = {
@@ -609,6 +623,7 @@
 				09615967286EC3630001F593 /* DiscoverCardRow.swift in Sources */,
 				09DB369E28800D0000EFFC2B /* MovieDetailView.swift in Sources */,
 				09CD64FF2925DB7700F45376 /* EpisodeReducer.swift in Sources */,
+				09754ED929FA150F000A3E5D /* SettingsView.swift in Sources */,
 				096A1A73287BDAA500C3C412 /* DiscoverReducer.swift in Sources */,
 				09992B1A288E724300320342 /* ImageGridView.swift in Sources */,
 				09CE6D862918FAB3001E87F3 /* SearchResultsView.swift in Sources */,
@@ -623,6 +638,7 @@
 				09CD64FD2925DB3B00F45376 /* EpisodeView.swift in Sources */,
 				097CED472885124F00115FC6 /* DetailOverview.swift in Sources */,
 				09615959286E89240001F593 /* DiscoverView.swift in Sources */,
+				09754EDB29FA1B8F000A3E5D /* ExternalLinkSettings.swift in Sources */,
 				09BC21E0289109110074A46E /* URLImage.swift in Sources */,
 				0952C8FA2897751600E3A7D8 /* DiscoverMediaView.swift in Sources */,
 				095990E5292E091C0064EFBA /* PersistenceClient.swift in Sources */,
