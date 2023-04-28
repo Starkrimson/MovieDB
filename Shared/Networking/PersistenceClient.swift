@@ -12,6 +12,10 @@ struct PersistenceClient {
     var favourite: @Sendable (MarkAsFavourite) throws -> Favourite?
     var favouriteList: @Sendable (_ filterBy: MediaType, _ sortBy: SortByKeyPath<Favourite>) throws -> [Favourite]
     var favouriteItem: @Sendable (Int?) throws -> Favourite?
+
+    var externalLinks: @Sendable () throws -> [ExternalLink]
+    var addExternalLink: @Sendable (_ name: String, _ url: String) throws -> ExternalLink
+    var deleteExternalLink: @Sendable (ExternalLink) throws -> Bool
 }
 
 extension PersistenceClient {
@@ -80,6 +84,19 @@ extension PersistenceClient: DependencyKey {
         request.fetchLimit = 1
         request.predicate = .init(format: "id == %i", id)
         return try PersistenceController.shared.container.viewContext.fetch(request).first
+    } externalLinks: {
+        let request = ExternalLink.fetchRequest()
+        return try PersistenceController.shared.container.viewContext.fetch(request)
+    } addExternalLink: { name, url in
+        let link = ExternalLink(context: PersistenceController.shared.container.viewContext)
+        link.url = url
+        link.name = name
+        try PersistenceController.shared.container.viewContext.save()
+        return link
+    } deleteExternalLink: { link in
+        PersistenceController.shared.container.viewContext.delete(link)
+        try PersistenceController.shared.container.viewContext.save()
+        return true
     }
 
     static var previewValue: PersistenceClient = Self { mark  in
@@ -103,6 +120,18 @@ extension PersistenceClient: DependencyKey {
         }
     } favouriteItem: { _ in
         nil
+    } externalLinks: {
+        [("openai", "https://chat.openai.com"), ("sms-activate", "https://sms-activate.org")]
+            .map {
+                let link = ExternalLink(context: PersistenceController.preview.container.viewContext)
+                link.name = $0.0
+                link.url = $0.1
+                return link
+            }
+    } addExternalLink: { _, _ in
+        ExternalLink(context: PersistenceController.preview.container.viewContext)
+    } deleteExternalLink: { _ in
+        return false
     }
 
     static var testValue: PersistenceClient = previewValue

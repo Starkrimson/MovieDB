@@ -26,6 +26,7 @@ struct Person: Codable, Equatable, Identifiable, DBResponses, Hashable {
     // append_to_response
     var images: Media.Images?
     var combinedCredits: Media.Credits?
+    var externalIds: ExternalIds?
 
     var success: Bool?
     var statusCode: Int?
@@ -50,5 +51,18 @@ enum Gender: Int, Codable, CustomStringConvertible {
         case .female:
             return "FEMALE".localized
         }
+    }
+}
+
+extension Person {
+    var externalLinks: ExternalLinks {
+        .init(
+            homepage: URL(string: homepage ?? ""),
+            tmdb: id?.tmdbURL(mediaType: .person),
+            imdb: externalIds?.imdbId?.imdbURL(mediaType: .person),
+            facebook: externalIds?.facebookId?.facebookURL,
+            twitter: externalIds?.twitterId?.twitterURL,
+            instagram: externalIds?.instagramId?.instagramURL
+        )
     }
 }
