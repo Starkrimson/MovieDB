@@ -67,7 +67,8 @@ extension MovieDBClient: DependencyKey {
                         .videos,
                         .recommendations,
                         .keywords,
-                        mediaType == .person ? .combinedCredits : .credits
+                        mediaType == .person ? .combinedCredits : .credits,
+                        .externalIds
                     ))
                 switch mediaType {
                 case .tvShow:

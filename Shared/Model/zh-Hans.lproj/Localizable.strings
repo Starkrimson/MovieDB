@@ -79,6 +79,12 @@
 "NAME" = "名称";
 "ASCENDING" = "升序";
 "DESCENDING" = "降序";
+"VISIT" = "访问";
+"HOMEPAGE" = "主页";
+"DEFAULT" = "默认";
+"CUSTOM" = "自定义";
+"ADD NEW ITEM" = "新增";
+"* REPRESENTS MEDIA NAME" = "* 表示媒体名称";
 
 "Acting" = "参演";
 "Production" = "制片";

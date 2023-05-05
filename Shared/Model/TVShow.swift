@@ -47,6 +47,7 @@ struct TVShow: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var recommendations: PageResponses<Media>?
     var keywords: PageResponses<Genre>?
     var videos: PageResponses<Media.Video>?
+    var externalIds: ExternalIds?
 
     var success: Bool?
     var statusCode: Int?
@@ -114,4 +115,17 @@ struct Network: Codable, Equatable, Identifiable, Hashable {
     var logoPath: String?
     var name: String?
     var originCountry: String?
+}
+
+extension TVShow {
+    var externalLinks: ExternalLinks {
+        .init(
+            homepage: URL(string: homepage ?? ""),
+            tmdb: id?.tmdbURL(mediaType: .tvShow),
+            imdb: externalIds?.imdbId?.imdbURL(mediaType: .tvShow),
+            facebook: externalIds?.facebookId?.facebookURL,
+            twitter: externalIds?.twitterId?.twitterURL,
+            instagram: externalIds?.instagramId?.instagramURL
+        )
+    }
 }

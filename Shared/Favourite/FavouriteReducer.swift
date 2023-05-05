@@ -11,9 +11,9 @@ import ComposableArchitecture
 struct FavouriteReducer: ReducerProtocol {
 
     struct State: Equatable {
-        @BindableState var selectedMediaType = MediaType.all
-        @BindableState var sortByKeyPath: PartialKeyPath<Favourite> = \Favourite.dateAdded
-        @BindableState var ascending: Bool = false
+        @BindingState var selectedMediaType = MediaType.all
+        @BindingState var sortByKeyPath: PartialKeyPath<Favourite> = \Favourite.dateAdded
+        @BindingState var ascending: Bool = false
         let keyPaths = [
             \Favourite.dateAdded,
             \Favourite.releaseDate,

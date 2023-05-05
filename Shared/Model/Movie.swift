@@ -58,6 +58,7 @@ struct Movie: Codable, Equatable, Identifiable, DBResponses, Hashable {
     var recommendations: PageResponses<Media>?
     var keywords: Keywords?
     var videos: PageResponses<Media.Video>?
+    var externalIds: ExternalIds?
 
     var success: Bool?
     var statusCode: Int?
@@ -116,6 +117,13 @@ struct Keywords: Codable, Equatable, Hashable {
     var keywords: [Genre]?
 }
 
+struct ExternalIds: Codable, Equatable, Hashable {
+    var imdbId: String?
+    var facebookId: String?
+    var instagramId: String?
+    var twitterId: String?
+}
+
 extension Movie {
 
     struct Collection: Codable, Equatable, Identifiable, DBResponses {
@@ -129,5 +137,16 @@ extension Movie {
         var success: Bool?
         var statusCode: Int?
         var statusMessage: String?
+    }
+
+    var externalLinks: ExternalLinks {
+        .init(
+            homepage: URL(string: homepage ?? ""),
+            tmdb: id?.tmdbURL(mediaType: .movie),
+            imdb: externalIds?.imdbId?.imdbURL(mediaType: .movie),
+            facebook: externalIds?.facebookId?.facebookURL,
+            twitter: externalIds?.twitterId?.twitterURL,
+            instagram: externalIds?.instagramId?.instagramURL
+        )
     }
 }

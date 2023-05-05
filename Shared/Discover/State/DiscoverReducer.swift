@@ -13,11 +13,11 @@ struct DiscoverReducer: ReducerProtocol {
     struct State: Equatable {
         var randomMedia: Media?
 
-        @BindableState var popularIndex: Int = 0
+        @BindingState var popularIndex: Int = 0
         var popularMovies: IdentifiedArrayOf<DetailReducer.State> = []
         var popularTVShows: IdentifiedArrayOf<DetailReducer.State> = []
 
-        @BindableState var trendingIndex: Int = 0
+        @BindingState var trendingIndex: Int = 0
         var dailyTrending: IdentifiedArrayOf<DetailReducer.State> = []
         var weeklyTrending: IdentifiedArrayOf<DetailReducer.State> = []
 
