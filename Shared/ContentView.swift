@@ -25,18 +25,30 @@ struct ContentView: View {
             $0
         } content: { viewStore in
             NavigationSplitView {
-                List(
-                    selection: viewStore.binding(
-                        get: { $0.selectedTab },
-                        send: MovieDBReducer.Action.tabSelected
-                    )
-                ) {
-                    ForEach(tabs, id: \.title) { section in
-                        Section(section.title) {
-                            ForEach(section.items) { item in
-                                Label(item.rawValue.localized, systemImage: item.systemImage)
+                VStack {
+                    List(
+                        selection: viewStore.binding(
+                            get: { $0.selectedTab },
+                            send: MovieDBReducer.Action.tabSelected
+                        )
+                    ) {
+                        ForEach(tabs, id: \.title) { section in
+                            Section(section.title) {
+                                ForEach(section.items) { item in
+                                    Label(item.rawValue.localized, systemImage: item.systemImage)
+                                }
                             }
                         }
+                    }
+                    Spacer()
+                    Link(destination: URL(string: "https://www.themoviedb.org")!) {
+                        HStack(spacing: 3) {
+                            Image(systemName: "globe")
+                            Text("themoviedb.org")
+                        }
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .padding(.bottom, 6)
                     }
                 }
                 .searchable(
