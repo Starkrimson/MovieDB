@@ -173,9 +173,9 @@ struct DetailReducer: ReducerProtocol {
                 return .task { [media = state.media, favourite = state.favourite] in
                     await .favouriteResult(TaskResult<Favourite?> {
                         if let favourite {
-                            return try persistenceClient.favourite(.remove(favourite))
+                            return try persistenceClient.deleteFromDatabase(favourite) as? Favourite
                         }
-                        return try persistenceClient.favourite(.favourite(media))
+                        return try persistenceClient.addItemToDatabase(.favourite(media)) as? Favourite
                     })
                 }
 

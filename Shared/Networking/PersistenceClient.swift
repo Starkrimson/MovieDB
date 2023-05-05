@@ -7,21 +7,22 @@
 
 import Foundation
 import ComposableArchitecture
+import CoreData
 
 struct PersistenceClient {
-    var favourite: @Sendable (MarkAsFavourite) throws -> Favourite?
+    var addItemToDatabase: @Sendable (Item) throws -> NSManagedObject?
+    var deleteFromDatabase: @Sendable (NSManagedObject) throws -> NSManagedObject?
+
     var favouriteList: @Sendable (_ filterBy: MediaType, _ sortBy: SortByKeyPath<Favourite>) throws -> [Favourite]
     var favouriteItem: @Sendable (Int?) throws -> Favourite?
 
     var externalLinks: @Sendable () throws -> [ExternalLink]
-    var addExternalLink: @Sendable (_ name: String, _ url: String) throws -> ExternalLink
-    var deleteExternalLink: @Sendable (ExternalLink) throws -> Bool
 }
 
 extension PersistenceClient {
-    enum MarkAsFavourite {
-        case remove(Favourite)
+    enum Item {
         case favourite(Media)
+        case externalLink(name: String, url: String)
     }
 
     typealias SortByKeyPath<Root> = (keyPath: PartialKeyPath<Root>, ascending: Bool)
@@ -51,9 +52,9 @@ extension DependencyValues {
 }
 
 extension PersistenceClient: DependencyKey {
-    static var liveValue: PersistenceClient = Self { mark  in
+    static var liveValue: PersistenceClient = Self { item in
         let viewContext = PersistenceController.shared.container.viewContext
-        switch mark {
+        switch item {
         case .favourite(let media):
             let favourite = Favourite(context: viewContext)
             favourite.mediaType = media.mediaType?.rawValue
@@ -66,11 +67,17 @@ extension PersistenceClient: DependencyKey {
             favourite.dateAdded = .init()
             try viewContext.save()
             return favourite
-        case .remove(let favourite):
-            viewContext.delete(favourite)
+        case let .externalLink(name, url):
+            let link = ExternalLink(context: PersistenceController.shared.container.viewContext)
+            link.url = url
+            link.name = name
             try viewContext.save()
-            return nil
+            return link
         }
+    } deleteFromDatabase: {
+        PersistenceController.shared.container.viewContext.delete($0)
+        try PersistenceController.shared.container.viewContext.save()
+        return nil
     } favouriteList: { mediaType, sort in
         let request = Favourite.fetchRequest()
         if mediaType != .all {
@@ -87,28 +94,20 @@ extension PersistenceClient: DependencyKey {
     } externalLinks: {
         let request = ExternalLink.fetchRequest()
         return try PersistenceController.shared.container.viewContext.fetch(request)
-    } addExternalLink: { name, url in
-        let link = ExternalLink(context: PersistenceController.shared.container.viewContext)
-        link.url = url
-        link.name = name
-        try PersistenceController.shared.container.viewContext.save()
-        return link
-    } deleteExternalLink: { link in
-        PersistenceController.shared.container.viewContext.delete(link)
-        try PersistenceController.shared.container.viewContext.save()
-        return true
     }
 
-    static var previewValue: PersistenceClient = Self { mark  in
-        switch mark {
+    static var previewValue: PersistenceClient = Self { item  in
+        switch item {
         case .favourite(let media):
             let favourite = Favourite(context: PersistenceController.preview.container.viewContext)
             favourite.id = 30
             favourite.mediaType = "movie"
             return favourite
-        case .remove(let favourite):
-            return nil
+        case .externalLink:
+            return ExternalLink(context: PersistenceController.preview.container.viewContext)
         }
+    } deleteFromDatabase: { _ in
+        nil
     } favouriteList: { _, _ in
         mockMedias.map {
             let favourite = Favourite(context: PersistenceController.preview.container.viewContext)
@@ -121,17 +120,13 @@ extension PersistenceClient: DependencyKey {
     } favouriteItem: { _ in
         nil
     } externalLinks: {
-        [("openai", "https://chat.openai.com"), ("sms-activate", "https://sms-activate.org")]
+        [("themoviedb", "https://www.themoviedb.org")]
             .map {
                 let link = ExternalLink(context: PersistenceController.preview.container.viewContext)
                 link.name = $0.0
                 link.url = $0.1
                 return link
             }
-    } addExternalLink: { _, _ in
-        ExternalLink(context: PersistenceController.preview.container.viewContext)
-    } deleteExternalLink: { _ in
-        return false
     }
 
     static var testValue: PersistenceClient = previewValue

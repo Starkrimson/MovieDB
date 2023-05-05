@@ -25,9 +25,9 @@ struct ExternalLinkReducer: ReducerProtocol {
         case fetchExternalLinkList
         case fetchExternalLinkListDone(TaskResult<[ExternalLink]>)
         case saveURL
-        case saveURLDone(TaskResult<ExternalLink>)
+        case saveURLDone(TaskResult<ExternalLink?>)
         case deleteLink(ExternalLink)
-        case deleteLinkDone(TaskResult<Bool>)
+        case deleteLinkDone(TaskResult<ExternalLink?>)
     }
 
     @Dependency(\.persistenceClient) var persistenceClient
@@ -74,8 +74,8 @@ struct ExternalLinkReducer: ReducerProtocol {
                     url = "https://\(url)"
                 }
                 return .task { [url, name = state.newName] in
-                    await .saveURLDone(TaskResult<ExternalLink> {
-                        try persistenceClient.addExternalLink(name, url)
+                    await .saveURLDone(TaskResult<ExternalLink?> {
+                        try persistenceClient.addItemToDatabase(.externalLink(name: name, url: url)) as? ExternalLink
                     })
                 }
 
@@ -84,7 +84,9 @@ struct ExternalLinkReducer: ReducerProtocol {
                 state.isNameValid = true
                 state.newURL = ""
                 state.isURLValid = true
-                state.list.append(link)
+                if let link {
+                    state.list.append(link)
+                }
                 return .none
 
             case .saveURLDone(.failure(let error)):
@@ -93,8 +95,8 @@ struct ExternalLinkReducer: ReducerProtocol {
 
             case .deleteLink(let link):
                 return .task {
-                    await .deleteLinkDone(TaskResult<Bool> {
-                        try persistenceClient.deleteExternalLink(link)
+                    await .deleteLinkDone(TaskResult<ExternalLink?> {
+                        try persistenceClient.deleteFromDatabase(link) as? ExternalLink
                     })
                 }
 
