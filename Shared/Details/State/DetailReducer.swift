@@ -108,7 +108,7 @@ struct DetailReducer: ReducerProtocol {
 
         var status: ViewStatus = .loading
 
-        var favourite: Favourite?
+        var favourite: CDFavourite?
 
         var isFavourite: Bool { favourite != nil }
     }
@@ -124,7 +124,7 @@ struct DetailReducer: ReducerProtocol {
         case fetchDetailsResponse(TaskResult<DetailModel>)
 
         case markAsFavourite
-        case favouriteResult(TaskResult<Favourite?>)
+        case favouriteResult(TaskResult<CDFavourite?>)
     }
 
     @Dependency(\.dbClient) var dbClient
@@ -146,7 +146,7 @@ struct DetailReducer: ReducerProtocol {
                     .animation()
                     .cancellable(id: DetailID.self),
                     .task { [id = state.media.id] in
-                        await .favouriteResult(TaskResult<Favourite?> {
+                        await .favouriteResult(TaskResult<CDFavourite?> {
                             try persistenceClient.favouriteItem(id)
                         })
                     }
@@ -171,11 +171,11 @@ struct DetailReducer: ReducerProtocol {
 
             case.markAsFavourite:
                 return .task { [media = state.media, favourite = state.favourite] in
-                    await .favouriteResult(TaskResult<Favourite?> {
+                    await .favouriteResult(TaskResult<CDFavourite?> {
                         if let favourite {
-                            return try persistenceClient.deleteFromDatabase(favourite) as? Favourite
+                            return try persistenceClient.deleteFromDatabase(favourite) as? CDFavourite
                         }
-                        return try persistenceClient.addItemToDatabase(.favourite(media)) as? Favourite
+                        return try persistenceClient.addItemToDatabase(.favourite(media)) as? CDFavourite
                     })
                 }
 

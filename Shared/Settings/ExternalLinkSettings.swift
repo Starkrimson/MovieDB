@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct ExternalLinkReducer: ReducerProtocol {
 
     struct State: Equatable {
-        var list: IdentifiedArrayOf<ExternalLink> = []
+        var list: IdentifiedArrayOf<CDExternalLink> = []
 
         @BindingState var newName: String = ""
         @BindingState var isNameValid: Bool = true
@@ -23,11 +23,11 @@ struct ExternalLinkReducer: ReducerProtocol {
     enum Action: Equatable, BindableAction {
         case binding(_ action: BindingAction<State>)
         case fetchExternalLinkList
-        case fetchExternalLinkListDone(TaskResult<[ExternalLink]>)
+        case fetchExternalLinkListDone(TaskResult<[CDExternalLink]>)
         case saveURL
-        case saveURLDone(TaskResult<ExternalLink?>)
-        case deleteLink(ExternalLink)
-        case deleteLinkDone(TaskResult<ExternalLink?>)
+        case saveURLDone(TaskResult<CDExternalLink?>)
+        case deleteLink(CDExternalLink)
+        case deleteLinkDone(TaskResult<CDExternalLink?>)
     }
 
     @Dependency(\.persistenceClient) var persistenceClient
@@ -47,7 +47,7 @@ struct ExternalLinkReducer: ReducerProtocol {
 
             case .fetchExternalLinkList:
                 return .task {
-                    await .fetchExternalLinkListDone(TaskResult<[ExternalLink]> {
+                    await .fetchExternalLinkListDone(TaskResult<[CDExternalLink]> {
                         try persistenceClient.externalLinks()
                     })
                 }
@@ -74,8 +74,8 @@ struct ExternalLinkReducer: ReducerProtocol {
                     url = "https://\(url)"
                 }
                 return .task { [url, name = state.newName] in
-                    await .saveURLDone(TaskResult<ExternalLink?> {
-                        try persistenceClient.addItemToDatabase(.externalLink(name: name, url: url)) as? ExternalLink
+                    await .saveURLDone(TaskResult<CDExternalLink?> {
+                        try persistenceClient.addItemToDatabase(.externalLink(name: name, url: url)) as? CDExternalLink
                     })
                 }
 
@@ -95,8 +95,8 @@ struct ExternalLinkReducer: ReducerProtocol {
 
             case .deleteLink(let link):
                 return .task {
-                    await .deleteLinkDone(TaskResult<ExternalLink?> {
-                        try persistenceClient.deleteFromDatabase(link) as? ExternalLink
+                    await .deleteLinkDone(TaskResult<CDExternalLink?> {
+                        try persistenceClient.deleteFromDatabase(link) as? CDExternalLink
                     })
                 }
 

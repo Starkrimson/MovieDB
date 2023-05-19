@@ -13,29 +13,30 @@ struct PersistenceClient {
     var addItemToDatabase: @Sendable (Item) throws -> NSManagedObject?
     var deleteFromDatabase: @Sendable (NSManagedObject) throws -> NSManagedObject?
 
-    var favouriteList: @Sendable (_ filterBy: MediaType, _ sortBy: SortByKeyPath<Favourite>) throws -> [Favourite]
-    var favouriteItem: @Sendable (Int?) throws -> Favourite?
+    var favouriteList: @Sendable (_ filterBy: MediaType, _ sortBy: SortByKeyPath<CDFavourite>) throws -> [CDFavourite]
+    var favouriteItem: @Sendable (Int?) throws -> CDFavourite?
 
-    var externalLinks: @Sendable () throws -> [ExternalLink]
+    var externalLinks: @Sendable () throws -> [CDExternalLink]
 }
 
 extension PersistenceClient {
     enum Item {
         case favourite(Media)
+        case watch(Media)
         case externalLink(name: String, url: String)
     }
 
     typealias SortByKeyPath<Root> = (keyPath: PartialKeyPath<Root>, ascending: Bool)
 }
 
-extension PartialKeyPath where Root == Favourite {
+extension PartialKeyPath where Root == CDFavourite {
     var label: (key: String, localized: String) {
         switch self {
-        case \Favourite.dateAdded:
+        case \CDFavourite.dateAdded:
             return ("dateAdded", "DATE ADDED".localized)
-        case \Favourite.title:
+        case \CDFavourite.title:
             return ("title", "NAME".localized)
-        case \Favourite.releaseDate:
+        case \CDFavourite.releaseDate:
             return ("releaseDate", "RELEASE DATE".localized)
         default:
             assertionFailure("Unexpected key path")
@@ -56,7 +57,7 @@ extension PersistenceClient: DependencyKey {
         let viewContext = PersistenceController.shared.container.viewContext
         switch item {
         case .favourite(let media):
-            let favourite = Favourite(context: viewContext)
+            let favourite = CDFavourite(context: viewContext)
             favourite.mediaType = media.mediaType?.rawValue
             favourite.id = media.id?.int32 ?? 0
             favourite.title = media.displayName
@@ -67,8 +68,20 @@ extension PersistenceClient: DependencyKey {
             favourite.dateAdded = .init()
             try viewContext.save()
             return favourite
+        case .watch(let media):
+            let watch = CDWatch(context: viewContext)
+            watch.mediaType = media.mediaType?.rawValue
+            watch.id = media.id?.int32 ?? 0
+            watch.title = media.displayName
+            watch.overview = media.overview
+            watch.posterPath = media.posterPath ?? media.profilePath
+            watch.backdropPath = media.backdropPath
+            watch.releaseDate = media.releaseDate ?? media.firstAirDate
+            watch.dateAdded = .init()
+            try viewContext.save()
+            return watch
         case let .externalLink(name, url):
-            let link = ExternalLink(context: PersistenceController.shared.container.viewContext)
+            let link = CDExternalLink(context: PersistenceController.shared.container.viewContext)
             link.url = url
             link.name = name
             try viewContext.save()
@@ -79,7 +92,7 @@ extension PersistenceClient: DependencyKey {
         try PersistenceController.shared.container.viewContext.save()
         return nil
     } favouriteList: { mediaType, sort in
-        let request = Favourite.fetchRequest()
+        let request = NSFetchRequest<CDFavourite>(entityName: "Favourite")
         if mediaType != .all {
             request.predicate = .init(format: "mediaType == %@", mediaType.rawValue)
         }
@@ -87,30 +100,32 @@ extension PersistenceClient: DependencyKey {
         return try PersistenceController.shared.container.viewContext.fetch(request)
     } favouriteItem: { id in
         guard let id else { return nil }
-        let request = Favourite.fetchRequest()
+        let request = NSFetchRequest<CDFavourite>(entityName: "Favourite")
         request.fetchLimit = 1
         request.predicate = .init(format: "id == %i", id)
         return try PersistenceController.shared.container.viewContext.fetch(request).first
     } externalLinks: {
-        let request = ExternalLink.fetchRequest()
+        let request = CDExternalLink.fetchRequest()
         return try PersistenceController.shared.container.viewContext.fetch(request)
     }
 
     static var previewValue: PersistenceClient = Self { item  in
         switch item {
         case .favourite(let media):
-            let favourite = Favourite(context: PersistenceController.preview.container.viewContext)
+            let favourite = CDFavourite(context: PersistenceController.preview.container.viewContext)
             favourite.id = 30
             favourite.mediaType = "movie"
             return favourite
+        case .watch:
+            return CDWatch(context: PersistenceController.preview.container.viewContext)
         case .externalLink:
-            return ExternalLink(context: PersistenceController.preview.container.viewContext)
+            return CDExternalLink(context: PersistenceController.preview.container.viewContext)
         }
     } deleteFromDatabase: { _ in
         nil
     } favouriteList: { _, _ in
         mockMedias.map {
-            let favourite = Favourite(context: PersistenceController.preview.container.viewContext)
+            let favourite = CDFavourite(context: PersistenceController.preview.container.viewContext)
             favourite.id = Int32($0.id ?? 0)
             favourite.mediaType = $0.mediaType?.rawValue
             favourite.title = $0.displayName
@@ -122,7 +137,7 @@ extension PersistenceClient: DependencyKey {
     } externalLinks: {
         [("themoviedb", "https://www.themoviedb.org")]
             .map {
-                let link = ExternalLink(context: PersistenceController.preview.container.viewContext)
+                let link = CDExternalLink(context: PersistenceController.preview.container.viewContext)
                 link.name = $0.0
                 link.url = $0.1
                 return link

@@ -99,7 +99,7 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
         )
     }
 
-    static func from(_ favourite: Favourite) -> Media {
+    static func from(_ favourite: CDFavourite) -> Media {
         .init(
             title: favourite.title,
             releaseDate: favourite.releaseDate,
