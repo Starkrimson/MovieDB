@@ -17,7 +17,7 @@ struct ContentView: View {
 
     let tabs: [(title: String, items: [MovieDBReducer.Tab])] = [
         ("MovieDB", [.discover, .movies, .tvShows, .people]),
-        ("LIBRARY".localized, [.favourite])
+        ("LIBRARY".localized, [.favourite, .watchlist])
     ]
 
     var body: some View {
@@ -104,6 +104,14 @@ struct ContentView: View {
                             store: store.scope(
                                 state: \.favourites,
                                 action: MovieDBReducer.Action.favourites
+                            )
+                        )
+
+                    case .watchlist:
+                        WatchlistView(
+                            store: store.scope(
+                                state: \.watchlist,
+                                action: MovieDBReducer.Action.watchlist
                             )
                         )
 

@@ -18,6 +18,7 @@ struct PersistenceClient {
 
     var externalLinks: @Sendable () throws -> [CDExternalLink]
 
+    var watchlist: @Sendable () throws -> [CDWatch]
     var watchItem: @Sendable (Int?) throws -> CDWatch?
 }
 
@@ -109,6 +110,9 @@ extension PersistenceClient: DependencyKey {
     } externalLinks: {
         let request = CDExternalLink.fetchRequest()
         return try PersistenceController.shared.container.viewContext.fetch(request)
+    } watchlist: {
+        let request = NSFetchRequest<CDWatch>(entityName: "Watch")
+        return try PersistenceController.shared.container.viewContext.fetch(request)
     } watchItem: { id in
         guard let id else { return nil }
         let request = NSFetchRequest<CDWatch>(entityName: "Watch")
@@ -150,6 +154,8 @@ extension PersistenceClient: DependencyKey {
                 link.url = $0.1
                 return link
             }
+    } watchlist: {
+        []
     } watchItem: { _ in
         nil
     }

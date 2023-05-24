@@ -110,6 +110,18 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
             posterPath: favourite.posterPath
         )
     }
+
+    static func from(_ watch: CDWatch) -> Media {
+        .init(
+            title: watch.title,
+            releaseDate: watch.releaseDate,
+            mediaType: .init(rawValue: watch.mediaType ?? ""),
+            backdropPath: watch.backdropPath,
+            id: Int(watch.id),
+            overview: watch.overview,
+            posterPath: watch.posterPath
+        )
+    }
 }
 
 extension Media {
