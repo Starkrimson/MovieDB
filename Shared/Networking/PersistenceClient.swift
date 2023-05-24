@@ -17,6 +17,8 @@ struct PersistenceClient {
     var favouriteItem: @Sendable (Int?) throws -> CDFavourite?
 
     var externalLinks: @Sendable () throws -> [CDExternalLink]
+
+    var watchItem: @Sendable (Int?) throws -> CDWatch?
 }
 
 extension PersistenceClient {
@@ -107,6 +109,12 @@ extension PersistenceClient: DependencyKey {
     } externalLinks: {
         let request = CDExternalLink.fetchRequest()
         return try PersistenceController.shared.container.viewContext.fetch(request)
+    } watchItem: { id in
+        guard let id else { return nil }
+        let request = NSFetchRequest<CDWatch>(entityName: "Watch")
+        request.fetchLimit = 1
+        request.predicate = .init(format: "id == %i", id)
+        return try PersistenceController.shared.container.viewContext.fetch(request).first
     }
 
     static var previewValue: PersistenceClient = Self { item  in
@@ -142,6 +150,8 @@ extension PersistenceClient: DependencyKey {
                 link.url = $0.1
                 return link
             }
+    } watchItem: { _ in
+        nil
     }
 
     static var testValue: PersistenceClient = previewValue

@@ -109,8 +109,10 @@ struct DetailReducer: ReducerProtocol {
         var status: ViewStatus = .loading
 
         var favourite: CDFavourite?
-
         var isFavourite: Bool { favourite != nil }
+
+        var watchItem: CDWatch?
+        var isInWatchList: Bool { watchItem != nil }
     }
 
     enum DetailState: Equatable, Hashable {
@@ -125,6 +127,9 @@ struct DetailReducer: ReducerProtocol {
 
         case markAsFavourite
         case favouriteResult(TaskResult<CDFavourite?>)
+
+        case addToWatchList
+        case watchResult(TaskResult<CDWatch?>)
     }
 
     @Dependency(\.dbClient) var dbClient
@@ -137,19 +142,24 @@ struct DetailReducer: ReducerProtocol {
             switch action {
             case .fetchDetails:
                 state.status = .loading
-                return .merge(
+                return .concatenate(
+                    .task { [id = state.media.id] in
+                        await .favouriteResult(TaskResult<CDFavourite?> {
+                            try persistenceClient.favouriteItem(id)
+                        })
+                    },
+                    .task { [id = state.media.id] in
+                        await .watchResult(TaskResult<CDWatch?> {
+                            try persistenceClient.watchItem(id)
+                        })
+                    },
                     .task { [media = state.media] in
                         await .fetchDetailsResponse(TaskResult<DetailModel> {
                             try await dbClient.details(media.mediaType ?? .movie, media.id ?? 0)
                         })
                     }
                     .animation()
-                    .cancellable(id: DetailID.self),
-                    .task { [id = state.media.id] in
-                        await .favouriteResult(TaskResult<CDFavourite?> {
-                            try persistenceClient.favouriteItem(id)
-                        })
-                    }
+                    .cancellable(id: DetailID.self)
                 )
 
             case .fetchDetailsResponse(.success(let detail)):
@@ -184,6 +194,24 @@ struct DetailReducer: ReducerProtocol {
                 return .none
 
             case .favouriteResult(.failure(let error)):
+                customDump(error)
+                return .none
+
+            case .addToWatchList:
+                return .task { [media = state.media, watchItem = state.watchItem] in
+                    await .watchResult(TaskResult<CDWatch?> {
+                        if let watchItem {
+                            return try persistenceClient.deleteFromDatabase(watchItem) as? CDWatch
+                        }
+                        return try persistenceClient.addItemToDatabase(.watch(media)) as? CDWatch
+                    })
+                }
+
+            case .watchResult(.success(let watch)):
+                state.watchItem = watch
+                return .none
+
+            case .watchResult(.failure(let error)):
                 customDump(error)
                 return .none
             }
