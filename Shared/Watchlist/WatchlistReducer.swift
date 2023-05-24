@@ -11,6 +11,7 @@ import ComposableArchitecture
 struct WatchlistReducer: ReducerProtocol {
 
     struct State: Equatable {
+        var sort: SortReducer.State = .init()
         var list: IdentifiedArrayOf<DetailReducer.State> = []
     }
 
@@ -19,19 +20,25 @@ struct WatchlistReducer: ReducerProtocol {
         case fetchWatchlistDone(TaskResult<[CDWatch]>)
 
         case media(id: DetailReducer.State.ID, action: DetailReducer.Action)
+
+        case sort(SortReducer.Action)
     }
 
     @Dependency(\.persistenceClient) var persistenceClient
 
     var body: some ReducerProtocol<State, Action> {
+        Scope(state: \.sort, action: /Action.sort) {
+            SortReducer()
+        }
         Reduce { state, action in
             switch action {
             case .fetchWatchlist:
-                return .task {
+                return .task { [state = state] in
                     await .fetchWatchlistDone(TaskResult<[CDWatch]> {
-                        try persistenceClient.watchlist()
+                        try persistenceClient.watchlist(.all, state.sort.sortByKey, state.sort.ascending)
                     })
                 }
+                .animation()
 
             case .fetchWatchlistDone(.success(let list)):
                 state.list = .init(uniqueElements: list.map { .init(media: .from($0)) })
@@ -40,7 +47,14 @@ struct WatchlistReducer: ReducerProtocol {
             case .fetchWatchlistDone(.failure(let error)):
                 customDump(error)
                 return .none
+
             case .media:
+                return .none
+
+            case .sort(.binding):
+                return .task { .fetchWatchlist }
+
+            case .sort:
                 return .none
             }
         }

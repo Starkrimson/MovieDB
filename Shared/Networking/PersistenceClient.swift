@@ -13,12 +13,12 @@ struct PersistenceClient {
     var addItemToDatabase: @Sendable (Item) throws -> NSManagedObject?
     var deleteFromDatabase: @Sendable (NSManagedObject) throws -> NSManagedObject?
 
-    var favouriteList: @Sendable (_ filterBy: MediaType, _ sortBy: SortByKeyPath<CDFavourite>) throws -> [CDFavourite]
+    var favouriteList: @Sendable (_ filterBy: MediaType, _ sortByKey: String, _ ascending: Bool) throws -> [CDFavourite]
     var favouriteItem: @Sendable (Int?) throws -> CDFavourite?
 
     var externalLinks: @Sendable () throws -> [CDExternalLink]
 
-    var watchlist: @Sendable () throws -> [CDWatch]
+    var watchlist: @Sendable (_ filterBy: MediaType, _ sortByKey: String, _ ascending: Bool) throws -> [CDWatch]
     var watchItem: @Sendable (Int?) throws -> CDWatch?
 }
 
@@ -27,24 +27,6 @@ extension PersistenceClient {
         case favourite(Media)
         case watch(Media)
         case externalLink(name: String, url: String)
-    }
-
-    typealias SortByKeyPath<Root> = (keyPath: PartialKeyPath<Root>, ascending: Bool)
-}
-
-extension PartialKeyPath where Root == CDFavourite {
-    var label: (key: String, localized: String) {
-        switch self {
-        case \CDFavourite.dateAdded:
-            return ("dateAdded", "DATE ADDED".localized)
-        case \CDFavourite.title:
-            return ("title", "NAME".localized)
-        case \CDFavourite.releaseDate:
-            return ("releaseDate", "RELEASE DATE".localized)
-        default:
-            assertionFailure("Unexpected key path")
-            return ("Unexpected", "Unexpected")
-        }
     }
 }
 
@@ -94,12 +76,12 @@ extension PersistenceClient: DependencyKey {
         PersistenceController.shared.container.viewContext.delete($0)
         try PersistenceController.shared.container.viewContext.save()
         return nil
-    } favouriteList: { mediaType, sort in
+    } favouriteList: { mediaType, key, ascending in
         let request = NSFetchRequest<CDFavourite>(entityName: "Favourite")
         if mediaType != .all {
             request.predicate = .init(format: "mediaType == %@", mediaType.rawValue)
         }
-        request.sortDescriptors = [ .init(key: sort.keyPath.label.key, ascending: sort.ascending) ]
+        request.sortDescriptors = [ .init(key: key, ascending: ascending) ]
         return try PersistenceController.shared.container.viewContext.fetch(request)
     } favouriteItem: { id in
         guard let id else { return nil }
@@ -110,8 +92,12 @@ extension PersistenceClient: DependencyKey {
     } externalLinks: {
         let request = CDExternalLink.fetchRequest()
         return try PersistenceController.shared.container.viewContext.fetch(request)
-    } watchlist: {
+    } watchlist: { mediaType, key, ascending in
         let request = NSFetchRequest<CDWatch>(entityName: "Watch")
+        if mediaType != .all {
+            request.predicate = .init(format: "mediaType == %@", mediaType.rawValue)
+        }
+        request.sortDescriptors = [ .init(key: key, ascending: ascending) ]
         return try PersistenceController.shared.container.viewContext.fetch(request)
     } watchItem: { id in
         guard let id else { return nil }
@@ -135,7 +121,7 @@ extension PersistenceClient: DependencyKey {
         }
     } deleteFromDatabase: { _ in
         nil
-    } favouriteList: { _, _ in
+    } favouriteList: { _, _, _ in
         mockMedias.map {
             let favourite = CDFavourite(context: PersistenceController.preview.container.viewContext)
             favourite.id = Int32($0.id ?? 0)
@@ -154,7 +140,7 @@ extension PersistenceClient: DependencyKey {
                 link.url = $0.1
                 return link
             }
-    } watchlist: {
+    } watchlist: { _, _, _ in
         []
     } watchItem: { _ in
         nil

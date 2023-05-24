@@ -12,13 +12,8 @@ struct FavouriteReducer: ReducerProtocol {
 
     struct State: Equatable {
         @BindingState var selectedMediaType = MediaType.all
-        @BindingState var sortByKeyPath: PartialKeyPath<CDFavourite> = \CDFavourite.dateAdded
-        @BindingState var ascending: Bool = false
-        let keyPaths = [
-            \CDFavourite.dateAdded,
-            \CDFavourite.releaseDate,
-            \CDFavourite.title
-        ]
+
+        var sort: SortReducer.State = .init()
 
         var list: IdentifiedArrayOf<DetailReducer.State> = []
     }
@@ -29,6 +24,8 @@ struct FavouriteReducer: ReducerProtocol {
         case fetchFavouriteList
         case fetchFavouriteListDone(TaskResult<[CDFavourite]>)
 
+        case sort(SortReducer.Action)
+
         case media(id: DetailReducer.State.ID, action: DetailReducer.Action)
     }
 
@@ -36,6 +33,9 @@ struct FavouriteReducer: ReducerProtocol {
 
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
+        Scope(state: \.sort, action: /Action.sort) {
+            SortReducer()
+        }
         Reduce { state, action in
             switch action {
             case .binding:
@@ -46,7 +46,8 @@ struct FavouriteReducer: ReducerProtocol {
                     await .fetchFavouriteListDone(TaskResult<[CDFavourite]> {
                         try persistenceClient.favouriteList(
                             state.selectedMediaType,
-                            (state.sortByKeyPath, state.ascending)
+                            state.sort.sortByKey,
+                            state.sort.ascending
                         )
                     })
                 }
@@ -63,6 +64,12 @@ struct FavouriteReducer: ReducerProtocol {
                 return .none
 
             case .media:
+                return .none
+
+            case .sort(.binding):
+                return .task { .fetchFavouriteList }
+
+            case .sort:
                 return .none
             }
         }

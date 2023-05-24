@@ -32,6 +32,14 @@ struct WatchlistView: View {
                 await viewStore.send(.fetchWatchlist).finish()
             }
             .navigationTitle("WATCHLIST".localized)
+            .toolbar {
+                ToolbarItem {
+                    SortMenu(store: store.scope(
+                        state: \.sort,
+                        action: WatchlistReducer.Action.sort
+                    ))
+                }
+            }
         }
     }
 }
