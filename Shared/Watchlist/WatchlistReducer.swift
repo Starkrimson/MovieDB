@@ -11,6 +11,8 @@ import ComposableArchitecture
 struct WatchlistReducer: ReducerProtocol {
 
     struct State: Equatable {
+        var selectedMediaType = MediaType.all
+
         var sort: SortReducer.State = .init()
         var list: IdentifiedArrayOf<DetailReducer.State> = []
     }
@@ -22,6 +24,7 @@ struct WatchlistReducer: ReducerProtocol {
         case media(id: DetailReducer.State.ID, action: DetailReducer.Action)
 
         case sort(SortReducer.Action)
+        case selectMediaType(MediaType)
     }
 
     @Dependency(\.persistenceClient) var persistenceClient
@@ -35,7 +38,11 @@ struct WatchlistReducer: ReducerProtocol {
             case .fetchWatchlist:
                 return .task { [state = state] in
                     await .fetchWatchlistDone(TaskResult<[CDWatch]> {
-                        try persistenceClient.watchlist(.all, state.sort.sortByKey, state.sort.ascending)
+                        try persistenceClient.watchlist(
+                            state.selectedMediaType,
+                            state.sort.sortByKey,
+                            state.sort.ascending
+                        )
                     })
                 }
                 .animation()
@@ -56,6 +63,10 @@ struct WatchlistReducer: ReducerProtocol {
 
             case .sort:
                 return .none
+
+            case .selectMediaType(let type):
+                state.selectedMediaType = type
+                return .task { .fetchWatchlist }
             }
         }
         .forEach(\.list, action: /Action.media) {

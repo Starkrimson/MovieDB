@@ -34,6 +34,19 @@ struct WatchlistView: View {
             .navigationTitle("WATCHLIST".localized)
             .toolbar {
                 ToolbarItem {
+                    Picker(
+                        viewStore.selectedMediaType.localizedDescription,
+                        selection: viewStore.binding(
+                            get: \.selectedMediaType,
+                            send: WatchlistReducer.Action.selectMediaType
+                        )
+                    ) {
+                        ForEach([MediaType.all, MediaType.movie, MediaType.tvShow]) {
+                            Text($0.localizedDescription)
+                        }
+                    }
+                }
+                ToolbarItem {
                     SortMenu(store: store.scope(
                         state: \.sort,
                         action: WatchlistReducer.Action.sort
