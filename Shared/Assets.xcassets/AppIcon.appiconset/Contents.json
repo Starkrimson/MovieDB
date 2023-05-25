@@ -1,67 +1,67 @@
 {
   "images" : [
     {
-      "filename" : "TheMovieDB.png",
+      "filename" : "mdb-iOS.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
     },
     {
-      "filename" : "TheMovieDB-1 9.png",
+      "filename" : "MDB 9.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "TheMovieDB-1 8.png",
+      "filename" : "MDB 8.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "TheMovieDB-1 7.png",
+      "filename" : "MDB 7.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "TheMovieDB-1 6.png",
+      "filename" : "MDB 6.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
-      "filename" : "TheMovieDB-1 5.png",
+      "filename" : "MDB 5.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "TheMovieDB-1 3.png",
+      "filename" : "MDB 4.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "TheMovieDB-1 4.png",
+      "filename" : "MDB 3.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "TheMovieDB-1 2.png",
+      "filename" : "MDB 2.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "TheMovieDB-1 1.png",
+      "filename" : "MDB 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "TheMovieDB-1.png",
+      "filename" : "MDB.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
