@@ -99,7 +99,7 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
         )
     }
 
-    static func from(_ favourite: Favourite) -> Media {
+    static func from(_ favourite: CDFavourite) -> Media {
         .init(
             title: favourite.title,
             releaseDate: favourite.releaseDate,
@@ -108,6 +108,18 @@ struct Media: Codable, Equatable, Identifiable, Hashable {
             id: Int(favourite.id),
             overview: favourite.overview,
             posterPath: favourite.posterPath
+        )
+    }
+
+    static func from(_ watch: CDWatch) -> Media {
+        .init(
+            title: watch.title,
+            releaseDate: watch.releaseDate,
+            mediaType: .init(rawValue: watch.mediaType ?? ""),
+            backdropPath: watch.backdropPath,
+            id: Int(watch.id),
+            overview: watch.overview,
+            posterPath: watch.posterPath
         )
     }
 }

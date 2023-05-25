@@ -20,6 +20,7 @@ struct MovieDBReducer: ReducerProtocol {
         case people = "POPULAR PEOPLE"
 
         case favourite = "MY FAVOURITES"
+        case watchlist = "WATCHLIST"
 
         var systemImage: String {
             switch self {
@@ -29,6 +30,7 @@ struct MovieDBReducer: ReducerProtocol {
             case .tvShows: return "sparkles.tv"
             case .people: return "person.2"
             case .favourite: return "heart"
+            case .watchlist: return "list.bullet"
             }
         }
     }
@@ -41,6 +43,7 @@ struct MovieDBReducer: ReducerProtocol {
         var tvShows: DiscoverMediaReducer.State = .init(mediaType: .tvShow, name: Tab.tvShows.rawValue.localized)
         var people: DiscoverMediaReducer.State = .init(mediaType: .person, name: Tab.people.rawValue.localized)
         var favourites: FavouriteReducer.State = .init()
+        var watchlist: WatchlistReducer.State = .init()
     }
 
     enum Action: Equatable, BindableAction {
@@ -52,6 +55,7 @@ struct MovieDBReducer: ReducerProtocol {
         case tvShows(DiscoverMediaReducer.Action)
         case people(DiscoverMediaReducer.Action)
         case favourites(FavouriteReducer.Action)
+        case watchlist(WatchlistReducer.Action)
     }
 
     var body: some ReducerProtocol<State, Action> {
@@ -72,6 +76,9 @@ struct MovieDBReducer: ReducerProtocol {
         }
         Scope(state: \.favourites, action: /Action.favourites) {
             FavouriteReducer()
+        }
+        Scope(state: \.watchlist, action: /Action.watchlist) {
+            WatchlistReducer()
         }
         BindingReducer()
         Reduce { state, action in
@@ -108,6 +115,9 @@ struct MovieDBReducer: ReducerProtocol {
                 return .none
 
             case .favourites:
+                return .none
+
+            case .watchlist:
                 return .none
             }
         }
