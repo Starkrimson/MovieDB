@@ -85,6 +85,9 @@
 "CUSTOM" = "自定义";
 "ADD NEW ITEM" = "新增";
 "* REPRESENTS MEDIA NAME" = "* 表示媒体名称";
+"WATCHLIST" = "待看清单";
+"ADD TO YOUR WATCHLIST" = "添加到待看清单";
+"REMOVE FROM YOUR WATCHLIST" = "从待看清单中删除";
 
 "Acting" = "参演";
 "Production" = "制片";

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22E261" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
-    <entity name="ExternalLink" representedClassName="ExternalLink" syncable="YES" codeGenerationType="class">
+    <entity name="ExternalLink" representedClassName="CDExternalLink" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Favourite" representedClassName="Favourite" syncable="YES" codeGenerationType="class">
+    <entity name="Favourite" representedClassName="CDFavourite" parentEntity="Media" syncable="YES" codeGenerationType="class"/>
+    <entity name="Media" representedClassName="CDMedia" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="backdropPath" optional="YES" attributeType="String"/>
         <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -14,4 +15,5 @@
         <attribute name="releaseDate" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Watch" representedClassName="CDWatch" parentEntity="Media" syncable="YES" codeGenerationType="class"/>
 </model>

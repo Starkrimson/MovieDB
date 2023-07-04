@@ -1,50 +1,44 @@
 //
-//  FavouriteReducer.swift
+//  WatchlistReducer.swift
 //  MovieDB
 //
-//  Created by allie on 29/11/2022.
+//  Created by allie on 24/5/2023.
 //
 
 import Foundation
 import ComposableArchitecture
 
-struct FavouriteReducer: ReducerProtocol {
+struct WatchlistReducer: ReducerProtocol {
 
     struct State: Equatable {
-        @BindingState var selectedMediaType = MediaType.all
+        var selectedMediaType = MediaType.all
 
         var sort: SortReducer.State = .init()
-
         var list: IdentifiedArrayOf<DetailReducer.State> = []
     }
 
-    enum Action: Equatable, BindableAction {
-        case binding(_ action: BindingAction<State>)
-
-        case fetchFavouriteList
-        case fetchFavouriteListDone(TaskResult<[CDFavourite]>)
-
-        case sort(SortReducer.Action)
+    enum Action: Equatable {
+        case fetchWatchlist
+        case fetchWatchlistDone(TaskResult<[CDWatch]>)
 
         case media(id: DetailReducer.State.ID, action: DetailReducer.Action)
+
+        case sort(SortReducer.Action)
+        case selectMediaType(MediaType)
     }
 
     @Dependency(\.persistenceClient) var persistenceClient
 
     var body: some ReducerProtocol<State, Action> {
-        BindingReducer()
         Scope(state: \.sort, action: /Action.sort) {
             SortReducer()
         }
         Reduce { state, action in
             switch action {
-            case .binding:
-                return .task { .fetchFavouriteList }
-
-            case .fetchFavouriteList:
+            case .fetchWatchlist:
                 return .task { [state = state] in
-                    await .fetchFavouriteListDone(TaskResult<[CDFavourite]> {
-                        try persistenceClient.favouriteList(
+                    await .fetchWatchlistDone(TaskResult<[CDWatch]> {
+                        try persistenceClient.watchlist(
                             state.selectedMediaType,
                             state.sort.sortByKey,
                             state.sort.ascending
@@ -53,13 +47,11 @@ struct FavouriteReducer: ReducerProtocol {
                 }
                 .animation()
 
-            case .fetchFavouriteListDone(.success(let favourites)):
-                state.list = .init(uniqueElements: favourites.map {
-                    DetailReducer.State(media: .from($0))
-                })
+            case .fetchWatchlistDone(.success(let list)):
+                state.list = .init(uniqueElements: list.map { .init(media: .from($0)) })
                 return .none
 
-            case .fetchFavouriteListDone(.failure(let error)):
+            case .fetchWatchlistDone(.failure(let error)):
                 customDump(error)
                 return .none
 
@@ -67,10 +59,14 @@ struct FavouriteReducer: ReducerProtocol {
                 return .none
 
             case .sort(.binding):
-                return .task { .fetchFavouriteList }
+                return .task { .fetchWatchlist }
 
             case .sort:
                 return .none
+
+            case .selectMediaType(let type):
+                state.selectedMediaType = type
+                return .task { .fetchWatchlist }
             }
         }
         .forEach(\.list, action: /Action.media) {

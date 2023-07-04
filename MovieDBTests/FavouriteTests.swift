@@ -18,7 +18,7 @@ final class FavouriteTests: XCTestCase {
         )
 
         let favourites = [
-            Favourite(context: PersistenceController.preview.container.viewContext)
+            CDFavourite(context: PersistenceController.preview.container.viewContext)
         ]
 
         store.dependencies.persistenceClient.favouriteList = { _, _ in favourites }
@@ -51,8 +51,8 @@ final class FavouriteTests: XCTestCase {
         await store.receive(.fetchFavouriteList)
         await store.receive(.fetchFavouriteListDone(.success([])))
 
-        await store.send(.binding(.set(\.$sortByKeyPath, \Favourite.releaseDate))) {
-            $0.sortByKeyPath = \Favourite.releaseDate
+        await store.send(.binding(.set(\.$sortByKeyPath, \CDFavourite.releaseDate))) {
+            $0.sortByKeyPath = \CDFavourite.releaseDate
         }
         await store.receive(.fetchFavouriteList)
         await store.receive(.fetchFavouriteListDone(.success([])))

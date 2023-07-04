@@ -44,6 +44,28 @@ struct DetailView: View {
             }
             .toolbar {
                 ToolbarItem {
+                    IfLetStore(store.scope(state: \.detail)) {
+                        ExternalLinkMenu(displayName: viewStore.media.displayName, store: $0)
+                    }
+                }
+                if viewStore.media.mediaType != .person {
+                    ToolbarItem {
+                        Button {
+                            viewStore.send(.addToWatchList)
+                        } label: {
+                            Label(
+                                "WATCHLIST".localized,
+                                systemImage: viewStore.isInWatchList ? "bookmark.fill" : "bookmark"
+                            )
+                        }
+                        .help(
+                            viewStore.isInWatchList
+                            ? "REMOVE FROM YOUR WATCHLIST".localized
+                            : "ADD TO YOUR WATCHLIST".localized
+                        )
+                    }
+                }
+                ToolbarItem {
                     Button {
                         viewStore.send(.markAsFavourite)
                     } label: {
@@ -54,11 +76,6 @@ struct DetailView: View {
                         ? "REMOVE FROM YOUR FAVORITE LIST".localized
                         : "MARK AS FAVOURITE".localized
                     )
-                }
-                ToolbarItem {
-                    IfLetStore(store.scope(state: \.detail)) {
-                        ExternalLinkMenu(displayName: viewStore.media.displayName, store: $0)
-                    }
                 }
             }
             .navigationTitle(viewStore.media.displayName)

@@ -1,15 +1,15 @@
 //
-//  FavouriteList.swift
+//  WatchlistView.swift
 //  MovieDB
 //
-//  Created by allie on 29/11/2022.
+//  Created by allie on 24/5/2023.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
-struct FavouriteList: View {
-    let store: StoreOf<FavouriteReducer>
+struct WatchlistView: View {
+    let store: StoreOf<WatchlistReducer>
 
     var body: some View {
         WithViewStore(store) {
@@ -20,7 +20,7 @@ struct FavouriteList: View {
                     ForEachStore(
                         store.scope(
                             state: \.list,
-                            action: FavouriteReducer.Action.media
+                            action: WatchlistReducer.Action.media
                         )
                     ) {
                         DetailItem(store: $0, imageSize: .aspectRatio)
@@ -29,16 +29,19 @@ struct FavouriteList: View {
                 .padding()
             }
             .task {
-                await viewStore.send(.fetchFavouriteList).finish()
+                await viewStore.send(.fetchWatchlist).finish()
             }
-            .navigationTitle("MY FAVOURITES".localized)
+            .navigationTitle("WATCHLIST".localized)
             .toolbar {
                 ToolbarItem {
                     Picker(
                         viewStore.selectedMediaType.localizedDescription,
-                        selection: viewStore.binding(\.$selectedMediaType)
+                        selection: viewStore.binding(
+                            get: \.selectedMediaType,
+                            send: WatchlistReducer.Action.selectMediaType
+                        )
                     ) {
-                        ForEach(MediaType.allCases) {
+                        ForEach([MediaType.all, MediaType.movie, MediaType.tvShow]) {
                             Text($0.localizedDescription)
                         }
                     }
@@ -46,7 +49,7 @@ struct FavouriteList: View {
                 ToolbarItem {
                     SortMenu(store: store.scope(
                         state: \.sort,
-                        action: FavouriteReducer.Action.sort
+                        action: WatchlistReducer.Action.sort
                     ))
                 }
             }
@@ -54,13 +57,11 @@ struct FavouriteList: View {
     }
 }
 
-#if DEBUG
-struct FavouriteList_Previews: PreviewProvider {
+struct WatchlistView_Previews: PreviewProvider {
     static var previews: some View {
-        FavouriteList(store: .init(
+        WatchlistView(store: .init(
             initialState: .init(),
-            reducer: FavouriteReducer()
+            reducer: WatchlistReducer()
         ))
     }
 }
-#endif
