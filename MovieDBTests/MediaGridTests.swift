@@ -15,8 +15,8 @@ final class MediaGridTests: XCTestCase {
     // swiftlint:disable function_body_length
     func testMovieGrid() async {
         let store = TestStore(
-            initialState: .init(mediaType: .movie, name: ""),
-            reducer: DiscoverMediaReducer()
+            initialState: DiscoverMediaReducer.State(mediaType: .movie, name: ""),
+            reducer: { DiscoverMediaReducer() }
         )
 
         // 加载第一页数据
@@ -91,8 +91,8 @@ final class MediaGridTests: XCTestCase {
 
     func testPersonGrid() async {
         let store = TestStore(
-            initialState: .init(mediaType: .person, name: ""),
-            reducer: DiscoverMediaReducer()
+            initialState: DiscoverMediaReducer.State(mediaType: .person, name: ""),
+            reducer: { DiscoverMediaReducer() }
         )
 
         let firstPage = PageResponses(page: 1, totalPages: 2, results: [mockMedias[2]])

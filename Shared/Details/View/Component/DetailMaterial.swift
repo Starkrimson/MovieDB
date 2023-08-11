@@ -60,7 +60,7 @@ extension DetailView {
                         Text(item.1 ?? "")
                     }
                 }
-                
+
                 FlowLayout {
                     ForEach(keywords) { keyword in
                         NavigationLink {
