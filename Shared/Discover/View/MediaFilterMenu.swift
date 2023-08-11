@@ -21,20 +21,20 @@ struct MediaFilterMenu: View {
                     SecondaryMenu(
                         title: "MINIMUM".localized,
                         data: Array(0...10),
-                        value: viewStore.binding(\.$minimumUserScore)
+                        value: viewStore.$minimumUserScore
                     )
 
                     SecondaryMenu(
                         title: "MAXIMUM".localized,
                         data: Array(1...10),
-                        value: viewStore.binding(\.$maximumUserScore)
+                        value: viewStore.$maximumUserScore
                     )
                 }
 
                 SecondaryMenu(
                     title: "MINIMUM USER VOTES".localized,
                     data: (0...5).map { $0 * 100 },
-                    value: viewStore.binding(\.$minimumUserVotes)
+                    value: viewStore.$minimumUserVotes
                 )
 
                 Button("RESET".localized) {
@@ -77,7 +77,7 @@ struct MediaFilterMenu_Previews: PreviewProvider {
     static var previews: some View {
         MediaFilterMenu(store: .init(
             initialState: .init(),
-            reducer: MediaFilterReducer()
+            reducer: { MediaFilterReducer() }
         ))
     }
 }

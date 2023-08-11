@@ -30,16 +30,16 @@ extension DiscoverView {
 #if DEBUG
 struct DiscoverCardRow_Previews: PreviewProvider {
 
+    static let store: StoreOf<DiscoverReducer> = .init(initialState: .init()) {
+        DiscoverReducer()
+    }
+
+    static let listStore: Store<
+        IdentifiedArrayOf<DetailReducer.State>, (DetailReducer.State.ID, DetailReducer.Action)
+    > = store.scope(state: \.popularMovies, action: DiscoverReducer.Action.popularMovie)
+
     static var previews: some View {
-        DiscoverView.CardRow(
-            store: Store(
-                initialState: .init(popularMovies: .init(uniqueElements: mockMedias.map {
-                    DetailReducer.State(media: $0)
-                })),
-                reducer: DiscoverReducer()
-            )
-            .scope(state: \.popularMovies, action: DiscoverReducer.Action.popularMovie)
-        )
+        DiscoverView.CardRow(store: listStore)
     }
 }
 #endif

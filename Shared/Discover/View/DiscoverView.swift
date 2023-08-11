@@ -22,7 +22,7 @@ struct DiscoverView: View {
                 }
                 SectionTitle(
                     title: "POPULAR".localized,
-                    selectedIndex: viewStore.binding(\.$popularIndex),
+                    selectedIndex: viewStore.$popularIndex,
                     labels: ["MOVIES".localized, "TV SHOWS".localized]
                 )
                 .padding(.top)
@@ -34,7 +34,7 @@ struct DiscoverView: View {
 
                 SectionTitle(
                     title: "TRENDING".localized,
-                    selectedIndex: viewStore.binding(\.$trendingIndex),
+                    selectedIndex: viewStore.$trendingIndex,
                     labels: ["TODAY".localized, "THIS WEEK".localized]
                 )
                 if viewStore.trendingIndex == 0 {
@@ -71,7 +71,7 @@ struct DiscoverView_Previews: PreviewProvider {
         DiscoverView(
             store: .init(
                 initialState: .init(),
-                reducer: DiscoverReducer()
+                reducer: { DiscoverReducer() }
             )
         )
     }

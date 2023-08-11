@@ -24,27 +24,34 @@ struct DetailView: View {
                 case .error(let error):
                     ErrorTips(error: error)
                 case .normal:
-                    IfLetStore(store.scope(state: \.detail)) { letStore in
-                        SwitchStore(letStore) {
-                            CaseLet(
-                                state: /DetailReducer.DetailState.movie,
-                                then: MovieDetailView.init
-                            )
-                            CaseLet(
-                                state: /DetailReducer.DetailState.tvShow,
-                                then: TVDetailView.init
-                            )
-                            CaseLet(
-                                state: /DetailReducer.DetailState.person,
-                                then: PersonDetailView.init
-                            )
+                    IfLetStore(store.scope(state: \.detail, action: { $0 })) { letStore in
+                        SwitchStore(letStore) { initialState in
+                            switch initialState {
+                            case .movie:
+                                CaseLet(
+                                    state: /DetailReducer.DetailState.movie,
+                                    then: MovieDetailView.init
+                                )
+
+                            case .tvShow:
+                                CaseLet(
+                                    state: /DetailReducer.DetailState.tvShow,
+                                    then: TVDetailView.init
+                                )
+
+                            case .person:
+                                CaseLet(
+                                    state: /DetailReducer.DetailState.person,
+                                    then: PersonDetailView.init
+                                )
+                            }
                         }
                     }
                 }
             }
             .toolbar {
                 ToolbarItem {
-                    IfLetStore(store.scope(state: \.detail)) {
+                    IfLetStore(store.scope(state: \.detail, action: { $0 })) {
                         ExternalLinkMenu(displayName: viewStore.media.displayName, store: $0)
                     }
                 }
@@ -92,7 +99,7 @@ struct DetailView_Previews: PreviewProvider {
         DetailView(
             store: .init(
                 initialState: .init(media: mockMedias[2]),
-                reducer: DetailReducer()
+                reducer: { DetailReducer() }
             )
         )
         .frame(height: 850)

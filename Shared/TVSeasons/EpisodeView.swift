@@ -36,7 +36,7 @@ struct EpisodeView: View {
                                     NavigationLink {
                                         DetailView(store: .init(
                                             initialState: .init(media: .from(item)),
-                                            reducer: DetailReducer()
+                                            reducer: { DetailReducer() }
                                         ))
                                     } label: {
                                         ProfileView(
@@ -61,7 +61,7 @@ struct EpisodeView: View {
                                     NavigationLink {
                                         DetailView(store: .init(
                                             initialState: .init(media: .from(item)),
-                                            reducer: DetailReducer()
+                                            reducer: { DetailReducer() }
                                         ))
                                     } label: {
                                         ProfileView(
@@ -112,7 +112,7 @@ struct EpisodeView_Previews: PreviewProvider {
         NavigationStack {
             EpisodeView(store: .init(
                 initialState: .init(tvID: 1, episode: mockTVShows[0].seasons![0].episodes![0]),
-                reducer: EpisodeReducer()
+                reducer: { EpisodeReducer() }
             ))
         }
     }

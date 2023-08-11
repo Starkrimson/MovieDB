@@ -33,7 +33,7 @@ struct DetailItem_Previews: PreviewProvider {
             ForEach(mockMedias) { media in
                 DetailItem(store: .init(
                     initialState: .init(media: media),
-                    reducer: DetailReducer()
+                    reducer: { DetailReducer() }
                 ))
             }
         }

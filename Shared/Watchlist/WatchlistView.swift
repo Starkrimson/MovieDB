@@ -61,7 +61,7 @@ struct WatchlistView_Previews: PreviewProvider {
     static var previews: some View {
         WatchlistView(store: .init(
             initialState: .init(),
-            reducer: WatchlistReducer()
+            reducer: { WatchlistReducer() }
         ))
     }
 }

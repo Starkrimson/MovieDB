@@ -23,7 +23,7 @@ extension PersonDetailView {
                             NavigationLink {
                                 DetailView(store: .init(
                                     initialState: .init(media: .from(item)),
-                                    reducer: DetailReducer()
+                                    reducer: { DetailReducer() }
                                 ))
                             } label: {
                                 Text(item.title)

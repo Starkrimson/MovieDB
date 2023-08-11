@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct ContentView: View {
     let store: StoreOf<MovieDBReducer> = .init(
         initialState: .init(),
-        reducer: MovieDBReducer()
+        reducer: { MovieDBReducer() }
     )
 
     let tabs: [(title: String, items: [MovieDBReducer.Tab])] = [
@@ -52,7 +52,10 @@ struct ContentView: View {
                     }
                 }
                 .searchable(
-                    text: viewStore.binding(\.search.$query),
+                    text: viewStore.binding(
+                        get: { $0.search.query },
+                        send: { MovieDBReducer.Action.binding(.set(\.search.$query, $0)) }
+                    ),
                     placement: .sidebar,
                     prompt: "SEARCH PLACEHOLDER".localized
                 )

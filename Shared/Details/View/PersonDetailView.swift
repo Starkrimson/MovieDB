@@ -12,7 +12,7 @@ struct PersonDetailView: View {
     let store: Store<PersonState, DetailReducer.Action>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store) { $0 } content: { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewStore.person.biography ?? "")
                     .padding(.horizontal)
@@ -44,11 +44,11 @@ struct PersonDetailView_Previews: PreviewProvider {
                     media: mockMedias[2],
                     detail: .person(.init(mockPeople[0]))
                 ),
-                reducer: DetailReducer()
+                reducer: { DetailReducer() }
             )
-            .scope(state: \.detail),
+            .scope(state: \.detail, action: { $0 }),
             then: { detailStore in
-                SwitchStore(detailStore) {
+                SwitchStore(detailStore) { _ in
                     CaseLet(
                         state: /DetailReducer.DetailState.person,
                         then: PersonDetailView.init

@@ -49,7 +49,7 @@ extension DiscoverView {
                     NavigationLink {
                         DetailView(store: .init(
                             initialState: .init(media: media!),
-                            reducer: DetailReducer()
+                            reducer: { DetailReducer() }
                         ))
                     } label: {
                         HStack(spacing: 3) {

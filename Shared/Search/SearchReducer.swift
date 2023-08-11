@@ -12,7 +12,7 @@ enum ViewStatus: Equatable, Hashable {
     case normal, loading, error(String)
 }
 
-struct SearchReducer: ReducerProtocol {
+struct SearchReducer: Reducer {
 
     struct State: Equatable {
         @BindingState var query: String = ""
@@ -34,7 +34,9 @@ struct SearchReducer: ReducerProtocol {
 
     @Dependency(\.dbClient) var dbClient
 
-    var body: some ReducerProtocol<State, Action> {
+    enum SearchID { case query }
+
+    var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {
@@ -42,19 +44,17 @@ struct SearchReducer: ReducerProtocol {
                 return .none
 
             case .search(let page):
-                enum SearchID: Hashable { }
-
                 if state.query.isEmpty {
                     return .none
                 }
                 state.status = .loading
-                return .task { [query = state.query] in
-                    await .searchResponse(TaskResult<PageResponses<Media>> {
+                return .run { [query = state.query] send in
+                    await send(.searchResponse(TaskResult<PageResponses<Media>> {
                         try await dbClient.search(query, page)
-                    })
+                    }))
                 }
                 .animation()
-                .cancellable(id: SearchID.self)
+                .cancellable(id: SearchID.query)
 
             case .searchResponse(.success(let value)):
                 state.page = value.page ?? 1

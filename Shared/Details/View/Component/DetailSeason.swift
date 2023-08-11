@@ -25,7 +25,7 @@ extension DetailView {
                                     seasonNumber: season.seasonNumber ?? 0,
                                     showName: showName
                                 ),
-                                reducer: SeasonReducer()
+                                reducer: { SeasonReducer() }
                             ))
                         } label: {
                             SeasonRow(

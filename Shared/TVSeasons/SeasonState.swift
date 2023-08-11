@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct SeasonReducer: ReducerProtocol {
+struct SeasonReducer: Reducer {
 
     struct State: Equatable {
         let tvID: Int
@@ -28,15 +28,15 @@ struct SeasonReducer: ReducerProtocol {
 
     @Dependency(\.dbClient) var dbClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .fetchSeason:
                 state.status = .loading
-                return .task { [state] in
-                    await .fetchSeasonDone(TaskResult<Season> {
+                return .run { [state] send in
+                    await send(.fetchSeasonDone(TaskResult<Season> {
                         try await dbClient.season(state.tvID, state.seasonNumber)
-                    })
+                    }))
                 }
 
             case .fetchSeasonDone(.success(let season)):

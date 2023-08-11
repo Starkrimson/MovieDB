@@ -12,7 +12,7 @@ struct MovieCollectionView: View {
     let store: StoreOf<MovieCollectionReducer>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store) { $0 } content: { viewStore in
             ScrollView {
                 MediaHeader(
                     backdropPath: viewStore.belongsTo.backdropPath,
@@ -92,7 +92,7 @@ struct MovieCollectionView_Previews: PreviewProvider {
     static var previews: some View {
         MovieCollectionView(store: .init(
             initialState: .init(belongsTo: mockMovies[0].belongsToCollection ?? .init()),
-            reducer: MovieCollectionReducer()
+            reducer: { MovieCollectionReducer() }
         ))
         .frame(width: 720, height: 720)
     }

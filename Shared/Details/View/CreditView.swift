@@ -61,7 +61,7 @@ struct CreditView: View {
                         NavigationLink {
                             DetailView(store: .init(
                                 initialState: .init(media: .from(item)),
-                                reducer: DetailReducer()
+                                reducer: { DetailReducer() }
                             ))
                         } label: {
                             ProfileView(

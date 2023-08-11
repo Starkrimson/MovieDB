@@ -36,7 +36,7 @@ struct FavouriteList: View {
                 ToolbarItem {
                     Picker(
                         viewStore.selectedMediaType.localizedDescription,
-                        selection: viewStore.binding(\.$selectedMediaType)
+                        selection: viewStore.$selectedMediaType
                     ) {
                         ForEach(MediaType.allCases) {
                             Text($0.localizedDescription)
@@ -59,7 +59,7 @@ struct FavouriteList_Previews: PreviewProvider {
     static var previews: some View {
         FavouriteList(store: .init(
             initialState: .init(),
-            reducer: FavouriteReducer()
+            reducer: { FavouriteReducer() }
         ))
     }
 }

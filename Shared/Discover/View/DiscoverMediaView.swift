@@ -12,7 +12,7 @@ struct DiscoverMediaView: View {
     let store: StoreOf<DiscoverMediaReducer>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store) { $0 } content: { viewStore in
             ScrollView {
                 MediaGrid(
                     list: viewStore.list,
@@ -66,7 +66,7 @@ struct DiscoverMediaView_Previews: PreviewProvider {
         NavigationStack {
             DiscoverMediaView(store: .init(
                 initialState: .init(mediaType: .movie, name: "Movie", totalPages: 2),
-                reducer: DiscoverMediaReducer()
+                reducer: { DiscoverMediaReducer() }
             ))
         }
     }

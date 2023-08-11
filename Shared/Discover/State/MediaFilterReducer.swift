@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct MediaFilterReducer: ReducerProtocol {
+struct MediaFilterReducer: Reducer {
 
     struct State: Equatable {
         @BindingState var sortBy: String = "popularity.desc"
@@ -33,7 +33,7 @@ struct MediaFilterReducer: ReducerProtocol {
         case reset
     }
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {

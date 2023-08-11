@@ -18,7 +18,7 @@ extension PersonDetailView {
                     ForEach(knownFor) { item in
                         DetailItem(store: .init(
                             initialState: .init(media: .from(item)),
-                            reducer: DetailReducer()
+                            reducer: { DetailReducer() }
                         ))
                     }
                 }

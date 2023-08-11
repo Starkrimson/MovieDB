@@ -12,7 +12,7 @@ struct TVDetailView: View {
     let store: Store<TVState, DetailReducer.Action>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store) { $0 } content: { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 // MARK: - 电影名称/剧情
                 DetailView.Overview(
@@ -72,11 +72,11 @@ struct TVDetailView_Previews: PreviewProvider {
                         media: mockMedias[1],
                         detail: .tvShow(.init(mockTVShows[0]))
                     ),
-                    reducer: DetailReducer()
+                    reducer: { DetailReducer() }
                 )
-                .scope(state: \.detail),
+                .scope(state: \.detail, action: { $0 }),
                 then: { detailStore in
-                    SwitchStore(detailStore) {
+                    SwitchStore(detailStore) { _ in
                         CaseLet(
                             state: /DetailReducer.DetailState.tvShow,
                             then: TVDetailView.init

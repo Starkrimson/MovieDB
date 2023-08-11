@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct EpisodeReducer: ReducerProtocol {
+struct EpisodeReducer: Reducer {
 
     struct State: Equatable {
         let tvID: Int
@@ -24,15 +24,15 @@ struct EpisodeReducer: ReducerProtocol {
 
     @Dependency(\.dbClient) var dbClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .fetchEpisode:
                 state.status = .loading
-                return .task { [tvID = state.tvID, episode = state.episode] in
-                    await .fetchEpisodeDone(TaskResult<Episode> {
+                return .run { [tvID = state.tvID, episode = state.episode] send in
+                    await send(.fetchEpisodeDone(TaskResult<Episode> {
                         try await dbClient.episode(tvID, episode.seasonNumber ?? 0, episode.episodeNumber ?? 0)
-                    })
+                    }))
                 }
             case .fetchEpisodeDone(.success(let episode)):
                 state.status = .normal

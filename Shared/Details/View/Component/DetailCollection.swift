@@ -41,7 +41,7 @@ extension DetailView {
                     NavigationLink {
                         MovieCollectionView(store: .init(
                             initialState: .init(belongsTo: collection),
-                            reducer: MovieCollectionReducer()
+                            reducer: { MovieCollectionReducer() }
                         ))
                     } label: {
                         Text("VIEW THE COLLECTION".localized)
