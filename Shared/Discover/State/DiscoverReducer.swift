@@ -8,7 +8,8 @@
 import Foundation
 import ComposableArchitecture
 
-struct DiscoverReducer: Reducer {
+@Reducer
+struct DiscoverReducer {
 
     struct State: Equatable {
         var randomMedia: Media?
@@ -37,10 +38,10 @@ struct DiscoverReducer: Reducer {
             timeWindow: TimeWindow,
             result: TaskResult<[Media]>)
 
-        case popularMovie(id: DetailReducer.State.ID, action: DetailReducer.Action)
-        case popularTVShow(id: DetailReducer.State.ID, action: DetailReducer.Action)
-        case dailyTrending(id: DetailReducer.State.ID, action: DetailReducer.Action)
-        case weeklyTrending(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case popularMovie(IdentifiedActionOf<DetailReducer>)
+        case popularTVShow(IdentifiedActionOf<DetailReducer>)
+        case dailyTrending(IdentifiedActionOf<DetailReducer>)
+        case weeklyTrending(IdentifiedActionOf<DetailReducer>)
     }
 
     @Dependency(\.dbClient) var dbClient
@@ -132,16 +133,16 @@ struct DiscoverReducer: Reducer {
                 return .none
             }
         }
-        .forEach(\.popularMovies, action: /Action.popularMovie) {
+        .forEach(\.popularMovies, action: \.popularMovie) {
             DetailReducer()
         }
-        .forEach(\.popularTVShows, action: /Action.popularTVShow) {
+        .forEach(\.popularTVShows, action: \.popularTVShow) {
             DetailReducer()
         }
-        .forEach(\.dailyTrending, action: /Action.dailyTrending) {
+        .forEach(\.dailyTrending, action: \.dailyTrending) {
             DetailReducer()
         }
-        .forEach(\.weeklyTrending, action: /Action.weeklyTrending) {
+        .forEach(\.weeklyTrending, action: \.weeklyTrending) {
             DetailReducer()
         }
     }
