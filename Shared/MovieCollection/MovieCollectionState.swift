@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct MovieCollectionReducer: ReducerProtocol {
+struct MovieCollectionReducer: Reducer {
 
     struct State: Equatable {
         let belongsTo: BelongsToCollection
@@ -28,16 +28,16 @@ struct MovieCollectionReducer: ReducerProtocol {
 
     @Dependency(\.dbClient) var dbClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .fetchCollection:
                 state.status = .loading
-                return .task { [id = state.belongsTo.id] in
-                    await .fetchCollectionDone(TaskResult<Movie.Collection> {
+                return .run { [id = state.belongsTo.id] send in
+                    await send(.fetchCollectionDone(TaskResult<Movie.Collection> {
                         try await dbClient
                             .collection(id ?? 0)
-                    })
+                    }))
                 }
                 .animation()
 

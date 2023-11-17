@@ -13,7 +13,7 @@ struct SettingsView: View {
             ExternalLinkSettingView(
                 store: .init(
                     initialState: .init(),
-                    reducer: ExternalLinkReducer()
+                    reducer: { ExternalLinkReducer() }
                 )
             )
         }

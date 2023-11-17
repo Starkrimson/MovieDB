@@ -20,7 +20,7 @@ extension DetailView {
                         NavigationLink {
                             DetailView(store: .init(
                                 initialState: .init(media: recommend),
-                                reducer: DetailReducer()
+                                reducer: { DetailReducer() }
                             ))
                         } label: {
                             VStack {

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 
-struct ExternalLinkReducer: ReducerProtocol {
+struct ExternalLinkReducer: Reducer {
 
     struct State: Equatable {
         var list: IdentifiedArrayOf<CDExternalLink> = []
@@ -32,7 +32,7 @@ struct ExternalLinkReducer: ReducerProtocol {
 
     @Dependency(\.persistenceClient) var persistenceClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce { state, action in
             switch action {
@@ -46,10 +46,10 @@ struct ExternalLinkReducer: ReducerProtocol {
                 return .none
 
             case .fetchExternalLinkList:
-                return .task {
-                    await .fetchExternalLinkListDone(TaskResult<[CDExternalLink]> {
+                return .run { send in
+                    await send(.fetchExternalLinkListDone(TaskResult<[CDExternalLink]> {
                         try persistenceClient.externalLinks()
-                    })
+                    }))
                 }
 
             case .fetchExternalLinkListDone(.success(let links)):
@@ -73,10 +73,10 @@ struct ExternalLinkReducer: ReducerProtocol {
                 if !url.hasPrefix("http") {
                     url = "https://\(url)"
                 }
-                return .task { [url, name = state.newName] in
-                    await .saveURLDone(TaskResult<CDExternalLink?> {
+                return .run { [url, name = state.newName] send in
+                    await send(.saveURLDone(TaskResult<CDExternalLink?> {
                         try persistenceClient.addItemToDatabase(.externalLink(name: name, url: url)) as? CDExternalLink
-                    })
+                    }))
                 }
 
             case .saveURLDone(.success(let link)):
@@ -94,16 +94,14 @@ struct ExternalLinkReducer: ReducerProtocol {
                 return .none
 
             case .deleteLink(let link):
-                return .task {
-                    await .deleteLinkDone(TaskResult<CDExternalLink?> {
+                return .run { send in
+                    await send(.deleteLinkDone(TaskResult<CDExternalLink?> {
                         try persistenceClient.deleteFromDatabase(link) as? CDExternalLink
-                    })
+                    }))
                 }
 
             case .deleteLinkDone:
-                return .task {
-                    .fetchExternalLinkList
-                }
+                return .send(.fetchExternalLinkList)
             }
         }
     }
@@ -155,7 +153,7 @@ struct ExternalLinkSettingView: View {
                     }
 
                     Section {
-                        TextField(text: viewStore.binding(\.$newName), prompt: Text("Name")) {
+                        TextField(text: viewStore.$newName, prompt: Text("Name")) {
                             HStack {
                                 Text("Name")
                                 if !viewStore.isNameValid {
@@ -164,7 +162,7 @@ struct ExternalLinkSettingView: View {
                                 }
                             }
                         }
-                        TextField(text: viewStore.binding(\.$newURL), prompt: Text("https://example.com/*")) {
+                        TextField(text: viewStore.$newURL, prompt: Text("https://example.com/*")) {
                             HStack {
                                 Text("URL")
                                 if !viewStore.isURLValid {
@@ -201,7 +199,7 @@ struct ExternalLinkSettingView_Previews: PreviewProvider {
     static var previews: some View {
         ExternalLinkSettingView(store: .init(
             initialState: .init(),
-            reducer: ExternalLinkReducer()
+            reducer: { ExternalLinkReducer() }
         ))
     }
 }

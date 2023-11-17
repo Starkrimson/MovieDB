@@ -68,9 +68,9 @@ extension DetailView {
                                 initialState: .init(
                                     mediaType: detail.mediaType,
                                     name: keyword.name ?? "",
-                                    filters: [.keywords([keyword.id ?? 0])]
+                                    filters: [URL.DiscoverQueryItem.keywords([keyword.id ?? 0])]
                                 ),
-                                reducer: DiscoverMediaReducer()
+                                reducer: { DiscoverMediaReducer() }
                             ))
                         } label: {
                             Text(keyword.name ?? "")

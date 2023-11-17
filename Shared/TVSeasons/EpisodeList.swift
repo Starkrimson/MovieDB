@@ -12,7 +12,7 @@ struct EpisodeList: View {
     let store: StoreOf<SeasonReducer>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store) { $0 } content: { viewStore in
             Group {
                 switch viewStore.status {
                 case .loading:
@@ -50,7 +50,7 @@ struct EpisodeList: View {
                                     NavigationLink {
                                         EpisodeView(store: .init(
                                             initialState: .init(tvID: viewStore.tvID, episode: episode),
-                                            reducer: EpisodeReducer()
+                                            reducer: { EpisodeReducer() }
                                         ))
                                     } label: {
                                         EpisodeRow(episode: episode)
@@ -122,7 +122,7 @@ struct EpisodeList_Previews: PreviewProvider {
     static var previews: some View {
         EpisodeList(store: .init(
             initialState: .init(tvID: 1, seasonNumber: 2, showName: "Show", status: .normal),
-            reducer: SeasonReducer()
+            reducer: { SeasonReducer() }
         ))
         .frame(minWidth: 730, minHeight: 300)
 

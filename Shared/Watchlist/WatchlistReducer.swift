@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct WatchlistReducer: ReducerProtocol {
+struct WatchlistReducer: Reducer {
 
     struct State: Equatable {
         var selectedMediaType = MediaType.all
@@ -29,21 +29,21 @@ struct WatchlistReducer: ReducerProtocol {
 
     @Dependency(\.persistenceClient) var persistenceClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some ReducerOf<Self> {
         Scope(state: \.sort, action: /Action.sort) {
             SortReducer()
         }
         Reduce { state, action in
             switch action {
             case .fetchWatchlist:
-                return .task { [state = state] in
-                    await .fetchWatchlistDone(TaskResult<[CDWatch]> {
+                return .run { [state = state] send in
+                    await send(.fetchWatchlistDone(TaskResult<[CDWatch]> {
                         try persistenceClient.watchlist(
                             state.selectedMediaType,
                             state.sort.sortByKey,
                             state.sort.ascending
                         )
-                    })
+                    }))
                 }
                 .animation()
 
@@ -59,14 +59,14 @@ struct WatchlistReducer: ReducerProtocol {
                 return .none
 
             case .sort(.binding):
-                return .task { .fetchWatchlist }
+                return .send(.fetchWatchlist)
 
             case .sort:
                 return .none
 
             case .selectMediaType(let type):
                 state.selectedMediaType = type
-                return .task { .fetchWatchlist }
+                return .send(.fetchWatchlist)
             }
         }
         .forEach(\.list, action: /Action.media) {

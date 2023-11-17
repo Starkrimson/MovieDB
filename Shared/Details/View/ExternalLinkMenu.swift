@@ -13,7 +13,7 @@ struct ExternalLinkMenu: View {
     let store: Store<DetailReducer.DetailState, DetailReducer.Action>
 
     let externalLinkStore: StoreOf<ExternalLinkReducer> = .init(
-        initialState: .init(), reducer: ExternalLinkReducer()
+        initialState: .init(), reducer: { ExternalLinkReducer() }
     )
 
     var body: some View {

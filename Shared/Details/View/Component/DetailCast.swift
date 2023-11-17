@@ -24,7 +24,7 @@ extension DetailView {
                         NavigationLink {
                             DetailView(store: .init(
                                 initialState: .init(media: .from(cast)),
-                                reducer: DetailReducer()
+                                reducer: { DetailReducer() }
                             ))
                         } label: {
                             ProfileView(

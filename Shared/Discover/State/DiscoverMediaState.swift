@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct DiscoverMediaReducer: ReducerProtocol {
+struct DiscoverMediaReducer: Reducer {
 
     struct State: Equatable {
 
@@ -39,7 +39,7 @@ struct DiscoverMediaReducer: ReducerProtocol {
 
     @Dependency(\.dbClient) var dbClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         Scope(state: \.filter, action: /Action.filter) {
             MediaFilterReducer()
         }
@@ -51,8 +51,8 @@ struct DiscoverMediaReducer: ReducerProtocol {
                     state.totalPages = 1
                 }
                 state.status = .loading
-                return .task { [state] in
-                    await .fetchMediaDone(loadMore: loadMore, result: TaskResult<PageResponses<Media>> {
+                return .run { [state] send in
+                    await send(.fetchMediaDone(loadMore: loadMore, result: TaskResult<PageResponses<Media>> {
                         if state.mediaType == .person {
                             return try await dbClient
                                 .popular(.person, loadMore ? state.page + 1 : 1)
@@ -63,7 +63,7 @@ struct DiscoverMediaReducer: ReducerProtocol {
                                     state.filters + [ .page(loadMore ? state.page + 1 : 1) ] + state.filter.filters
                                 )
                         }
-                    })
+                    }))
                 }
                 .animation()
 
@@ -89,13 +89,13 @@ struct DiscoverMediaReducer: ReducerProtocol {
                 } else {
                     state.filter = .init(sortBy: "vote_average.desc", minimumUserVotes: 300)
                 }
-                return .task { .fetchMedia() }
+                return .send(.fetchMedia())
 
             case .filter(let action):
                 if action == .reset {
                     state.quickSort = .popular
                 }
-                return .task { .fetchMedia() }
+                return .send(.fetchMedia())
             }
         }
     }

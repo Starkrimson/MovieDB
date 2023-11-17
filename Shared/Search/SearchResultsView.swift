@@ -49,7 +49,7 @@ struct SearchResultsView_Previews: PreviewProvider {
         SearchResultsView(
             store: .init(
                 initialState: .init(),
-                reducer: SearchReducer()
+                reducer: { SearchReducer() }
             )
         )
     }

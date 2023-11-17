@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct FavouriteReducer: ReducerProtocol {
+struct FavouriteReducer: Reducer {
 
     struct State: Equatable {
         @BindingState var selectedMediaType = MediaType.all
@@ -31,7 +31,7 @@ struct FavouriteReducer: ReducerProtocol {
 
     @Dependency(\.persistenceClient) var persistenceClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         BindingReducer()
         Scope(state: \.sort, action: /Action.sort) {
             SortReducer()
@@ -39,17 +39,17 @@ struct FavouriteReducer: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .binding:
-                return .task { .fetchFavouriteList }
+                return .send( .fetchFavouriteList )
 
             case .fetchFavouriteList:
-                return .task { [state = state] in
-                    await .fetchFavouriteListDone(TaskResult<[CDFavourite]> {
+                return .run { [state = state] send in
+                    await send(.fetchFavouriteListDone(TaskResult<[CDFavourite]> {
                         try persistenceClient.favouriteList(
                             state.selectedMediaType,
                             state.sort.sortByKey,
                             state.sort.ascending
                         )
-                    })
+                    }))
                 }
                 .animation()
 
@@ -67,7 +67,7 @@ struct FavouriteReducer: ReducerProtocol {
                 return .none
 
             case .sort(.binding):
-                return .task { .fetchFavouriteList }
+                return .send( .fetchFavouriteList )
 
             case .sort:
                 return .none

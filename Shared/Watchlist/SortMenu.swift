@@ -18,7 +18,7 @@ struct SortMenu: View {
             Menu {
                 Picker(
                     "FILTER BY".localized,
-                    selection: viewStore.binding(\.$sortByKey)
+                    selection: viewStore.$sortByKey
                 ) {
                     ForEach(viewStore.keys, id: \.self) { key in
                         Text(viewStore.state.localizedKey(key))
@@ -28,7 +28,7 @@ struct SortMenu: View {
 
                 Picker(
                     "ORDER".localized,
-                    selection: viewStore.binding(\.$ascending)
+                    selection: viewStore.$ascending
                 ) {
                     ForEach([true, false], id: \.self) {
                         Text($0 ? "ASCENDING".localized : "DESCENDING".localized)
@@ -48,12 +48,12 @@ struct SortMenu_Previews: PreviewProvider {
     static var previews: some View {
         SortMenu(store: .init(
             initialState: .init(),
-            reducer: SortReducer()
+            reducer: { SortReducer() }
         ))
     }
 }
 
-struct SortReducer: ReducerProtocol {
+struct SortReducer: Reducer {
 
     struct State: Equatable {
         @BindingState var sortByKey = "dateAdded"
@@ -83,7 +83,7 @@ struct SortReducer: ReducerProtocol {
         case binding(_ action: BindingAction<State>)
     }
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { _, action in
             switch action {

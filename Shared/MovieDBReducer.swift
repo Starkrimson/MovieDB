@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct MovieDBReducer: ReducerProtocol {
+struct MovieDBReducer: Reducer {
 
     enum Tab: String, CaseIterable, Identifiable {
         var id: Self { self }
@@ -58,7 +58,7 @@ struct MovieDBReducer: ReducerProtocol {
         case watchlist(WatchlistReducer.Action)
     }
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some ReducerOf<Self> {
         Scope(state: \.discover, action: /Action.discover) {
             DiscoverReducer()
         }

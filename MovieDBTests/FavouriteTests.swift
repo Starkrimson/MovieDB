@@ -12,16 +12,15 @@ import ComposableArchitecture
 @MainActor
 final class FavouriteTests: XCTestCase {
     func testFetchFavouriteList() async {
-        let store = TestStore(
-            initialState: .init(),
-            reducer: FavouriteReducer()
-        )
-
         let favourites = [
             CDFavourite(context: PersistenceController.preview.container.viewContext)
         ]
 
-        store.dependencies.persistenceClient.favouriteList = { _, _ in favourites }
+        let store = TestStore(initialState: FavouriteReducer.State()) {
+            FavouriteReducer()
+        } withDependencies: {
+            $0.persistenceClient.favouriteList = { _, _, _ in favourites }
+        }
 
         await store.send(.fetchFavouriteList)
         await store.receive(.fetchFavouriteListDone(.success(favourites))) {
@@ -33,11 +32,12 @@ final class FavouriteTests: XCTestCase {
 
     func testModifyFilterItems() async {
         let store = TestStore(
-            initialState: .init(),
-            reducer: FavouriteReducer()
+            initialState: FavouriteReducer.State(),
+            reducer: { FavouriteReducer() },
+            withDependencies: {
+                $0.persistenceClient.favouriteList = { _, _, _ in [] }
+            }
         )
-
-        store.dependencies.persistenceClient.favouriteList = { _, _ in [] }
 
         await store.send(.binding(.set(\.$selectedMediaType, .movie))) {
             $0.selectedMediaType = .movie
@@ -45,14 +45,14 @@ final class FavouriteTests: XCTestCase {
         await store.receive(.fetchFavouriteList)
         await store.receive(.fetchFavouriteListDone(.success([])))
 
-        await store.send(.binding(.set(\.$ascending, true))) {
-            $0.ascending = true
+        await store.send(.binding(.set(\.sort.$ascending, true))) {
+            $0.sort.ascending = true
         }
         await store.receive(.fetchFavouriteList)
         await store.receive(.fetchFavouriteListDone(.success([])))
 
-        await store.send(.binding(.set(\.$sortByKeyPath, \CDFavourite.releaseDate))) {
-            $0.sortByKeyPath = \CDFavourite.releaseDate
+        await store.send(.binding(.set(\.sort.$sortByKey, "releaseDate"))) {
+            $0.sort.sortByKey = "releaseDate"
         }
         await store.receive(.fetchFavouriteList)
         await store.receive(.fetchFavouriteListDone(.success([])))

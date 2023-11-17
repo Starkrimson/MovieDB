@@ -47,9 +47,9 @@ extension DetailView {
                                         initialState: .init(
                                             mediaType: mediaType,
                                             name: item.name ?? "",
-                                            filters: [.genres([item.id ?? 0])]
+                                            filters: [URL.DiscoverQueryItem.genres([item.id ?? 0])]
                                         ),
-                                        reducer: DiscoverMediaReducer()
+                                        reducer: { DiscoverMediaReducer() }
                                     ))
                                 } label: {
                                     Text(item.name ?? "")
@@ -78,7 +78,7 @@ extension DetailView {
                                 NavigationLink {
                                     DetailView(store: .init(
                                         initialState: .init(media: .from(crew)),
-                                        reducer: DetailReducer()
+                                        reducer: { DetailReducer() }
                                     ))
                                 } label: {
                                     ProfileView(

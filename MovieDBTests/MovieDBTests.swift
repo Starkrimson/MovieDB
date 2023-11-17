@@ -13,10 +13,9 @@ import ComposableArchitecture
 final class MovieDBTests: XCTestCase {
 
     func testFetchPopularShows() async {
-        let store = TestStore(
-            initialState: .init(),
-            reducer: DiscoverReducer()
-        )
+        let store = TestStore(initialState: DiscoverReducer.State()) {
+            DiscoverReducer()
+        }
 
         // 获取热门电影
         _ = await store.send(.fetchPopular(.movie))
@@ -39,8 +38,8 @@ final class MovieDBTests: XCTestCase {
 
     func testFetchMovie() async {
         let store = TestStore(
-            initialState: .init(media: mockMedias[0]),
-            reducer: DetailReducer()
+            initialState: DetailReducer.State(media: mockMedias[0]),
+            reducer: { DetailReducer() }
         )
 
         _ = await store.send(.fetchDetails)
@@ -54,8 +53,8 @@ final class MovieDBTests: XCTestCase {
 
     func testFetchTVShow() async {
         let store = TestStore(
-            initialState: .init(media: mockMedias[1], status: .normal),
-            reducer: DetailReducer()
+            initialState: DetailReducer.State(media: mockMedias[1], status: .normal),
+            reducer: { DetailReducer() }
         )
 
         _ = await store.send(.fetchDetails) {
@@ -71,8 +70,8 @@ final class MovieDBTests: XCTestCase {
 
     func testFetchMovieCollection() async {
         let store = TestStore(
-            initialState: .init(belongsTo: .init(id: 1)),
-            reducer: MovieCollectionReducer()
+            initialState: MovieCollectionReducer.State(belongsTo: .init(id: 1)),
+            reducer: { MovieCollectionReducer() }
         )
 
         _ = await store.send(.fetchCollection)
@@ -87,8 +86,8 @@ final class MovieDBTests: XCTestCase {
 
     func testFetchTVSeason() async {
         let store = TestStore(
-            initialState: .init(tvID: 1, seasonNumber: 2, showName: ""),
-            reducer: SeasonReducer()
+            initialState: SeasonReducer.State(tvID: 1, seasonNumber: 2, showName: ""),
+            reducer: { SeasonReducer() }
         )
 
         _ = await store.send(.fetchSeason)

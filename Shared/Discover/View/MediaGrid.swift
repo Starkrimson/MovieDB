@@ -20,7 +20,7 @@ struct MediaGrid: View {
                     DetailItem(
                         store: .init(
                             initialState: .init(media: item),
-                            reducer: DetailReducer()
+                            reducer: { DetailReducer() }
                         ),
                         imageSize: .aspectRatio
                     )

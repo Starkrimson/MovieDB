@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct DiscoverReducer: ReducerProtocol {
+struct DiscoverReducer: Reducer {
 
     struct State: Equatable {
         var randomMedia: Media?
@@ -45,7 +45,7 @@ struct DiscoverReducer: ReducerProtocol {
 
     @Dependency(\.dbClient) var dbClient
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {
@@ -54,17 +54,17 @@ struct DiscoverReducer: ReducerProtocol {
 
             case .task:
                 return .merge(
-                    .task { .fetchPopular(.movie) },
-                    .task { .fetchPopular(.tvShow) },
-                    .task { .fetchTrending(timeWindow: .day) },
-                    .task { .fetchTrending(timeWindow: .week) }
+                    .send(.fetchPopular(.movie)),
+                    .send(.fetchPopular(.tvShow)),
+                    .send(.fetchTrending(timeWindow: .day)),
+                    .send(.fetchTrending(timeWindow: .week))
                 )
 
             case .fetchPopular(let kind):
-                return .task {
-                    await .fetchPopularDone(kind: kind, result: TaskResult {
+                return .run { send in
+                    await send(.fetchPopularDone(kind: kind, result: TaskResult {
                         try await dbClient.popular(kind, 1).results ?? []
-                    })
+                    }))
                 }
                 .animation()
 
@@ -90,14 +90,14 @@ struct DiscoverReducer: ReducerProtocol {
                 return .none
 
             case .fetchTrending(mediaType: let mediaType, timeWindow: let timeWindow):
-                return .task {
-                    await .fetchTrendingDone(
+                return .run { send in
+                    await send(.fetchTrendingDone(
                         mediaType: mediaType,
                         timeWindow: timeWindow,
                         result: TaskResult<[Media]> {
                             try await dbClient.trending(mediaType, timeWindow)
                         }
-                    )
+                    ))
                 }
                 .animation()
 
