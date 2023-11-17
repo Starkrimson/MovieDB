@@ -63,7 +63,7 @@ struct ContentView: View {
                     viewStore.send(.search(.search()))
                 }
             } detail: {
-                NavigationStack {
+                NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
                     switch viewStore.selectedTab {
                     case .search:
                         SearchResultsView(store: store.scope(
@@ -120,6 +120,15 @@ struct ContentView: View {
 
                     case .none:
                         EmptyView()
+                    }
+                } destination: { path in
+                    switch path {
+                    case .detail:
+                        CaseLet(
+                            /Route.State.detail,
+                             action: Route.Action.detail,
+                             then: DetailView.init(store:)
+                        )
                     }
                 }
             }
