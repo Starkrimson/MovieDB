@@ -153,6 +153,12 @@ struct ContentView: View {
                              action: Route.Action.discoverMedia,
                              then: DiscoverMediaView.init(store:)
                         )
+                    case .credit:
+                        CaseLet(
+                            /Route.State.credit,
+                             action: Route.Action.credit,
+                             then: CreditView.init(store:)
+                        )
                     }
                 }
             }

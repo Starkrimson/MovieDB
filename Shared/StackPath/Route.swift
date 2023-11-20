@@ -17,6 +17,7 @@ struct Route {
         case episode(EpisodeReducer.State)
         case movieCollection(MovieCollectionReducer.State)
         case discoverMedia(DiscoverMediaReducer.State)
+        case credit(CreditReducer.State)
     }
 
     enum Action: Equatable {
@@ -25,6 +26,7 @@ struct Route {
         case episode(EpisodeReducer.Action)
         case movieCollection(MovieCollectionReducer.Action)
         case discoverMedia(DiscoverMediaReducer.Action)
+        case credit(CreditReducer.Action)
     }
 
     var body: some ReducerOf<Self> {
@@ -42,6 +44,9 @@ struct Route {
         }
         Scope(state: \.discoverMedia, action: \.discoverMedia) {
             DiscoverMediaReducer()
+        }
+        Scope(state: \.credit, action: \.credit) {
+            CreditReducer()
         }
     }
 }
