@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct CreditReducer {
 
-    struct State: Equatable, Hashable { 
+    struct State: Equatable, Hashable {
         var credit: Media.Credits
         var combinedCredits: [Media.CombinedCredits]
 

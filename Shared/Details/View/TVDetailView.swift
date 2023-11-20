@@ -42,11 +42,11 @@ struct TVDetailView: View {
                 }
 
                 // MARK: - 海报/剧照
-                if let images = viewStore.tvShow.images {
-                    DetailView.Images(
-                        images: images,
-                        videos: viewStore.tvShow.videos?.results ?? []
-                    )
+                if viewStore.tvShow.images != nil {
+                    DetailView.Images(store: .init(
+                        initialState: viewStore.imageGridState,
+                        reducer: { ImageGridReducer() }
+                    ))
                 }
 
                 // MARK: - 相关推荐

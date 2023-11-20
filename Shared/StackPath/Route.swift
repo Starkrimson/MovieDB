@@ -18,6 +18,8 @@ struct Route {
         case movieCollection(MovieCollectionReducer.State)
         case discoverMedia(DiscoverMediaReducer.State)
         case credit(CreditReducer.State)
+        case imageGrid(ImageGridReducer.State)
+        case image(ImageReducer.State)
     }
 
     enum Action: Equatable {
@@ -27,6 +29,8 @@ struct Route {
         case movieCollection(MovieCollectionReducer.Action)
         case discoverMedia(DiscoverMediaReducer.Action)
         case credit(CreditReducer.Action)
+        case imageGrid(ImageGridReducer.Action)
+        case image(ImageReducer.Action)
     }
 
     var body: some ReducerOf<Self> {
@@ -47,6 +51,12 @@ struct Route {
         }
         Scope(state: \.credit, action: \.credit) {
             CreditReducer()
+        }
+        Scope(state: \.imageGrid, action: \.imageGrid) {
+            ImageGridReducer()
+        }
+        Scope(state: \.image, action: \.image) {
+            ImageReducer()
         }
     }
 }

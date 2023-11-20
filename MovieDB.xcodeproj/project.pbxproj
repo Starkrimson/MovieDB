@@ -63,6 +63,8 @@
 		09CE6D832918EC7D001E87F3 /* SearchReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE6D822918EC7D001E87F3 /* SearchReducer.swift */; };
 		09CE6D862918FAB3001E87F3 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE6D852918FAB3001E87F3 /* SearchResultsView.swift */; };
 		09D1CC752B0B0317006EB4E5 /* CreditReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CC742B0B0317006EB4E5 /* CreditReducer.swift */; };
+		09D1CC772B0B0806006EB4E5 /* ImageGridReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CC762B0B0806006EB4E5 /* ImageGridReducer.swift */; };
+		09D1CC792B0B3303006EB4E5 /* ImageReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CC782B0B3303006EB4E5 /* ImageReducer.swift */; };
 		09D2E110288A454700A14D96 /* Credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D2E10F288A454700A14D96 /* Credits.swift */; };
 		09D7A009289259E500CE9C9F /* EpisodeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7A008289259E500CE9C9F /* EpisodeList.swift */; };
 		09D9A37D288A9ED200ABD638 /* CreditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D9A37C288A9ED200ABD638 /* CreditView.swift */; };
@@ -163,6 +165,8 @@
 		09CE6D822918EC7D001E87F3 /* SearchReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReducer.swift; sourceTree = "<group>"; };
 		09CE6D852918FAB3001E87F3 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
 		09D1CC742B0B0317006EB4E5 /* CreditReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditReducer.swift; sourceTree = "<group>"; };
+		09D1CC762B0B0806006EB4E5 /* ImageGridReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridReducer.swift; sourceTree = "<group>"; };
+		09D1CC782B0B3303006EB4E5 /* ImageReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageReducer.swift; sourceTree = "<group>"; };
 		09D2E10F288A454700A14D96 /* Credits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credits.swift; sourceTree = "<group>"; };
 		09D7A008289259E500CE9C9F /* EpisodeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeList.swift; sourceTree = "<group>"; };
 		09D9A37C288A9ED200ABD638 /* CreditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditView.swift; sourceTree = "<group>"; };
@@ -403,6 +407,8 @@
 			children = (
 				09A05A99287FE971003A2225 /* DetailReducer.swift */,
 				09D1CC742B0B0317006EB4E5 /* CreditReducer.swift */,
+				09D1CC762B0B0806006EB4E5 /* ImageGridReducer.swift */,
+				09D1CC782B0B3303006EB4E5 /* ImageReducer.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -679,6 +685,7 @@
 				095990E5292E091C0064EFBA /* PersistenceClient.swift in Sources */,
 				09CD646D2924923300F45376 /* ImageBrowser.swift in Sources */,
 				0929EDB8286D93CC007C4BFB /* MovieDB.xcdatamodeld in Sources */,
+				09D1CC792B0B3303006EB4E5 /* ImageReducer.swift in Sources */,
 				09F295F8291DE52B00D0F28E /* MediaFilterMenu.swift in Sources */,
 				09F0263128853971009DAC1F /* DetailRecommended.swift in Sources */,
 				09E15D0B28912F8B00D64488 /* ErrorTips.swift in Sources */,
@@ -704,6 +711,7 @@
 				09F295F6291DDF9B00D0F28E /* MediaFilterReducer.swift in Sources */,
 				098C5442288532C20063341E /* DetailCollection.swift in Sources */,
 				09E15DA82892429A00D64488 /* SeasonState.swift in Sources */,
+				09D1CC772B0B0806006EB4E5 /* ImageGridReducer.swift in Sources */,
 				0952C8FD289776A600E3A7D8 /* DiscoverMediaState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,10 +15,16 @@ struct MovieState: Equatable, Hashable {
     var directors: [Media.Crew]
     var writers: [Media.Crew]
 
+    var imageGridState: ImageGridReducer.State
+
     init(_ movie: Movie) {
         self.movie = movie
         directors = movie.credits?.crew?.filter { $0.department == "Directing" }.unique(\.id) ?? []
         writers = movie.credits?.crew?.filter { $0.department == "Writing" }.unique(\.id) ?? []
+        imageGridState = .init(
+            images: movie.images ?? .init(),
+            videos: movie.videos?.results ?? []
+        )
     }
 }
 
@@ -27,10 +33,16 @@ struct TVState: Equatable, Hashable {
 
     var createdBy: [Media.Crew]
 
+    var imageGridState: ImageGridReducer.State
+
     init(_ tvShow: TVShow) {
         self.tvShow = tvShow
 
         createdBy = tvShow.createdBy?.unique(\.id) ?? []
+        imageGridState = .init(
+            images: tvShow.images ?? .init(),
+            videos: tvShow.videos?.results ?? []
+        )
     }
 }
 
@@ -139,7 +151,6 @@ struct DetailReducer: Reducer {
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
-
             switch action {
             case .fetchDetails:
                 state.status = .loading

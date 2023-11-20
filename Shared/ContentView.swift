@@ -159,6 +159,18 @@ struct ContentView: View {
                              action: Route.Action.credit,
                              then: CreditView.init(store:)
                         )
+                    case .imageGrid:
+                        CaseLet(
+                            /Route.State.imageGrid,
+                             action: Route.Action.imageGrid,
+                             then: { ImageGridView(store: $0) }
+                        )
+                    case .image:
+                        CaseLet(
+                            /Route.State.image,
+                             action: Route.Action.image,
+                             then: { ImageBrowser(store: $0) }
+                        )
                     }
                 }
             }

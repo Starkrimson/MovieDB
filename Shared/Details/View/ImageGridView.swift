@@ -6,83 +6,78 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct ImageGridView: View {
-    let images: Media.Images
-    var videos: [Media.Video] = []
-
-    @State var selectedImageType: Media.ImageType = .backdrops
+    let store: StoreOf<ImageGridReducer>
 
     @Environment(\.openURL) var openURL
 
     var body: some View {
-        ScrollView {
-            GridLayout(
-                estimatedItemWidth: selectedImageType == .posters ? 188 : 375
-            ) {
-                if selectedImageType == .videos {
-                    videoStack
-                } else {
-                    ForEach(
-                        images.images(of: selectedImageType)
-                    ) { item in
-                        NavigationLink {
-                            ImageBrowser(image: item)
-                        } label: {
-                            Item(image: item, type: selectedImageType)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
-            .padding()
-        }
-        .toolbar {
-            Picker("MEDIA".localized, selection: $selectedImageType) {
-                ForEach(
-                    videos.isEmpty
-                    ? images.imageTypes
-                    : [.videos] + images.imageTypes
+        WithViewStore(store) {
+            $0
+        } content: { viewStore in
+            ScrollView {
+                GridLayout(
+                    estimatedItemWidth: viewStore.selectedImageType == .posters ? 188 : 375
                 ) {
-                    Text($0.description)
-                        .tag($0)
-                }
-            }
-            .pickerStyle(.segmented)
-        }
-        .navigationTitle("MEDIA".localized)
-    }
+                    if viewStore.selectedImageType == .videos {
+                        ForEach(viewStore.videos) { video in
+                            Button {
+                                if let url = video.key?.ytPlayURL {
+                                    openURL(url)
+                                }
+                            } label: {
+                                ZStack(alignment: .bottomLeading) {
+                                    ZStack {
+                                        URLImage(video.key?.ytImagePath)
 
-    @ViewBuilder
-    var videoStack: some View {
-        ForEach(videos) { video in
-            Button {
-                if let url = video.key?.ytPlayURL {
-                    openURL(url)
-                }
-            } label: {
-                ZStack(alignment: .bottomLeading) {
-                    ZStack {
-                        URLImage(video.key?.ytImagePath)
-
-                        Image(systemName: "play.circle.fill")
-                            .font(.largeTitle)
+                                        Image(systemName: "play.circle.fill")
+                                            .font(.largeTitle)
+                                    }
+                                    HStack {
+                                        Text(video.name ?? "")
+                                            .lineLimit(2)
+                                            .padding(4)
+                                            .background(.ultraThinMaterial)
+                                            .cornerRadius(6)
+                                        Spacer()
+                                        Image(systemName: "link")
+                                    }
+                                    .font(.caption)
+                                    .padding(6)
+                                }
+                                .aspectRatio(240/180, contentMode: .fill)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    } else {
+                        ForEach(
+                            viewStore.images.images(of: viewStore.selectedImageType)
+                        ) { item in
+                            NavigationLink(route: .image(.init(image: item))) {
+                                Item(image: item, type: viewStore.selectedImageType)
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
-                    HStack {
-                        Text(video.name ?? "")
-                            .lineLimit(2)
-                            .padding(4)
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(6)
-                        Spacer()
-                        Image(systemName: "link")
-                    }
-                    .font(.caption)
-                    .padding(6)
                 }
-                .aspectRatio(240/180, contentMode: .fill)
+                .padding()
             }
-            .buttonStyle(.plain)
+            .toolbar {
+                Picker("MEDIA".localized, selection: viewStore.$selectedImageType) {
+                    ForEach(
+                        viewStore.videos.isEmpty
+                        ? viewStore.images.imageTypes
+                        : [.videos] + viewStore.images.imageTypes
+                    ) {
+                        Text($0.description)
+                            .tag($0)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+            .navigationTitle("MEDIA".localized)
         }
     }
 }
@@ -156,9 +151,14 @@ extension ImageGridView {
 struct ImageGridView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            ImageGridView(
-                images: mockMovies[0].images ?? .init(),
-                selectedImageType: .backdrops
+            ImageGridView(store: .init(
+                initialState: .init(
+                    images: mockMovies[0].images ?? .init(),
+                    selectedImageType: .backdrops
+                ),
+                reducer: {
+                    ImageGridReducer()
+                })
             )
         }
     }

@@ -73,9 +73,7 @@ struct EpisodeView: View {
                        !images.isEmpty {
                         GridLayout(estimatedItemWidth: 375) {
                             ForEach(images) { item in
-                                NavigationLink {
-                                    ImageBrowser(image: item)
-                                } label: {
+                                NavigationLink(route: .image(.init(image: item))) {
                                     URLImage(item.filePath?.imagePath(.best(width: 454, height: 254)))
                                         .aspectRatio(item.aspectRatio ?? 1, contentMode: .fill)
                                 }
