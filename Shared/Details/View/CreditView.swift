@@ -58,12 +58,7 @@ struct CreditView: View {
             ForEach(combinedCredits) { credit in
                 GridLayout(estimatedItemWidth: 250) {
                     ForEach(credit.credits) { item in
-                        NavigationLink {
-                            DetailView(store: .init(
-                                initialState: .init(media: .from(item)),
-                                reducer: { DetailReducer() }
-                            ))
-                        } label: {
+                        NavigationLink(route: .detail(.init(media: .from(item)))) {
                             ProfileView(
                                 axis: .horizontal,
                                 profilePath: item.posterPath ?? "",

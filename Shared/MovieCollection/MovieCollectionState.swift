@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct MovieCollectionReducer: Reducer {
 
-    struct State: Equatable {
+    struct State: Equatable, Hashable {
         let belongsTo: BelongsToCollection
         var status: ViewStatus = .loading
 

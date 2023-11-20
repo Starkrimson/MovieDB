@@ -129,6 +129,30 @@ struct ContentView: View {
                              action: Route.Action.detail,
                              then: DetailView.init(store:)
                         )
+                    case .season:
+                        CaseLet(
+                            /Route.State.season,
+                             action: Route.Action.season,
+                             then: EpisodeList.init(store:)
+                        )
+                    case .episode:
+                        CaseLet(
+                            /Route.State.episode,
+                             action: Route.Action.episode,
+                             then: EpisodeView.init(store:)
+                        )
+                    case .movieCollection:
+                        CaseLet(
+                            /Route.State.movieCollection,
+                             action: Route.Action.movieCollection,
+                             then: MovieCollectionView.init(store:)
+                        )
+                    case .discoverMedia:
+                        CaseLet(
+                            /Route.State.discoverMedia,
+                             action: Route.Action.discoverMedia,
+                             then: DiscoverMediaView.init(store:)
+                        )
                     }
                 }
             }

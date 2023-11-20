@@ -197,7 +197,7 @@ extension URL {
         )
     }
 
-    enum DiscoverQueryItem: Equatable {
+    enum DiscoverQueryItem: Equatable, Hashable {
         /// Specify the page of results to query. minimum: 1 maximum: 1000 default: 1
         case page(Int)
         /// Choose from one of the many available sort options.

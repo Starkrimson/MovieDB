@@ -42,16 +42,11 @@ extension DetailView {
                         // MARK: - 类型
                         HStack {
                             ForEach(genres) { item in
-                                NavigationLink {
-                                    DiscoverMediaView(store: .init(
-                                        initialState: .init(
-                                            mediaType: mediaType,
-                                            name: item.name ?? "",
-                                            filters: [URL.DiscoverQueryItem.genres([item.id ?? 0])]
-                                        ),
-                                        reducer: { DiscoverMediaReducer() }
-                                    ))
-                                } label: {
+                                NavigationLink(route: .discoverMedia(.init(
+                                    mediaType: mediaType,
+                                    name: item.name ?? "",
+                                    filters: [URL.DiscoverQueryItem.genres([item.id ?? 0])]
+                                ))) {
                                     Text(item.name ?? "")
                                 }
                             }
@@ -75,12 +70,7 @@ extension DetailView {
                     ScrollView(.horizontal) {
                         HStack(alignment: .top) {
                             ForEach(list) { crew in
-                                NavigationLink {
-                                    DetailView(store: .init(
-                                        initialState: .init(media: .from(crew)),
-                                        reducer: { DetailReducer() }
-                                    ))
-                                } label: {
+                                NavigationLink(route: .detail(.init(media: .from(crew)))) {
                                     ProfileView(
                                         axis: .horizontal,
                                         profilePath: crew.profilePath ?? "",

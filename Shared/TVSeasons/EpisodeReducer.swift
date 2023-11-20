@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct EpisodeReducer: Reducer {
 
-    struct State: Equatable {
+    struct State: Equatable, Hashable {
         let tvID: Int
         var episode: Episode
 

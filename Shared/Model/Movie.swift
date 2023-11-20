@@ -126,7 +126,7 @@ struct ExternalIds: Codable, Equatable, Hashable {
 
 extension Movie {
 
-    struct Collection: Codable, Equatable, Identifiable, DBResponses {
+    struct Collection: Codable, Equatable, Identifiable, DBResponses, Hashable {
         var backdropPath: String?
         var id: Int?
         var name: String?

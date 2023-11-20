@@ -20,12 +20,7 @@ extension PersonDetailView {
                         HStack {
                             Text(item.year)
                                 .frame(minWidth: 40)
-                            NavigationLink {
-                                DetailView(store: .init(
-                                    initialState: .init(media: .from(item)),
-                                    reducer: { DetailReducer() }
-                                ))
-                            } label: {
+                            NavigationLink(route: .detail(.init(media: .from(item)))) {
                                 Text(item.title)
                             }
                             .buttonStyle(.plain)

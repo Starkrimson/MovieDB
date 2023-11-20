@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct DiscoverMediaReducer: Reducer {
 
-    struct State: Equatable {
+    struct State: Equatable, Hashable {
 
         let mediaType: MediaType
         let name: String

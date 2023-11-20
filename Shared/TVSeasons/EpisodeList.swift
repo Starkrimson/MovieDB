@@ -47,12 +47,7 @@ struct EpisodeList: View {
 
                             VStack {
                                 ForEach(viewStore.episodes) { episode in
-                                    NavigationLink {
-                                        EpisodeView(store: .init(
-                                            initialState: .init(tvID: viewStore.tvID, episode: episode),
-                                            reducer: { EpisodeReducer() }
-                                        ))
-                                    } label: {
+                                    NavigationLink(route: .episode(.init(tvID: viewStore.tvID, episode: episode))) {
                                         EpisodeRow(episode: episode)
                                             .padding(.horizontal)
                                     }

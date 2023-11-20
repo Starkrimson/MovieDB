@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct MediaFilterReducer: Reducer {
 
-    struct State: Equatable {
+    struct State: Equatable, Hashable {
         @BindingState var sortBy: String = "popularity.desc"
 
         @BindingState var minimumUserScore: Int = 0

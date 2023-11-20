@@ -33,12 +33,7 @@ struct EpisodeView: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(crew) { item in
-                                    NavigationLink {
-                                        DetailView(store: .init(
-                                            initialState: .init(media: .from(item)),
-                                            reducer: { DetailReducer() }
-                                        ))
-                                    } label: {
+                                    NavigationLink(route: .detail(.init(media: .from(item)))) {
                                         ProfileView(
                                             axis: .horizontal,
                                             profilePath: item.profilePath ?? "",
@@ -58,12 +53,7 @@ struct EpisodeView: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(guestStars) { item in
-                                    NavigationLink {
-                                        DetailView(store: .init(
-                                            initialState: .init(media: .from(item)),
-                                            reducer: { DetailReducer() }
-                                        ))
-                                    } label: {
+                                    NavigationLink(route: .detail(.init(media: .from(item)))) {
                                         ProfileView(
                                             profilePath: item.profilePath ?? "",
                                             name: item.name ?? "",

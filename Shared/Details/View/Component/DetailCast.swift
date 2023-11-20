@@ -21,12 +21,7 @@ extension DetailView {
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
                     ForEach(cast.prefix(10)) { cast in
-                        NavigationLink {
-                            DetailView(store: .init(
-                                initialState: .init(media: .from(cast)),
-                                reducer: { DetailReducer() }
-                            ))
-                        } label: {
+                        NavigationLink(route: .detail(.init(media: .from(cast)))) {
                             ProfileView(
                                 profilePath: cast.profilePath ?? "",
                                 name: cast.name ?? "",

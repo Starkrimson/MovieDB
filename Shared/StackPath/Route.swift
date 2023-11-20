@@ -13,15 +13,35 @@ struct Route {
 
     enum State: Equatable, Hashable {
         case detail(DetailReducer.State)
+        case season(SeasonReducer.State)
+        case episode(EpisodeReducer.State)
+        case movieCollection(MovieCollectionReducer.State)
+        case discoverMedia(DiscoverMediaReducer.State)
     }
 
     enum Action: Equatable {
         case detail(DetailReducer.Action)
+        case season(SeasonReducer.Action)
+        case episode(EpisodeReducer.Action)
+        case movieCollection(MovieCollectionReducer.Action)
+        case discoverMedia(DiscoverMediaReducer.Action)
     }
 
     var body: some ReducerOf<Self> {
         Scope(state: \.detail, action: \.detail) {
             DetailReducer()
+        }
+        Scope(state: \.season, action: \.season) {
+            SeasonReducer()
+        }
+        Scope(state: \.episode, action: \.episode) {
+            EpisodeReducer()
+        }
+        Scope(state: \.movieCollection, action: \.movieCollection) {
+            MovieCollectionReducer()
+        }
+        Scope(state: \.discoverMedia, action: \.discoverMedia) {
+            DiscoverMediaReducer()
         }
     }
 }
