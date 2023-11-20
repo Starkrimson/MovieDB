@@ -27,7 +27,7 @@ struct FavouriteReducer {
 
         case sort(SortReducer.Action)
 
-        case media(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case media(IdentifiedActionOf<DetailReducer>)
     }
 
     @Dependency(\.persistenceClient) var persistenceClient
@@ -74,7 +74,7 @@ struct FavouriteReducer {
                 return .none
             }
         }
-        .forEach(\.list, action: /Action.media) {
+        .forEach(\.list, action: \.media) {
             DetailReducer()
         }
     }
