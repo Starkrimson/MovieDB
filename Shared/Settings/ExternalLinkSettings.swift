@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 
-struct ExternalLinkReducer: Reducer {
+@Reducer
+struct ExternalLinkReducer {
 
     struct State: Equatable {
         var list: IdentifiedArrayOf<CDExternalLink> = []

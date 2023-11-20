@@ -109,7 +109,8 @@ struct PersonState: Equatable, Hashable {
     }
 }
 
-struct DetailReducer: Reducer {
+@Reducer
+struct DetailReducer {
 
     struct State: Equatable, Identifiable, Hashable {
         var id: Media.ID? { media.id }

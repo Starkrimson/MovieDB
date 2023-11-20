@@ -62,25 +62,25 @@ struct MovieDBReducer {
     }
 
     var body: some ReducerOf<Self> {
-        Scope(state: \.discover, action: /Action.discover) {
+        Scope(state: \.discover, action: \.discover) {
             DiscoverReducer()
         }
-        Scope(state: \.search, action: /Action.search) {
+        Scope(state: \.search, action: \.search) {
             SearchReducer()
         }
-        Scope(state: \.movies, action: /Action.movies) {
+        Scope(state: \.movies, action: \.movies) {
             DiscoverMediaReducer()
         }
-        Scope(state: \.tvShows, action: /Action.tvShows) {
+        Scope(state: \.tvShows, action: \.tvShows) {
             DiscoverMediaReducer()
         }
-        Scope(state: \.people, action: /Action.people) {
+        Scope(state: \.people, action: \.people) {
             DiscoverMediaReducer()
         }
-        Scope(state: \.favourites, action: /Action.favourites) {
+        Scope(state: \.favourites, action: \.favourites) {
             FavouriteReducer()
         }
-        Scope(state: \.watchlist, action: /Action.watchlist) {
+        Scope(state: \.watchlist, action: \.watchlist) {
             WatchlistReducer()
         }
         BindingReducer()

@@ -8,7 +8,8 @@
 import Foundation
 import ComposableArchitecture
 
-struct WatchlistReducer: Reducer {
+@Reducer
+struct WatchlistReducer {
 
     struct State: Equatable {
         var selectedMediaType = MediaType.all

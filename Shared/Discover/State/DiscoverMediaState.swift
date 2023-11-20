@@ -8,7 +8,14 @@
 import Foundation
 import ComposableArchitecture
 
-struct DiscoverMediaReducer: Reducer {
+@Reducer
+struct DiscoverMediaReducer {
+
+    enum QuickSort: String, CaseIterable, Identifiable {
+        var id: Self { self }
+        case popular = "POPULAR"
+        case topRated = "TOP RATED"
+    }
 
     struct State: Equatable, Hashable {
 
@@ -33,7 +40,7 @@ struct DiscoverMediaReducer: Reducer {
     enum Action: Equatable {
         case fetchMedia(loadMore: Bool = false)
         case fetchMediaDone(loadMore: Bool, result: TaskResult<PageResponses<Media>>)
-        case setQuickSort(State.QuickSort)
+        case setQuickSort(QuickSort)
         case filter(MediaFilterReducer.Action)
     }
 
@@ -98,13 +105,5 @@ struct DiscoverMediaReducer: Reducer {
                 return .send(.fetchMedia())
             }
         }
-    }
-}
-
-extension DiscoverMediaReducer.State {
-    enum QuickSort: String, CaseIterable, Identifiable {
-        var id: Self { self }
-        case popular = "POPULAR"
-        case topRated = "TOP RATED"
     }
 }

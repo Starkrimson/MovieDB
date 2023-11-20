@@ -39,7 +39,7 @@ struct DiscoverMediaView: View {
                         Picker("Menu", selection: viewStore.binding(
                             get: \.quickSort, send: DiscoverMediaReducer.Action.setQuickSort
                         )) {
-                            ForEach(DiscoverMediaReducer.State.QuickSort.allCases) { item in
+                            ForEach(DiscoverMediaReducer.QuickSort.allCases) { item in
                                 Text(item.rawValue.localized)
                             }
                         }
