@@ -88,6 +88,7 @@ final class MediaGridTests: XCTestCase {
             $0.status = .normal
         }
     }
+    // swiftlint:enable function_body_length
 
     func testPersonGrid() async {
         let store = TestStore(

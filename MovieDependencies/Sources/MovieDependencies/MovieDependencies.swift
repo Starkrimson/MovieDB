@@ -259,9 +259,9 @@ public extension Date {
         public static let dd: DateFormats = "dd"
         /// Tuesday
         public static let EEEE: DateFormats = "EEEE"
-        // swiftlint:disable identifier_name
         /// Tue
         public static let E: DateFormats = "E"
+        // swiftlint:enable identifier_name
     }
 
     func string(
