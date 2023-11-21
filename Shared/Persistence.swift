@@ -7,6 +7,7 @@
 
 import CoreData
 import CustomDump
+import SwiftData
 
 struct PersistenceController {
     static let shared = PersistenceController()
@@ -32,11 +33,19 @@ struct PersistenceController {
     }()
 
     let container: NSPersistentCloudKitContainer
+    var storeURL: URL? // = URL.documentsDirectory.appending(path: "shared.store")
+
+    let modelContainer: ModelContainer
 
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "MovieDB")
-        if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        if let description = container.persistentStoreDescriptions.first {
+            if inMemory {
+                description.url = URL(fileURLWithPath: "/dev/null")
+            } else {
+                storeURL = description.url
+                description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+            }
         }
         customDump(container.persistentStoreDescriptions.first!.url)
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -63,6 +72,10 @@ struct PersistenceController {
 
         do {
             try container.viewContext.setQueryGenerationFrom(.current)
+            modelContainer = try ModelContainer(
+                for: Favourite.self, Watch.self, ExternalLink.self,
+                configurations: ModelConfiguration(url: storeURL ?? URL(fileURLWithPath: "/dev/null"))
+            )
         } catch {
             fatalError("Failed to pin viewContext to the current generation:\(error)")
         }

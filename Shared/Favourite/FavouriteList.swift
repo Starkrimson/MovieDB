@@ -50,6 +50,13 @@ struct FavouriteList: View {
                     ))
                 }
             }
+            .onReceive(
+                NotificationCenter.default
+                    .publisher(for: .NSManagedObjectContextObjectsDidChange)
+                    .receive(on: DispatchQueue.main)
+            ) { _ in
+                viewStore.send(.fetchFavouriteList)
+            }
         }
     }
 }

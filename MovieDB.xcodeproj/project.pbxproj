@@ -65,6 +65,9 @@
 		09D1CC752B0B0317006EB4E5 /* CreditReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CC742B0B0317006EB4E5 /* CreditReducer.swift */; };
 		09D1CC772B0B0806006EB4E5 /* ImageGridReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CC762B0B0806006EB4E5 /* ImageGridReducer.swift */; };
 		09D1CC792B0B3303006EB4E5 /* ImageReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CC782B0B3303006EB4E5 /* ImageReducer.swift */; };
+		09D1CD0A2B0C3FC6006EB4E5 /* Favourite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CD062B0C3FC6006EB4E5 /* Favourite.swift */; };
+		09D1CD0C2B0C3FC6006EB4E5 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CD082B0C3FC6006EB4E5 /* Watch.swift */; };
+		09D1CD0D2B0C3FC6006EB4E5 /* ExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1CD092B0C3FC6006EB4E5 /* ExternalLink.swift */; };
 		09D2E110288A454700A14D96 /* Credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D2E10F288A454700A14D96 /* Credits.swift */; };
 		09D7A009289259E500CE9C9F /* EpisodeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D7A008289259E500CE9C9F /* EpisodeList.swift */; };
 		09D9A37D288A9ED200ABD638 /* CreditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D9A37C288A9ED200ABD638 /* CreditView.swift */; };
@@ -167,6 +170,9 @@
 		09D1CC742B0B0317006EB4E5 /* CreditReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditReducer.swift; sourceTree = "<group>"; };
 		09D1CC762B0B0806006EB4E5 /* ImageGridReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridReducer.swift; sourceTree = "<group>"; };
 		09D1CC782B0B3303006EB4E5 /* ImageReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageReducer.swift; sourceTree = "<group>"; };
+		09D1CD062B0C3FC6006EB4E5 /* Favourite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favourite.swift; sourceTree = "<group>"; };
+		09D1CD082B0C3FC6006EB4E5 /* Watch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watch.swift; sourceTree = "<group>"; };
+		09D1CD092B0C3FC6006EB4E5 /* ExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLink.swift; sourceTree = "<group>"; };
 		09D2E10F288A454700A14D96 /* Credits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credits.swift; sourceTree = "<group>"; };
 		09D7A008289259E500CE9C9F /* EpisodeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeList.swift; sourceTree = "<group>"; };
 		09D9A37C288A9ED200ABD638 /* CreditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditView.swift; sourceTree = "<group>"; };
@@ -214,6 +220,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09281F642B0C4607008DA420 /* PersistenceModel */ = {
+			isa = PBXGroup;
+			children = (
+				09D1CD062B0C3FC6006EB4E5 /* Favourite.swift */,
+				09D1CD082B0C3FC6006EB4E5 /* Watch.swift */,
+				09D1CD092B0C3FC6006EB4E5 /* ExternalLink.swift */,
+			);
+			path = PersistenceModel;
+			sourceTree = "<group>";
+		};
 		0929ED9F286D93CA007C4BFB = {
 			isa = PBXGroup;
 			children = (
@@ -323,6 +339,7 @@
 		096A1A75287BFD5700C3C412 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				09281F642B0C4607008DA420 /* PersistenceModel */,
 				0993FBAE287E659F002227E0 /* MovieDB.swift */,
 				096A1A76287BFD7500C3C412 /* Media.swift */,
 				0993FCD0287ECE27002227E0 /* Movie.swift */,
@@ -655,6 +672,7 @@
 				097D4A952936F31300DF3C6E /* DetailItem.swift in Sources */,
 				09B3A2612881652E009B4468 /* ScoreView.swift in Sources */,
 				09E15D0E28913DB100D64488 /* DetailSeason.swift in Sources */,
+				09D1CD0D2B0C3FC6006EB4E5 /* ExternalLink.swift in Sources */,
 				096A1A77287BFD7500C3C412 /* Media.swift in Sources */,
 				09DB36A1288012D100EFFC2B /* Person.swift in Sources */,
 				09DA6F252A1DBB0400EC387B /* WatchlistReducer.swift in Sources */,
@@ -669,6 +687,7 @@
 				09CE6D862918FAB3001E87F3 /* SearchResultsView.swift in Sources */,
 				09D7A009289259E500CE9C9F /* EpisodeList.swift in Sources */,
 				0929EDBE286D93CC007C4BFB /* Persistence.swift in Sources */,
+				09D1CD0A2B0C3FC6006EB4E5 /* Favourite.swift in Sources */,
 				0993FCD1287ECE27002227E0 /* Movie.swift in Sources */,
 				09A549F7288FE20F0052492A /* FlowLayout.swift in Sources */,
 				09CE6D832918EC7D001E87F3 /* SearchReducer.swift in Sources */,
@@ -694,6 +713,7 @@
 				096A1A7E287BFE7B00C3C412 /* AppError.swift in Sources */,
 				098C543C288530430063341E /* DetailCast.swift in Sources */,
 				0929EDBC286D93CC007C4BFB /* ContentView.swift in Sources */,
+				09D1CD0C2B0C3FC6006EB4E5 /* Watch.swift in Sources */,
 				09F0262E28853723009DAC1F /* ProfileView.swift in Sources */,
 				09B123192890DEA0007B5815 /* GridLayout.swift in Sources */,
 				099FCC6529F8CE5F00825999 /* ExternalLinks.swift in Sources */,
@@ -884,12 +904,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.starkrimson.MovieDB;
 				PRODUCT_NAME = MovieDB;
@@ -923,12 +943,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.starkrimson.MovieDB;
 				PRODUCT_NAME = MovieDB;
@@ -953,8 +973,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3S89AQP84V;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.starkrimson.MovieDBTests--iOS-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -979,8 +999,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3S89AQP84V;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.starkrimson.MovieDBTests--iOS-";
 				PRODUCT_NAME = "$(TARGET_NAME)";

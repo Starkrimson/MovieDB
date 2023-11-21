@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct MovieDBApp: App {
@@ -14,6 +15,7 @@ struct MovieDBApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(PersistenceController.shared.modelContainer)
         #if os(macOS)
         Settings {
             SettingsView()
