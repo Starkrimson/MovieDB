@@ -27,7 +27,7 @@ struct DiscoverView: View {
                 )
                 .padding(.top)
                 if viewStore.popularIndex == 0 {
-                    CardRow(store: store.scope(state: \.popularMovies, action: DiscoverReducer.Action.popularMovie))
+                    CardRow(store: store.scope(state: \.popularMovies, action: { .popularMovie($0) }))
                 } else {
                     CardRow(store: store.scope(state: \.popularTVShows, action: DiscoverReducer.Action.popularTVShow))
                 }

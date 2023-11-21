@@ -33,12 +33,7 @@ struct EpisodeView: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(crew) { item in
-                                    NavigationLink {
-                                        DetailView(store: .init(
-                                            initialState: .init(media: .from(item)),
-                                            reducer: { DetailReducer() }
-                                        ))
-                                    } label: {
+                                    NavigationLink(route: .detail(.init(media: .from(item)))) {
                                         ProfileView(
                                             axis: .horizontal,
                                             profilePath: item.profilePath ?? "",
@@ -58,12 +53,7 @@ struct EpisodeView: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(guestStars) { item in
-                                    NavigationLink {
-                                        DetailView(store: .init(
-                                            initialState: .init(media: .from(item)),
-                                            reducer: { DetailReducer() }
-                                        ))
-                                    } label: {
+                                    NavigationLink(route: .detail(.init(media: .from(item)))) {
                                         ProfileView(
                                             profilePath: item.profilePath ?? "",
                                             name: item.name ?? "",
@@ -83,9 +73,7 @@ struct EpisodeView: View {
                        !images.isEmpty {
                         GridLayout(estimatedItemWidth: 375) {
                             ForEach(images) { item in
-                                NavigationLink {
-                                    ImageBrowser(image: item)
-                                } label: {
+                                NavigationLink(route: .image(.init(image: item))) {
                                     URLImage(item.filePath?.imagePath(.best(width: 454, height: 254)))
                                         .aspectRatio(item.aspectRatio ?? 1, contentMode: .fill)
                                 }

@@ -33,11 +33,11 @@ struct MovieDetailView: View {
                 }
 
                 // MARK: - 海报/剧照
-                if let images = viewStore.movie.images {
-                    DetailView.Images(
-                        images: images,
-                        videos: viewStore.movie.videos?.results ?? []
-                    )
+                if viewStore.movie.images != nil {
+                    DetailView.Images(store: .init(
+                        initialState: viewStore.imageGridState,
+                        reducer: { ImageGridReducer() }
+                    ))
                 }
 
                 // MARK: - 电影系列

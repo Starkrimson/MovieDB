@@ -8,9 +8,10 @@
 import Foundation
 import ComposableArchitecture
 
-struct SeasonReducer: Reducer {
+@Reducer
+struct SeasonReducer {
 
-    struct State: Equatable {
+    struct State: Equatable, Hashable {
         let tvID: Int
         let seasonNumber: Int
         let showName: String

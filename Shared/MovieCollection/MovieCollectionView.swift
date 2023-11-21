@@ -26,20 +26,11 @@ struct MovieCollectionView: View {
                 case .error(let error):
                     ErrorTips(error: error)
                 case .normal:
-                    ForEachStore(store.scope(
-                        state: \.movies,
-                        action: MovieCollectionReducer.Action.movie)
-                    ) { detailStore in
-                        WithViewStore(detailStore) {
-                            $0
-                        } content: { detailViewStore in
-                            NavigationLink {
-                                DetailView(store: detailStore)
-                            } label: {
-                                Part(media: detailViewStore.media)
-                            }
-                            .buttonStyle(.plain)
+                    ForEach(viewStore.movies) { movie in
+                        NavigationLink(route: .detail(movie)) {
+                            Part(media: movie.media)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             }

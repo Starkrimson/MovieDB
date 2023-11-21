@@ -53,7 +53,8 @@ struct SortMenu_Previews: PreviewProvider {
     }
 }
 
-struct SortReducer: Reducer {
+@Reducer
+struct SortReducer {
 
     struct State: Equatable {
         @BindingState var sortByKey = "dateAdded"

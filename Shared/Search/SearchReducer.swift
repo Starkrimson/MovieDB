@@ -12,7 +12,8 @@ enum ViewStatus: Equatable, Hashable {
     case normal, loading, error(String)
 }
 
-struct SearchReducer: Reducer {
+@Reducer
+struct SearchReducer {
 
     struct State: Equatable {
         @BindingState var query: String = ""

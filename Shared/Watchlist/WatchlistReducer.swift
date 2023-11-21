@@ -8,7 +8,8 @@
 import Foundation
 import ComposableArchitecture
 
-struct WatchlistReducer: Reducer {
+@Reducer
+struct WatchlistReducer {
 
     struct State: Equatable {
         var selectedMediaType = MediaType.all
@@ -21,7 +22,7 @@ struct WatchlistReducer: Reducer {
         case fetchWatchlist
         case fetchWatchlistDone(TaskResult<[CDWatch]>)
 
-        case media(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case media(IdentifiedActionOf<DetailReducer>)
 
         case sort(SortReducer.Action)
         case selectMediaType(MediaType)
@@ -69,7 +70,7 @@ struct WatchlistReducer: Reducer {
                 return .send(.fetchWatchlist)
             }
         }
-        .forEach(\.list, action: /Action.media) {
+        .forEach(\.list, action: \.media) {
             DetailReducer()
         }
     }

@@ -11,7 +11,7 @@ import ComposableArchitecture
 extension DiscoverView {
 
     struct CardRow: View {
-        let store: Store<IdentifiedArrayOf<DetailReducer.State>, (DetailReducer.State.ID, DetailReducer.Action)>
+        let store: Store<IdentifiedArrayOf<DetailReducer.State>, IdentifiedActionOf<DetailReducer>>
 
         var body: some View {
             // MARK: - 横向滑动电影/剧集
@@ -35,7 +35,7 @@ struct DiscoverCardRow_Previews: PreviewProvider {
     }
 
     static let listStore: Store<
-        IdentifiedArrayOf<DetailReducer.State>, (DetailReducer.State.ID, DetailReducer.Action)
+        IdentifiedArrayOf<DetailReducer.State>, IdentifiedActionOf<DetailReducer>
     > = store.scope(state: \.popularMovies, action: DiscoverReducer.Action.popularMovie)
 
     static var previews: some View {

@@ -45,15 +45,10 @@ extension DiscoverView {
                 }
                 .frame(height: 240)
 
-                if let displayName = media?.displayName {
-                    NavigationLink {
-                        DetailView(store: .init(
-                            initialState: .init(media: media!),
-                            reducer: { DetailReducer() }
-                        ))
-                    } label: {
+                if let media {
+                    NavigationLink(route: .detail(.init(media: media))) {
                         HStack(spacing: 3) {
-                            Text(displayName)
+                            Text(media.displayName)
                             Image(systemName: "chevron.right")
                         }
                         .font(.footnote)

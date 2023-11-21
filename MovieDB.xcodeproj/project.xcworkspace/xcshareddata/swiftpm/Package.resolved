@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "af4be924ad984cf4d16f4ae4df424e79a443d435",
-        "version" : "7.6.2"
+        "revision" : "277f1ab2c6664b19b4a412e32b094b201e2d5757",
+        "version" : "7.10.0"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",
       "state" : {
-        "revision" : "5da6989aae464f324eef5c5b52bdb7974725ab81",
-        "version" : "1.0.0"
+        "revision" : "ed7facdd4a361514b46e3bbc6238cd41c84be4ec",
+        "version" : "1.1.1"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",
       "state" : {
-        "revision" : "195284b94b799b326729640453f547f08892293a",
-        "version" : "1.0.0"
+        "revision" : "eddc1869b37ce42e3b34e72b1e1355d049e73970",
+        "version" : "1.4.2"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-concurrency-extras",
       "state" : {
-        "revision" : "ea631ce892687f5432a833312292b80db238186a",
-        "version" : "1.0.0"
+        "revision" : "bb5059bde9022d69ac516803f4f227d8ac967f71",
+        "version" : "1.1.0"
       }
     },
     {
@@ -91,12 +91,21 @@
       }
     },
     {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax",
+      "state" : {
+        "revision" : "6ad4ea24b01559dde0773e3d091f1b9e36175036",
+        "version" : "509.0.2"
+      }
+    },
+    {
       "identity" : "swiftui-navigation",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swiftui-navigation",
       "state" : {
-        "revision" : "f5bcdac5b6bb3f826916b14705f37a3937c2fd34",
-        "version" : "1.0.0"
+        "revision" : "78f9d72cf667adb47e2040aa373185c88c63f0dc",
+        "version" : "1.2.0"
       }
     },
     {

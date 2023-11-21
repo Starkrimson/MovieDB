@@ -8,7 +8,8 @@
 import Foundation
 import ComposableArchitecture
 
-struct MovieDBReducer: Reducer {
+@Reducer
+struct MovieDBReducer {
 
     enum Tab: String, CaseIterable, Identifiable {
         var id: Self { self }
@@ -37,6 +38,7 @@ struct MovieDBReducer: Reducer {
 
     struct State: Equatable {
         var selectedTab: Tab? = .discover
+        var path = StackState<Route.State>()
         var search: SearchReducer.State = .init()
         var discover: DiscoverReducer.State = .init()
         var movies: DiscoverMediaReducer.State = .init(mediaType: .movie, name: Tab.movies.rawValue.localized)
@@ -49,6 +51,7 @@ struct MovieDBReducer: Reducer {
     enum Action: Equatable, BindableAction {
         case binding(_ action: BindingAction<State>)
         case tabSelected(Tab?)
+        case path(StackAction<Route.State, Route.Action>)
         case search(SearchReducer.Action)
         case discover(DiscoverReducer.Action)
         case movies(DiscoverMediaReducer.Action)
@@ -59,25 +62,25 @@ struct MovieDBReducer: Reducer {
     }
 
     var body: some ReducerOf<Self> {
-        Scope(state: \.discover, action: /Action.discover) {
+        Scope(state: \.discover, action: \.discover) {
             DiscoverReducer()
         }
-        Scope(state: \.search, action: /Action.search) {
+        Scope(state: \.search, action: \.search) {
             SearchReducer()
         }
-        Scope(state: \.movies, action: /Action.movies) {
+        Scope(state: \.movies, action: \.movies) {
             DiscoverMediaReducer()
         }
-        Scope(state: \.tvShows, action: /Action.tvShows) {
+        Scope(state: \.tvShows, action: \.tvShows) {
             DiscoverMediaReducer()
         }
-        Scope(state: \.people, action: /Action.people) {
+        Scope(state: \.people, action: \.people) {
             DiscoverMediaReducer()
         }
-        Scope(state: \.favourites, action: /Action.favourites) {
+        Scope(state: \.favourites, action: \.favourites) {
             FavouriteReducer()
         }
-        Scope(state: \.watchlist, action: /Action.watchlist) {
+        Scope(state: \.watchlist, action: \.watchlist) {
             WatchlistReducer()
         }
         BindingReducer()
@@ -119,7 +122,13 @@ struct MovieDBReducer: Reducer {
 
             case .watchlist:
                 return .none
+
+            case .path:
+                return .none
             }
+        }
+        .forEach(\.path, action: \.path) {
+            Route()
         }
     }
 }

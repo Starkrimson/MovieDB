@@ -63,7 +63,7 @@ struct ContentView: View {
                     viewStore.send(.search(.search()))
                 }
             } detail: {
-                NavigationStack {
+                NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
                     switch viewStore.selectedTab {
                     case .search:
                         SearchResultsView(store: store.scope(
@@ -120,6 +120,57 @@ struct ContentView: View {
 
                     case .none:
                         EmptyView()
+                    }
+                } destination: { path in
+                    switch path {
+                    case .detail:
+                        CaseLet(
+                            /Route.State.detail,
+                             action: Route.Action.detail,
+                             then: DetailView.init(store:)
+                        )
+                    case .season:
+                        CaseLet(
+                            /Route.State.season,
+                             action: Route.Action.season,
+                             then: EpisodeList.init(store:)
+                        )
+                    case .episode:
+                        CaseLet(
+                            /Route.State.episode,
+                             action: Route.Action.episode,
+                             then: EpisodeView.init(store:)
+                        )
+                    case .movieCollection:
+                        CaseLet(
+                            /Route.State.movieCollection,
+                             action: Route.Action.movieCollection,
+                             then: MovieCollectionView.init(store:)
+                        )
+                    case .discoverMedia:
+                        CaseLet(
+                            /Route.State.discoverMedia,
+                             action: Route.Action.discoverMedia,
+                             then: DiscoverMediaView.init(store:)
+                        )
+                    case .credit:
+                        CaseLet(
+                            /Route.State.credit,
+                             action: Route.Action.credit,
+                             then: CreditView.init(store:)
+                        )
+                    case .imageGrid:
+                        CaseLet(
+                            /Route.State.imageGrid,
+                             action: Route.Action.imageGrid,
+                             then: { ImageGridView(store: $0) }
+                        )
+                    case .image:
+                        CaseLet(
+                            /Route.State.image,
+                             action: Route.Action.image,
+                             then: { ImageBrowser(store: $0) }
+                        )
                     }
                 }
             }

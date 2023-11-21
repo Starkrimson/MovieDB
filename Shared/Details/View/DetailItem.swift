@@ -16,9 +16,7 @@ struct DetailItem: View {
         WithViewStore(store) {
             $0
         } content: { viewStore in
-            NavigationLink {
-                DetailView(store: store)
-            } label: {
+            NavigationLink(route: .detail(viewStore.state)) {
                 MediaItem(media: viewStore.media, imageSize: imageSize)
             }
             .buttonStyle(.plain)

@@ -21,12 +21,7 @@ extension DetailView {
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
                     ForEach(cast.prefix(10)) { cast in
-                        NavigationLink {
-                            DetailView(store: .init(
-                                initialState: .init(media: .from(cast)),
-                                reducer: { DetailReducer() }
-                            ))
-                        } label: {
+                        NavigationLink(route: .detail(.init(media: .from(cast)))) {
                             ProfileView(
                                 profilePath: cast.profilePath ?? "",
                                 name: cast.name ?? "",
@@ -36,9 +31,7 @@ extension DetailView {
                         .buttonStyle(.plain)
                     }
 
-                    NavigationLink {
-                        CreditView(credit: credits)
-                    } label: {
+                    NavigationLink(route: .credit(.init(credit: credits))) {
                         HStack(spacing: 3) {
                             Text("VIEW MORE".localized)
                             Image(systemName: "chevron.right.circle.fill")
@@ -53,9 +46,7 @@ extension DetailView {
             }
             .header("TOP BILLED CAST".localized)
             .footer {
-                NavigationLink {
-                    CreditView(credit: credits)
-                } label: {
+                NavigationLink(route: .credit(.init(credit: credits))) {
                     Text("FULL CAST & CREW".localized)
                 }
             }

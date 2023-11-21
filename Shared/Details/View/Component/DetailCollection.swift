@@ -38,12 +38,7 @@ extension DetailView {
                         .foregroundColor(.white)
                         .font(.largeTitle)
 
-                    NavigationLink {
-                        MovieCollectionView(store: .init(
-                            initialState: .init(belongsTo: collection),
-                            reducer: { MovieCollectionReducer() }
-                        ))
-                    } label: {
+                    NavigationLink(route: .movieCollection(.init(belongsTo: collection))) {
                         Text("VIEW THE COLLECTION".localized)
                     }
                 }

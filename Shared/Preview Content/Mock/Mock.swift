@@ -116,3 +116,4 @@ let mockPeople: [Person] = {
     let person = try! defaultDecoder.decode(Person.self, from: data)
     return [person]
 }()
+// swiftlint:enable all

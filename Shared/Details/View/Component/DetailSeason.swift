@@ -18,16 +18,11 @@ extension DetailView {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(seasons.reversed()) { season in
-                        NavigationLink {
-                            EpisodeList(store: .init(
-                                initialState: .init(
-                                    tvID: tvID,
-                                    seasonNumber: season.seasonNumber ?? 0,
-                                    showName: showName
-                                ),
-                                reducer: { SeasonReducer() }
-                            ))
-                        } label: {
+                        NavigationLink(route: .season( .init(
+                            tvID: tvID,
+                            seasonNumber: season.seasonNumber ?? 0,
+                            showName: showName
+                        ))) {
                             SeasonRow(
                                 showName: showName,
                                 seasonName: season.name ?? "",

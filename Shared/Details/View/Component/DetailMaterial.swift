@@ -63,16 +63,11 @@ extension DetailView {
 
                 FlowLayout {
                     ForEach(keywords) { keyword in
-                        NavigationLink {
-                            DiscoverMediaView(store: .init(
-                                initialState: .init(
-                                    mediaType: detail.mediaType,
-                                    name: keyword.name ?? "",
-                                    filters: [URL.DiscoverQueryItem.keywords([keyword.id ?? 0])]
-                                ),
-                                reducer: { DiscoverMediaReducer() }
-                            ))
-                        } label: {
+                        NavigationLink(route: .discoverMedia(.init(
+                            mediaType: detail.mediaType,
+                            name: keyword.name ?? "",
+                            filters: [URL.DiscoverQueryItem.keywords([keyword.id ?? 0])]
+                        ))) {
                             Text(keyword.name ?? "")
                         }
                     }

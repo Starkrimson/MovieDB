@@ -8,9 +8,10 @@
 import Foundation
 import ComposableArchitecture
 
-struct MovieCollectionReducer: Reducer {
+@Reducer
+struct MovieCollectionReducer {
 
-    struct State: Equatable {
+    struct State: Equatable, Hashable {
         let belongsTo: BelongsToCollection
         var status: ViewStatus = .loading
 
@@ -23,7 +24,7 @@ struct MovieCollectionReducer: Reducer {
         case fetchCollection
         case fetchCollectionDone(TaskResult<Movie.Collection>)
 
-        case movie(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case movies(IdentifiedActionOf<DetailReducer>)
     }
 
     @Dependency(\.dbClient) var dbClient
@@ -55,11 +56,11 @@ struct MovieCollectionReducer: Reducer {
                 state.status = .error(error.localizedDescription)
                 return .none
 
-            case .movie:
+            case .movies:
                 return .none
             }
         }
-        .forEach(\.movies, action: /Action.movie) {
+        .forEach(\.movies, action: \.movies) {
             DetailReducer()
         }
     }

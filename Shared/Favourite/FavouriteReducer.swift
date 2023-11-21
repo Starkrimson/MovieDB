@@ -8,7 +8,8 @@
 import Foundation
 import ComposableArchitecture
 
-struct FavouriteReducer: Reducer {
+@Reducer
+struct FavouriteReducer {
 
     struct State: Equatable {
         @BindingState var selectedMediaType = MediaType.all
@@ -26,7 +27,7 @@ struct FavouriteReducer: Reducer {
 
         case sort(SortReducer.Action)
 
-        case media(id: DetailReducer.State.ID, action: DetailReducer.Action)
+        case media(IdentifiedActionOf<DetailReducer>)
     }
 
     @Dependency(\.persistenceClient) var persistenceClient
@@ -73,7 +74,7 @@ struct FavouriteReducer: Reducer {
                 return .none
             }
         }
-        .forEach(\.list, action: /Action.media) {
+        .forEach(\.list, action: \.media) {
             DetailReducer()
         }
     }
