@@ -51,9 +51,10 @@ struct DetailView: View {
             }
             .toolbar {
                 ToolbarItem {
-                    IfLetStore(store.scope(state: \.detail, action: { $0 })) {
-                        ExternalLinkMenu(displayName: viewStore.media.displayName, store: $0)
-                    }
+                    ExternalLinkMenu(
+                        displayName: viewStore.media.displayName,
+                        detailState: viewStore.detail
+                    )
                 }
                 if viewStore.media.mediaType != .person {
                     ToolbarItem {

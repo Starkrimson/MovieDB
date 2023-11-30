@@ -6,48 +6,38 @@
 //
 
 import SwiftUI
+import SwiftData
 import ComposableArchitecture
 
 struct ExternalLinkMenu: View {
     let displayName: String
-    let store: Store<DetailReducer.DetailState, DetailReducer.Action>
+    let detailState: DetailReducer.DetailState?
 
-    let externalLinkStore: StoreOf<ExternalLinkReducer> = .init(
-        initialState: .init(), reducer: { ExternalLinkReducer() }
-    )
+    @Query var customLinks: [ExternalLink]
 
     var body: some View {
-        WithViewStore(store) {
-            $0
-        } content: { viewStore in
-            WithViewStore(externalLinkStore) {
-                $0
-            } content: { externalLinkViewStore in
-                Menu("VISIT".localized) {
-                    switch viewStore.state {
-                    case .movie(let movie):
-                        buttons(externalLinks: movie.movie.externalLinks)
-                    case .tvShow(let tvShow):
-                        buttons(externalLinks: tvShow.tvShow.externalLinks)
-                    case .person(let person):
-                        buttons(externalLinks: person.person.externalLinks)
-                    }
-                    if !externalLinkViewStore.list.isEmpty {
-                        Divider()
-                    }
-                    ForEach(externalLinkViewStore.list) { link in
-                        if let name = link.name,
-                           let url = URL(
-                            string: link.url
-                                .map { $0.replacingOccurrences(of: "*", with: displayName) }?
-                                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-                           ) {
-                            Link(name, destination: url)
-                        }
-                    }
+        Menu("VISIT".localized) {
+            if let detailState {
+                switch detailState {
+                case .movie(let movie):
+                    buttons(externalLinks: movie.movie.externalLinks)
+                case .tvShow(let tvShow):
+                    buttons(externalLinks: tvShow.tvShow.externalLinks)
+                case .person(let person):
+                    buttons(externalLinks: person.person.externalLinks)
                 }
-                .onAppear {
-                    externalLinkViewStore.send(.fetchExternalLinkList)
+                if !customLinks.isEmpty {
+                    Divider()
+                }
+            }
+            ForEach(customLinks) { link in
+                if let name = link.name,
+                   let url = URL(
+                    string: link.url
+                        .map { $0.replacingOccurrences(of: "*", with: displayName) }?
+                        .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                   ) {
+                    Link(name, destination: url)
                 }
             }
         }
